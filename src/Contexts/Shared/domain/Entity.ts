@@ -1,13 +1,12 @@
 import { Uuid } from './value-object/Uuid';
-import { Address } from './Address';
 
 const isEntity = (v: any): v is Entity<any> => v instanceof Entity;
 
 export abstract class Entity<T> {
-  readonly id: Uuid | Address;
+  readonly id: Uuid;
   protected props: T;
 
-  protected constructor(id: Uuid | Address, props: T) {
+  protected constructor(id: Uuid, props: T) {
     this.id = id;
     this.props = props;
   }
