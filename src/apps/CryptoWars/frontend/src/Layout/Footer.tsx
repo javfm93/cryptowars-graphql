@@ -1,5 +1,6 @@
 import { Paper, styled, Typography } from '@mui/material';
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const FooterWrap = styled('footer')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -13,13 +14,18 @@ const FooterBackground = styled(Paper)(({ theme }) => ({
   paddingBottom: theme.spacing(2)
 }));
 
-export const Footer: FC = () => (
-  <FooterWrap>
-    <FooterBackground elevation={1}>
-      <Typography variant="h5" component="h3">
-        CryptoWars
-      </Typography>
-      <Typography component="p">@{new Date().getFullYear()} All right reserved</Typography>
-    </FooterBackground>
-  </FooterWrap>
-);
+export const Footer: FC = () => {
+  const { t } = useTranslation();
+  return (
+    <FooterWrap>
+      <FooterBackground elevation={1}>
+        <Typography variant="h5" component="h3">
+          {t('footer.app')}
+        </Typography>
+        <Typography component="p">
+          @{new Date().getFullYear()} {t('footer.right')}
+        </Typography>
+      </FooterBackground>
+    </FooterWrap>
+  );
+};

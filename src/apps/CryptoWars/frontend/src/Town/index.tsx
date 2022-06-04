@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 
 type BuildingRow = { name: string; upgradeCost: number };
 
-export const Village = () => {
+export const Town = () => {
   const buildingRows: Array<BuildingRow> = [
     { name: 'Town hall', upgradeCost: 30 },
     { name: 'Barracks', upgradeCost: 60 },
