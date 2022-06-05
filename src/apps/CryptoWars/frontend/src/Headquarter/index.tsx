@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 type UnitRow = { name: string; trainCost: number };
 
-export const HeadQuarter = () => {
+export const Headquarter = () => {
   const unitRows: Array<UnitRow> = [{ name: 'Soldier', trainCost: 30 }];
   const { t } = useTranslation();
 

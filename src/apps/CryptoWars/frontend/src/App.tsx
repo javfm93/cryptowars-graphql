@@ -4,7 +4,13 @@ import { Layout } from './Layout/Layout';
 import './I18n';
 import { Registration } from './Registration';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { HeadQuarter } from './HeadQuarter';
+import { Headquarter } from './Headquarter';
+
+export enum AppRoutes {
+  town = '/',
+  registration = '/registration',
+  headquarter = 'headquarter'
+}
 
 export const App = () => {
   const theme = createTheme();
@@ -13,9 +19,9 @@ export const App = () => {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<Town />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path={'/headquarter'} element={<HeadQuarter />} />
+            <Route path={AppRoutes.town} element={<Town />} />
+            <Route path={AppRoutes.registration} element={<Registration />} />
+            <Route path={AppRoutes.headquarter} element={<Headquarter />} />
           </Routes>
         </Layout>
       </BrowserRouter>

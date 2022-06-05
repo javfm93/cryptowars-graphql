@@ -7,14 +7,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '../App';
 
-type BuildingRow = { name: string; upgradeCost: number };
+type BuildingRow = { name: string; url: string; upgradeCost: number };
 
 export const Town = () => {
   const buildingRows: Array<BuildingRow> = [
-    { name: 'Town hall', upgradeCost: 30 },
-    { name: 'Barracks', upgradeCost: 60 },
-    { name: 'Essence generator', upgradeCost: 100 }
+    { name: 'Town hall', url: AppRoutes.town, upgradeCost: 30 },
+    { name: 'HeadQuarter', url: AppRoutes.headquarter, upgradeCost: 60 },
+    { name: 'Essence generator', url: '/', upgradeCost: 100 }
   ];
 
   return (
@@ -34,7 +36,7 @@ export const Town = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {building.name}
+                <Link to={building.url}>{building.name}</Link>
               </TableCell>
               <TableCell align="right">{building.upgradeCost}</TableCell>
               <TableCell align="right">

@@ -1,16 +1,19 @@
 {
   "translation": {
     "footer": {
-      "rights": "Todos los derechos reservados",
+      "rights": " All right reserved",
       "app": "CryptoWars"
     },
     "town": {
-      "headquarter": {
-        "unitType": "Unit Type",
-        "train": "Train",
-        "unitCost": "Cost",
-        "units": {
-          "soldier": "Soldier"
+      "buildings": {
+        "headquarter": {
+          "name": "Headquarter",
+          "unitType": "Unit Type",
+          "train": "Train",
+          "unitCost": "Cost",
+          "units": {
+            "soldier": "Soldier"
+          }
         }
       }
     }
