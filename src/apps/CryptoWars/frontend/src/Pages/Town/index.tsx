@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../App';
+import { AppRoutes } from '../../App';
 
 type BuildingRow = { name: string; url: string; upgradeCost: number };
 

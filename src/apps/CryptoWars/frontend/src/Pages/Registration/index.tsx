@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { AppRoutes } from '../App';
+import { AppRoutes } from '../../App';
 
 function Copyright(props: any) {
   return (

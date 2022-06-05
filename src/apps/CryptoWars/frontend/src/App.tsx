@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Town } from './Town';
+import { Town } from './Pages/Town';
 import { Layout } from './Layout/Layout';
 import './I18n';
-import { Registration } from './Registration';
+import { Registration } from './Pages/Registration';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Headquarter } from './Headquarter';
+import { Headquarter } from './Pages/Headquarter';
 
 export enum AppRoutes {
   town = '/',
