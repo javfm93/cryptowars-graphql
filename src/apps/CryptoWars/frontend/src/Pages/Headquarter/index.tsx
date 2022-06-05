@@ -20,9 +20,9 @@ export const Headquarter = () => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>{t('town.headquarter.unitType')}</TableCell>
-            <TableCell align="right">{t('town.headquarter.unitCost')}</TableCell>
-            <TableCell align="right">{t('town.headquarter.train')}</TableCell>
+            <TableCell>{t('town.buildings.headquarter.unitType')}</TableCell>
+            <TableCell align="right">{t('town.buildings.headquarter.unitCost')}</TableCell>
+            <TableCell align="right">{t('town.buildings.headquarter.train')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
