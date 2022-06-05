@@ -6,39 +6,34 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-type BuildingRow = { name: string; upgradeCost: number };
+type UnitRow = { name: string; trainCost: number };
 
 export const HeadQuarter = () => {
-  const buildingRows: Array<BuildingRow> = [
-    { name: 'Town hall', upgradeCost: 30 },
-    { name: 'Barracks', upgradeCost: 60 },
-    { name: 'Essence generator', upgradeCost: 100 }
-  ];
+  const unitRows: Array<UnitRow> = [{ name: 'Soldier', trainCost: 30 }];
+  const { t } = useTranslation();
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Unitg</TableCell>
-            <TableCell align="right">Cost to upgrade</TableCell>
-            <TableCell align="right">Build</TableCell>
+            <TableCell>{t('town.headquarter.unitType')}</TableCell>
+            <TableCell align="right">{t('town.headquarter.unitCost')}</TableCell>
+            <TableCell align="right">{t('town.headquarter.train')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {buildingRows.map(building => (
-            <TableRow
-              key={building.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+          {unitRows.map(unit => (
+            <TableRow key={unit.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {building.name}
+                {unit.name}
               </TableCell>
-              <TableCell align="right">{building.upgradeCost}</TableCell>
+              <TableCell align="right">{unit.trainCost}</TableCell>
               <TableCell align="right">
-                <Button>upgrade</Button>
+                <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
               </TableCell>
             </TableRow>
           ))}

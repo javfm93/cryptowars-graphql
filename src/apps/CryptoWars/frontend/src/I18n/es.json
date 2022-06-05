@@ -3,6 +3,16 @@
     "footer": {
       "rights": "Todos los derechos reservados",
       "app": "CryptoWars"
+    },
+    "town": {
+      "headquarter": {
+        "unitType": "Unit Type",
+        "train": "Train",
+        "unitCost": "Cost",
+        "units": {
+          "soldier": "Soldier"
+        }
+      }
     }
   }
 }
