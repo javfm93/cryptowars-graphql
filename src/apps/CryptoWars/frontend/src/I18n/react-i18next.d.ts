@@ -1,9 +1,9 @@
 import 'react-i18next';
-import en from './en.json';
+import es from './es.json';
 
-// declare module 'react-i18next' {
-//   interface CustomTypeOptions {
-//     defaultNS: 'footer';
-//     resources: typeof en;
-//   }
-// }
+declare module 'react-i18next' {
+  interface CustomTypeOptions {
+    defaultNS: 'translation';
+    resources: typeof es;
+  }
+}

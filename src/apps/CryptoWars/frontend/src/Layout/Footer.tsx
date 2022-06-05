@@ -23,7 +23,7 @@ export const Footer: FC = () => {
           {t('footer.app')}
         </Typography>
         <Typography component="p">
-          @{new Date().getFullYear()} {t('footer.right')}
+          @{new Date().getFullYear()} {t('footer.rights')}
         </Typography>
       </FooterBackground>
     </FooterWrap>

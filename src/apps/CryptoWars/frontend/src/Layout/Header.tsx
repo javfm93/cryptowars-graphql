@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { styled } from '@mui/material';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Headquarter', 'Essence Generator', 'World'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({

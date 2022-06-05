@@ -4,6 +4,7 @@ import { Layout } from './Layout/Layout';
 import './I18n';
 import { Registration } from './Registration';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { HeadQuarter } from './HeadQuarter';
 
 export const App = () => {
   const theme = createTheme();
@@ -14,6 +15,7 @@ export const App = () => {
           <Routes>
             <Route path="/" element={<Town />} />
             <Route path="/registration" element={<Registration />} />
+            <Route path={'/headquarter'} element={<HeadQuarter />} />
           </Routes>
         </Layout>
       </BrowserRouter>
