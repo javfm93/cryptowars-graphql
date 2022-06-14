@@ -1,7 +1,7 @@
-import { VillageGenerator } from '../../domain/VillageGenerator';
-import { VillageRepository } from '../../../../../../src/Contexts/CryptoWars/Villages/domain/VillageRepository';
+import { VillageGenerator } from '../../Domain/VillageGenerator';
+import { VillageRepository } from '../../../../../../src/Contexts/CryptoWars/Villages/Domain/VillageRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { EnvironmentArranger } from '../../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { EnvironmentArranger } from '../../../../Shared/Infrastructure/arranger/EnvironmentArranger';
 
 const repository: VillageRepository = container.get('CryptoWars.Users.UserRepository');
 const environmentArranger: Promise<EnvironmentArranger> = container.get(

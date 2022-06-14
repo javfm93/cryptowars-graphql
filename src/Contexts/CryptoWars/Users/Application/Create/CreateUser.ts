@@ -1,8 +1,8 @@
 import { UserRepository } from '../../Domain/UserRepository';
-import { UseCase } from '../../../../Shared/domain/UseCase';
+import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { User } from '../../Domain/User';
-import { EventBus } from '../../../../Shared/domain/EventBus';
-import { Uuid } from '../../../../Shared/domain/value-object/Uuid';
+import { EventBus } from '../../../../Shared/Domain/EventBus';
+import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
 

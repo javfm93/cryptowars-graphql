@@ -1,6 +1,6 @@
-import { UserRepository } from '../../domain/UserRepository';
-import { User } from '../../domain/User';
-import { UserId } from '../../domain/UserId';
+import { UserRepository } from '../../Domain/UserRepository';
+import { User } from '../../Domain/User';
+import { UserId } from '../../Domain/UserId';
 import { Nullable } from '../../../../Shared/Domain/Nullable';
 
 export class InMemoryUserRepository implements UserRepository {

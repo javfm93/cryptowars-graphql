@@ -1,6 +1,6 @@
-import { User } from '../../../../../src/Contexts/CryptoWars/Users/domain/User';
+import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
 import { Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/domain/UserId';
+import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 import { UserRepository } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
 
 export class UserRepositoryMock implements UserRepository {

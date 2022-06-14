@@ -1,6 +1,6 @@
 import assert from 'assert';
 import request from 'supertest';
-import { EnvironmentArranger } from '../../../../../Contexts/Shared/infrastructure/arranger/EnvironmentArranger';
+import { EnvironmentArranger } from '../../../../../Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { CryptoWarsBackendApp } from '../../../../../../src/apps/CryptoWars/backend/CryptoWarsBackendApp';
 import { AfterAll, BeforeAll, Given, Then } from '@cucumber/cucumber';

@@ -1,5 +1,5 @@
-import { UuidGenerator } from '../../../Shared/domain/UuidGenerator';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageId';
+import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
+import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/VillageId';
 
 export class VillageIdGenerator {
   static create(value: string): VillageId {

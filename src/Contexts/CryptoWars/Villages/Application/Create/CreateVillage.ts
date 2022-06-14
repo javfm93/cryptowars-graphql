@@ -1,8 +1,8 @@
-import { VillageRepository } from '../../domain/VillageRepository';
+import { VillageRepository } from '../../Domain/VillageRepository';
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Village } from '../../domain/Village';
+import { Village } from '../../Domain/Village';
 
 interface CreateUserArgs {
   id: Uuid;

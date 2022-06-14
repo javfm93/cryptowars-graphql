@@ -1,4 +1,4 @@
-import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/domain/Village';
+import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/Village';
 import { VillageIdGenerator } from './VillageIdGenerator';
 
 describe('[Domain] Village', () => {

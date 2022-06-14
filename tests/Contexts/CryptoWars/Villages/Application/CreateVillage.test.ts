@@ -1,9 +1,9 @@
 import { VillageRepositoryMock } from '../__mocks__/VillageRepositoryMock';
 import { CreateVillageCommandGenerator } from './CreateVillageCommandGenerator';
-import { VillageGenerator } from '../domain/VillageGenerator';
-import { CreateVillage } from '../../../../../src/Contexts/CryptoWars/Villages/application/Create/CreateVillage';
-import { CreateVillageCommandHandler } from '../../../../../src/Contexts/CryptoWars/Villages/application/Create/CreateVillageCommandHandler';
-import EventBusMock from '../../../Shared/infrastructure/EventBusMock';
+import { VillageGenerator } from '../Domain/VillageGenerator';
+import { CreateVillage } from '../../../../../src/Contexts/CryptoWars/Villages/Application/Create/CreateVillage';
+import { CreateVillageCommandHandler } from '../../../../../src/Contexts/CryptoWars/Villages/Application/Create/CreateVillageCommandHandler';
+import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 
 describe('Application/Handler/CreateVillage', () => {
   const repository = new VillageRepositoryMock();

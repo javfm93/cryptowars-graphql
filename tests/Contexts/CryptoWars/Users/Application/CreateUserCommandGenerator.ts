@@ -1,7 +1,7 @@
-import { UuidGenerator } from '../../../Shared/domain/UuidGenerator';
+import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
 import { CreateUserCommand } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
-import { UserPasswordGenerator } from '../domain/UserPasswordGenerator';
-import { UserEmailGenerator } from '../domain/UserEmailGenerator';
+import { UserPasswordGenerator } from '../Domain/UserPasswordGenerator';
+import { UserEmailGenerator } from '../Domain/UserEmailGenerator';
 
 export class CreateUserCommandGenerator {
   static create(id: string, email: string, password: string): CreateUserCommand {

@@ -2,10 +2,10 @@ import { UserRepositoryMock } from '../__mocks__/UserRepositoryMock';
 import { CreateUserCommandGenerator } from './CreateUserCommandGenerator';
 import { CreateUser } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUser';
 import { CreateUserCommandHandler } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler';
-import { UserGenerator } from '../domain/UserGenerator';
+import { UserGenerator } from '../Domain/UserGenerator';
 import { InvalidEmailError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
-import EventBusMock from '../../../Shared/infrastructure/EventBusMock';
+import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 
 describe('[Application] CreateUser', () => {
   const repository = new UserRepositoryMock();

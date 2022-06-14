@@ -1,5 +1,5 @@
-import { CreateVillageCommand } from '../../../../../src/Contexts/CryptoWars/Villages/application/Create/CreateVillageCommand';
-import { UuidGenerator } from '../../../Shared/domain/UuidGenerator';
+import { CreateVillageCommand } from '../../../../../src/Contexts/CryptoWars/Villages/Application/Create/CreateVillageCommand';
+import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
 
 export class CreateVillageCommandGenerator {
   static create(id: string): CreateVillageCommand {

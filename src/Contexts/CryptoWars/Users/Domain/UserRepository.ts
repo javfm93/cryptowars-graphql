@@ -1,6 +1,6 @@
 import { User } from './User';
 import { UserId } from './UserId';
-import { Nullable } from '../../../Shared/domain/Nullable';
+import { Nullable } from '../../../Shared/Domain/Nullable';
 
 export interface UserRepository {
   save(user: User): Promise<void>;

@@ -1,4 +1,4 @@
-import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
+import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { UserCreatedDomainEvent } from './UserCreatedDomainEvent';
 import { UserEmail } from './UserEmail';
 import { UserId } from './UserId';

@@ -1,7 +1,7 @@
 import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CreateVillageCommand } from './CreateVillageCommand';
 import { Command } from '../../../../Shared/Domain/Command';
-import { VillageId } from '../../domain/VillageId';
+import { VillageId } from '../../Domain/VillageId';
 import { CreateVillage } from './CreateVillage';
 
 export class CreateVillageCommandHandler implements CommandHandler<CreateVillageCommand> {

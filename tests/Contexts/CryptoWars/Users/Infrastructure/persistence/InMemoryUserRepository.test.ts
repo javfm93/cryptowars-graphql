@@ -1,7 +1,7 @@
-import { UserGenerator } from '../../domain/UserGenerator';
-import { UserRepository } from '../../../../../../src/Contexts/CryptoWars/Users/domain/UserRepository';
+import { UserGenerator } from '../../Domain/UserGenerator';
+import { UserRepository } from '../../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { EnvironmentArranger } from '../../../../Shared/infrastructure/arranger/EnvironmentArranger';
+import { EnvironmentArranger } from '../../../../Shared/Infrastructure/arranger/EnvironmentArranger';
 
 const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
 const environmentArranger: Promise<EnvironmentArranger> = container.get(

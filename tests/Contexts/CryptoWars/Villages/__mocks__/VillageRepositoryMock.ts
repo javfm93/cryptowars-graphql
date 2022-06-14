@@ -1,7 +1,7 @@
-import { VillageRepository } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageRepository';
-import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/domain/Village';
+import { VillageRepository } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/VillageRepository';
+import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/Village';
 import { Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageId';
+import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/VillageId';
 
 export class VillageRepositoryMock implements VillageRepository {
   private mockSave = jest.fn();

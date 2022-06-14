@@ -1,6 +1,6 @@
-import { VillageRepository } from '../../domain/VillageRepository';
-import { Village } from '../../domain/Village';
-import { VillageId } from '../../domain/VillageId';
+import { VillageRepository } from '../../Domain/VillageRepository';
+import { Village } from '../../Domain/Village';
+import { VillageId } from '../../Domain/VillageId';
 import { Nullable } from '../../../../Shared/Domain/Nullable';
 
 export class InMemoryVillageRepository implements VillageRepository {
