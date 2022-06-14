@@ -20,3 +20,6 @@ services:
     class: ../../../../../Contexts/Shared/Infrastructure/WinstonLogger
     arguments: []
 
+  Shared.EventBus:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus
+    arguments: []

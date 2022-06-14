@@ -6,35 +6,24 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as RouterLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { AppRoutes } from '../../App';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useUserRegistration } from './useUserRegistration';
 
 export function Registration() {
+  const registration = useUserRegistration();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    });
+    const email = data.get('email')?.toString();
+    const password = data.get('password')?.toString();
+    if (email && password) {
+      registration.execute(email, password);
+    }
   };
 
   return (
@@ -54,7 +43,7 @@ export function Registration() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} action={'#'} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -79,11 +68,9 @@ export function Registration() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <RouterLink to={AppRoutes.town}>
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
-            </Button>
-          </RouterLink>
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            Sign In
+          </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

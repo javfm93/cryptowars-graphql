@@ -9,6 +9,7 @@ import httpStatus from 'http-status';
 import Logger from '../../../Contexts/Shared/Domain/Logger';
 import container from './dependency-injection';
 import { registerRoutes } from './Routes';
+import cors from 'cors';
 
 export class Server {
   private express: express.Express;
@@ -20,6 +21,7 @@ export class Server {
     this.port = port;
     this.logger = container.get('Shared.Logger');
     this.express = express();
+    this.express.use(cors({ origin: 'http://localhost:3000' }));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: true }));
     this.express.use(helmet.xssFilter());

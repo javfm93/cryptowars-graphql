@@ -5,7 +5,8 @@ import './I18n';
 import { Registration } from './Pages/Registration';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Headquarter } from './Pages/Headquarter';
-import { World } from './World';
+import { World } from './Pages/World';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export enum AppRoutes {
   town = '/',
@@ -16,18 +17,22 @@ export enum AppRoutes {
 
 export const App = () => {
   const theme = createTheme();
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path={AppRoutes.town} element={<Town />} />
-            <Route path={AppRoutes.registration} element={<Registration />} />
-            <Route path={AppRoutes.headquarter} element={<Headquarter />} />
-            <Route path={AppRoutes.world} element={<World />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path={AppRoutes.town} element={<Town />} />
+              <Route path={AppRoutes.registration} element={<Registration />} />
+              <Route path={AppRoutes.headquarter} element={<Headquarter />} />
+              <Route path={AppRoutes.world} element={<World />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };

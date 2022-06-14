@@ -8,7 +8,7 @@ type PutUserRequestParams = {
   id: string;
 };
 
-type PutUserRequestBody = {
+export type PutUserRequestBody = {
   email: string;
   password: string;
 };
