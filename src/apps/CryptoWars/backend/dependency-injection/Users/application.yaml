@@ -1,0 +1,14 @@
+services:
+
+  CryptoWars.Players.PlayersRepository:
+    class: ../../../../../Contexts/CryptoWars/Players/Infrastructure/Persistence/InMemoryPlayerRepository
+
+  CryptoWars.Players.UpsertUser:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Upsert/UpsertPlayer
+    arguments: ['@CryptoWars.Players.PlayersRepository', '@Shared.EventBus']
+
+  CryptoWars.Players.UpsertPlayerCommandHandler:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Upsert/UpsertPlayerCommandHandler
+    arguments: ['@CryptoWars.Players.UpsertPlayer']
+    tags:
+      - { name: 'commandHandler' }

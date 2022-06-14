@@ -4,7 +4,7 @@ Feature: Create a new village
   I want to create my first village
 
   Scenario: A valid not existent user
-    Given I send a PUT request to "/villages/ef8ac118-8d7f-49cc-abec-78e0d05af80a" with body:
+    Given I send a PUT request to "/users/ef8ac118-8d7f-49cc-abec-78e0d05af80a" with body:
     """
     {}
     """

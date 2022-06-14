@@ -1,7 +1,7 @@
 import { VillageRepository } from '../../domain/VillageRepository';
-import { UseCase } from '../../../../Shared/domain/UseCase';
-import { Uuid } from '../../../../Shared/domain/value-object/Uuid';
-import { EventBus } from '../../../../Shared/domain/EventBus';
+import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
+import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Village } from '../../domain/Village';
 
 interface CreateUserArgs {
