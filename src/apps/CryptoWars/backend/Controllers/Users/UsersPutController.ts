@@ -3,19 +3,16 @@ import httpStatus from 'http-status';
 import { Controller } from './Controller';
 import { CommandBus } from '../../../../Contexts/Shared/Domain/CommandBus';
 import { CreateUserCommand } from '../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
+import { CreateUserRequest } from './CreateUserRequest';
 
 type PutUserRequestParams = {
   id: string;
 };
 
-export type PutUserRequestBody = {
-  email: string;
-  password: string;
-};
 
 export class UsersPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
-  async run(req: Request<PutUserRequestParams, void, PutUserRequestBody>, res: Response<void>) {
+  async run(req: Request<PutUserRequestParams, void, CreateUserRequest>, res: Response<void>) {
     const id: string = req.params.id;
     const email: string = req.body.email;
     const password: string = req.body.password;

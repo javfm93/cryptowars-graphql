@@ -1,10 +1,10 @@
 import { useMutation } from 'react-query';
-import { PutUserRequestBody } from '../../../../backend/Controllers/UsersPutController';
 import axios from 'axios';
 import { v4 } from 'uuid';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../App';
+import { CreateUserRequest } from '../../../../backend/Controllers/Users/CreateUserRequest';
 
 // todo: improve execute and error definition and move to a shared place
 // todo: frontend validation
@@ -18,7 +18,7 @@ export type CommandTrigger = () => {
 export const useUserRegistration: CommandTrigger = () => {
   const navigateTo = useNavigate();
 
-  const registerMutation = useMutation((newUser: PutUserRequestBody) =>
+  const registerMutation = useMutation((newUser: CreateUserRequest) =>
     axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/${v4()}`, newUser)
   );
   useEffect(() => {
