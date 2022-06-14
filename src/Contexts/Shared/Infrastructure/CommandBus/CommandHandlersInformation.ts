@@ -1,6 +1,6 @@
-import { Command } from '../../domain/Command';
-import { CommandHandler } from '../../domain/CommandHandler';
-import { CommandNotRegisteredError } from '../../domain/CommandNotRegisteredError';
+import { Command } from '../../Domain/Command';
+import { CommandHandler } from '../../Domain/CommandHandler';
+import { CommandNotRegisteredError } from '../../Domain/CommandNotRegisteredError';
 
 export class CommandHandlersInformation {
   private commandHandlersMap: Map<Command, CommandHandler<Command>>;
@@ -9,7 +9,9 @@ export class CommandHandlersInformation {
     this.commandHandlersMap = this.formatHandlers(commandHandlers);
   }
 
-  private formatHandlers(commandHandlers: Array<CommandHandler<Command>>): Map<Command, CommandHandler<Command>> {
+  private formatHandlers(
+    commandHandlers: Array<CommandHandler<Command>>
+  ): Map<Command, CommandHandler<Command>> {
     const handlersMap = new Map();
 
     commandHandlers.forEach(commandHandler => {

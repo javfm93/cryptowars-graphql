@@ -13,7 +13,7 @@ type PutUserRequestBody = {
   password: string;
 };
 
-export class UserPutController implements Controller {
+export class UsersPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
   async run(req: Request<PutUserRequestParams, void, PutUserRequestBody>, res: Response<void>) {
     const id: string = req.params.id;

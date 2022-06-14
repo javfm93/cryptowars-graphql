@@ -1,9 +1,9 @@
-import { Query } from '../../../../../src/Contexts/Shared/domain/Query';
-import { QueryHandlersInformation } from '../../../../../src/Contexts/Shared/infrastructure/QueryBus/QueryHandlersInformation';
-import { QueryNotRegisteredError } from '../../../../../src/Contexts/Shared/domain/QueryNotRegisteredError';
-import { QueryHandler } from '../../../../../src/Contexts/Shared/domain/QueryHandler';
-import { Response } from '../../../../../src/Contexts/Shared/domain/Response';
-import { InMemoryQueryBus } from '../../../../../src/Contexts/Shared/infrastructure/QueryBus/InMemoryQueryBus';
+import { Query } from '../../../../../src/Contexts/Shared/Domain/Query';
+import { QueryHandlersInformation } from '../../../../../src/Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation';
+import { QueryNotRegisteredError } from '../../../../../src/Contexts/Shared/Domain/QueryNotRegisteredError';
+import { QueryHandler } from '../../../../../src/Contexts/Shared/Domain/QueryHandler';
+import { Response } from '../../../../../src/Contexts/Shared/Domain/Response';
+import { InMemoryQueryBus } from '../../../../../src/Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus';
 
 class UnhandledQuery extends Query {
   static QUERY_NAME = 'unhandled.query';
@@ -18,7 +18,9 @@ class MyQueryHandler implements QueryHandler<Query, Response> {
     return HandledQuery;
   }
 
-  async handle(query: HandledQuery): Promise<Response> {return {};}
+  async handle(query: HandledQuery): Promise<Response> {
+    return {};
+  }
 }
 
 describe('InMemoryQueryBus', () => {
@@ -27,16 +29,12 @@ describe('InMemoryQueryBus', () => {
     const queryHandlersInformation = new QueryHandlersInformation([]);
     const queryBus = new InMemoryQueryBus(queryHandlersInformation);
 
-    let exception = null;
-
     try {
       await queryBus.ask(unhandledQuery);
+      fail("Didn't throw");
     } catch (error) {
-      exception = error;
+      expect(error).toStrictEqual(new QueryNotRegisteredError(unhandledQuery));
     }
-
-    expect(exception).toBeInstanceOf(QueryNotRegisteredError);
-    expect(exception.message).toBe(`The query <UnhandledQuery> hasn't a query handler associated`);
   });
 
   it('accepts a query with handler', async () => {

@@ -1,7 +1,7 @@
 import { VillageRepository } from '../../domain/VillageRepository';
 import { Village } from '../../domain/Village';
 import { VillageId } from '../../domain/VillageId';
-import { Nullable } from '../../../../Shared/domain/Nullable';
+import { Nullable } from '../../../../Shared/Domain/Nullable';
 
 export class InMemoryVillageRepository implements VillageRepository {
   private villages: Array<Village> = [];

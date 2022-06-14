@@ -6,9 +6,9 @@ import Router from 'express-promise-router';
 import helmet from 'helmet';
 import * as http from 'http';
 import httpStatus from 'http-status';
-import Logger from '../../../Contexts/Shared/domain/Logger';
+import Logger from '../../../Contexts/Shared/Domain/Logger';
 import container from './dependency-injection';
-import { registerRoutes } from './routes';
+import { registerRoutes } from './Routes';
 
 export class Server {
   private express: express.Express;

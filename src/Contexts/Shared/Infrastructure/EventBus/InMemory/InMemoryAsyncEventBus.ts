@@ -1,6 +1,6 @@
-import { DomainEvent } from '../../../domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../domain/DomainEventSubscriber';
-import { EventBus } from '../../../domain/EventBus';
+import { DomainEvent } from '../../../Domain/DomainEvent';
+import { DomainEventSubscriber } from '../../../Domain/DomainEventSubscriber';
+import { EventBus } from '../../../Domain/EventBus';
 import { DomainEventMapping } from '../DomainEventMapping';
 import { EventEmitterBus } from '../EventEmitterBus';
 

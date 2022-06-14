@@ -1,5 +1,5 @@
 import { VillageCreatedDomainEvent } from './VillageCreatedDomainEvent';
-import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
+import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { VillageId } from './VillageId';
 
 export interface VillageProps {}

@@ -1,10 +1,10 @@
 import { Definition } from 'node-dependency-injection';
 import container from './dependency-injection';
 import { Server } from './server';
-import { EventBus } from '../../../Contexts/Shared/domain/EventBus';
-import { DomainEventSubscriber } from '../../../Contexts/Shared/domain/DomainEventSubscriber';
-import { DomainEvent } from '../../../Contexts/Shared/domain/DomainEvent';
-import { DomainEventMapping } from '../../../Contexts/Shared/infrastructure/EventBus/DomainEventMapping';
+import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
+import { DomainEventSubscriber } from '../../../Contexts/Shared/Domain/DomainEventSubscriber';
+import { DomainEvent } from '../../../Contexts/Shared/Domain/DomainEvent';
+import { DomainEventMapping } from '../../../Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
 
 export class CryptoWarsBackendApp {
   server?: Server;

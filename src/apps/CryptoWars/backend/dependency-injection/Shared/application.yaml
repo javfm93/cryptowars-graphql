@@ -1,32 +1,22 @@
 services:
 
   Shared.QueryHandlersInformation:
-    class: ../../../../../Contexts/Shared/infrastructure/QueryBus/QueryHandlersInformation
+    class: ../../../../../Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation
     arguments: ['!tagged queryHandler']
 
   Shared.QueryBus:
-    class: ../../../../../Contexts/Shared/infrastructure/QueryBus/InMemoryQueryBus
+    class: ../../../../../Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus
     arguments: ['@Shared.QueryHandlersInformation']
 
   Shared.CommandHandlersInformation:
-    class: ../../../../../Contexts/Shared/infrastructure/CommandBus/CommandHandlersInformation
+    class: ../../../../../Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation
     arguments: ['!tagged commandHandler']
 
   Shared.CommandBus:
-    class: ../../../../../Contexts/Shared/infrastructure/CommandBus/InMemoryCommandBus
+    class: ../../../../../Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus
     arguments: ['@Shared.CommandHandlersInformation']
 
   Shared.Logger:
-    class: ../../../../../Contexts/Shared/infrastructure/WinstonLogger
+    class: ../../../../../Contexts/Shared/Infrastructure/WinstonLogger
     arguments: []
 
-#  Shared.MongoConfig:
-#    factory:
-#      class: ../../../../../Contexts/Mooc/Shared/infrastructure/persistence/mongo/MongoConfigFactory
-#      method: 'createConfig'
-#
-#  Shared.ConnectionManager:
-#    factory:
-#      class: ../../../../../Contexts/Shared/infrastructure/persistence/mongo/MongoClientFactory
-#      method: 'createClient'
-#    arguments: ['CryptoWars', '@Shared.MongoConfig']

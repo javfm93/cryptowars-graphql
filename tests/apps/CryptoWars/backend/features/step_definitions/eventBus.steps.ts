@@ -1,11 +1,11 @@
-import { Given } from 'cucumber';
 import { Definition } from 'node-dependency-injection';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { EventBus } from '../../../../../../src/Contexts/Shared/domain/EventBus';
-import { DomainEventSubscriber } from '../../../../../../src/Contexts/Shared/domain/DomainEventSubscriber';
-import { DomainEvent } from '../../../../../../src/Contexts/Shared/domain/DomainEvent';
-import { DomainEventJsonDeserializer } from '../../../../../../src/Contexts/Shared/infrastructure/EventBus/DomainEventJsonDeserializer';
-import { DomainEventMapping } from '../../../../../../src/Contexts/Shared/infrastructure/EventBus/DomainEventMapping';
+import { EventBus } from '../../../../../../src/Contexts/Shared/Domain/EventBus';
+import { DomainEventSubscriber } from '../../../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
+import { DomainEventJsonDeserializer } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventJsonDeserializer';
+import { DomainEventMapping } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
+import { DomainEvent } from '../../../../../../src/Contexts/Shared/Domain/DomainEvent';
+import { Given } from '@cucumber/cucumber';
 
 const eventBus = container.get('Shared.EventBus') as EventBus;
 const deserializer = buildDeserializer();

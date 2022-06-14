@@ -11,6 +11,6 @@ export class VillageIdGenerator {
   }
 
   static random(): VillageId {
-    return this.create(UuidGenerator.random());
+    return this.create(UuidGenerator.random().toString());
   }
 }

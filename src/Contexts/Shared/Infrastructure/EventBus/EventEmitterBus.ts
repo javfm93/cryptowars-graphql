@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { DomainEvent } from '../../domain/DomainEvent';
-import { DomainEventSubscriber } from '../../domain/DomainEventSubscriber';
+import { DomainEvent } from '../../Domain/DomainEvent';
+import { DomainEventSubscriber } from '../../Domain/DomainEventSubscriber';
 
 export class EventEmitterBus extends EventEmitter {
   constructor(subscribers: Array<DomainEventSubscriber<DomainEvent>>) {

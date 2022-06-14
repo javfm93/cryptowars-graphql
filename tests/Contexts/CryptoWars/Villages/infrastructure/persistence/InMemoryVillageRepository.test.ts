@@ -3,21 +3,20 @@ import { VillageRepository } from '../../../../../../src/Contexts/CryptoWars/Vil
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { EnvironmentArranger } from '../../../../Shared/infrastructure/arranger/EnvironmentArranger';
 
-const repository: VillageRepository = container.get('CryptoWars.users.UserRepository');
+const repository: VillageRepository = container.get('CryptoWars.Users.UserRepository');
 const environmentArranger: Promise<EnvironmentArranger> = container.get(
   'CryptoWars.EnvironmentArranger'
 );
 
-beforeEach(async () => {
-  await (await environmentArranger).arrange();
-});
+xdescribe('[infra] InMemoryVillageRepository', () => {
+  beforeEach(async () => {
+    await (await environmentArranger).arrange();
+  });
 
-afterAll(async () => {
-  await (await environmentArranger).arrange();
-  await (await environmentArranger).close();
-});
-
-describe('[infra] InMemoryVillageRepository', () => {
+  afterAll(async () => {
+    await (await environmentArranger).arrange();
+    await (await environmentArranger).close();
+  });
   describe('#save', () => {
     it('should save a village', async () => {
       const village = VillageGenerator.random();

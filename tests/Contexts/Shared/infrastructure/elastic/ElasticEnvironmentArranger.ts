@@ -1,5 +1,5 @@
 import { Client as ElasticClient } from '@elastic/elasticsearch';
-import ElasticConfig from '../../../../../src/Contexts/Shared/infrastructure/persistence/elasticsearch/ElasticConfig';
+import ElasticConfig from '../../../../../src/Contexts/Shared/Infrastructure/Persistence/elasticsearch/ElasticConfig';
 import { EnvironmentArranger } from '../arranger/EnvironmentArranger';
 
 export class ElasticEnvironmentArranger extends EnvironmentArranger {

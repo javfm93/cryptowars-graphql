@@ -1,10 +1,25 @@
-import { Address } from '../../../Shared/domain/Address';
+import { ValueObject } from '../../../Shared/Domain/ValueObject';
+import { InvalidEmailError } from './Errors/InvalidEmailError';
 
-export class UserAddress extends Address {
-  private constructor(value: string) {
-    super(value);
+export class UserEmail extends ValueObject<UserEmail> {
+  private constructor(readonly value: string) {
+    super();
+    this.value = value.toLowerCase();
   }
-  static create(value: string): UserAddress {
-    return new UserAddress(value);
+
+  public static create(value: string): UserEmail {
+    const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (!value.match(validEmailRegex)) {
+      throw InvalidEmailError;
+    }
+    return new UserEmail(value);
+  }
+  public isEqualTo(email: UserEmail) {
+    return this.toString() === email.toString();
+  }
+
+  public toString(): string {
+    return this.value;
   }
 }

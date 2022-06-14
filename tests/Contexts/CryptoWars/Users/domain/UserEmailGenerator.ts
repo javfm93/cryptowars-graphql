@@ -1,13 +1,16 @@
-import { UuidGenerator } from '../../../Shared/domain/UuidGenerator';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageId';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
+import * as faker from 'faker';
 
-export class UserIdGenerator {
-  static create(value: string): UserId {
-    return UserId.create(value);
+export class UserEmailGenerator {
+  static create(value: string): UserEmail {
+    return UserEmail.create(value);
   }
 
-  static random(): VillageId {
-    return this.create(UuidGenerator.random().toString());
+  static random(): UserEmail {
+    return this.create(faker.internet.email());
+  }
+
+  static invalid(): string {
+    return 'invalidEmail';
   }
 }

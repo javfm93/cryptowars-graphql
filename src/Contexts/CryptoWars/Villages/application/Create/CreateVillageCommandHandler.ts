@@ -1,6 +1,6 @@
-import { CommandHandler } from '../../../../Shared/domain/CommandHandler';
+import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CreateVillageCommand } from './CreateVillageCommand';
-import { Command } from '../../../../Shared/domain/Command';
+import { Command } from '../../../../Shared/Domain/Command';
 import { VillageId } from '../../domain/VillageId';
 import { CreateVillage } from './CreateVillage';
 

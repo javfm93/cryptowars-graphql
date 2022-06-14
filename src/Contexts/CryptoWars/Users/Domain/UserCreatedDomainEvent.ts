@@ -1,35 +1,20 @@
 import { DomainEvent } from '../../../Shared/domain/DomainEvent';
 
 type CreateUserDomainEventBody = {
-  readonly address: string;
   readonly eventName: string;
   readonly id: string;
 };
 
 export class UserCreatedDomainEvent extends DomainEvent {
-  static readonly EVENT_NAME = 'user.created';
+  static readonly EVENT_NAME = 'cryptoWars.1.event.user.created';
 
-  readonly address: string;
-
-  constructor({
-    id,
-    eventId,
-    occurredOn,
-    address
-  }: {
-    id: string;
-    address: string;
-    eventId?: string;
-    occurredOn?: Date;
-  }) {
+  constructor({ id, eventId, occurredOn }: { id: string; eventId?: string; occurredOn?: Date }) {
     super(UserCreatedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
-    this.address = address;
   }
 
   toPrimitive(): CreateUserDomainEventBody {
-    const { address, aggregateId } = this;
+    const { aggregateId } = this;
     return {
-      address,
       eventName: UserCreatedDomainEvent.EVENT_NAME,
       id: aggregateId
     };
@@ -43,7 +28,6 @@ export class UserCreatedDomainEvent extends DomainEvent {
   ): DomainEvent {
     return new UserCreatedDomainEvent({
       id: aggregateId,
-      address: body.address,
       eventId,
       occurredOn
     });

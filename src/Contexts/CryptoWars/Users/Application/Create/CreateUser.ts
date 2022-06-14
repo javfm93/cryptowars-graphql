@@ -1,27 +1,22 @@
-import { UserRepository } from '../../domain/UserRepository';
+import { UserRepository } from '../../Domain/UserRepository';
 import { UseCase } from '../../../../Shared/domain/UseCase';
-import { User } from '../../domain/User';
+import { User } from '../../Domain/User';
 import { EventBus } from '../../../../Shared/domain/EventBus';
 import { Uuid } from '../../../../Shared/domain/value-object/Uuid';
-import { Address } from '../../../../Shared/domain/Address';
-import { TransactionsService } from '../../../../Shared/domain/TransactionsService';
+import { UserEmail } from '../../Domain/UserEmail';
+import { UserPassword } from '../../Domain/UserPassword';
 
 interface CreateUserArgs {
   id: Uuid;
-  address: Address;
+  email: UserEmail;
+  password: UserPassword;
 }
 
-// todo add transactions service to the dependency injector
 export class CreateUser implements UseCase<CreateUserArgs, void> {
-  constructor(
-    private userRepository: UserRepository,
-    private eventBus: EventBus,
-    private transactionsService: TransactionsService
-  ) {}
+  constructor(private userRepository: UserRepository, private eventBus: EventBus) {}
 
-  async execute({ id, address }: CreateUserArgs): Promise<void> {
-    const userTransactions = await this.transactionsService.getTransactionsOf(address);
-    const user = User.create(id, { address, transactions: userTransactions });
+  async execute({ id, email, password }: CreateUserArgs): Promise<void> {
+    const user = User.create(id, { email, password });
     await this.userRepository.save(user);
     await this.eventBus.publish(user.pullDomainEvents());
   }

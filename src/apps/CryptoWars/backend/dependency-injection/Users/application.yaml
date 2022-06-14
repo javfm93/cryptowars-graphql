@@ -1,14 +1,14 @@
 services:
 
-  CryptoWars.Players.PlayersRepository:
-    class: ../../../../../Contexts/CryptoWars/Players/Infrastructure/Persistence/InMemoryPlayerRepository
+  CryptoWars.Users.UserRepository:
+    class: ../../../../../Contexts/CryptoWars/Users/Infrastructure/Persistence/InMemoryUserRepository
 
-  CryptoWars.Players.UpsertUser:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Upsert/UpsertPlayer
-    arguments: ['@CryptoWars.Players.PlayersRepository', '@Shared.EventBus']
+  CryptoWars.Users.CreateUser:
+    class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUser
+    arguments: ['@CryptoWars.Users.UserRepository', '@Shared.EventBus']
 
-  CryptoWars.Players.UpsertPlayerCommandHandler:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Upsert/UpsertPlayerCommandHandler
-    arguments: ['@CryptoWars.Players.UpsertPlayer']
+  CryptoWars.Users.CreateUserCommandHandler:
+    class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler
+    arguments: ['@CryptoWars.Users.CreateUser']
     tags:
       - { name: 'commandHandler' }

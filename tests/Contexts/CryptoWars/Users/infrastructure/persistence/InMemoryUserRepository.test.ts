@@ -1,9 +1,9 @@
 import { UserGenerator } from '../../domain/UserGenerator';
-import { VillageRepository } from '../../../../../../src/Contexts/CryptoWars/Villages/domain/VillageRepository';
+import { UserRepository } from '../../../../../../src/Contexts/CryptoWars/Users/domain/UserRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { EnvironmentArranger } from '../../../../Shared/infrastructure/arranger/EnvironmentArranger';
 
-const repository: VillageRepository = container.get('CryptoWars.users.UserRepository');
+const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
 const environmentArranger: Promise<EnvironmentArranger> = container.get(
   'CryptoWars.EnvironmentArranger'
 );
@@ -17,26 +17,26 @@ afterAll(async () => {
   await (await environmentArranger).close();
 });
 
-describe('[infra] InMemoryVillageRepository', () => {
+describe('[infra] UserRepository', () => {
   describe('#save', () => {
-    it('should save a village', async () => {
-      const village = UserGenerator.random();
+    it('should save a user', async () => {
+      const user = UserGenerator.random();
 
-      await repository.save(village);
+      await repository.save(user);
     });
   });
 
   describe('#search', () => {
-    it('should return an existing village', async () => {
-      const expectedVillage = UserGenerator.random();
-      await repository.save(expectedVillage);
+    it('should return an existing user', async () => {
+      const expectedUser = UserGenerator.random();
+      await repository.save(expectedUser);
 
-      const village = await repository.search(expectedVillage.id);
+      const user = await repository.search(expectedUser.id);
 
-      expect(expectedVillage.toPrimitives()).toEqual(village?.toPrimitives());
+      expect(expectedUser.toPrimitives()).toEqual(user?.toPrimitives());
     });
 
-    it('should not return a non existing village', async () => {
+    it('should not return a non existing user', async () => {
       expect(await repository.search(UserGenerator.random().id)).toBeNull();
     });
   });

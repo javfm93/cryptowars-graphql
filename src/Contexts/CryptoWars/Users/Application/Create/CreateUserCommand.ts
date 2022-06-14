@@ -2,16 +2,19 @@ import { Command } from '../../../../Shared/domain/Command';
 
 type Params = {
   id: string;
-  address: string;
+  email: string;
+  password: string;
 };
 
 export class CreateUserCommand extends Command {
   id: string;
-  address: string;
+  email: string;
+  password: string;
 
-  constructor({ id, address }: Params) {
+  constructor({ id, email, password }: Params) {
     super();
     this.id = id;
-    this.address = address;
+    this.email = email;
+    this.password = password;
   }
 }

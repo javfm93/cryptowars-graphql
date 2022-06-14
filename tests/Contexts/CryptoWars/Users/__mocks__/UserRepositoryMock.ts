@@ -1,29 +1,29 @@
-import { VillageRepository } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageRepository';
-import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/domain/Village';
+import { User } from '../../../../../src/Contexts/CryptoWars/Users/domain/User';
 import { Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageId';
+import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/domain/UserId';
+import { UserRepository } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
 
-export class VillageRepositoryMock implements VillageRepository {
+export class UserRepositoryMock implements UserRepository {
   private mockSave = jest.fn();
   private mockSearch = jest.fn();
 
-  async save(user: Village): Promise<void> {
+  async save(user: User): Promise<void> {
     this.mockSave(user);
   }
 
-  expectLastSavedUserToBe(expectedUser: Village): void {
+  expectLastSavedUserToBe(expectedUser: User): void {
     expect(this.mockSave).toBeCalledWith(expectedUser);
   }
 
-  async search(id: VillageId): Promise<Nullable<Village>> {
+  async search(id: UserId): Promise<Nullable<User>> {
     return this.mockSearch(id);
   }
 
-  whenSearchThenReturn(value: Nullable<Village>): void {
+  whenSearchThenReturn(value: Nullable<User>): void {
     this.mockSearch.mockReturnValueOnce(value);
   }
 
-  expectLastSearchedUserTobe(expected: VillageId): void {
+  expectLastSearchedUserTobe(expected: UserId): void {
     expect(this.mockSearch).toBeCalledWith(expected);
   }
 }

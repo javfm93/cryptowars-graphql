@@ -1,18 +1,30 @@
-import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/domain/Village';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/domain/VillageId';
-import { CreateVillageCommand } from '../../../../../src/Contexts/CryptoWars/Villages/application/Create/CreateVillageCommand';
-import { VillageIdGenerator } from './VillageIdGenerator';
+import { UserIdGenerator } from './UserIdGenerator';
+import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
+import { CreateUserCommand } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
+import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
+import { UserPassword } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserPassword';
+import { UserEmailGenerator } from './UserEmailGenerator';
+import { UserPasswordGenerator } from './UserPasswordGenerator';
 
-export class VillageGenerator {
-  static create(id: VillageId): Village {
-    return Village.create(id);
+export class UserGenerator {
+  static create(id: UserId, email: UserEmail, password: UserPassword): User {
+    return User.create(id, { email, password });
   }
 
-  static fromCommand(command: CreateVillageCommand): Village {
-    return this.create(VillageIdGenerator.create(command.id));
+  static fromCommand(command: CreateUserCommand): User {
+    return this.create(
+      UserIdGenerator.create(command.id),
+      UserEmailGenerator.create(command.email),
+      UserPassword.create(command.password)
+    );
   }
 
-  static random(): Village {
-    return this.create(VillageIdGenerator.random());
+  static random(): User {
+    return this.create(
+      UserIdGenerator.random(),
+      UserEmailGenerator.random(),
+      UserPasswordGenerator.random()
+    );
   }
 }

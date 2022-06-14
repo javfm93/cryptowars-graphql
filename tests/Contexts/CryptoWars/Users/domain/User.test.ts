@@ -1,13 +1,12 @@
-import { Village } from '../../../../../src/Contexts/CryptoWars/Villages/domain/Village';
-import { VillageIdGenerator } from './VillageIdGenerator';
+import { UserGenerator } from './UserGenerator';
 
-describe('[Domain] Village', () => {
-  it('should record a CourseCreatedDomainEvent after its creation', () => {
-    const course = Village.create(VillageIdGenerator.random());
+describe('[Domain] User', () => {
+  it('should record a UserCreatedDomainEvent after its creation', () => {
+    const user = UserGenerator.random();
 
-    const events = course.pullDomainEvents();
+    const events = user.pullDomainEvents();
 
     expect(events).toHaveLength(1);
-    expect(events[0].eventName).toBe('cryptoWars.1.event.village.created');
+    expect(events[0].eventName).toBe('cryptoWars.1.event.user.created');
   });
 });

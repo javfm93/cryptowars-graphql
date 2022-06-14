@@ -1,5 +1,10 @@
 services:
 
-  Apps.CryptoWars.Backend.controllers.StatusGetController:
-    class: ../../controllers/StatusGetController
+  Apps.CryptoWars.Backend.Controllers.StatusGetController:
+    class: ../../Controllers/StatusGetController
     arguments: []
+
+  Apps.CryptoWars.Backend.Controllers.UsersPutController:
+    class: ../../Controllers/UsersPutController
+    arguments: ['@Shared.CommandBus']
+

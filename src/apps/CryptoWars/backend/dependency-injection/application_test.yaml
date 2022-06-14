@@ -3,8 +3,7 @@ imports:
 
 services:
   CryptoWars.EnvironmentArranger:
-    class: ../../../../../tests/Contexts/Shared/infrastructure/mongo/MongoEnvironmentArranger
-    arguments: [ '@Shared.ConnectionManager' ]
+    class: ../../../../../tests/Contexts/Shared/infrastructure/Persistence/InMemoryEnvironmentArranger
 
   Shared.EventBus:
     class: ../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus

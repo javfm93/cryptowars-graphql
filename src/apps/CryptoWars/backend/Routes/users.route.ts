@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import container from '../dependency-injection';
-import { UserPutController } from '../Controllers/UserPutController';
+import { UsersPutController } from '../Controllers/UsersPutController';
 
 export const register = (router: Router) => {
-  const playerPutController: UserPutController = container.get(
-    'Apps.Cryptowars.Backend.Controllers.PlayersPutController'
+  const userPutController: UsersPutController = container.get(
+    'Apps.CryptoWars.Backend.Controllers.UsersPutController'
   );
-  router.put('/players/:id', playerPutController.run.bind(playerPutController));
+  router.put('/users/:id', userPutController.run.bind(userPutController));
 };

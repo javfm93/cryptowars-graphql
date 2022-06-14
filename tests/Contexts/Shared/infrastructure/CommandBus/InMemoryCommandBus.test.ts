@@ -1,8 +1,8 @@
-import { Command } from '../../../../../src/Contexts/Shared/domain/Command';
-import { CommandHandler } from '../../../../../src/Contexts/Shared/domain/CommandHandler';
-import { CommandNotRegisteredError } from '../../../../../src/Contexts/Shared/domain/CommandNotRegisteredError';
-import { CommandHandlersInformation } from '../../../../../src/Contexts/Shared/infrastructure/CommandBus/CommandHandlersInformation';
-import { InMemoryCommandBus } from '../../../../../src/Contexts/Shared/infrastructure/CommandBus/InMemoryCommandBus';
+import { Command } from '../../../../../src/Contexts/Shared/Domain/Command';
+import { CommandHandler } from '../../../../../src/Contexts/Shared/Domain/CommandHandler';
+import { CommandNotRegisteredError } from '../../../../../src/Contexts/Shared/Domain/CommandNotRegisteredError';
+import { CommandHandlersInformation } from '../../../../../src/Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
+import { InMemoryCommandBus } from '../../../../../src/Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus';
 
 class UnhandledCommand extends Command {
   static COMMAND_NAME = 'unhandled.command';
@@ -26,16 +26,12 @@ describe('InMemoryCommandBus', () => {
     const commandHandlersInformation = new CommandHandlersInformation([]);
     const commandBus = new InMemoryCommandBus(commandHandlersInformation);
 
-    let exception = null;
-
     try {
       await commandBus.dispatch(unhandledCommand);
+      fail("Didn't throw");
     } catch (error) {
-      exception = error;
+      expect(error).toStrictEqual(new CommandNotRegisteredError(unhandledCommand));
     }
-
-    expect(exception).toBeInstanceOf(CommandNotRegisteredError);
-    expect(exception.message).toBe(`The command <UnhandledCommand> hasn't a command handler associated`);
   });
 
   it('accepts a command with handler', async () => {

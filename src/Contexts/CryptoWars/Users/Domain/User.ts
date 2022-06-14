@@ -1,20 +1,18 @@
-// import { Address } from '../../../Shared/domain/Address';
 import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
 import { UserCreatedDomainEvent } from './UserCreatedDomainEvent';
-// import { Transaction } from '../../Others/domain/transaction';
-import { UserAddress } from './UserAddress';
+import { UserEmail } from './UserEmail';
 import { UserId } from './UserId';
-import { UserTransactions } from './UserTransactions';
+import { UserPassword } from './UserPassword';
 
 export interface UserProps {
-  address: UserAddress;
-  transactions: UserTransactions;
+  email: UserEmail;
+  password: UserPassword;
 }
 
-interface UserPrimitives {
+export interface UserPrimitives {
   id: string;
-  address: string;
-  transactions: UserTransactions;
+  email: string;
+  password: string;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -26,8 +24,7 @@ export class User extends AggregateRoot<UserProps> {
     const user = new User(id, props);
     user.record(
       new UserCreatedDomainEvent({
-        id: user.id.toString(),
-        address: user.props.address.toString()
+        id: user.id.toString()
       })
     );
     return user;
@@ -36,19 +33,15 @@ export class User extends AggregateRoot<UserProps> {
   toPrimitives(): UserPrimitives {
     return {
       id: this.id.toString(),
-      address: this.props.address.toString(),
-      transactions: this.props.transactions
+      email: this.props.email.toString(),
+      password: this.props.password.toString()
     };
   }
 
   static fromPrimitives(plainData: UserPrimitives): User {
     return new User(UserId.create(plainData.id), {
-      address: UserAddress.create(plainData.address),
-      transactions: plainData.transactions
+      email: UserEmail.create(plainData.email),
+      password: UserPassword.create(plainData.password)
     });
   }
-
-  // transactionsWith(smartContractAddresses: Array<Address>): Array<Transaction> {
-  //   return this.props.transactions.transactionsWith(smartContractAddresses);
-  // }
 }
