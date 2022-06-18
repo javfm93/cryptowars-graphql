@@ -1,5 +1,6 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { InvalidEmailError } from './Errors/InvalidEmailError';
+import { Either, failure, success } from '../../../Shared/Aplication/Result';
 
 export class UserEmail extends ValueObject<UserEmail> {
   private constructor(readonly value: string) {
@@ -7,13 +8,13 @@ export class UserEmail extends ValueObject<UserEmail> {
     this.value = value.toLowerCase();
   }
 
-  public static create(value: string): UserEmail {
+  public static create(value: string): Either<UserEmail, InvalidEmailError> {
     const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if (!value.match(validEmailRegex)) {
-      throw InvalidEmailError;
+      return failure(new InvalidEmailError(value));
     }
-    return new UserEmail(value);
+    return success(new UserEmail(value));
   }
   public isEqualTo(email: UserEmail) {
     return this.toString() === email.toString();

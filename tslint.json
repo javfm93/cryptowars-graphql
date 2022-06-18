@@ -3,7 +3,7 @@
   "defaultSeverity": "error",
   "rules": {
     "adjacent-overload-signatures": true,
-    "curly": true,
+    "curly": false,
     "eofline": true,
     "align": [true, "parameters"],
     "class-name": true,

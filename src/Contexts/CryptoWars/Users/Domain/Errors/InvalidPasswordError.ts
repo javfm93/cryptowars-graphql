@@ -1,7 +1,14 @@
-export class InvalidPasswordError extends Error {
+import { DomainError } from './DomainError';
+
+export class InvalidPasswordError extends DomainError {
   constructor(message: string) {
     super(message);
   }
+
+  public errorName(): string {
+    return 'InvalidPasswordError';
+  }
+
   public static shouldNotContainWhitespaces(): InvalidPasswordError {
     return new InvalidPasswordError('Password should not contain Whitespaces.');
   }

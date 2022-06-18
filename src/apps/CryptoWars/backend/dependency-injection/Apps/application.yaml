@@ -5,6 +5,6 @@ services:
     arguments: []
 
   Apps.CryptoWars.Backend.Controllers.UsersPutController:
-    class: ../../Controllers/UsersPutController
+    class: ../../Controllers/Users/UsersPutController
     arguments: ['@Shared.CommandBus']
 
