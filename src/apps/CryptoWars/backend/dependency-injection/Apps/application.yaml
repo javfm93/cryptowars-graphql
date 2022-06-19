@@ -8,3 +8,7 @@ services:
     class: ../../Controllers/Users/UsersPutController
     arguments: ['@Shared.CommandBus']
 
+  Apps.CryptoWars.Backend.Controllers.WorldsGetController:
+    class: ../../Controllers/Worlds/WorldsGetController
+    arguments: ['@Shared.QueryBus']
+

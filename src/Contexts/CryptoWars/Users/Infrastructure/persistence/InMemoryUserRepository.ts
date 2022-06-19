@@ -3,9 +3,10 @@ import { User } from '../../Domain/User';
 import { UserId } from '../../Domain/UserId';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { UserEmail } from '../../Domain/UserEmail';
+import { initialUsers } from '../../Domain/Seed/InitialUsers';
 
 export class InMemoryUserRepository implements UserRepository {
-  private users: Array<User> = [];
+  private users: Array<User> = initialUsers;
 
   public save(user: User): Promise<void> {
     this.users.push(user);

@@ -23,7 +23,7 @@ export const useUserRegistration: CommandTrigger = () => {
   );
   useEffect(() => {
     if (registerMutation.isSuccess) {
-      navigateTo(AppRoutes.town);
+      navigateTo(AppRoutes.home);
     }
   }, [registerMutation.isSuccess]);
 

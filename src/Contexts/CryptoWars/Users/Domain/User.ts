@@ -4,6 +4,7 @@ import { UserEmail } from './UserEmail';
 import { UserId } from './UserId';
 import { UserPassword } from './UserPassword';
 import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { DomainError } from './Errors/DomainError';
 
 export interface UserProps {
   email: UserEmail;
@@ -43,7 +44,7 @@ export class User extends AggregateRoot<UserProps> {
     };
   }
 
-  static fromPrimitives(plainData: UserPrimitives): Either<User, Error> {
+  static fromPrimitives(plainData: UserPrimitives): Either<User, DomainError> {
     const emailCreation = UserEmail.create(plainData.email);
     if (emailCreation.isFailure()) return failure(emailCreation.value);
     const email = emailCreation.value;

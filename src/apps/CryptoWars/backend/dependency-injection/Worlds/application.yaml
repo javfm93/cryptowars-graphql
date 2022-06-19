@@ -1,0 +1,14 @@
+services:
+
+  CryptoWars.Worlds.WorldRepository:
+    class: ../../../../../Contexts/CryptoWars/Worlds/Infrastructure/Persistence/InMemoryWorldRepository
+
+  CryptoWars.Worlds.ListWorlds:
+    class: ../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorlds
+    arguments: ['@CryptoWars.Worlds.WorldRepository']
+
+  CryptoWars.Worlds.ListWorldsQueryHandler:
+    class: ../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQueryHandler
+    arguments: ['@CryptoWars.Worlds.ListWorlds']
+    tags:
+      - { name: 'queryHandler' }

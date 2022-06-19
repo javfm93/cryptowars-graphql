@@ -1,8 +1,7 @@
 {
   "translation": {
-    "footer": {
-      "rights": " All right reserved",
-      "app": "CryptoWars"
+    "home": {
+      "startPlaying": "Start Playing in world 1"
     },
     "town": {
       "buildings": {
@@ -16,6 +15,10 @@
           }
         }
       }
+    },
+    "footer": {
+      "rights": " All right reserved",
+      "app": "CryptoWars"
     }
   }
 }
