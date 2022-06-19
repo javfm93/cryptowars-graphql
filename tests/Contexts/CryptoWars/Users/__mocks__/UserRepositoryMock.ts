@@ -1,11 +1,13 @@
 import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
-import { Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
+import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 import { UserRepository } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
+import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
 
 export class UserRepositoryMock implements UserRepository {
   private mockSave = jest.fn();
-  private mockSearch = jest.fn();
+  private mockSearchById = jest.fn();
+  private mockSearchByEmail = jest.fn();
 
   async save(user: User): Promise<void> {
     this.mockSave(user);
@@ -15,15 +17,15 @@ export class UserRepositoryMock implements UserRepository {
     expect(this.mockSave).toBeCalledWith(expectedUser);
   }
 
-  async search(id: UserId): Promise<Nullable<User>> {
-    return this.mockSearch(id);
+  async searchByEmail(email: UserEmail): Promise<NothingOr<User>> {
+    return this.mockSearchByEmail(email);
   }
 
-  whenSearchThenReturn(value: Nullable<User>): void {
-    this.mockSearch.mockReturnValueOnce(value);
+  whenSearchByEmailThenReturn(value: NothingOr<User>): void {
+    this.mockSearchByEmail.mockReturnValueOnce(value);
   }
 
-  expectLastSearchedUserTobe(expected: UserId): void {
-    expect(this.mockSearch).toBeCalledWith(expected);
+  async searchById(id: UserId): Promise<NothingOr<User>> {
+    return this.mockSearchById(id);
   }
 }

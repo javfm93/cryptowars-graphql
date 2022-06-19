@@ -1,6 +1,6 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { InvalidPasswordError } from './Errors/InvalidPasswordError';
-import { Either, failure, success } from '../../../Shared/Aplication/Result';
+import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 
 export class UserPassword extends ValueObject<UserPassword> {
   private constructor(readonly value: string) {
@@ -38,10 +38,10 @@ export class UserPassword extends ValueObject<UserPassword> {
     if (!hasValidLengthRegex.test(value)) {
       return failure(InvalidPasswordError.shouldHaveValidLength());
     }
-    return success(new UserPassword(value));
+    return successAndReturn(new UserPassword(value));
   }
-  public isEqualTo(email: UserPassword) {
-    return this.toString() === email.toString();
+  public isEqualTo(password: UserPassword) {
+    return this.toString() === password.toString();
   }
 
   public toString(): string {

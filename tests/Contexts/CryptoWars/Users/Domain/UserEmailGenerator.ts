@@ -3,7 +3,8 @@ import * as faker from 'faker';
 
 export class UserEmailGenerator {
   static create(value: string): UserEmail {
-    return UserEmail.create(value);
+    const emailCreation = UserEmail.create(value);
+    return emailCreation.value as UserEmail;
   }
 
   static random(): UserEmail {

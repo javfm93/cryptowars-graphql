@@ -5,11 +5,16 @@ import { Command } from '../../../../Shared/Domain/Command';
 import { UserId } from '../../Domain/UserId';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
-import { Either, failure, Result, success } from '../../../../Shared/Aplication/Result';
+import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidEmailError } from '../../Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../Domain/Errors/InvalidPasswordError';
+import { UserAlreadyTakenError } from './UserAlreadyTakenError';
 
-export type CreateUserResult = Either<Result<void>, InvalidEmailError | InvalidPasswordError>;
+export type CreateUserCommandErrors =
+  | InvalidEmailError
+  | InvalidPasswordError
+  | UserAlreadyTakenError;
+export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
 
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
   constructor(private createUser: CreateUser) {}
@@ -18,7 +23,7 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
     return CreateUserCommand;
   }
 
-  async handle(command: CreateUserCommand): Promise<CreateUserResult> {
+  async handle(command: CreateUserCommand): Promise<CreateUserCommandResult> {
     const id = UserId.create(command.id);
     const emailCreation = UserEmail.create(command.email);
     const passwordCreation = UserPassword.create(command.password);
@@ -28,7 +33,8 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
 
     const email = emailCreation.value;
     const password = passwordCreation.value;
-    await this.createUser.execute({ id, email, password });
-    return success(Result.ok());
+    const userCreation = await this.createUser.execute({ id, email, password });
+
+    return userCreation.isSuccess() ? success() : failure(userCreation.value);
   }
 }

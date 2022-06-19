@@ -1,7 +1,8 @@
 import { UserRepository } from '../../Domain/UserRepository';
 import { User } from '../../Domain/User';
 import { UserId } from '../../Domain/UserId';
-import { Nullable } from '../../../../Shared/Domain/Nullable';
+import { NothingOr } from '../../../../Shared/Domain/Nullable';
+import { UserEmail } from '../../Domain/UserEmail';
 
 export class InMemoryUserRepository implements UserRepository {
   private users: Array<User> = [];
@@ -11,8 +12,13 @@ export class InMemoryUserRepository implements UserRepository {
     return Promise.resolve();
   }
 
-  public async search(id: UserId): Promise<Nullable<User>> {
+  public async searchById(id: UserId): Promise<NothingOr<User>> {
     const user = this.users.find(v => v.id.isEqualTo(id));
+    return Promise.resolve(user ?? null);
+  }
+
+  public async searchByEmail(email: UserEmail): Promise<NothingOr<User>> {
+    const user = this.users.find(v => v.email.isEqualTo(email));
     return Promise.resolve(user ?? null);
   }
 }

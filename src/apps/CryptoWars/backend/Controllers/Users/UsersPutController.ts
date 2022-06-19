@@ -5,9 +5,12 @@ import { Controller } from '../Controller';
 import { CommandBus } from '../../../../../Contexts/Shared/Domain/CommandBus';
 import { CreateUserCommand } from '../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
 import { InvalidEmailError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/InvalidEmailError';
-import { CreateUserResult } from '../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler';
-import { DomainError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/DomainError';
+import {
+  CreateUserCommandErrors,
+  CreateUserCommandResult
+} from '../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler';
 import { InvalidPasswordError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
+import { UserAlreadyTakenError } from '../../../../../Contexts/CryptoWars/Users/Application/Create/UserAlreadyTakenError';
 
 type PutUserRequestParams = {
   id: string;
@@ -21,16 +24,19 @@ export class UsersPutController implements Controller {
     const password: string = req.body.password;
 
     const createUserCommand = new CreateUserCommand({ id, email, password });
-    const result: CreateUserResult = await this.commandBus.dispatch(createUserCommand);
+    const result: CreateUserCommandResult = await this.commandBus.dispatch(createUserCommand);
 
     result.isSuccess() ? res.status(httpStatus.OK).send() : this.handleError(res, result.value);
   }
 
-  private handleError(res: Response, error: DomainError) {
+  private handleError(res: Response, error: CreateUserCommandErrors) {
     if (error.isEqualTo(InvalidEmailError)) {
       res.status(httpStatus.BAD_REQUEST).send(error.message);
     }
     if (error.isEqualTo(InvalidPasswordError)) {
+      res.status(httpStatus.BAD_REQUEST).send(error.message);
+    }
+    if (error.isEqualTo(UserAlreadyTakenError)) {
       res.status(httpStatus.BAD_REQUEST).send(error.message);
     }
   }

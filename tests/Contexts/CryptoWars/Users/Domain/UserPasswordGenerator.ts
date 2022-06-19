@@ -3,7 +3,8 @@ import { UserPassword } from '../../../../../src/Contexts/CryptoWars/Users/Domai
 
 export class UserPasswordGenerator {
   static create(value: string): UserPassword {
-    return UserPassword.create(value);
+    const passwordCreation = UserPassword.create(value);
+    return passwordCreation.value as UserPassword;
   }
 
   static random(): UserPassword {

@@ -5,19 +5,26 @@ import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
+import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { UserAlreadyTakenError } from './UserAlreadyTakenError';
 
-interface CreateUserArgs {
+type CreateUserArgs = {
   id: Uuid;
   email: UserEmail;
   password: UserPassword;
-}
+};
 
-export class CreateUser implements UseCase<CreateUserArgs, void> {
+type CreateUserResult = Either<EmptyResult, UserAlreadyTakenError>;
+
+export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {
   constructor(private userRepository: UserRepository, private eventBus: EventBus) {}
 
-  async execute({ id, email, password }: CreateUserArgs): Promise<void> {
+  async execute({ id, email, password }: CreateUserArgs): Promise<CreateUserResult> {
     const user = User.create(id, { email, password });
+    const userAlreadyExist = await this.userRepository.searchByEmail(email);
+    if (userAlreadyExist) return failure(new UserAlreadyTakenError(email.toString()));
     await this.userRepository.save(user);
     await this.eventBus.publish(user.pullDomainEvents());
+    return success();
   }
 }

@@ -6,6 +6,7 @@ import { UserGenerator } from '../Domain/UserGenerator';
 import { InvalidEmailError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
+import { UserAlreadyTakenError } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/UserAlreadyTakenError';
 
 describe('[Application] CreateUser', () => {
   const repository = new UserRepositoryMock();
@@ -25,73 +26,79 @@ describe('[Application] CreateUser', () => {
     eventBus.expectLastPublishedEventToBe(events[0]);
   });
 
-  it('should not create an user with invalid email', async () => {
-    const command = CreateUserCommandGenerator.withInvalidEmail();
+  describe('should not create an user when: ', () => {
+    it('the email is invalid', async () => {
+      const command = CreateUserCommandGenerator.withInvalidEmail();
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidEmailError);
-    }
-  });
+      const result = await handler.handle(command);
 
-  it('should not create an user with a password with whitespace', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.whiteSpace();
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidEmailError)).toBeTruthy();
+    });
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldNotContainWhitespaces());
-    }
-  });
+    it('the email is already taken', async () => {
+      const command = CreateUserCommandGenerator.random();
+      const user = UserGenerator.fromCommand(command);
+      repository.whenSearchByEmailThenReturn(user);
 
-  it('should not create an user with a password with invalid length', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.length();
+      const result = await handler.handle(command);
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldHaveValidLength());
-    }
-  });
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(UserAlreadyTakenError)).toBeTruthy();
+    });
 
-  it('should not create an user with a password without a symbol', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.symbol();
+    it('the password has a whitespace', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.whiteSpace();
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldHaveASymbol());
-    }
-  });
+      const result = await handler.handle(command);
 
-  it('should not create an user with a password without a loweCase', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.lowerCase();
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldHaveALowercase());
-    }
-  });
+    it('the password has invalid length', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.length();
 
-  it('should not create an user with a password without a upperCase', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.upperCase();
+      const result = await handler.handle(command);
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldHaveAnUppercase());
-    }
-  });
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
 
-  it('should not create an user with a password without a number', async () => {
-    const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.digit();
+    it('the password does not have a symbol', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.symbol();
 
-    try {
-      await handler.handle(command);
-    } catch (e) {
-      expect(e).toStrictEqual(InvalidPasswordError.shouldHaveADigit());
-    }
+      const result = await handler.handle(command);
+
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
+
+    it('the password does not have a lowercase', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.lowerCase();
+
+      const result = await handler.handle(command);
+
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
+
+    it('the password does not have a upperCase', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.upperCase();
+
+      const result = await handler.handle(command);
+
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
+
+    it('the password does not have a number', async () => {
+      const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.digit();
+
+      const result = await handler.handle(command);
+
+      if (result.isSuccess()) fail();
+      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+    });
   });
 });

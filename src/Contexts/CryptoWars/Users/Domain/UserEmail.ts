@@ -1,6 +1,6 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { InvalidEmailError } from './Errors/InvalidEmailError';
-import { Either, failure, success } from '../../../Shared/Aplication/Result';
+import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 
 export class UserEmail extends ValueObject<UserEmail> {
   private constructor(readonly value: string) {
@@ -14,7 +14,7 @@ export class UserEmail extends ValueObject<UserEmail> {
     if (!value.match(validEmailRegex)) {
       return failure(new InvalidEmailError(value));
     }
-    return success(new UserEmail(value));
+    return successAndReturn(new UserEmail(value));
   }
   public isEqualTo(email: UserEmail) {
     return this.toString() === email.toString();

@@ -16,7 +16,7 @@ export class UserGenerator {
     return this.create(
       UserIdGenerator.create(command.id),
       UserEmailGenerator.create(command.email),
-      UserPassword.create(command.password)
+      UserPasswordGenerator.create(command.password)
     );
   }
 

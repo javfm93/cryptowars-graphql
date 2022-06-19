@@ -27,17 +27,26 @@ describe('[infra] UserRepository', () => {
   });
 
   describe('#search', () => {
-    it('should return an existing user', async () => {
+    it('should return an existing user by Id', async () => {
       const expectedUser = UserGenerator.random();
       await repository.save(expectedUser);
 
-      const user = await repository.search(expectedUser.id);
+      const user = await repository.searchById(expectedUser.id);
 
-      expect(expectedUser.toPrimitives()).toEqual(user?.toPrimitives());
+      expect(user?.toPrimitives()).toEqual(expectedUser.toPrimitives());
+    });
+
+    it('should return an existing user by Email', async () => {
+      const expectedUser = UserGenerator.random();
+      await repository.save(expectedUser);
+
+      const user = await repository.searchByEmail(expectedUser.email);
+
+      expect(user?.toPrimitives()).toEqual(expectedUser.toPrimitives());
     });
 
     it('should not return a non existing user', async () => {
-      expect(await repository.search(UserGenerator.random().id)).toBeNull();
+      expect(await repository.searchById(UserGenerator.random().id)).toBeNull();
     });
   });
 });
