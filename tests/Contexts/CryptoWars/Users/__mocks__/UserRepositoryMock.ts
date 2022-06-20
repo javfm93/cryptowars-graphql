@@ -21,11 +21,19 @@ export class UserRepositoryMock implements UserRepository {
     return this.mockSearchByEmail(email);
   }
 
-  whenSearchByEmailThenReturn(value: NothingOr<User>): void {
-    this.mockSearchByEmail.mockReturnValueOnce(value);
+  whenSearchByEmailThenReturn(user: NothingOr<User>): void {
+    this.mockSearchByEmail.mockImplementationOnce((email: UserEmail) =>
+      email.isEqualTo(user?.email) ? user : null
+    );
   }
 
   async searchById(id: UserId): Promise<NothingOr<User>> {
     return this.mockSearchById(id);
+  }
+
+  whenSearchByIdThenReturn(user: NothingOr<User>): void {
+    this.mockSearchById.mockImplementationOnce(
+      (id: UserId): NothingOr<User> => (id.isEqualTo(user?.id) ? user : null)
+    );
   }
 }

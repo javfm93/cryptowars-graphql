@@ -7,7 +7,9 @@ export class Uuid {
 
   constructor(value: string) {
     if (!validate(value)) {
-      throw new InvalidArgumentError(`<${this.constructor.name}> does not allow the value <${value}>`);
+      throw new InvalidArgumentError(
+        `<${this.constructor.name}> does not allow the value <${value}>`
+      );
     }
     this.value = value;
   }
@@ -16,8 +18,8 @@ export class Uuid {
     return new Uuid(v4());
   }
 
-  isEqualTo(uuid: Uuid) {
-    return this.value === uuid.value;
+  isEqualTo(uuid?: Uuid) {
+    return this.value === uuid?.value;
   }
 
   toString(): string {

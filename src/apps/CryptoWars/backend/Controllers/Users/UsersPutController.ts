@@ -37,7 +37,7 @@ export class UsersPutController implements Controller {
       res.status(httpStatus.BAD_REQUEST).send(error.message);
     }
     if (error.isEqualTo(UserAlreadyTakenError)) {
-      res.status(httpStatus.BAD_REQUEST).send(error.message);
+      res.status(httpStatus.CONFLICT).send(error.message);
     }
   }
 }

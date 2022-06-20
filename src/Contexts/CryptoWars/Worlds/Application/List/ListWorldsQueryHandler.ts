@@ -8,8 +8,6 @@ import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
 
 export type ListWorldsQueryResult = Either<Array<World>, DomainError>;
 
-// todo: register query handler in de container
-// make the controller
 export class ListWorldsQueryHandler
   implements QueryHandler<ListWorldsQuery, ListWorldsQueryResult>
 {

@@ -16,8 +16,8 @@ export class UserEmail extends ValueObject<UserEmail> {
     }
     return successAndReturn(new UserEmail(value));
   }
-  public isEqualTo(email: UserEmail) {
-    return this.toString() === email.toString();
+  public isEqualTo(email?: UserEmail) {
+    return this.toString() === email?.toString();
   }
 
   public toString(): string {
