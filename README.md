@@ -1,5 +1,6 @@
 ## Project Structure
 
+
 ```
 src
 |-- Apps: Entry points of the bounded context
