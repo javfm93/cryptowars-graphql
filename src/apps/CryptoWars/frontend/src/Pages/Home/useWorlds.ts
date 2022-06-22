@@ -51,7 +51,9 @@ export type QueryTrigger<Args, Response> = (
 
 export const useWorlds: QueryTrigger<void, ListWorldsResponse> = () => {
   const getWorlds = async (): Promise<ListWorldsResponse> => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worlds`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worlds`, {
+      withCredentials: true
+    });
     return response.data;
   };
   return handleQueryResult<ListWorldsResponse>(useQuery('worlds', getWorlds));

@@ -16,6 +16,11 @@ export class UserEmail extends ValueObject<UserEmail> {
     }
     return successAndReturn(new UserEmail(value));
   }
+
+  public static fromPrimitive(email: string): UserEmail {
+    return new UserEmail(email);
+  }
+
   public isEqualTo(email?: UserEmail) {
     return this.toString() === email?.toString();
   }

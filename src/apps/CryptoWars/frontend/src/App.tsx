@@ -8,11 +8,13 @@ import { Headquarter } from './Pages/Headquarter';
 import { World } from './Pages/World';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Home } from './Pages/Home';
+import { Login } from './Pages/Login';
 
 export enum AppRoutes {
   home = '/',
   town = '/town',
   registration = '/registration',
+  login = '/login',
   headquarter = '/headquarter',
   world = '/world'
 }
@@ -30,6 +32,7 @@ export const App = () => {
               <Route path={AppRoutes.home} element={<Home />} />
               <Route path={AppRoutes.town} element={<Town />} />
               <Route path={AppRoutes.registration} element={<Registration />} />
+              <Route path={AppRoutes.login} element={<Login />} />
               <Route path={AppRoutes.headquarter} element={<Headquarter />} />
               <Route path={AppRoutes.world} element={<World />} />
             </Routes>

@@ -36,6 +36,10 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.email;
   }
 
+  public get password(): UserPassword {
+    return this.props.password;
+  }
+
   toPrimitives(): UserPrimitives {
     return {
       id: this.id.toString(),

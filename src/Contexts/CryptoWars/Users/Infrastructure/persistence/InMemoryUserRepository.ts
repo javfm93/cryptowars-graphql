@@ -14,12 +14,12 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   public async searchById(id: UserId): Promise<NothingOr<User>> {
-    const user = this.users.find(v => v.id.isEqualTo(id));
+    const user = this.users.find(v => id.isEqualTo(v.id));
     return Promise.resolve(user ?? null);
   }
 
   public async searchByEmail(email: UserEmail): Promise<NothingOr<User>> {
-    const user = this.users.find(v => v.email.isEqualTo(email));
+    const user = this.users.find(v => email.isEqualTo(v.email));
     return Promise.resolve(user ?? null);
   }
 }

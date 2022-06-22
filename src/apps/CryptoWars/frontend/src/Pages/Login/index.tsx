@@ -11,11 +11,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useUserRegistration } from './useUserRegistration';
+import { useUserLogin } from './useUserLogin';
 import { AppRoutes } from '../../App';
 
-export function Registration() {
-  const registration = useUserRegistration();
+export function Login() {
+  const login = useUserLogin();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ export function Registration() {
     const email = data.get('email')?.toString();
     const password = data.get('password')?.toString();
     if (email && password) {
-      registration.execute(email, password);
+      login.execute(email, password);
     }
   };
 
@@ -73,9 +73,14 @@ export function Registration() {
             Sign In
           </Button>
           <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
             <Grid item>
-              <Link href={AppRoutes.login} variant="body2">
-                {'Have an account? Login'}
+              <Link href={AppRoutes.registration} variant="body2">
+                {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>

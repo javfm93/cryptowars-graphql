@@ -10,6 +10,20 @@ import Logger from '../../../Contexts/Shared/Domain/Logger';
 import container from './dependency-injection';
 import { registerRoutes } from './Routes';
 import cors from 'cors';
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+import { UserRepository } from '../../../Contexts/CryptoWars/Users/Domain/UserRepository';
+import { UserEmail } from '../../../Contexts/CryptoWars/Users/Domain/UserEmail';
+import bcrypt from 'bcrypt';
+import session from 'express-session';
+import { UserPrimitives } from '../../../Contexts/CryptoWars/Users/Domain/User';
+const SQLiteStore = require('connect-sqlite3')(session);
+import cookieParser from 'cookie-parser';
+
+export const isAuthenticated = function (req: Request, res: Response, next: any) {
+  if (req.isAuthenticated()) return next();
+  res.status(httpStatus.UNAUTHORIZED).send();
+};
 
 export class Server {
   private express: express.Express;
@@ -21,20 +35,77 @@ export class Server {
     this.port = port;
     this.logger = container.get('Shared.Logger');
     this.express = express();
-    this.express.use(cors({ origin: 'http://localhost:3000' }));
+    const corsConfig = {
+      origin: 'http://localhost:3000',
+      credentials: true
+    };
+
+    this.express.use(cors(corsConfig));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: true }));
+    this.express.use(cookieParser());
     this.express.use(helmet.xssFilter());
     this.express.use(helmet.noSniff());
     this.express.use(helmet.hidePoweredBy());
     this.express.use(helmet.frameguard({ action: 'deny' }));
     this.express.use(compress());
+    this.express.use(
+      session({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+        store: new SQLiteStore()
+      })
+    );
+    this.express.use(passport.authenticate('session'));
     const router = Router();
     router.use(errorHandler());
     this.express.use(router);
 
-    registerRoutes(router);
+    passport.use(
+      new LocalStrategy.Strategy(async function verify(email, password, cb) {
+        try {
+          const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
+          const user = await repository.searchByEmail(UserEmail.fromPrimitive(email));
+          if (!user) return cb(null, false, { message: 'Incorrect username or password.' });
+          const salt = await bcrypt.genSalt(10);
+          const hash = await bcrypt.hash(password, salt);
+          const passwordMatches = await bcrypt.compare(password, hash);
+          if (!passwordMatches)
+            return cb(null, false, { message: 'Incorrect username or password.' });
 
+          console.log('user properly auth');
+          return cb(null, user.toPrimitives());
+        } catch (err) {
+          if (err) {
+            return cb(err);
+          }
+        }
+      })
+    );
+
+    passport.serializeUser(function (user: any, cb) {
+      process.nextTick(function () {
+        console.log('serialize user', user);
+        cb(null, { id: user.id, email: user.email });
+      });
+    });
+
+    passport.deserializeUser<UserPrimitives>(function (user, cb) {
+      console.log('deserialize user', user);
+      process.nextTick(function () {
+        return cb(null, user);
+      });
+    });
+
+    registerRoutes(router);
+    router.post(
+      '/login',
+      passport.authenticate('local', { failureMessage: true }),
+      function (req, res) {
+        res.status(httpStatus.OK).send();
+      }
+    );
     router.use((err: Error, req: Request, res: Response, next: Function) => {
       this.logger.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err.message);
