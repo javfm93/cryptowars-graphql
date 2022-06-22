@@ -19,7 +19,7 @@ export const Home = () => {
         ) : worlds.error ? (
           <p>An error happened</p>
         ) : (
-          worlds.result?.worlds.map(world => <Button>{world.name}</Button>)
+          worlds.result?.worlds.map(world => <Button key={world.id}>{world.name}</Button>)
         )}
       </Grid>
     </Grid>
