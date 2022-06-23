@@ -8,7 +8,7 @@ export class Uuid {
   constructor(value: string) {
     if (!validate(value)) {
       throw new InvalidArgumentError(
-        `<${this.constructor.name}> does not allow the value <${value}>`
+        `[${this.constructor.name}] does not allow the value [${value}]`
       );
     }
     this.value = value;

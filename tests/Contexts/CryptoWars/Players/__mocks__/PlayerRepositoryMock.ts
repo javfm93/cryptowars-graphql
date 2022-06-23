@@ -2,10 +2,12 @@ import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Pl
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
+import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 
 export class PlayerRepositoryMock implements PlayerRepository {
   private mockSave = jest.fn();
   private mockSearchById = jest.fn();
+  private mockSearchByUserId = jest.fn();
 
   async save(player: Player): Promise<void> {
     this.mockSave(player);
@@ -22,6 +24,16 @@ export class PlayerRepositoryMock implements PlayerRepository {
   whenSearchByIdThenReturn(player: NothingOr<Player>): void {
     this.mockSearchById.mockImplementationOnce(
       (id: PlayerId): NothingOr<Player> => (id.isEqualTo(player?.id) ? player : null)
+    );
+  }
+
+  async searchByUserId(id: UserId): Promise<NothingOr<Player>> {
+    return this.mockSearchByUserId(id);
+  }
+
+  whenSearchByUserIdThenReturn(player: NothingOr<Player>): void {
+    this.mockSearchByUserId.mockImplementationOnce(
+      (id: UserId): NothingOr<Player> => (id.isEqualTo(player?.id) ? player : null)
     );
   }
 }

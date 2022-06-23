@@ -5,8 +5,10 @@ import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../Users/Domain/UserId';
 import { DomainError } from '../../../Users/Domain/Errors/DomainError';
+import { PlayerId } from '../../Domain/PlayerId';
 
 type CreatePlayerArgs = {
+  id: PlayerId;
   userId: UserId;
 };
 
@@ -15,8 +17,8 @@ type CreatePlayerResult = Either<EmptyResult, DomainError>;
 export class CreatePlayer implements UseCase<CreatePlayerArgs, EmptyResult> {
   constructor(private playerRepository: PlayerRepository, private eventBus: EventBus) {}
 
-  async execute({ userId }: CreatePlayerArgs): Promise<CreatePlayerResult> {
-    const user = Player.create(userId);
+  async execute({ id, userId }: CreatePlayerArgs): Promise<CreatePlayerResult> {
+    const user = Player.create(id, { userId });
     await this.playerRepository.save(user);
     await this.eventBus.publish(user.pullDomainEvents());
     return success();

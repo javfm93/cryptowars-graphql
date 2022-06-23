@@ -1,36 +1,48 @@
 import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { PlayerCreatedDomainEvent } from './PlayerCreatedDomainEvent';
-import { PlayerId } from './PlayerId';
 import { Either, successAndReturn } from '../../../Shared/Aplication/Result';
-import { DomainError } from '../../Users/Domain/Errors/DomainError';
 import { UserId } from '../../Users/Domain/UserId';
+import { PlayerId } from './PlayerId';
+import { DomainError } from '../../Users/Domain/Errors/DomainError';
 
-export interface UserPrimitives {
+export interface PlayerProps {
+  userId: UserId;
+}
+
+export interface PlayerPrimitives {
+  id: string;
   userId: string;
 }
 
-export class Player extends AggregateRoot<void> {
-  private constructor(id: UserId) {
-    super(id);
+export class Player extends AggregateRoot<PlayerProps> {
+  private constructor(id: PlayerId, props: PlayerProps) {
+    super(id, props);
   }
 
-  public static create(id: PlayerId): Player {
-    const player = new Player(id);
-    player.record(
+  get userId(): UserId {
+    return this.props.userId;
+  }
+
+  public static create(id: PlayerId, props: PlayerProps): Player {
+    const user = new Player(id, props);
+    user.record(
       new PlayerCreatedDomainEvent({
-        id: player.id.toString()
+        id: user.id.toString()
       })
     );
-    return player;
+    return user;
   }
 
-  toPrimitives(): UserPrimitives {
+  toPrimitives(): PlayerPrimitives {
     return {
-      userId: this.id.toString()
+      id: this.id.toString(),
+      userId: this.props.userId.toString()
     };
   }
 
-  static fromPrimitives(plainData: UserPrimitives): Either<Player, DomainError> {
-    return successAndReturn(new Player(UserId.create(plainData.userId)));
+  static fromPrimitives(plainData: PlayerPrimitives): Either<Player, DomainError> {
+    const userId = UserId.create(plainData.userId);
+    const id = PlayerId.create(plainData.id);
+    return successAndReturn(new Player(id, { userId }));
   }
 }
