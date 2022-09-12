@@ -7,9 +7,6 @@ export const register = (router: Router) => {
   const worldsGetController: WorldsGetController = container.get(
     'Apps.CryptoWars.Backend.Controllers.WorldsGetController'
   );
-  const worldsGetController: WorldsGetController = container.get(
-    'Apps.CryptoWars.Backend.Controllers.WorldsGetController'
-  );
   router.get('/worlds', requireAuth, worldsGetController.run.bind(worldsGetController));
   router.post(
     '/worlds/:id/players',

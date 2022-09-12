@@ -1,5 +1,4 @@
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/Domain/VillageId';
 import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 
 export class UserIdGenerator {
@@ -7,7 +6,7 @@ export class UserIdGenerator {
     return UserId.create(value);
   }
 
-  static random(): VillageId {
+  static random(): UserId {
     return this.create(UuidGenerator.random().toString());
   }
 }

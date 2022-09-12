@@ -44,6 +44,10 @@ export class UserPassword extends ValueObject<UserPassword> {
     return this.toString() === password.toString();
   }
 
+  public static fromPrimitives(password: string): UserPassword {
+    return new UserPassword(password);
+  }
+
   public toString(): string {
     return this.value;
   }

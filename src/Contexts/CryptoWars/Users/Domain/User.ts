@@ -3,8 +3,6 @@ import { UserCreatedDomainEvent } from './UserCreatedDomainEvent';
 import { UserEmail } from './UserEmail';
 import { UserId } from './UserId';
 import { UserPassword } from './UserPassword';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
-import { DomainError } from './Errors/DomainError';
 
 export interface UserProps {
   email: UserEmail;
@@ -48,15 +46,9 @@ export class User extends AggregateRoot<UserProps> {
     };
   }
 
-  static fromPrimitives(plainData: UserPrimitives): Either<User, DomainError> {
-    const emailCreation = UserEmail.create(plainData.email);
-    if (emailCreation.isFailure()) return failure(emailCreation.value);
-    const email = emailCreation.value;
-
-    const passwordCreation = UserPassword.create(plainData.password);
-    if (passwordCreation.isFailure()) return failure(passwordCreation.value);
-    const password = passwordCreation.value;
-
-    return successAndReturn(new User(UserId.create(plainData.id), { email, password }));
+  static fromPrimitives(plainData: UserPrimitives): User {
+    const email = UserEmail.fromPrimitives(plainData.email);
+    const password = UserPassword.fromPrimitives(plainData.password);
+    return new User(UserId.create(plainData.id), { email, password });
   }
 }

@@ -1,8 +1,6 @@
 import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { WorldId } from './WorldId';
 import { WorldName } from './WorldName';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
-import { DomainError } from '../../Users/Domain/Errors/DomainError';
 
 export interface WorldProps {
   name: WorldName;
@@ -29,9 +27,8 @@ export class World extends AggregateRoot<WorldProps> {
     };
   }
 
-  static fromPrimitives(plainData: WorldPrimitives): Either<World, DomainError> {
-    const nameCreation = WorldName.create(plainData.name);
-    if (nameCreation.isFailure()) return failure(nameCreation.value);
-    return successAndReturn(new World(WorldId.create(plainData.id), { name: nameCreation.value }));
+  static fromPrimitives(plainData: WorldPrimitives): World {
+    const name = new WorldName(plainData.name);
+    return new World(WorldId.create(plainData.id), { name });
   }
 }

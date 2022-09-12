@@ -11,4 +11,8 @@ export class FindUserQuery extends Query {
     super();
     this.id = id;
   }
+
+  isEqualTo(query: FindUserQuery): boolean {
+    return this.id === query.id;
+  }
 }

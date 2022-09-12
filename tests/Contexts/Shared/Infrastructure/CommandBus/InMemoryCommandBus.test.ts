@@ -4,7 +4,7 @@ import { CommandNotRegisteredError } from '../../../../../src/Contexts/Shared/Do
 import { CommandHandlersInformation } from '../../../../../src/Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
 import { InMemoryCommandBus } from '../../../../../src/Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus';
 import { Either, Result, success } from '../../../../../src/Contexts/Shared/Aplication/Result';
-import { DomainError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../../../src/Contexts/Shared/Domain/Errors/DomainError';
 
 class UnhandledCommand extends Command {
   static COMMAND_NAME = 'unhandled.command';

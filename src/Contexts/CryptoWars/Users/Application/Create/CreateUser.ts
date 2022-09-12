@@ -21,7 +21,7 @@ export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {
 
   async execute({ id, email, password }: CreateUserArgs): Promise<CreateUserResult> {
     const user = User.create(id, { email, password });
-    const userAlreadyExist = await this.userRepository.searchByEmail(email);
+    const userAlreadyExist = await this.userRepository.findByEmail(email);
     if (userAlreadyExist) return failure(new UserAlreadyTakenError(email.toString()));
     await this.userRepository.save(user);
     await this.eventBus.publish(user.pullDomainEvents());

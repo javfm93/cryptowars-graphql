@@ -12,7 +12,7 @@ describe('[Application] List Worlds', () => {
   it('should return the list of worlds', async () => {
     const query = ListWorldsQueryGenerator.random();
     const expectedWorlds = WorldGenerator.multipleRandom();
-    repository.whenGetAllThenReturn(expectedWorlds);
+    repository.whenFindAllThenReturn(expectedWorlds);
 
     const worlds = await handler.handle(query);
 

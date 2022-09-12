@@ -6,8 +6,8 @@ import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/U
 
 export class UserRepositoryMock implements UserRepository {
   private mockSave = jest.fn();
-  private mockSearchById = jest.fn();
-  private mockSearchByEmail = jest.fn();
+  private mockFindById = jest.fn();
+  private mockFindByEmail = jest.fn();
 
   async save(user: User): Promise<void> {
     this.mockSave(user);
@@ -17,22 +17,22 @@ export class UserRepositoryMock implements UserRepository {
     expect(this.mockSave).toBeCalledWith(expectedUser);
   }
 
-  async searchByEmail(email: UserEmail): Promise<NothingOr<User>> {
-    return this.mockSearchByEmail(email);
+  async findByEmail(email: UserEmail): Promise<NothingOr<User>> {
+    return this.mockFindByEmail(email);
   }
 
-  whenSearchByEmailThenReturn(user: NothingOr<User>): void {
-    this.mockSearchByEmail.mockImplementationOnce((email: UserEmail) =>
+  whenFindByEmailThenReturn(user: NothingOr<User>): void {
+    this.mockFindByEmail.mockImplementationOnce((email: UserEmail) =>
       email.isEqualTo(user?.email) ? user : null
     );
   }
 
-  async searchById(id: UserId): Promise<NothingOr<User>> {
-    return this.mockSearchById(id);
+  async findById(id: UserId): Promise<NothingOr<User>> {
+    return this.mockFindById(id);
   }
 
-  whenSearchByIdThenReturn(user: NothingOr<User>): void {
-    this.mockSearchById.mockImplementationOnce(
+  whenFindByIdThenReturn(user: NothingOr<User>): void {
+    this.mockFindById.mockImplementationOnce(
       (id: UserId): NothingOr<User> => (id.isEqualTo(user?.id) ? user : null)
     );
   }

@@ -5,6 +5,6 @@ import { UserEmail } from './UserEmail';
 
 export interface UserRepository {
   save(user: User): Promise<void>;
-  searchById(id: UserId): Promise<NothingOr<User>>;
-  searchByEmail(email: UserEmail): Promise<NothingOr<User>>;
+  findById(id: UserId): Promise<NothingOr<User>>;
+  findByEmail(email: UserEmail): Promise<NothingOr<User>>;
 }

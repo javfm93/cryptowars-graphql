@@ -3,6 +3,7 @@ import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worl
 import { WorldName } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldName';
 import { WorldNameGenerator } from './WorldNameGenerator';
 import { WorldIdGenerator } from './WorldIdGenerator';
+import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 
 export class WorldGenerator {
   static generateRandomNumberBetween1and10 = () => parseInt((Math.random() * 10).toFixed(0));
@@ -15,7 +16,10 @@ export class WorldGenerator {
     return this.create(WorldIdGenerator.random(), WorldNameGenerator.random());
   }
 
-  static multipleRandom(): Array<World> {
-    return Array.from({ length: this.generateRandomNumberBetween1and10() }, () => this.random());
+  static multipleRandom(): Worlds {
+    const words = Array.from({ length: this.generateRandomNumberBetween1and10() }, () =>
+      this.random()
+    );
+    return Worlds.create(words);
   }
 }

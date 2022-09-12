@@ -1,9 +1,9 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { Either, successAndReturn } from '../../../Shared/Aplication/Result';
-import { DomainError } from '../../Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../Shared/Domain/Errors/DomainError';
 
 export class WorldName extends ValueObject<WorldName> {
-  private constructor(readonly value: string) {
+  constructor(readonly value: string) {
     super();
     this.value = value;
   }

@@ -4,7 +4,7 @@ import { Player } from '../../Domain/Player';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../Users/Domain/UserId';
-import { DomainError } from '../../../Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerId } from '../../Domain/PlayerId';
 
 type CreatePlayerArgs = {

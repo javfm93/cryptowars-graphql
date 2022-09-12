@@ -1,8 +1,9 @@
 import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
 
-type CreateUserDomainEventBody = {
+type CreateUserDomainEventBody = {};
+
+type CreateUserDomainEventPrimitives = CreateUserDomainEventBody & {
   readonly eventName: string;
-  readonly id: string;
 };
 
 export class UserCreatedDomainEvent extends DomainEvent {
@@ -12,11 +13,9 @@ export class UserCreatedDomainEvent extends DomainEvent {
     super(UserCreatedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
   }
 
-  toPrimitive(): CreateUserDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): CreateUserDomainEventPrimitives {
     return {
-      eventName: UserCreatedDomainEvent.EVENT_NAME,
-      id: aggregateId
+      eventName: UserCreatedDomainEvent.EVENT_NAME
     };
   }
 

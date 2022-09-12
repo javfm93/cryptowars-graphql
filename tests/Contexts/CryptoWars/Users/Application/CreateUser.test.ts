@@ -39,7 +39,7 @@ describe('[Application] CreateUser', () => {
     it('the email is already taken', async () => {
       const command = CreateUserCommandGenerator.random();
       const user = UserGenerator.fromCommand(command);
-      repository.whenSearchByEmailThenReturn(user);
+      repository.whenFindByEmailThenReturn(user);
 
       const result = await handler.handle(command);
 

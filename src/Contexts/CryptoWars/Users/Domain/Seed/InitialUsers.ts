@@ -8,5 +8,5 @@ export const initialUsers: Array<User> = [
     id: Uuid.random().toString(),
     email: 'admin@admin.com',
     password: 'P@ssw0rd'
-  }).value as User
+  })
 ];

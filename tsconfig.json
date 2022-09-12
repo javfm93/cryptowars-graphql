@@ -1,19 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["es2019", "dom"],
+    "lib": ["esnext", "dom"],
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "sourceMap": false,
+    "sourceMap": true,
     "rootDir": ".",
     "strict": true,
     "noEmit": false,
     "resolveJsonModule": true,
     "noUnusedLocals": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "src/apps/CryptoWars/backend/global.d.ts"
+  ],
   "include": [
     "src/**/**.ts",
     "node_modules/hash.js/lib/hash.d.ts"

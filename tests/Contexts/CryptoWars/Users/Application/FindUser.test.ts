@@ -3,7 +3,7 @@ import { UserGenerator } from '../Domain/UserGenerator';
 import { FindUser } from '../../../../../src/Contexts/CryptoWars/Users/Application/Find/FindUser';
 import { FindUserQueryHandler } from '../../../../../src/Contexts/CryptoWars/Users/Application/Find/FindUserQueryHandler';
 import { FindUserQueryGenerator } from './FindUserQueryGenerator';
-import { UserNotFound } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/UserNotFound';
+import { UserNotFound } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/UserNotFound';
 
 describe('[Application] Find User', () => {
   const repository = new UserRepositoryMock();
@@ -13,7 +13,7 @@ describe('[Application] Find User', () => {
   it('should find an existent user', async () => {
     const expectedUser = UserGenerator.random();
     const query = FindUserQueryGenerator.create(expectedUser.id.toString());
-    repository.whenSearchByIdThenReturn(expectedUser);
+    repository.whenFindByIdThenReturn(expectedUser);
 
     const result = await handler.handle(query);
 

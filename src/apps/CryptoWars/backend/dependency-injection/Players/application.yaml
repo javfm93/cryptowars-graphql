@@ -1,0 +1,25 @@
+services:
+
+  CryptoWars.Players.PlayerRepository:
+    class: ../../../../../Contexts/CryptoWars/Players/Infrastructure/Persistence/SqlitePlayerRepository
+    arguments: [ '@Shared.ConnectionManager' ]
+
+  CryptoWars.Players.CreatePlayer:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Create/CreatePlayer
+    arguments: ['@CryptoWars.Players.PlayerRepository', '@Shared.EventBus']
+
+  CryptoWars.Players.CreatePlayerOnUserCreated:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated
+    arguments: ['@CryptoWars.Players.CreatePlayer']
+    tags:
+      - { name: 'domainEventSubscriber' }
+
+  CryptoWars.Players.SelectWorld:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/SelectWorld/SelectWorld
+    arguments: ['@CryptoWars.Players.PlayerRepository','@Shared.QueryBus', '@Shared.EventBus']
+
+  CryptoWars.Players.SelectWorldCommandHandler:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/SelectWorld/SelectWorldCommandHandler
+    arguments: ['@CryptoWars.Players.SelectWorld']
+    tags:
+      - { name: 'commandHandler' }

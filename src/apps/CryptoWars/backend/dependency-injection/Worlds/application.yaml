@@ -1,7 +1,8 @@
 services:
 
   CryptoWars.Worlds.WorldRepository:
-    class: ../../../../../Contexts/CryptoWars/Worlds/Infrastructure/Persistence/InMemoryWorldRepository
+    class: ../../../../../Contexts/CryptoWars/Worlds/Infrastructure/Persistence/SqliteWorldRepository
+    arguments: ['@Shared.ConnectionManager']
 
   CryptoWars.Worlds.ListWorlds:
     class: ../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorlds
@@ -10,5 +11,15 @@ services:
   CryptoWars.Worlds.ListWorldsQueryHandler:
     class: ../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQueryHandler
     arguments: ['@CryptoWars.Worlds.ListWorlds']
+    tags:
+      - { name: 'queryHandler' }
+
+  CryptoWars.Worlds.FindWorld:
+    class: ../../../../../Contexts/CryptoWars/Worlds/Application/Find/FindWorld
+    arguments: ['@CryptoWars.Worlds.WorldRepository']
+
+  CryptoWars.Worlds.FindWorldQueryHandler:
+    class: ../../../../../Contexts/CryptoWars/Worlds/Application/Find/FindWorldQueryHandler
+    arguments: ['@CryptoWars.Worlds.FindWorld']
     tags:
       - { name: 'queryHandler' }

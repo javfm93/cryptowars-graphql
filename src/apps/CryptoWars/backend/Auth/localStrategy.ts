@@ -22,7 +22,7 @@ passport.use(
   new LocalStrategy.Strategy(async function verify(email, password, cb) {
     try {
       const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
-      const user = await repository.searchByEmail(UserEmail.fromPrimitive(email));
+      const user = await repository.findByEmail(UserEmail.fromPrimitives(email));
       if (!user) return cb(null, false, { message: 'Incorrect username or password.' });
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);

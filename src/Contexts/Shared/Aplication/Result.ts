@@ -1,4 +1,4 @@
-import { DomainError } from '../../CryptoWars/Users/Domain/Errors/DomainError';
+import { DomainError } from '../Domain/Errors/DomainError';
 
 export type Either<S, F> = Success<S, F> | Failure<S, F>;
 

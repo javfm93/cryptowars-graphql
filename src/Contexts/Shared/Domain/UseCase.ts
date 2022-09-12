@@ -1,5 +1,5 @@
 import { Either } from '../Aplication/Result';
-import { DomainError } from '../../CryptoWars/Users/Domain/Errors/DomainError';
+import { DomainError } from './Errors/DomainError';
 
 export interface UseCase<Arguments, ReturnType> {
   execute(

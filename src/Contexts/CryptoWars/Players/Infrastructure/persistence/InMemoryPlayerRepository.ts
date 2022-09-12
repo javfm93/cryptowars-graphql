@@ -13,12 +13,12 @@ export class InMemoryPlayerRepository implements PlayerRepository {
     return Promise.resolve();
   }
 
-  public async searchById(id: PlayerId): Promise<NothingOr<Player>> {
+  public async findById(id: PlayerId): Promise<NothingOr<Player>> {
     const user = this.players.find(v => id.isEqualTo(v.id));
     return Promise.resolve(user ?? null);
   }
 
-  public async searchByUserId(userId: UserId): Promise<NothingOr<Player>> {
+  public async findByUserId(userId: UserId): Promise<NothingOr<Player>> {
     const user = this.players.find(v => userId.isEqualTo(v.userId));
     return Promise.resolve(user ?? null);
   }

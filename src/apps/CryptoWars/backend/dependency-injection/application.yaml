@@ -2,4 +2,5 @@ imports:
   - { resource: ./Apps/application.yaml }
   - { resource: ./Shared/application.yaml }
   - { resource: ./Users/application.yaml }
+  - { resource: ./Players/application.yaml }
   - { resource: ./Worlds/application.yaml }

@@ -1,6 +1,7 @@
 
 Feature: As player, I want to know what are the worlds available to play
   Scenario:
+    Given I am sign in
     Given I send a GET request to "/worlds"
     Then the response status code should be 200
     And the response content should be:

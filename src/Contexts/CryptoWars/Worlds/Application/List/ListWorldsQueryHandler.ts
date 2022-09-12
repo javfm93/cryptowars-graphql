@@ -1,12 +1,12 @@
 import { ListWorldsQuery } from './ListWorldsQuery';
 import { ListWorlds } from './ListWorlds';
 import { Either } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { Query } from '../../../../Shared/Domain/Query';
-import { World } from '../../Domain/World';
 import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { Worlds } from '../../Domain/Worlds';
 
-export type ListWorldsQueryResult = Either<Array<World>, DomainError>;
+export type ListWorldsQueryResult = Either<Worlds, DomainError>;
 
 export class ListWorldsQueryHandler
   implements QueryHandler<ListWorldsQuery, ListWorldsQueryResult>

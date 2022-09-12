@@ -21,5 +21,16 @@ services:
     arguments: []
 
   Shared.EventBus:
-    class: ../../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus
+    class: ../../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemorySyncEventBus
     arguments: []
+
+  Shared.TypeOrmConfig:
+    factory:
+      class: ../../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory
+      method: 'createConfig'
+
+  Shared.ConnectionManager:
+    factory:
+      class: ../../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory
+      method: 'createClient'
+    arguments: ['Shared', '@Shared.TypeOrmConfig']

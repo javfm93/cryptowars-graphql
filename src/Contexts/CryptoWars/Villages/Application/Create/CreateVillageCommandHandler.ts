@@ -4,7 +4,7 @@ import { Command } from '../../../../Shared/Domain/Command';
 import { VillageId } from '../../Domain/VillageId';
 import { CreateVillage } from './CreateVillage';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
 export type CreateVillageCommandResult = Either<EmptyResult, DomainError>;
 

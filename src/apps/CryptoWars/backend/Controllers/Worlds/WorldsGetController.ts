@@ -10,11 +10,10 @@ export class WorldsGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
   async run(req: Request, res: Response<ListWorldsResponse>) {
     const listWorldsQuery = new ListWorldsQuery();
-    const result: ListWorldsQueryResult = await this.queryBus.ask(listWorldsQuery);
+    const result = await this.queryBus.ask<ListWorldsQueryResult>(listWorldsQuery);
 
     if (result.isSuccess()) {
-      const worlds = result.value.map(world => world.toPrimitives());
-      res.status(httpStatus.OK).json({ worlds });
+      res.status(httpStatus.OK).json({ worlds: result.value.toPrimitives() });
     } else {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
     }

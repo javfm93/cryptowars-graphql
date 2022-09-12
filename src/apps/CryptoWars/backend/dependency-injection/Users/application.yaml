@@ -1,7 +1,8 @@
 services:
 
   CryptoWars.Users.UserRepository:
-    class: ../../../../../Contexts/CryptoWars/Users/Infrastructure/Persistence/InMemoryUserRepository
+    class: ../../../../../Contexts/CryptoWars/Users/infrastructure/persistence/SqliteUserRepository
+    arguments: [ '@Shared.ConnectionManager' ]
 
   CryptoWars.Users.CreateUser:
     class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUser

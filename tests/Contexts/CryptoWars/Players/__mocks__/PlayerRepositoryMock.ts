@@ -17,7 +17,11 @@ export class PlayerRepositoryMock implements PlayerRepository {
     expect(this.mockSave).toBeCalledWith(expectedPlayer);
   }
 
-  async searchById(id: PlayerId): Promise<NothingOr<Player>> {
+  expectLastSavedPlayerToContain(object: any): void {
+    expect(this.mockSave.mock.lastCall[0].toString()).toContain(object.toString());
+  }
+
+  async findById(id: PlayerId): Promise<NothingOr<Player>> {
     return this.mockSearchById(id);
   }
 
@@ -27,13 +31,13 @@ export class PlayerRepositoryMock implements PlayerRepository {
     );
   }
 
-  async searchByUserId(id: UserId): Promise<NothingOr<Player>> {
+  async findByUserId(id: UserId): Promise<NothingOr<Player>> {
     return this.mockSearchByUserId(id);
   }
 
   whenSearchByUserIdThenReturn(player: NothingOr<Player>): void {
     this.mockSearchByUserId.mockImplementationOnce(
-      (id: UserId): NothingOr<Player> => (id.isEqualTo(player?.id) ? player : null)
+      (id: UserId): NothingOr<Player> => (id.isEqualTo(player?.userId) ? player : null)
     );
   }
 }

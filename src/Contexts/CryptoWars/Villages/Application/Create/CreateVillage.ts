@@ -4,7 +4,7 @@ import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Village } from '../../Domain/Village';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../Users/Domain/Errors/DomainError';
+import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
 interface CreateUserArgs {
   id: Uuid;

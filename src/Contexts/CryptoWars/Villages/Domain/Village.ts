@@ -4,7 +4,7 @@ import { VillageId } from './VillageId';
 
 export interface VillageProps {}
 
-interface VillagePrimitives {
+export interface VillagePrimitives {
   id: string;
 }
 

@@ -6,6 +6,7 @@ import { VillageId } from '../../../../../src/Contexts/CryptoWars/Villages/Domai
 export class VillageRepositoryMock implements VillageRepository {
   private mockSave = jest.fn();
   private mockSearch = jest.fn();
+  private mockFindById = jest.fn();
 
   async save(user: Village): Promise<void> {
     this.mockSave(user);
@@ -25,5 +26,9 @@ export class VillageRepositoryMock implements VillageRepository {
 
   expectLastSearchedUserTobe(expected: VillageId): void {
     expect(this.mockSearch).toBeCalledWith(expected);
+  }
+
+  findById(id: VillageId): Promise<Nullable<Village>> {
+    return this.mockFindById(id);
   }
 }

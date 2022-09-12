@@ -3,40 +3,24 @@ import request from 'supertest';
 import { EnvironmentArranger } from '../../../../../Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { CryptoWarsBackendApp } from '../../../../../../src/apps/CryptoWars/backend/CryptoWarsBackendApp';
-import { AfterAll, BeforeAll, Given, Then } from '@cucumber/cucumber';
+import { AfterAll, Before, BeforeAll, Given, Then } from '@cucumber/cucumber';
 
 let _request: request.Test;
 let _response: request.Response;
 let application: CryptoWarsBackendApp;
-
-Given('I send a GET request to {string}', (route: string) => {
-  _request = request(application.httpServer).get(route);
-});
-
-Given('I send a PUT request to {string} with body:', (route: string, body: string) => {
-  _request = request(application.httpServer).put(route).send(JSON.parse(body));
-});
-
-Then('the response status code should be {int}', async (status: number) => {
-  _response = await _request.expect(status);
-});
-
-Then('the response should be empty', () => {
-  assert.deepEqual(_response.body, {});
-});
-
-Then('the response content should be:', response => {
-  assert.deepEqual(_response.body, JSON.parse(response));
-});
+let agent: request.SuperAgentTest;
 
 BeforeAll(async () => {
+  application = new CryptoWarsBackendApp();
+  await application.start();
+});
+
+Before(async () => {
   const environmentArranger: Promise<EnvironmentArranger> = container.get(
     'CryptoWars.EnvironmentArranger'
   );
-  console.log(environmentArranger);
   await (await environmentArranger).arrange();
-  application = new CryptoWarsBackendApp();
-  await application.start();
+  agent = request.agent(application.httpServer);
 });
 
 AfterAll(async () => {
@@ -46,4 +30,40 @@ AfterAll(async () => {
   await (await environmentArranger).arrange();
   await (await environmentArranger).close();
   await application.stop();
+});
+
+Given('I send a GET request to {string}', (route: string) => {
+  _request = agent.get(route);
+});
+
+Given('I send a PUT request to {string} with body:', (route: string, body: string) => {
+  _request = agent.put(route).send(JSON.parse(body));
+});
+
+Given('I send a POST request to {string} with body:', (route: string, body: string) => {
+  _request = agent.post(route).send(JSON.parse(body));
+});
+
+Given('I am sign in', async () => {
+  await agent.put('/users/ef8ac118-8d7f-49cc-abec-78e0d05af80a').send({
+    email: 'newUser@email.com',
+    password: 'P@ssw0rd'
+  });
+
+  await agent.post('/login').send({
+    username: 'newUser@email.com',
+    password: 'P@ssw0rd'
+  });
+});
+
+Then('the response status code should be {int}', async (status: number) => {
+  _response = await _request.expect(status);
+});
+
+Then('the response should be empty', () => {
+  assert.deepStrictEqual(_response.body, {});
+});
+
+Then('the response content should be:', response => {
+  assert.deepStrictEqual(_response.body, JSON.parse(response));
 });

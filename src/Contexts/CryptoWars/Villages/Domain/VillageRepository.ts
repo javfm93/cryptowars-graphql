@@ -4,5 +4,5 @@ import { Nullable } from '../../../Shared/Domain/Nullable';
 
 export interface VillageRepository {
   save(village: Village): Promise<void>;
-  search(id: VillageId): Promise<Nullable<Village>>;
+  findById(id: VillageId): Promise<Nullable<Village>>;
 }

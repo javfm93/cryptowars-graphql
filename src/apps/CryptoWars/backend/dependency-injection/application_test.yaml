@@ -3,7 +3,8 @@ imports:
 
 services:
   CryptoWars.EnvironmentArranger:
-    class: ../../../../../tests/Contexts/Shared/infrastructure/Persistence/InMemoryEnvironmentArranger
+    class: ../../../../../tests/Contexts/Shared/infrastructure/Persistence/TypeOrmEnvironmentArranger
+    arguments: ['@Shared.ConnectionManager']
 
   Shared.EventBus:
     class: ../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus

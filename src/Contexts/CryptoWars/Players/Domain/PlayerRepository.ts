@@ -5,6 +5,6 @@ import { PlayerId } from './PlayerId';
 
 export interface PlayerRepository {
   save(user: Player): Promise<void>;
-  searchById(id: PlayerId): Promise<NothingOr<Player>>;
-  searchByUserId(id: UserId): Promise<NothingOr<Player>>;
+  findById(id: PlayerId): Promise<NothingOr<Player>>;
+  findByUserId(id: UserId): Promise<NothingOr<Player>>;
 }
