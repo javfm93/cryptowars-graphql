@@ -22,7 +22,7 @@ export default class EventBusMock implements EventBus {
     expect(publishSpyCalls.length).toBeGreaterThan(0);
 
     const lastPublishSpyCall = publishSpyCalls[publishSpyCalls.length - 1];
-    const lastPublishedEvent = lastPublishSpyCall[0][0];
+    const lastPublishedEvent = lastPublishSpyCall[0][lastPublishSpyCall[0].length - 1];
 
     expect(this.getDataFromDomainEvent(expectedEvent)).toMatchObject(
       this.getDataFromDomainEvent(lastPublishedEvent)

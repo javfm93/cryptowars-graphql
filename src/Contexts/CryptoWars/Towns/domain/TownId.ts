@@ -1,10 +1,10 @@
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 
-export class VillageId extends Uuid {
+export class TownId extends Uuid {
   private constructor(value: string) {
     super(value);
   }
   static create(value: string): Uuid {
-    return new VillageId(value);
+    return new TownId(value);
   }
 }

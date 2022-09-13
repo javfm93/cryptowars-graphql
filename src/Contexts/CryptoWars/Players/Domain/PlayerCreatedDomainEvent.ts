@@ -20,12 +20,7 @@ export class PlayerCreatedDomainEvent extends DomainEvent {
     };
   }
 
-  static fromPrimitives(
-    aggregateId: string,
-    body: CreateUserDomainEventBody,
-    eventId: string,
-    occurredOn: Date
-  ): DomainEvent {
+  static fromPrimitives(aggregateId: string, eventId: string, occurredOn: Date): DomainEvent {
     return new PlayerCreatedDomainEvent({
       id: aggregateId,
       eventId,

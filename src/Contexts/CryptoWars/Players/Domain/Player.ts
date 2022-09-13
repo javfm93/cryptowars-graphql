@@ -4,6 +4,7 @@ import { UserId } from '../../Users/Domain/UserId';
 import { PlayerId } from './PlayerId';
 import { World, WorldPrimitives } from '../../Worlds/Domain/World';
 import { Worlds } from '../../Worlds/Domain/Worlds';
+import { PlayerWorldSelectedDomainEvent } from './PlayerWorldSelectedDomainEvent';
 
 export interface PlayerProps {
   userId: UserId;
@@ -28,6 +29,8 @@ export class Player extends AggregateRoot<PlayerProps> {
 
   public addWorld(world: World): void {
     this.props.worlds.add(world);
+    const eventBody = { id: this.id.toString(), worldId: world.id.toString() };
+    this.record(new PlayerWorldSelectedDomainEvent(eventBody));
   }
 
   get userId(): UserId {

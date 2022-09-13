@@ -8,7 +8,7 @@ import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
 
 export class PlayerGenerator {
   static create(id: PlayerId, userId: UserId): Player {
-    return Player.create(id, { userId });
+    return Player.fromPrimitives({ id: id.toString(), userId: userId.toString(), worlds: [] });
   }
 
   static fromEvent(event: UserCreatedDomainEvent, id: PlayerId): Player {

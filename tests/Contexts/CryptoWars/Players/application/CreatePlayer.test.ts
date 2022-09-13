@@ -5,6 +5,7 @@ import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { CreatePlayerOnUserCreated } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated';
 import { CreatePlayer } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayer';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
+import { PlayerEventsGenerator } from '../domain/PlayerEventsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -23,14 +24,13 @@ describe('[Application] Create Player', () => {
 
   it('should create a player when a user is created', async () => {
     const event = UserCreatedEventGenerator.random();
-    const playerId = PlayerId.create(mockedNewUuid);
 
     await handler.on(event);
 
-    const player = PlayerGenerator.fromEvent(event, playerId);
-    const events = player.pullDomainEvents();
-    repository.expectLastSavedPlayerToBe(player);
-    expect(events).toHaveLength(1);
-    eventBus.expectLastPublishedEventToBe(events[0]);
+    const playerId = PlayerId.create(mockedNewUuid);
+    const expectedPlayer = PlayerGenerator.fromEvent(event, playerId);
+    const expectedEvent = PlayerEventsGenerator.PlayerCreated(playerId);
+    repository.expectLastSavedPlayerToBe(expectedPlayer);
+    eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });

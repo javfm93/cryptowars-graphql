@@ -4,3 +4,4 @@ imports:
   - { resource: ./Users/application.yaml }
   - { resource: ./Players/application.yaml }
   - { resource: ./Worlds/application.yaml }
+  - { resource: ./Towns/application.yaml }

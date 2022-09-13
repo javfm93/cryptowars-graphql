@@ -10,6 +10,7 @@ import { QueryBus } from '../../../../../src/Contexts/Shared/Domain/QueryBus';
 import { Response } from '../../../../../src/Contexts/Shared/Domain/Response';
 import { Query, QueryResult } from '../../../../../src/Contexts/Shared/Domain/Query';
 import { successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
+import { PlayerEventsGenerator } from '../domain/PlayerEventsGenerator';
 
 class QueryBusMock implements QueryBus {
   private mockAsk = jest.fn();
@@ -40,6 +41,8 @@ describe('[Application] Player Selects World', () => {
 
     await handler.handle(command);
 
+    const expectedEvent = PlayerEventsGenerator.PlayerWorldSelected(player.id, world.id);
     playerRepository.expectLastSavedPlayerToContain(world);
+    eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });
