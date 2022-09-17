@@ -1,21 +1,8 @@
 import { UserGenerator } from '../../Domain/UserGenerator';
 import { UserRepository } from '../../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { EnvironmentArranger } from '../../../../Shared/Infrastructure/arranger/EnvironmentArranger';
 
 const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
-const environmentArranger: Promise<EnvironmentArranger> = container.get(
-  'CryptoWars.EnvironmentArranger'
-);
-
-beforeEach(async () => {
-  await (await environmentArranger).arrange();
-});
-
-afterAll(async () => {
-  await (await environmentArranger).arrange();
-  await (await environmentArranger).close();
-});
 
 describe('[infra] UserRepository', () => {
   describe('#save', () => {

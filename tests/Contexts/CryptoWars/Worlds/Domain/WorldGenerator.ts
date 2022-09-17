@@ -4,10 +4,9 @@ import { WorldName } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/
 import { WorldNameGenerator } from './WorldNameGenerator';
 import { WorldIdGenerator } from './WorldIdGenerator';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
+import { NumberGenerator } from '../../../Shared/domain/NumberGenerator';
 
 export class WorldGenerator {
-  static generateRandomNumberBetween1and10 = () => parseInt((Math.random() * 10).toFixed(0));
-
   static create(id: WorldId, name: WorldName): World {
     return World.create(id, { name });
   }
@@ -17,7 +16,7 @@ export class WorldGenerator {
   }
 
   static multipleRandom(): Worlds {
-    const words = Array.from({ length: this.generateRandomNumberBetween1and10() }, () =>
+    const words = Array.from({ length: NumberGenerator.randomBetween1and10() }, () =>
       this.random()
     );
     return Worlds.create(words);

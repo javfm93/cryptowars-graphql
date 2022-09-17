@@ -8,7 +8,7 @@ export class PlayerEventsGenerator {
     return new PlayerCreatedDomainEvent({ id: playerId.toString() });
   }
 
-  static PlayerWorldSelected(playerId: PlayerId, worldId: WorldId): PlayerWorldSelectedDomainEvent {
+  static playerWorldSelected(playerId: PlayerId, worldId: WorldId): PlayerWorldSelectedDomainEvent {
     return new PlayerWorldSelectedDomainEvent({
       id: playerId.toString(),
       worldId: worldId.toString()

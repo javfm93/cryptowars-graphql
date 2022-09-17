@@ -3,13 +3,3 @@ services:
   CryptoWars.Towns.TownRepository:
     class: ../../../../../Contexts/CryptoWars/Towns/Infrastructure/Persistence/SqliteTownRepository
     arguments: [ '@Shared.ConnectionManager' ]
-
-  CryptoWars.Towns.CreateTown:
-    class: ../../../../../Contexts/CryptoWars/Towns/Application/Create/CreateTown
-    arguments: ['@CryptoWars.Towns.TownRepository', '@Shared.EventBus']
-
-  CryptoWars.Towns.CreateTownOnPlayerWorldSelected:
-    class: ../../../../../Contexts/CryptoWars/Towns/Application/Create/CreateTownOnPlayerWorldSelected
-    arguments: ['@CryptoWars.Towns.CreateTown']
-    tags:
-      - { name: 'domainEventSubscriber' }

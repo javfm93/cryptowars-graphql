@@ -23,3 +23,13 @@ services:
     arguments: ['@CryptoWars.Players.SelectWorld']
     tags:
       - { name: 'commandHandler' }
+
+  CryptoWars.Players.FindPlayer:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayer
+    arguments: ['@CryptoWars.Players.PlayerRepository']
+
+  CryptoWars.Players.FindPlayerQueryHandler:
+    class: ../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayerQueryHandler
+    arguments: ['@CryptoWars.Players.FindPlayer']
+    tags:
+      - { name: 'queryHandler' }

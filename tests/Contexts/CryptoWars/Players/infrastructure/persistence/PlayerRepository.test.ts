@@ -1,21 +1,8 @@
 import { PlayerGenerator } from '../../domain/PlayerGenerator';
 import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { EnvironmentArranger } from '../../../../Shared/Infrastructure/arranger/EnvironmentArranger';
 
 const repository: PlayerRepository = container.get('CryptoWars.Players.PlayerRepository');
-const environmentArranger: Promise<EnvironmentArranger> = container.get(
-  'CryptoWars.EnvironmentArranger'
-);
-
-beforeEach(async () => {
-  await (await environmentArranger).arrange();
-});
-
-afterAll(async () => {
-  await (await environmentArranger).arrange();
-  await (await environmentArranger).close();
-});
 
 describe('[infra] PlayerRepository', () => {
   describe('#save', () => {

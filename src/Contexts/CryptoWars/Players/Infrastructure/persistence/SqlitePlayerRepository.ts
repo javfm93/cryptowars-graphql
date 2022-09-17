@@ -17,13 +17,19 @@ export class SqlitePlayerRepository
 
   public async findById(id: PlayerId): Promise<NothingOr<Player>> {
     const repository = await this.repository();
-    const player = await repository.findOne({ where: { id: id.toString() } });
+    const player = await repository.findOne({
+      where: { id: id.toString() },
+      relations: { towns: true }
+    });
     return player ? Player.fromPrimitives(player) : null;
   }
 
   public async findByUserId(userId: UserId): Promise<NothingOr<Player>> {
     const repository = await this.repository();
-    const player = await repository.findOne({ where: { userId: userId.toString() } });
+    const player = await repository.findOne({
+      where: { userId: userId.toString() },
+      relations: { towns: true }
+    });
     return player ? Player.fromPrimitives(player) : null;
   }
 

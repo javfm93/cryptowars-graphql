@@ -40,6 +40,8 @@ export class Town extends AggregateRoot<TownProps> {
   }
 
   static fromPrimitives(plainData: TownPrimitives): Town {
-    return new Town(TownId.create(plainData.id), { playerId: PlayerId.create(plainData.playerId) });
+    return new Town(TownId.create(plainData.id), {
+      playerId: PlayerId.create(plainData.playerId)
+    });
   }
 }

@@ -6,9 +6,9 @@ import { CryptoWarsBackendApp } from '../../../../../../src/apps/CryptoWars/back
 import { AfterAll, Before, BeforeAll, Given, Then } from '@cucumber/cucumber';
 
 let _request: request.Test;
-let _response: request.Response;
+export let _response: request.Response;
 let application: CryptoWarsBackendApp;
-let agent: request.SuperAgentTest;
+export let agent: request.SuperAgentTest;
 
 BeforeAll(async () => {
   application = new CryptoWarsBackendApp();
@@ -42,18 +42,6 @@ Given('I send a PUT request to {string} with body:', (route: string, body: strin
 
 Given('I send a POST request to {string} with body:', (route: string, body: string) => {
   _request = agent.post(route).send(JSON.parse(body));
-});
-
-Given('I am sign in', async () => {
-  await agent.put('/users/ef8ac118-8d7f-49cc-abec-78e0d05af80a').send({
-    email: 'newUser@email.com',
-    password: 'P@ssw0rd'
-  });
-
-  await agent.post('/login').send({
-    username: 'newUser@email.com',
-    password: 'P@ssw0rd'
-  });
 });
 
 Then('the response status code should be {int}', async (status: number) => {

@@ -7,4 +7,8 @@ export class TownId extends Uuid {
   static create(value: string): Uuid {
     return new TownId(value);
   }
+
+  static createRandom(): Uuid {
+    return new TownId(Uuid.random().toString());
+  }
 }

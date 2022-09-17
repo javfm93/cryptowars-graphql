@@ -5,32 +5,45 @@ import { PlayerId } from './PlayerId';
 import { World, WorldPrimitives } from '../../Worlds/Domain/World';
 import { Worlds } from '../../Worlds/Domain/Worlds';
 import { PlayerWorldSelectedDomainEvent } from './PlayerWorldSelectedDomainEvent';
+import { Town, TownPrimitives } from '../../Towns/domain/Town';
+import { Towns } from '../../Towns/domain/Towns';
 
 export interface PlayerProps {
   userId: UserId;
   worlds: Worlds;
+  towns: Towns;
 }
 
 export interface PlayerCreationProps {
   userId: UserId;
   worlds?: Worlds;
+  towns?: Towns;
 }
 
 export interface PlayerPrimitives {
   id: string;
   userId: string;
   worlds: Array<WorldPrimitives>;
+  towns: Array<TownPrimitives>;
 }
 
 export class Player extends AggregateRoot<PlayerProps> {
   private constructor(id: PlayerId, props: PlayerCreationProps) {
-    super(id, { ...props, worlds: props.worlds ?? Worlds.create() });
+    super(id, {
+      ...props,
+      worlds: props.worlds ?? Worlds.create(),
+      towns: props.towns ?? Towns.create()
+    });
   }
 
   public addWorld(world: World): void {
     this.props.worlds.add(world);
     const eventBody = { id: this.id.toString(), worldId: world.id.toString() };
     this.record(new PlayerWorldSelectedDomainEvent(eventBody));
+  }
+
+  public addTown(town: Town): void {
+    this.props.towns.add(town);
   }
 
   get userId(): UserId {
@@ -55,7 +68,8 @@ export class Player extends AggregateRoot<PlayerProps> {
     return {
       id: this.id.toString(),
       userId: this.props.userId.toString(),
-      worlds: this.props.worlds.toPrimitives()
+      worlds: this.props.worlds.toPrimitives(),
+      towns: this.props.towns.toPrimitives()
     };
   }
 
@@ -63,6 +77,7 @@ export class Player extends AggregateRoot<PlayerProps> {
     const id = PlayerId.create(plainData.id);
     const userId = UserId.create(plainData.userId);
     const worlds = Worlds.fromPrimitives(plainData.worlds);
-    return new Player(id, { userId, worlds });
+    const towns = Towns.fromPrimitives(plainData.towns);
+    return new Player(id, { userId, worlds, towns });
   }
 }

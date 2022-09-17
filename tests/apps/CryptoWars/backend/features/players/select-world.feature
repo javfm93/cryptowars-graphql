@@ -10,5 +10,3 @@ Feature: As player, I want to select a world to start a game
     """
     Then the response status code should be 200
     And the response should be empty
-#    And a town for the player in the world should be created
-

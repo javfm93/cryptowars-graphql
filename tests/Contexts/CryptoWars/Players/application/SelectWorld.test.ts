@@ -37,12 +37,13 @@ describe('[Application] Player Selects World', () => {
     const world = WorldGenerator.random();
     const command = SelectWorldCommandGenerator.create(user.id.toString(), world.id.toString());
     queryBusMock.whenAskThenReturn(successAndReturn(world));
-    playerRepository.whenSearchByUserIdThenReturn(player);
+    playerRepository.whenFindByUserIdThenReturn(player);
 
     await handler.handle(command);
 
-    const expectedEvent = PlayerEventsGenerator.PlayerWorldSelected(player.id, world.id);
+    const expectedEvent = PlayerEventsGenerator.playerWorldSelected(player.id, world.id);
     playerRepository.expectLastSavedPlayerToContain(world);
+    playerRepository.expectLastSavedPlayerToHaveOneTown();
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });

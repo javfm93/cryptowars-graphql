@@ -1,7 +1,7 @@
 import { EntitySchema } from 'typeorm';
 import { PlayerPrimitives } from '../../../Domain/Player';
 
-export const PlayerSchema = new EntitySchema<PlayerPrimitives>({
+export const PlayerSchema: EntitySchema<PlayerPrimitives> = new EntitySchema<PlayerPrimitives>({
   name: 'Player',
   tableName: 'players',
   columns: {
@@ -15,6 +15,15 @@ export const PlayerSchema = new EntitySchema<PlayerPrimitives>({
     },
     worlds: {
       type: 'simple-json'
+    }
+  },
+  relations: {
+    towns: {
+      type: 'one-to-many',
+      target: 'Town',
+      onDelete: 'SET NULL',
+      cascade: ['insert', 'update'],
+      inverseSide: 'player'
     }
   }
 });

@@ -3,11 +3,12 @@ import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
 
 export class PlayerRepositoryMock implements PlayerRepository {
   private mockSave = jest.fn();
-  private mockSearchById = jest.fn();
-  private mockSearchByUserId = jest.fn();
+  private mockFindById = jest.fn();
+  private mockFindByUserId = jest.fn();
 
   async save(player: Player): Promise<void> {
     this.mockSave(player);
@@ -17,27 +18,32 @@ export class PlayerRepositoryMock implements PlayerRepository {
     expect(this.mockSave).toBeCalledWith(expectedPlayer);
   }
 
-  expectLastSavedPlayerToContain(object: any): void {
-    expect(this.mockSave.mock.lastCall[0].toString()).toContain(object.toString());
+  expectLastSavedPlayerToContain(world: World): void {
+    expect(this.mockSave.mock.lastCall[0].props.worlds.getItems()).toContain(world);
+  }
+
+  expectLastSavedPlayerToHaveOneTown(): void {
+    expect(this.mockSave.mock.lastCall[0].props.towns.getItems()).toHaveLength(1);
   }
 
   async findById(id: PlayerId): Promise<NothingOr<Player>> {
-    return this.mockSearchById(id);
+    return this.mockFindById(id);
   }
 
-  whenSearchByIdThenReturn(player: NothingOr<Player>): void {
-    this.mockSearchById.mockImplementationOnce(
+  whenFindByIdThenReturn(player: NothingOr<Player>): void {
+    this.mockFindById.mockImplementationOnce(
       (id: PlayerId): NothingOr<Player> => (id.isEqualTo(player?.id) ? player : null)
     );
   }
 
   async findByUserId(id: UserId): Promise<NothingOr<Player>> {
-    return this.mockSearchByUserId(id);
+    return this.mockFindByUserId(id);
   }
 
-  whenSearchByUserIdThenReturn(player: NothingOr<Player>): void {
-    this.mockSearchByUserId.mockImplementationOnce(
-      (id: UserId): NothingOr<Player> => (id.isEqualTo(player?.userId) ? player : null)
-    );
+  whenFindByUserIdThenReturn(player: Player): void {
+    this.mockFindByUserId.mockImplementationOnce((id: UserId): NothingOr<Player> => {
+      const a = id.isEqualTo(player?.userId) ? Player.fromPrimitives(player.toPrimitives()) : null;
+      return a;
+    });
   }
 }

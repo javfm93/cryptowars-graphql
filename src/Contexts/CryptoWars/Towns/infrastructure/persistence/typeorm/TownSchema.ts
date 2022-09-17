@@ -1,21 +1,26 @@
 import { EntitySchema } from 'typeorm';
 import { TownPrimitives } from '../../../domain/Town';
-import { PlayerSchema } from '../../../../Players/Infrastructure/Persistence/typeorm/PlayerSchema';
 
-export const TownSchema = new EntitySchema<TownPrimitives>({
+type TownDbSchema = TownPrimitives & { player: string };
+export const TownSchema = new EntitySchema<TownDbSchema>({
   name: 'Town',
   tableName: 'towns',
   columns: {
     id: {
       type: String,
       primary: true
+    },
+    playerId: {
+      type: String,
+      nullable: true
     }
   },
   relations: {
-    playerId: {
+    player: {
       type: 'many-to-one',
-      target: PlayerSchema,
-      onDelete: 'SET NULL'
+      target: 'Player',
+      onDelete: 'SET NULL',
+      inverseSide: 'towns'
     }
   }
 });
