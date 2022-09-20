@@ -13,6 +13,10 @@ export const TownSchema = new EntitySchema<TownDbSchema>({
     playerId: {
       type: String,
       nullable: true
+    },
+    buildings: {
+      type: 'simple-json',
+      nullable: false
     }
   },
   relations: {

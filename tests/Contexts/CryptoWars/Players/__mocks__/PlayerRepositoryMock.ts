@@ -4,6 +4,7 @@ import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/
 import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
 
 export class PlayerRepositoryMock implements PlayerRepository {
   private mockSave = jest.fn();
@@ -24,6 +25,21 @@ export class PlayerRepositoryMock implements PlayerRepository {
 
   expectLastSavedPlayerToHaveOneTown(): void {
     expect(this.mockSave.mock.lastCall[0].props.towns.getItems()).toHaveLength(1);
+  }
+
+  expectLastSavedPlayerTownToHaveInitialBuildings(): void {
+    const savedTown: Town = this.mockSave.mock.lastCall[0].props.towns.getItems()[0];
+    const initialTown = {
+      headquarter: {
+        level: 0,
+        essenceRequiredToLevelUp: 10
+      },
+      essenceGenerator: {
+        level: 1,
+        essenceRequiredToLevelUp: 30
+      }
+    };
+    expect(savedTown.toPrimitives().buildings).toStrictEqual(initialTown);
   }
 
   async findById(id: PlayerId): Promise<NothingOr<Player>> {

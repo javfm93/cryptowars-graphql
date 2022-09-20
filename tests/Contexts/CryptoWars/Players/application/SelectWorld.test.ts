@@ -44,6 +44,7 @@ describe('[Application] Player Selects World', () => {
     const expectedEvent = PlayerEventsGenerator.playerWorldSelected(player.id, world.id);
     playerRepository.expectLastSavedPlayerToContain(world);
     playerRepository.expectLastSavedPlayerToHaveOneTown();
+    playerRepository.expectLastSavedPlayerTownToHaveInitialBuildings();
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });

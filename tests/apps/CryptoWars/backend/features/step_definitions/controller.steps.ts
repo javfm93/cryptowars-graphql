@@ -3,7 +3,7 @@ import request from 'supertest';
 import { EnvironmentArranger } from '../../../../../Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { CryptoWarsBackendApp } from '../../../../../../src/apps/CryptoWars/backend/CryptoWarsBackendApp';
-import { AfterAll, Before, BeforeAll, Given, Then } from '@cucumber/cucumber';
+import { AfterAll, Before, BeforeAll, Given, Then, When } from '@cucumber/cucumber';
 
 let _request: request.Test;
 export let _response: request.Response;
@@ -32,7 +32,7 @@ AfterAll(async () => {
   await application.stop();
 });
 
-Given('I send a GET request to {string}', (route: string) => {
+When('I send a GET request to {string}', (route: string) => {
   _request = agent.get(route);
 });
 
