@@ -9,14 +9,29 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../App';
+import { usePlayer } from './usePlayer';
 
 type BuildingRow = { name: string; url: string; upgradeCost: number };
 
 export const Town = () => {
+  //todo: study react new ways to handle loadings (react router, suspense...)
+  const { result } = usePlayer();
+  if (!result) return;
+
+  const buildings = result.player.towns[0].buildings;
+
   const buildingRows: Array<BuildingRow> = [
     { name: 'Town hall', url: AppRoutes.town, upgradeCost: 30 },
-    { name: 'HeadQuarter', url: AppRoutes.headquarter, upgradeCost: 60 },
-    { name: 'Essence generator', url: '/', upgradeCost: 100 }
+    {
+      name: 'HeadQuarter',
+      url: AppRoutes.headquarter,
+      upgradeCost: buildings.headquarter.essenceRequiredToLevelUp
+    },
+    {
+      name: 'Essence generator',
+      url: '/',
+      upgradeCost: buildings.essenceGenerator.essenceRequiredToLevelUp
+    }
   ];
 
   return (

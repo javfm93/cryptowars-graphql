@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, Grid, ImageList, ImageListItem, styled } from '@mui/material';
+import { Grid, ImageList, ImageListItem, styled } from '@mui/material';
 
 export const World = () => {
   const worldXSize = 9;
@@ -23,6 +23,7 @@ export const World = () => {
     backgroundSize: 'cover'
   }));
 
+  // todo: test, when a world was already selected, not create another town
   return (
     <Grid container justifyContent={'center'}>
       <ImageList
