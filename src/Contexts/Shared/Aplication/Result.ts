@@ -38,6 +38,10 @@ export const success = <F>(): Either<EmptyResult, F> => new Success(Result.ok())
 export const successAndReturn = <S, F>(l: S): Either<S, F> => new Success(l);
 export const failure = <S, F>(a: F): Either<S, F> => new Failure<S, F>(a);
 
+export const thereIsAFailure = (
+  validations: (Success<unknown, any> | Failure<unknown, any> | undefined)[]
+) => {};
+
 export type EmptyResult = Result<void>;
 
 export class Result<T> {

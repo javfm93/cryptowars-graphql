@@ -10,3 +10,13 @@ Feature: As player, I want to select a world to start a game
     """
     Then the response status code should be 200
     And the response should be empty
+
+  Scenario: If om not logged should return 403
+    Given I send a PUT request to "/players/select-world" with body:
+    """
+    {
+      "worldId": "93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b"
+    }
+    """
+    Then the response status code should be 403
+    And the response should be empty
