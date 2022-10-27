@@ -13,7 +13,7 @@ describe('[infra] UserRepository', () => {
     });
   });
 
-  describe('#search', () => {
+  describe('#find', () => {
     it('should return an existing user by Id', async () => {
       const expectedUser = UserGenerator.random();
       await repository.save(expectedUser);

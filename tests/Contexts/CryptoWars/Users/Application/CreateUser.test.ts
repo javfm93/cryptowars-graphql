@@ -14,6 +14,10 @@ describe('[Application] CreateUser', () => {
   const creator = new CreateUser(repository, eventBus);
   const handler = new CreateUserCommandHandler(creator);
 
+  beforeEach(() => {
+    eventBus.resetMock();
+  });
+
   it('should create a valid user', async () => {
     const command = CreateUserCommandGenerator.random();
 
@@ -34,6 +38,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidEmailError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the email is already taken', async () => {
@@ -45,6 +50,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(UserAlreadyTakenError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password has a whitespace', async () => {
@@ -54,6 +60,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password has invalid length', async () => {
@@ -63,6 +70,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password does not have a symbol', async () => {
@@ -72,6 +80,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password does not have a lowercase', async () => {
@@ -81,6 +90,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password does not have a upperCase', async () => {
@@ -90,6 +100,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
 
     it('the password does not have a number', async () => {
@@ -99,6 +110,7 @@ describe('[Application] CreateUser', () => {
 
       if (result.isSuccess()) fail();
       expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      eventBus.expectEventsNotToBePublished();
     });
   });
 });

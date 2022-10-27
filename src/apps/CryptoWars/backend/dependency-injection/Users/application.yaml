@@ -6,10 +6,11 @@ services:
 
   CryptoWars.Users.CreateUser:
     class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUser
-    arguments: ['@CryptoWars.Users.UserRepository', '@Shared.EventBus']
+    arguments: [ '@CryptoWars.Users.UserRepository', '@Shared.EventBus' ]
 
   CryptoWars.Users.CreateUserCommandHandler:
     class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler
-    arguments: ['@CryptoWars.Users.CreateUser']
+    arguments: [ '@CryptoWars.Users.CreateUser' ]
     tags:
       - { name: 'commandHandler' }
+

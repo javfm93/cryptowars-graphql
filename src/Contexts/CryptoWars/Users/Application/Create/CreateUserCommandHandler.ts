@@ -1,7 +1,7 @@
 import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CreateUserCommand } from './CreateUserCommand';
 import { CreateUser } from './CreateUser';
-import { Command } from '../../../../Shared/Domain/Command';
+import { CommandClass } from '../../../../Shared/Domain/Command';
 import { UserId } from '../../Domain/UserId';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
@@ -19,7 +19,7 @@ export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandError
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
   constructor(private createUser: CreateUser) {}
 
-  subscribedTo(): Command {
+  subscribedTo(): CommandClass {
     return CreateUserCommand;
   }
 

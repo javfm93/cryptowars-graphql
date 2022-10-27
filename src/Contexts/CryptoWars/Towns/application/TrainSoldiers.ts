@@ -20,7 +20,7 @@ export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
   async execute({ townId, soldiers }: TrainSoldiersArgs): Promise<TrainSoldiersResult> {
     const town = await this.townRepository.findById(townId);
     if (!town) return failure(new TownNotFound());
-    const event = new TownSoldierTrainFinished({ id: townId.toString(), soldiers });
+    const event = new TownSoldierTrainFinished({ id: townId.toString(), soldiers: soldiers.value });
     await this.eventBus.publish([event]);
     return success();
   }

@@ -2,21 +2,25 @@ services:
 
   Apps.CryptoWars.Backend.Controllers.StatusGetController:
     class: ../../Controllers/StatusGetController
-    arguments: []
+    arguments: [ ]
 
   Apps.CryptoWars.Backend.Controllers.UsersPutController:
     class: ../../Controllers/Users/UsersPutController
-    arguments: ['@Shared.CommandBus']
+    arguments: [ '@Shared.CommandBus' ]
 
   Apps.CryptoWars.Backend.Controllers.WorldsGetController:
     class: ../../Controllers/Worlds/WorldsGetController
-    arguments: ['@Shared.QueryBus']
+    arguments: [ '@Shared.QueryBus' ]
 
   Apps.CryptoWars.Backend.Controllers.SelectWorldPutController:
     class: ../../Controllers/Players/SelectWorldPutController
-    arguments: ['@Shared.CommandBus']
+    arguments: [ '@Shared.CommandBus' ]
 
   Apps.CryptoWars.Backend.Controllers.PlayerGetController:
     class: ../../Controllers/Players/PlayerGetController
-    arguments: ['@Shared.QueryBus']
+    arguments: [ '@Shared.QueryBus' ]
+
+  Apps.CryptoWars.Backend.Controllers.TrainSoldiersPostController:
+    class: ../../Controllers/Towns/TrainSoldiersPostController
+    arguments: [ '@Shared.CommandBus' ]
 

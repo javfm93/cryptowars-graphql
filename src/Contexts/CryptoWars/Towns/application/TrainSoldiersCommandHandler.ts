@@ -1,41 +1,33 @@
 import { TrainSoldiersCommand } from './TrainSoldiersCommand';
-import { TrainSoldiers, TrainSoldiersResult } from './TrainSoldiers';
-import { Either, EmptyResult } from '../../../Shared/Aplication/Result';
+import { TrainSoldiers } from './TrainSoldiers';
+import { Either, EmptyResult, failure, success } from '../../../Shared/Aplication/Result';
 import { InvalidSoldier } from '../domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from './TownNotFound';
 import { CommandHandler } from '../../../Shared/Domain/CommandHandler';
-import { Command } from '../../../Shared/Domain/Command';
-import { InvalidEmailError } from '../../Users/Domain/Errors/InvalidEmailError';
-import { InvalidPasswordError } from '../../Users/Domain/Errors/InvalidPasswordError';
-import { UserAlreadyTakenError } from '../../Users/Application/Create/UserAlreadyTakenError';
+import { CommandClass } from '../../../Shared/Domain/Command';
+import { TownId } from '../domain/TownId';
+import { TownSoldiers } from '../domain/TownSoldiers';
 
 export type TrainSoldiersCommandErrors = InvalidSoldier | InvalidNumberOfSoldiers | TownNotFound;
-export type TrainSoldiersCommandResult = Either<EmptyResult, TrainSoldiersResult>;
-export type CreateUserCommandErrors =
-  | InvalidEmailError
-  | InvalidPasswordError
-  | UserAlreadyTakenError;
-export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
+export type TrainSoldiersCommandResult = Either<EmptyResult, TrainSoldiersCommandErrors>;
 
 export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiersCommand> {
-  constructor(private createUser: TrainSoldiers) {}
+  constructor(private trainSoldiers: TrainSoldiers) {}
 
-  subscribedTo(): Command {
+  subscribedTo(): CommandClass {
     return TrainSoldiersCommand;
   }
 
   async handle(command: TrainSoldiersCommand): Promise<TrainSoldiersCommandResult> {
-    const id = UserId.create(command.id);
-    const emailCreation = UserEmail.create(command.email);
-    const passwordCreation = UserPassword.create(command.password);
+    console.log(command, '--------');
+    const townId = TownId.create(command.townId);
+    const soldiersCreation = TownSoldiers.create(command.soldiers);
 
-    if (emailCreation.isFailure()) return failure(emailCreation.value);
-    if (passwordCreation.isFailure()) return failure(passwordCreation.value);
+    if (soldiersCreation.isFailure()) return failure(soldiersCreation.value);
 
-    const email = emailCreation.value;
-    const password = passwordCreation.value;
-    const userCreation = await this.createUser.execute({ id, email, password });
+    const soldiers = soldiersCreation.value;
+    const userCreation = await this.trainSoldiers.execute({ townId, soldiers });
 
     return userCreation.isSuccess() ? success() : failure(userCreation.value);
   }

@@ -1,15 +1,15 @@
 import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
-import { Soldiers } from '../application/TrainSoldiers';
+import { TownSoldiersPrimitives } from './TownSoldiers';
 
 type TownSoldierTrainFinishedBody = {
   readonly eventName: string;
   readonly id: string;
-  readonly soldier: Soldiers;
+  readonly soldier: TownSoldiersPrimitives;
 };
 
 export class TownSoldierTrainFinished extends DomainEvent {
   static readonly EVENT_NAME = 'cryptoWars.1.event.town.soldierTrainFinished';
-  readonly soldier: Soldiers;
+  readonly soldier: TownSoldiersPrimitives;
 
   constructor({
     id,
@@ -18,7 +18,7 @@ export class TownSoldierTrainFinished extends DomainEvent {
     occurredOn
   }: {
     id: string;
-    soldiers: Soldiers;
+    soldiers: TownSoldiersPrimitives;
     eventId?: string;
     occurredOn?: Date;
   }) {

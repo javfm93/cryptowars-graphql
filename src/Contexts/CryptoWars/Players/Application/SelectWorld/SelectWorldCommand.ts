@@ -6,11 +6,13 @@ type Params = {
 };
 
 export class SelectWorldCommand extends Command {
+  static COMMAND_NAME = 'SelectWorld';
+
   userId: string;
   worldId: string;
 
   constructor({ userId, worldId }: Params) {
-    super();
+    super(SelectWorldCommand.COMMAND_NAME);
     this.userId = userId;
     this.worldId = worldId;
   }

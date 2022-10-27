@@ -1,6 +1,6 @@
 import { TownRepository } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownRepository';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
-import { Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
+import { NothingOr, Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
 
 export class TownRepositoryMock implements TownRepository {
@@ -17,5 +17,11 @@ export class TownRepositoryMock implements TownRepository {
 
   findById(id: TownId): Promise<Nullable<Town>> {
     return this.mockFindById(id);
+  }
+
+  whenFindByIdThenReturn(town: NothingOr<Town>): void {
+    this.mockFindById.mockImplementationOnce(
+      (id: TownId): NothingOr<Town> => (id.isEqualTo(town?.id) ? town : null)
+    );
   }
 }

@@ -29,6 +29,15 @@ export default class EventBusMock implements EventBus {
     );
   }
 
+  expectEventsNotToBePublished() {
+    const publishSpyCalls = this.publishSpy.mock.calls;
+    expect(publishSpyCalls.length).toBe(0);
+  }
+
+  resetMock() {
+    this.publishSpy.mockReset();
+  }
+
   private getDataFromDomainEvent(event: DomainEvent) {
     const { eventId, occurredOn, ...attributes } = event;
 
