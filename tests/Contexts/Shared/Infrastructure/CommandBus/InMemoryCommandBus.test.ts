@@ -1,4 +1,4 @@
-import { Command } from '../../../../../src/Contexts/Shared/Domain/Command';
+import { Command, CommandClass } from '../../../../../src/Contexts/Shared/Domain/Command';
 import { CommandHandler } from '../../../../../src/Contexts/Shared/Domain/CommandHandler';
 import { CommandNotRegisteredError } from '../../../../../src/Contexts/Shared/Domain/CommandNotRegisteredError';
 import { CommandHandlersInformation } from '../../../../../src/Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
@@ -8,14 +8,22 @@ import { DomainError } from '../../../../../src/Contexts/Shared/Domain/Errors/Do
 
 class UnhandledCommand extends Command {
   static COMMAND_NAME = 'unhandled.command';
+
+  constructor() {
+    super(UnhandledCommand.COMMAND_NAME);
+  }
 }
 
 class HandledCommand extends Command {
   static COMMAND_NAME = 'handled.command';
+
+  constructor() {
+    super(HandledCommand.COMMAND_NAME);
+  }
 }
 
 class MyCommandHandler implements CommandHandler<HandledCommand> {
-  subscribedTo(): HandledCommand {
+  subscribedTo(): CommandClass {
     return HandledCommand;
   }
 

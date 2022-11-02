@@ -36,6 +36,10 @@ When('I send a GET request to {string}', (route: string) => {
   _request = agent.get(route);
 });
 
+Given('I send a PUT request to {string}:', (route: string) => {
+  _request = agent.put(route).send();
+});
+
 Given('I send a PUT request to {string} with body:', (route: string, body: string) => {
   _request = agent.put(route).send(JSON.parse(body));
 });

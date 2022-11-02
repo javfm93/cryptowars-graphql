@@ -11,20 +11,21 @@ import {
 import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/application/TownNotFound';
+import { Forbidden } from '../../../../../Contexts/CryptoWars/Shared/Domain/Forbidden';
 
 type RequestParams = {
-  townId: string;
+  id: string;
 };
 
-// todo: how to handle access to a town that you dont access? Return town not found or 403 forbidden?
 export class TrainSoldiersPostController implements Controller {
   constructor(private commandBus: CommandBus) {}
 
   async run(req: Request<RequestParams, void, TrainSoldiersPostRequest>, res: Response<void>) {
-    const { townId } = req.params;
+    const { id } = req.params;
     const { soldiers } = req.body;
+    const userId = req.user!.id;
 
-    const trainSoldiersCommand = new TrainSoldiersCommand({ townId, soldiers });
+    const trainSoldiersCommand = new TrainSoldiersCommand({ userId, townId: id, soldiers });
     const result: TrainSoldiersCommandResult = await this.commandBus.dispatch(trainSoldiersCommand);
 
     result.isSuccess() ? res.status(httpStatus.OK).send() : this.handleError(res, result.value);
@@ -37,8 +38,8 @@ export class TrainSoldiersPostController implements Controller {
     if (error.isEqualTo(TownNotFound)) {
       res.status(httpStatus.NOT_FOUND).send(error.message);
     }
-    // if (error.isEqualTo(ForbiddenResource)) {
-    //   res.status(httpStatus.FORBIDDEN).send();
-    // }
+    if (error.isEqualTo(Forbidden)) {
+      res.status(httpStatus.FORBIDDEN).send();
+    }
   }
 }

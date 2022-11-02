@@ -2,7 +2,7 @@ import { DomainError } from '../../../Shared/Domain/Errors/DomainError';
 
 export class InvalidSoldier extends DomainError {
   constructor(invalidSoldier: string) {
-    super(`Invalid solid to train: ${invalidSoldier}`);
+    super(`Invalid soldier to train: ${invalidSoldier}`);
   }
 
   public errorName(): string {

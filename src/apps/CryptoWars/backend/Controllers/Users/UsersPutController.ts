@@ -12,13 +12,14 @@ import {
 import { InvalidPasswordError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
 import { UserAlreadyTakenError } from '../../../../../Contexts/CryptoWars/Users/Application/Create/UserAlreadyTakenError';
 
-type PutUserRequestParams = {
+type QueryParams = {
   id: string;
 };
 
 export class UsersPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
-  async run(req: Request<PutUserRequestParams, void, CreateUserRequest>, res: Response<void>) {
+
+  async run(req: Request<QueryParams, void, CreateUserRequest>, res: Response<void>) {
     const id: string = req.params.id;
     const email: string = req.body.email;
     const password: string = req.body.password;

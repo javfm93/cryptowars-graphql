@@ -3,34 +3,34 @@ import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
 type DomainEventBody = {
   readonly eventName: string;
   readonly id: string;
-  readonly worldId: string;
+  readonly playerId: string;
 };
 
-export class PlayerWorldSelectedDomainEvent extends DomainEvent {
-  static readonly EVENT_NAME = 'cryptoWars.1.event.player.worldSelected';
-  readonly worldId: string;
+export class WorldPlayerJoinedDomainEvent extends DomainEvent {
+  static readonly EVENT_NAME = 'cryptoWars.1.event.world.playerJoined';
+  readonly playerId: string;
 
   constructor({
     id,
     eventId,
     occurredOn,
-    worldId
+    playerId
   }: {
     id: string;
     eventId?: string;
     occurredOn?: Date;
-    worldId: string;
+    playerId: string;
   }) {
-    super(PlayerWorldSelectedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
-    this.worldId = worldId;
+    super(WorldPlayerJoinedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
+    this.playerId = playerId;
   }
 
   toPrimitive(): DomainEventBody {
     const { aggregateId } = this;
     return {
-      eventName: PlayerWorldSelectedDomainEvent.EVENT_NAME,
+      eventName: WorldPlayerJoinedDomainEvent.EVENT_NAME,
       id: aggregateId,
-      worldId: this.worldId
+      playerId: this.playerId
     };
   }
 
@@ -40,11 +40,11 @@ export class PlayerWorldSelectedDomainEvent extends DomainEvent {
     eventId: string,
     occurredOn: Date
   ): DomainEvent {
-    return new PlayerWorldSelectedDomainEvent({
+    return new WorldPlayerJoinedDomainEvent({
       id: aggregateId,
       eventId,
       occurredOn,
-      worldId: body.worldId
+      playerId: body.playerId
     });
   }
 }

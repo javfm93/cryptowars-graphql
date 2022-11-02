@@ -29,10 +29,10 @@ Feature: As player, I want to train Soldiers for my town
     Then the response status code should be 403
     And the response should be empty
 
-  Scenario: If the town dont exist, should return notFound
+  Scenario: If the town dont exist, should return not found
     Given I am sign in
     Given I selected a world
-    When I send a POST request to "/towns/09e14836-d626-4bd1-978e-fae274719306/train-soldier" with body:
+    When I send a POST request to "/towns/09e14836-d626-4bd1-978e-fae274719306/train-soldiers" with body:
     """
     {
       "soldiers": {
@@ -46,7 +46,7 @@ Feature: As player, I want to train Soldiers for my town
   Scenario: If the request is malformed, should return argument exception
     Given I am sign in
     Given I selected a world
-    When I send a POST request to "/towns/09e14836-d626-4bd1-978e-fae274719306/train-soldier" with body:
+    When I send a POST request to "/towns/09e14836-d626-4bd1-978e-fae274719306/train-soldiers" with body:
     """
     {}
     """

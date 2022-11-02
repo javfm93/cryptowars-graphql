@@ -2,9 +2,8 @@ import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { PlayerCreatedDomainEvent } from './PlayerCreatedDomainEvent';
 import { UserId } from '../../Users/Domain/UserId';
 import { PlayerId } from './PlayerId';
-import { World, WorldPrimitives } from '../../Worlds/Domain/World';
+import { WorldPrimitives } from '../../Worlds/Domain/World';
 import { Worlds } from '../../Worlds/Domain/Worlds';
-import { PlayerWorldSelectedDomainEvent } from './PlayerWorldSelectedDomainEvent';
 import { Town, TownPrimitives } from '../../Towns/domain/Town';
 import { Towns } from '../../Towns/domain/Towns';
 
@@ -36,22 +35,16 @@ export class Player extends AggregateRoot<PlayerProps> {
     });
   }
 
-  public addWorld(world: World): void {
-    this.props.worlds.add(world);
-    const eventBody = { id: this.id.toString(), worldId: world.id.toString() };
-    this.record(new PlayerWorldSelectedDomainEvent(eventBody));
-  }
-
-  public addTown(town: Town): void {
-    this.props.towns.add(town);
-  }
-
   get userId(): UserId {
     return this.props.userId;
   }
 
   get worlds(): Worlds {
     return this.props.worlds;
+  }
+
+  public isOwnerOf(town: Town): boolean {
+    return this.props.towns.exists(town);
   }
 
   public static create(id: PlayerId, props: PlayerCreationProps): Player {

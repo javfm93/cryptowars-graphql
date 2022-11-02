@@ -21,7 +21,8 @@ export class TypeOrmClientFactory {
         entities: [__dirname + '/../../../../**/**/infrastructure/persistence/typeorm/*{.js,.ts}'],
         synchronize: true,
         logging: false,
-        migrations: [config.migrations]
+        migrations: [config.migrations],
+        migrationsRun: true
       });
       return dataSource;
     } catch (error) {

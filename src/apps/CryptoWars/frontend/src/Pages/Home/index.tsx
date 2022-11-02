@@ -7,7 +7,7 @@ import { useSelectWorld } from './useSelectWorld';
 export const Home = () => {
   const { t } = useTranslation();
   const worlds = useWorlds();
-  const { selectWorld } = useSelectWorld();
+  const { joinWorld } = useSelectWorld();
   return (
     <Grid container justifyContent={'center'} textAlign={'center'}>
       <Grid item xs={12} justifyContent={'center'}>
@@ -21,7 +21,7 @@ export const Home = () => {
           <p>An error happened</p>
         ) : (
           worlds.result?.worlds.map(world => (
-            <Button onClick={selectWorld(world)} key={world.id}>
+            <Button onClick={joinWorld(world)} key={world.id}>
               {world.name}
             </Button>
           ))

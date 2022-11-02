@@ -5,14 +5,14 @@ type Params = {
   worldId: string;
 };
 
-export class SelectWorldCommand extends Command {
-  static COMMAND_NAME = 'SelectWorld';
+export class JoinWorldCommand extends Command {
+  static COMMAND_NAME = 'JoinWorld';
 
   userId: string;
   worldId: string;
 
   constructor({ userId, worldId }: Params) {
-    super(SelectWorldCommand.COMMAND_NAME);
+    super(JoinWorldCommand.COMMAND_NAME);
     this.userId = userId;
     this.worldId = worldId;
   }

@@ -8,6 +8,6 @@ export class WorldNameGenerator {
   }
 
   static random(): WorldName {
-    return this.create(faker.random.word());
+    return this.create(faker.random.words(3));
   }
 }

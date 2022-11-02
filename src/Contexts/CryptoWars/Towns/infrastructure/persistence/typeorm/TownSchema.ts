@@ -1,7 +1,7 @@
 import { EntitySchema } from 'typeorm';
 import { TownPrimitives } from '../../../domain/Town';
 
-type TownDbSchema = TownPrimitives & { player: string };
+type TownDbSchema = TownPrimitives & { player: string; world: string };
 export const TownSchema = new EntitySchema<TownDbSchema>({
   name: 'Town',
   tableName: 'towns',
@@ -11,6 +11,10 @@ export const TownSchema = new EntitySchema<TownDbSchema>({
       primary: true
     },
     playerId: {
+      type: String,
+      nullable: true
+    },
+    worldId: {
       type: String,
       nullable: true
     },
@@ -25,6 +29,12 @@ export const TownSchema = new EntitySchema<TownDbSchema>({
       target: 'Player',
       onDelete: 'SET NULL',
       inverseSide: 'towns'
+    },
+    world: {
+      type: 'many-to-one',
+      target: 'World',
+      onDelete: 'SET NULL',
+      inverseSide: 'worlds'
     }
   }
 });

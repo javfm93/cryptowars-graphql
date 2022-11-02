@@ -13,5 +13,19 @@ export const WorldSchema = new EntitySchema<WorldPrimitives>({
       type: String,
       unique: true
     }
+  },
+  relations: {
+    players: {
+      type: 'many-to-many',
+      target: 'Player',
+      cascade: ['insert', 'update'],
+      joinTable: true
+    },
+    towns: {
+      type: 'many-to-many',
+      target: 'Town',
+      cascade: ['insert', 'update'],
+      joinTable: true
+    }
   }
 });

@@ -9,6 +9,7 @@ export interface TownSoldiersPrimitives {
 
 export class TownSoldiers extends ValueObject<TownSoldiers> {
   static availableSoldiers = ['basic'];
+
   private constructor(readonly value: TownSoldiersPrimitives) {
     super();
   }
@@ -16,6 +17,7 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
   public static create(
     soldiers: TownSoldiersPrimitives
   ): Either<TownSoldiers, InvalidSoldier | InvalidNumberOfSoldiers> {
+    if (!soldiers) return failure(new InvalidNumberOfSoldiers());
     const soldiersToCreate = Object.entries(soldiers);
     for (const soldierToCreate of soldiersToCreate) {
       const [soldier, numberOfSoldiers] = soldierToCreate;

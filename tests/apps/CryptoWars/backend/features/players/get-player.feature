@@ -1,5 +1,5 @@
-
 Feature: As player, I want to see all my details
+
   Scenario: A player his own details
     Given I am sign in
     Given I selected a world
@@ -14,7 +14,9 @@ Feature: As player, I want to see all my details
             "worlds": [
               {
                 "id": ":worldId",
-                "name": "Genesis World"
+                "name": "Genesis World",
+                "players": [],
+                "towns": []
               }
             ],
             "towns": [

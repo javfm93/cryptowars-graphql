@@ -9,3 +9,7 @@ export class TypeOrmConfigFactory {
     };
   }
 }
+
+//todo: remove data migrations
+//todo: add endpoint to create worlds, this endpoint will be a command line
+//todo: clean up the database on each run

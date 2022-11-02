@@ -6,7 +6,7 @@ services:
 
   CryptoWars.Towns.TrainSoldiers:
     class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers
-    arguments: [ '@CryptoWars.Towns.TownRepository', '@Shared.EventBus' ]
+    arguments: [ '@CryptoWars.Towns.TownRepository', '@Shared.QueryBus', '@Shared.EventBus' ]
 
   CryptoWars.Towns.TrainSoldiersCommandHandler:
     class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiersCommandHandler

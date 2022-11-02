@@ -4,11 +4,13 @@ import { UserIdGenerator } from '../../Users/domain/UserIdGenerator';
 import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
 import { PlayerIdGenerator } from './PlayerIdGenerator';
 import { UserCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserCreatedDomainEvent';
-import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
+import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
+import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
+import { Players } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
 import { WorldGenerator } from '../../Worlds/Domain/WorldGenerator';
 import { TownGenerator } from '../../Towns/domain/TownGenerator';
-import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
 
 export class PlayerGenerator {
   static create(id: PlayerId, userId: UserId, worlds?: Worlds, towns?: Towns): Player {
@@ -25,24 +27,30 @@ export class PlayerGenerator {
   }
 
   static random(): Player {
+    return this.create(PlayerIdGenerator.random(), UserIdGenerator.random());
+  }
+
+  static withWorldsAndTowns(): Player {
     const playerId = PlayerIdGenerator.random();
-    return this.create(
-      playerId,
-      UserIdGenerator.random(),
-      WorldGenerator.multipleRandom(),
-      TownGenerator.multipleRandomFor(playerId)
-    );
+    const worlds = Worlds.create([WorldGenerator.empty()]);
+    const towns = TownGenerator.multipleRandomFor(playerId, worlds.getItems()[0].id);
+    return this.create(playerId, UserIdGenerator.random(), worlds, towns);
   }
 
-  static withoutTowns(): Player {
-    return this.create(
-      PlayerIdGenerator.random(),
-      UserIdGenerator.random(),
-      WorldGenerator.multipleRandom()
+  static multipleRandom(): Players {
+    const players = Array.from({ length: NumberGenerator.randomBetween1and10() }, () =>
+      this.random()
     );
+    return Players.create(players);
   }
 
-  static fromUser(user: User): Player {
-    return this.create(PlayerIdGenerator.random(), user.id);
+  static fromUser(userId: UserId): Player {
+    return this.create(PlayerIdGenerator.random(), userId);
+  }
+
+  static fromUserWithTown(userId: UserId, town: Town): Player {
+    const worlds = WorldGenerator.multipleRandom();
+    const towns = Towns.create([town]);
+    return this.create(PlayerIdGenerator.random(), userId, worlds, towns);
   }
 }

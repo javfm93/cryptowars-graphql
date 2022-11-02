@@ -4,11 +4,12 @@ export class TownId extends Uuid {
   private constructor(value: string) {
     super(value);
   }
+
   static create(value: string): Uuid {
     return new TownId(value);
   }
 
-  static createRandom(): Uuid {
+  static random(): Uuid {
     return new TownId(Uuid.random().toString());
   }
 }

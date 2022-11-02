@@ -3,28 +3,24 @@ import container from '../../../../../../src/apps/CryptoWars/backend/dependency-
 import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';
 import { WorldId } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 import { WorldName } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldName';
-import { Worlds } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 
 const repository: WorldRepository = container.get('CryptoWars.Worlds.WorldRepository');
 
 describe('[infra] WorldRepository', () => {
   describe('#save', () => {
     it('should save a world', async () => {
-      const word = WorldGenerator.create(
-        WorldId.create('93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b'),
-        new WorldName('Genesis World')
-      );
+      const world = WorldGenerator.create(WorldId.create('93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b'), {
+        name: new WorldName('Genesis World')
+      });
 
-      await repository.save(word);
+      await repository.save(world);
     });
   });
 
   describe('#find', () => {
     it('should find an existent world', async () => {
-      const expectedWorld = WorldGenerator.create(
-        WorldId.create('93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b'),
-        new WorldName('Genesis World')
-      );
+      const expectedWorld = WorldGenerator.empty();
+
       await repository.save(expectedWorld);
 
       const world = await repository.findById(expectedWorld.id);
@@ -33,17 +29,12 @@ describe('[infra] WorldRepository', () => {
     });
 
     it('should return all existent worlds', async () => {
-      const expectedWorlds = Worlds.create([
-        WorldGenerator.create(
-          WorldId.create('93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b'),
-          new WorldName('Genesis World')
-        )
-      ]);
-      await repository.save(expectedWorlds.getItems()[0]);
+      const expectedWorld = WorldGenerator.empty();
+      await repository.save(expectedWorld);
 
       const worlds = await repository.findAll();
 
-      expect(expectedWorlds).toEqual(worlds);
+      expect(worlds.exists(expectedWorld)).toBeTruthy();
     });
   });
 });

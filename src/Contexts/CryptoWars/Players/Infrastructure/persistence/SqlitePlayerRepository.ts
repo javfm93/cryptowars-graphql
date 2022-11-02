@@ -19,7 +19,7 @@ export class SqlitePlayerRepository
     const repository = await this.repository();
     const player = await repository.findOne({
       where: { id: id.toString() },
-      relations: { towns: true }
+      relations: { towns: true, worlds: true }
     });
     return player ? Player.fromPrimitives(player) : null;
   }
@@ -28,7 +28,7 @@ export class SqlitePlayerRepository
     const repository = await this.repository();
     const player = await repository.findOne({
       where: { userId: userId.toString() },
-      relations: { towns: true }
+      relations: { towns: true, worlds: true }
     });
     return player ? Player.fromPrimitives(player) : null;
   }

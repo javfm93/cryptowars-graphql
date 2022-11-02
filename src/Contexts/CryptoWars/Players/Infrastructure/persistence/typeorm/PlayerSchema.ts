@@ -12,9 +12,6 @@ export const PlayerSchema: EntitySchema<PlayerPrimitives> = new EntitySchema<Pla
     userId: {
       type: String,
       unique: true
-    },
-    worlds: {
-      type: 'simple-json'
     }
   },
   relations: {
@@ -24,6 +21,12 @@ export const PlayerSchema: EntitySchema<PlayerPrimitives> = new EntitySchema<Pla
       onDelete: 'SET NULL',
       cascade: ['insert', 'update'],
       inverseSide: 'player'
+    },
+    worlds: {
+      type: 'many-to-many',
+      target: 'World',
+      cascade: ['insert', 'update'],
+      joinTable: { name: 'worlds_players_players' }
     }
   }
 });

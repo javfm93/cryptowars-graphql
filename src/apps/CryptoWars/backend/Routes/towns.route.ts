@@ -8,7 +8,7 @@ export const register = (router: Router) => {
     'Apps.CryptoWars.Backend.Controllers.TrainSoldiersPostController'
   );
   router.post(
-    '/towns/:townId/train-soldiers',
+    '/towns/:id/train-soldiers',
     requireAuth,
     trainSoldiersPostController.run.bind(trainSoldiersPostController)
   );

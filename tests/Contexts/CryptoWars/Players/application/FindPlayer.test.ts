@@ -10,7 +10,7 @@ describe('[Application] Find Player', () => {
   const handler = new FindPlayerQueryHandler(creator);
 
   it('should return the player', async () => {
-    const expectedPlayer = PlayerGenerator.random();
+    const expectedPlayer = PlayerGenerator.withWorldsAndTowns();
     const query = FindPlayerQueryGenerator.create(expectedPlayer.userId);
     repository.whenFindByUserIdThenReturn(expectedPlayer);
 

@@ -1,5 +1,5 @@
-
 Feature: As player, I want to know what are the worlds available to play
+
   Scenario:
     Given I am sign in
     Given I send a GET request to "/worlds"
@@ -9,7 +9,9 @@ Feature: As player, I want to know what are the worlds available to play
     {
       "worlds": [{
         "id": "93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b",
-        "name": "Genesis World"
+        "name": "Genesis World",
+        "players": [],
+        "towns": []
       }]
     }
     """

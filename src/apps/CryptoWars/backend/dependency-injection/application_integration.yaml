@@ -1,0 +1,11 @@
+imports:
+  - { resource: ./application.yaml }
+
+services:
+  CryptoWars.EnvironmentArranger:
+    class: ../../../../../tests/Contexts/Shared/infrastructure/Persistence/TypeOrmEnvironmentArranger
+    arguments: ['@Shared.ConnectionManager']
+
+  Shared.EventBus:
+    class: ../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemorySyncEventBus
+    arguments: []

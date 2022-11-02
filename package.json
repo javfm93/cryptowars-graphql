@@ -8,10 +8,10 @@
     "npm": ">=6.7.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/apps/CryptoWars/backend/start.ts",
+    "dev": "NODE_ENV=development ts-node-dev --ignore-watch node_modules ./src/apps/CryptoWars/backend/start.ts",
     "test": "npm run test:unit && npm run test:features",
     "test:unit": "NODE_ENV=test jest",
-    "test:features": "NODE_ENV=test cucumber-js -p CryptoWarsBackend",
+    "test:features": "NODE_ENV=integration cucumber-js -p CryptoWarsBackend",
     "lint": "tslint src/**/*.ts{,x}",
     "start": "NODE_ENV=production node dist/src/apps/CryptoWars/backend/start",
     "build": "npm run build:clean && npm run build:tsc && npm run build:di",
@@ -23,7 +23,8 @@
     "cypress:ci:start": "NODE_ENV=end2end ts-node tests/utils/cypress/startApps",
     "migrations:create-npm": "typeorm migration:create ./src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Migrations/$npm_config_name",
     "migrations:create": "npm run migrations:create-npm",
-    "migrations:migrate": " npx typeorm-ts-node-esm migration:run -d src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/MigrationClient.ts "
+    "migrations:migrate": "npx typeorm-ts-node-esm migration:run -d src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/MigrationClient.ts",
+    "migrations:generate": "npx typeorm-ts-node-esm migration:generate InitialTables -d src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/MigrationClient.ts "
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -37,6 +38,7 @@
     "cors": "^2.8.5",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-openapi-validator": "^4.13.8",
     "express-promise-router": "^4.0.1",
     "express-session": "^1.17.3",
     "express-validator": "^6.10.0",

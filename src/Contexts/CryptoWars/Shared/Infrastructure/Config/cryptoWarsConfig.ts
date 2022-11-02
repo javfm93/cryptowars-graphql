@@ -1,9 +1,9 @@
 import convict from 'convict';
 
-const moocConfig = convict({
+const cryptowarsConfig = convict({
   env: {
     doc: 'The application environment.',
-    format: ['production', 'development', 'staging', 'test'],
+    format: ['production', 'development', 'integration', 'test'],
     default: 'default',
     env: 'NODE_ENV'
   },
@@ -23,9 +23,6 @@ const moocConfig = convict({
   }
 });
 
-// moocConfig.loadFile([
-//   __dirname + '/default.json',
-//   __dirname + '/' + moocConfig.get('env') + '.json'
-// ]);
+cryptowarsConfig.loadFile([__dirname + '/' + cryptowarsConfig.get('env') + '.json']);
 
-export default moocConfig;
+export default cryptowarsConfig;

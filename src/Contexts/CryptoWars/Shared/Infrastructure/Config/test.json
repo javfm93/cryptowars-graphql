@@ -1,0 +1,8 @@
+{
+  "mongo": {
+    "url": "mongodb://localhost:27017/mooc-backend-test"
+  },
+  "typeorm": {
+    "database": "crypto-wars-test.db"
+  }
+}

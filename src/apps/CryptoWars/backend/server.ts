@@ -13,6 +13,8 @@ import cors from 'cors';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import * as OpenApiValidator from 'express-openapi-validator';
+import path from 'path';
 
 const SQLiteStore = require('connect-sqlite3')(session);
 
@@ -48,7 +50,16 @@ export class Server {
         store: new SQLiteStore()
       })
     );
+    const spec = path.join(__dirname, 'openapi.yaml');
+    this.express.use('/spec', express.static(spec));
     this.express.use(passport.authenticate('session'));
+    this.express.use(
+      OpenApiValidator.middleware({
+        apiSpec: spec,
+        validateRequests: true,
+        validateResponses: false
+      })
+    );
     const router = Router();
     router.use(errorHandler());
     this.express.use(router);

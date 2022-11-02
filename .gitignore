@@ -29,5 +29,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-crypto-wars-dev.db
+crypto-wars-*.db
 sessions

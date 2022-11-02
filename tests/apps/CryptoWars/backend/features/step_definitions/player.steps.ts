@@ -24,7 +24,7 @@ Given('I am sign in', async () => {
 });
 
 Given('I selected a world', async () => {
-  await agent.put('/players/select-world').send({ worldId });
+  await agent.put(`/worlds/${worldId}/join`).send();
 });
 
 Given('I got my towns information', async () => {
@@ -33,14 +33,14 @@ Given('I got my towns information', async () => {
 });
 
 When('I send a POST request to train-soldiers endpoint with my town and body:', (body: string) => {
-  const finalRoute = '/towns/:townId/train-soldiers'.replace(/:townId/gi, player.towns[0].id);
+  const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, player.towns[0].id);
   playerRequest = agent.post(finalRoute).send(JSON.parse(body));
 });
 
 When(
   'I send a POST request to train-soldiers endpoint with not my town and body:',
   (body: string) => {
-    const finalRoute = '/towns/:townId/train-soldiers'.replace(/:townId/gi, Uuid.random().toString);
+    const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, Uuid.random().toString());
     playerRequest = agent.post(finalRoute).send(JSON.parse(body));
   }
 );

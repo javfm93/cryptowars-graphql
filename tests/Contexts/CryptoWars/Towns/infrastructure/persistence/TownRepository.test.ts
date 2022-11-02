@@ -1,24 +1,29 @@
 import { TownGenerator } from '../../domain/TownGenerator';
 import { TownRepository } from '../../../../../../src/Contexts/CryptoWars/Towns/domain/TownRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import { PlayerGenerator } from '../../../Players/domain/PlayerGenerator';
 import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
+import { WorldGenerator } from '../../../Worlds/Domain/WorldGenerator';
+import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';
+import { World } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
+import { Players } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
 
 const repository: TownRepository = container.get('CryptoWars.Towns.TownRepository');
-const playerRepository: PlayerRepository = container.get('CryptoWars.Players.PlayerRepository');
+const worldRepository: WorldRepository = container.get('CryptoWars.Worlds.WorldRepository');
 
 describe('[infra] TownRepository', () => {
   let player: Player;
+  let world: World;
 
   beforeEach(async () => {
-    player = PlayerGenerator.withoutTowns();
-    await playerRepository.save(player);
+    player = PlayerGenerator.random();
+    world = WorldGenerator.withPlayers(Players.create([player]));
+    await worldRepository.save(world);
   });
 
   describe('#save', () => {
     it('should save a town', async () => {
-      const town = TownGenerator.randomFor(player.id);
+      const town = TownGenerator.randomFor(player.id, world.id);
 
       await repository.save(town);
     });
@@ -26,7 +31,7 @@ describe('[infra] TownRepository', () => {
 
   describe('#search', () => {
     it('should find an existing town by townId', async () => {
-      const expectedTown = TownGenerator.randomFor(player.id);
+      const expectedTown = TownGenerator.randomFor(player.id, world.id);
       await repository.save(expectedTown);
 
       const town = await repository.findById(expectedTown.id);

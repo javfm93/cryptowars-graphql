@@ -3,9 +3,12 @@ import { WorldRepository } from '../../../../../src/Contexts/CryptoWars/Worlds/D
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 import { WorldId } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
 
 export class WorldRepositoryMock implements WorldRepository {
   private mockFindAll = jest.fn();
+  private mockSave = jest.fn();
   private mockFindById = jest.fn();
 
   async findAll(): Promise<Worlds> {
@@ -16,8 +19,35 @@ export class WorldRepositoryMock implements WorldRepository {
     this.mockFindAll.mockReturnValueOnce(value);
   }
 
-  save(world: World): Promise<void> {
-    throw Error('not implemented');
+  async save(world: World): Promise<void> {
+    this.mockSave(world);
+  }
+
+  expectLastSavedWorldToBe(expectedWorld: World): void {
+    expect(this.mockSave).toBeCalledWith(expectedWorld);
+  }
+
+  expectLastSavedWorldToContain(player: Player): void {
+    expect(this.mockSave.mock.lastCall[0].props.players.getItems()).toContain(player);
+  }
+
+  expectLastSavedWorldToHaveOneTown(): void {
+    expect(this.mockSave.mock.lastCall[0].props.towns.getItems()).toHaveLength(1);
+  }
+
+  expectLastSavedWorldTownToHaveInitialBuildings(): void {
+    const savedTown: Town = this.mockSave.mock.lastCall[0].props.towns.getItems()[0];
+    const initialTown = {
+      headquarter: {
+        level: 0,
+        essenceRequiredToLevelUp: 10
+      },
+      essenceGenerator: {
+        level: 1,
+        essenceRequiredToLevelUp: 30
+      }
+    };
+    expect(savedTown.toPrimitives().buildings).toStrictEqual(initialTown);
   }
 
   findById(worldId: WorldId): Promise<NothingOr<World>> {
