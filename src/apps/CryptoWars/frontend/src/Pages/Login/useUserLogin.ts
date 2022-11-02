@@ -1,9 +1,8 @@
-import { useMutation } from 'react-query';
+import {useMutation} from 'react-query';
 import axios from 'axios';
-import { v4 } from 'uuid';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppRoutes } from '../../App';
+import {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {AppRoutes} from '../../App';
 
 // todo: improve execute and error definition and move to a shared place
 // todo: frontend validation
@@ -22,7 +21,7 @@ export const useUserLogin: CommandTrigger = () => {
   );
   useEffect(() => {
     if (loginMutation.isSuccess) {
-      navigateTo(AppRoutes.home);
+      navigateTo(AppRoutes.selectWorld);
     }
   }, [loginMutation.isSuccess]);
 

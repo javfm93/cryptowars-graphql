@@ -1,10 +1,10 @@
-import { useMutation } from 'react-query';
+import {useMutation} from 'react-query';
 import axios from 'axios';
-import { v4 } from 'uuid';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppRoutes } from '../../App';
-import { CreateUserRequest } from '../../../../backend/Controllers/Users/CreateUserRequest';
+import {v4} from 'uuid';
+import {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {AppRoutes} from '../../App';
+import {CreateUserRequest} from '../../../../backend/Controllers/Users/CreateUserRequest';
 
 // todo: improve execute and error definition and move to a shared place
 // todo: frontend validation
@@ -23,7 +23,7 @@ export const useUserRegistration: CommandTrigger = () => {
   );
   useEffect(() => {
     if (registerMutation.isSuccess) {
-      navigateTo(AppRoutes.home);
+      navigateTo(AppRoutes.selectWorld);
     }
   }, [registerMutation.isSuccess]);
 

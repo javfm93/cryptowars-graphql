@@ -9,15 +9,17 @@ import { World } from './Pages/World';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Home } from './Pages/Home';
 import { Login } from './Pages/Login';
+import { SelectWorld } from './Pages/SelectWorld';
 
-export enum AppRoutes {
-  home = '/',
-  town = '/town',
-  registration = '/registration',
-  login = '/login',
-  headquarter = '/headquarter',
-  world = '/world'
-}
+export const AppRoutes = {
+  selectWorld: '/',
+  town: (id: string) => `/town/${id}`,
+  home: '/',
+  registration: '/registration',
+  login: '/login',
+  headquarter: (id: string) => `/town/${id}/headquarter`,
+  world: '/world'
+};
 
 export const App = () => {
   const theme = createTheme();
@@ -30,10 +32,11 @@ export const App = () => {
           <Layout>
             <Routes>
               <Route path={AppRoutes.home} element={<Home />} />
-              <Route path={AppRoutes.town} element={<Town />} />
+              <Route path={AppRoutes.selectWorld} element={<SelectWorld />} />
+              <Route path={AppRoutes.town(':id')} element={<Town />} />
               <Route path={AppRoutes.registration} element={<Registration />} />
               <Route path={AppRoutes.login} element={<Login />} />
-              <Route path={AppRoutes.headquarter} element={<Headquarter />} />
+              <Route path={AppRoutes.headquarter(':id')} element={<Headquarter />} />
               <Route path={AppRoutes.world} element={<World />} />
             </Routes>
           </Layout>

@@ -7,24 +7,26 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AppRoutes } from '../../App';
 import { usePlayer } from './usePlayer';
 
 type BuildingRow = { name: string; url: string; upgradeCost: number };
+//todo: study react new ways to handle loadings (react router, suspense...)
 
-export const Town = () => {
-  //todo: study react new ways to handle loadings (react router, suspense...)
+export const Town = (): JSX.Element => {
+  const { id } = useParams();
+  if (!id) return <></>;
   const { result } = usePlayer();
-  if (!result) return;
+  if (!result) return <></>;
 
   const buildings = result.player.towns[0].buildings;
 
   const buildingRows: Array<BuildingRow> = [
-    { name: 'Town hall', url: AppRoutes.town, upgradeCost: 30 },
+    { name: 'Town hall', url: AppRoutes.town(id), upgradeCost: 30 },
     {
       name: 'HeadQuarter',
-      url: AppRoutes.headquarter,
+      url: AppRoutes.headquarter(id),
       upgradeCost: buildings.headquarter.essenceRequiredToLevelUp
     },
     {
