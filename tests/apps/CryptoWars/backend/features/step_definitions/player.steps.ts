@@ -1,59 +1,18 @@
-import { Given, Then, When } from '@cucumber/cucumber';
+import { Given, Then } from '@cucumber/cucumber';
 import { _response, agent } from './controller.steps';
 import assert from 'assert';
 import { PlayerPrimitives } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
-import request from 'supertest';
-import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
+import { userId } from './user.steps';
+import { worldId } from './world.steps';
 
-export const userId = 'ef8ac118-8d7f-49cc-abec-78e0d05af80a';
-export const worldId = '93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b';
-let player: PlayerPrimitives;
-let playerRequest: request.Test;
-let playerResponse: request.Response;
+export let player: PlayerPrimitives;
 
-Given('I am sign in', async () => {
-  await agent.put(`/users/${userId}`).send({
-    email: 'newUser@email.com',
-    password: 'P@ssw0rd'
-  });
-
-  await agent.post('/login').send({
-    username: 'newUser@email.com',
-    password: 'P@ssw0rd'
-  });
-});
-
-Given('I selected a world', async () => {
-  await agent.put(`/worlds/${worldId}/join`).send();
-});
-
-Given('I got my towns information', async () => {
+Given('I get my player information', async () => {
   const response = await agent.get('/player');
   player = response.body.player;
 });
 
-When('I send a POST request to train-soldiers endpoint with my town and body:', (body: string) => {
-  const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, player.towns[0].id);
-  playerRequest = agent.post(finalRoute).send(JSON.parse(body));
-});
-
-When(
-  'I send a POST request to train-soldiers endpoint with not my town and body:',
-  (body: string) => {
-    const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, Uuid.random().toString());
-    playerRequest = agent.post(finalRoute).send(JSON.parse(body));
-  }
-);
-
-Then('the player request response status code should be {int}', async (status: number) => {
-  playerResponse = await playerRequest.expect(status);
-});
-
-Then('the player request response should be empty', () => {
-  assert.deepStrictEqual(playerResponse.body, {});
-});
-
-Then('the response content should match the player response:', (expectedResponse: string) => {
+Then('The response content should match the player response:', (expectedResponse: string) => {
   expectedResponse = expectedResponse.replace(/:userId/gi, userId);
   expectedResponse = expectedResponse.replace(/:worldId/gi, worldId);
 

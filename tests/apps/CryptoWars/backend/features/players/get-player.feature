@@ -2,10 +2,10 @@ Feature: As player, I want to see all my details
 
   Scenario: A player his own details
     Given I am sign in
-    Given I selected a world
+    Given I joined a world
     When I send a GET request to "/player"
     Then the response status code should be 200
-    And the response content should match the player response:
+    And The response content should match the player response:
     """
        {
          "player": {
