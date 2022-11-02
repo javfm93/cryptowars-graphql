@@ -3,7 +3,7 @@ import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Tow
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 import { TownIdGenerator } from '../domain/TownIdGenerator';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
-import { UserIdGenerator } from '../../Users/Domain/UserIdGenerator';
+import { UserIdGenerator } from '../../../IAM/Users/Domain/UserIdGenerator';
 
 export class TrainSoldiersCommandGenerator {
   static create(

@@ -4,7 +4,7 @@ import { Either, EmptyResult } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { WorldId } from '../../Domain/WorldId';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
 
 export type JoinWorldCommandResult = Either<EmptyResult, DomainError>;

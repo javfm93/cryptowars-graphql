@@ -2,7 +2,7 @@ import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Pl
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
 

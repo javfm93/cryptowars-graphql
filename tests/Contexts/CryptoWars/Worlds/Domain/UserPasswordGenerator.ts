@@ -1,5 +1,5 @@
 import * as faker from 'faker';
-import { UserPassword } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserPassword';
+import { UserPassword } from '../../../../../src/Contexts/IAM/Users/Domain/UserPassword';
 
 export class UserPasswordGenerator {
   static create(value: string): UserPassword {

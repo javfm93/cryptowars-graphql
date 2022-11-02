@@ -3,14 +3,14 @@ import httpStatus from 'http-status';
 import { CreateUserRequest } from './CreateUserRequest';
 import { Controller } from '../Controller';
 import { CommandBus } from '../../../../../Contexts/Shared/Domain/CommandBus';
-import { CreateUserCommand } from '../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
-import { InvalidEmailError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/InvalidEmailError';
+import { CreateUserCommand } from '../../../../../Contexts/IAM/Users/Application/Create/CreateUserCommand';
+import { InvalidEmailError } from '../../../../../Contexts/IAM/Users/Domain/Errors/InvalidEmailError';
 import {
   CreateUserCommandErrors,
   CreateUserCommandResult
-} from '../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler';
-import { InvalidPasswordError } from '../../../../../Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
-import { UserAlreadyTakenError } from '../../../../../Contexts/CryptoWars/Users/Application/Create/UserAlreadyTakenError';
+} from '../../../../../Contexts/IAM/Users/Application/Create/CreateUserCommandHandler';
+import { InvalidPasswordError } from '../../../../../Contexts/IAM/Users/Domain/Errors/InvalidPasswordError';
+import { UserAlreadyTakenError } from '../../../../../Contexts/IAM/Users/Application/Create/UserAlreadyTakenError';
 
 type QueryParams = {
   id: string;

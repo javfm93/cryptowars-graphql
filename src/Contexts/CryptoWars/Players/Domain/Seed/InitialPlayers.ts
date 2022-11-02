@@ -1,5 +1,5 @@
 import { Player } from '../Player';
-import { initialUsers } from '../../../Users/Domain/Seed/InitialUsers';
+import { initialUsers } from '../../../../IAM/Users/Domain/Seed/InitialUsers';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { initialWorlds } from '../../../Worlds/Domain/Seed/InitialWorlds';
 

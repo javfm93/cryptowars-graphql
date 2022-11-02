@@ -1,15 +1,15 @@
 services:
 
   CryptoWars.Users.UserRepository:
-    class: ../../../../../Contexts/CryptoWars/Users/infrastructure/persistence/SqliteUserRepository
+    class: ../../../../../Contexts/IAM/Users/infrastructure/persistence/SqliteUserRepository
     arguments: [ '@Shared.ConnectionManager' ]
 
   CryptoWars.Users.CreateUser:
-    class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUser
+    class: ../../../../../Contexts/IAM/Users/Application/Create/CreateUser
     arguments: [ '@CryptoWars.Users.UserRepository', '@Shared.EventBus' ]
 
   CryptoWars.Users.CreateUserCommandHandler:
-    class: ../../../../../Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler
+    class: ../../../../../Contexts/IAM/Users/Application/Create/CreateUserCommandHandler
     arguments: [ '@CryptoWars.Users.CreateUser' ]
     tags:
       - { name: 'commandHandler' }

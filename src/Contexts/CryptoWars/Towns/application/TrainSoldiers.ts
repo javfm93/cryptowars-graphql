@@ -6,7 +6,7 @@ import { UseCase } from '../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../Shared/Domain/EventBus';
 import { TownSoldierTrainFinished } from '../domain/TownSoldierTrainFinishedDomainEvent';
 import { TownSoldiers } from '../domain/TownSoldiers';
-import { UserId } from '../../Users/Domain/UserId';
+import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { FindPlayerQuery } from '../../Players/Application/Find/FindPlayerQuery';
 import { QueryBus } from '../../../Shared/Domain/QueryBus';
 import { FindPlayerQueryResult } from '../../Players/Application/Find/FindPlayerQueryHandler';

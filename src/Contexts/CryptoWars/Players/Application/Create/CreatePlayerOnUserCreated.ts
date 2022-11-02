@@ -1,8 +1,8 @@
 import { DomainEventClass } from '../../../../Shared/domain/DomainEvent';
 import { DomainEventSubscriber } from '../../../../Shared/domain/DomainEventSubscriber';
-import { UserCreatedDomainEvent } from '../../../Users/domain/UserCreatedDomainEvent';
+import { UserCreatedDomainEvent } from '../../../../IAM/Users/domain/UserCreatedDomainEvent';
 import { CreatePlayer } from './CreatePlayer';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { PlayerId } from '../../Domain/PlayerId';
 

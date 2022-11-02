@@ -1,4 +1,4 @@
-import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
+import { UserEmail } from '../../../../../src/Contexts/IAM/Users/Domain/UserEmail';
 import * as faker from 'faker';
 
 export class UserEmailGenerator {

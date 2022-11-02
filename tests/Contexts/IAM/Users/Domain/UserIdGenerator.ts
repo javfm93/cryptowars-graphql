@@ -1,5 +1,5 @@
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 
 export class UserIdGenerator {
   static create(value: string): UserId {

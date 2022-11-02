@@ -10,7 +10,7 @@ import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/
 import { InvalidSoldier } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidSoldier';
 import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
 import { PlayerGenerator } from '../../Players/domain/PlayerGenerator';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 import { successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
 
 describe('[Application] Train soldier', () => {

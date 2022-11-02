@@ -3,7 +3,7 @@ import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { Player } from '../../Domain/Player';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerId } from '../../Domain/PlayerId';
 

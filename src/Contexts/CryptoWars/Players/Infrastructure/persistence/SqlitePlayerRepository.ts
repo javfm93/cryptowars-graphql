@@ -1,7 +1,7 @@
 import { PlayerRepository } from '../../Domain/PlayerRepository';
 import { Player, PlayerPrimitives } from '../../Domain/Player';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { PlayerId } from '../../Domain/PlayerId';
 import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';

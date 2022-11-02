@@ -1,5 +1,5 @@
 import { JoinWorldCommand } from '../../../../../src/Contexts/CryptoWars/Worlds/Application/Join/JoinWorldCommand';
-import { UserIdGenerator } from '../../Users/Domain/UserIdGenerator';
+import { UserIdGenerator } from '../../../IAM/Users/Domain/UserIdGenerator';
 import { WorldIdGenerator } from '../Domain/WorldIdGenerator';
 
 export class JoinWorldCommandGenerator {

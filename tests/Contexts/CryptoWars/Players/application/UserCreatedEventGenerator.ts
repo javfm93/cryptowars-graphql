@@ -1,5 +1,5 @@
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { UserCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserCreatedDomainEvent';
+import { UserCreatedDomainEvent } from '../../../../../src/Contexts/IAM/Users/Domain/UserCreatedDomainEvent';
 
 export class UserCreatedEventGenerator {
   static create(id: string): UserCreatedDomainEvent {

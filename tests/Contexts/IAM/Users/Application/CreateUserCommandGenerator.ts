@@ -1,5 +1,5 @@
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { CreateUserCommand } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
+import { CreateUserCommand } from '../../../../../src/Contexts/IAM/Users/Application/Create/CreateUserCommand';
 import { UserPasswordGenerator } from '../Domain/UserPasswordGenerator';
 import { UserEmailGenerator } from '../Domain/UserEmailGenerator';
 

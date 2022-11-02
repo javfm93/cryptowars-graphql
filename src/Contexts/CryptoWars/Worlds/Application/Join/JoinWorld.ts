@@ -1,7 +1,7 @@
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { WorldId } from '../../Domain/WorldId';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { QueryBus } from '../../../../Shared/Domain/QueryBus';

@@ -5,7 +5,7 @@ import { PlayerRepository } from '../../Domain/PlayerRepository';
 import { PlayerId } from '../../Domain/PlayerId';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerNotFound } from './PlayerNotFound';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 
 type FindPlayerResult = Either<Player, DomainError>;
 

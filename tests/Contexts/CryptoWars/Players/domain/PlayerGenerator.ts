@@ -1,9 +1,9 @@
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
-import { UserIdGenerator } from '../../Users/domain/UserIdGenerator';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
+import { UserIdGenerator } from '../../../IAM/Users/domain/UserIdGenerator';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 import { PlayerIdGenerator } from './PlayerIdGenerator';
-import { UserCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserCreatedDomainEvent';
+import { UserCreatedDomainEvent } from '../../../../../src/Contexts/IAM/Users/Domain/UserCreatedDomainEvent';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
 import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';

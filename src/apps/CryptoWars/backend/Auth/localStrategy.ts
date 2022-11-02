@@ -1,10 +1,10 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import { UserRepository } from '../../../../Contexts/CryptoWars/Users/Domain/UserRepository';
+import { UserRepository } from '../../../../Contexts/IAM/Users/Domain/UserRepository';
 import container from '../dependency-injection';
-import { UserEmail } from '../../../../Contexts/CryptoWars/Users/Domain/UserEmail';
+import { UserEmail } from '../../../../Contexts/IAM/Users/Domain/UserEmail';
 import bcrypt from 'bcrypt';
-import { UserPrimitives } from '../../../../Contexts/CryptoWars/Users/Domain/User';
+import { UserPrimitives } from '../../../../Contexts/IAM/Users/Domain/User';
 
 passport.serializeUser(function (user: any, cb) {
   process.nextTick(function () {

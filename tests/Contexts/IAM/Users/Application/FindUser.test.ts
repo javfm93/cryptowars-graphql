@@ -1,9 +1,9 @@
 import { UserRepositoryMock } from '../__mocks__/UserRepositoryMock';
 import { UserGenerator } from '../Domain/UserGenerator';
-import { FindUser } from '../../../../../src/Contexts/CryptoWars/Users/Application/Find/FindUser';
-import { FindUserQueryHandler } from '../../../../../src/Contexts/CryptoWars/Users/Application/Find/FindUserQueryHandler';
+import { FindUser } from '../../../../../src/Contexts/IAM/Users/Application/Find/FindUser';
+import { FindUserQueryHandler } from '../../../../../src/Contexts/IAM/Users/Application/Find/FindUserQueryHandler';
 import { FindUserQueryGenerator } from './FindUserQueryGenerator';
-import { UserNotFound } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/UserNotFound';
+import { UserNotFound } from '../../../../../src/Contexts/IAM/Users/Application/Create/UserNotFound';
 
 describe('[Application] Find User', () => {
   const repository = new UserRepositoryMock();

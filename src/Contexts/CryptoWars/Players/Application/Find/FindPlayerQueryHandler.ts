@@ -5,7 +5,7 @@ import { Query } from '../../../../Shared/Domain/Query';
 import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { Player } from '../../Domain/Player';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
-import { UserId } from '../../../Users/Domain/UserId';
+import { UserId } from '../../../../IAM/Users/Domain/UserId';
 
 export type FindPlayerQueryResult = Either<Player, DomainError>;
 

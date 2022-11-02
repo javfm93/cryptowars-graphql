@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { PlayerCreatedDomainEvent } from './PlayerCreatedDomainEvent';
-import { UserId } from '../../Users/Domain/UserId';
+import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { PlayerId } from './PlayerId';
 import { WorldPrimitives } from '../../Worlds/Domain/World';
 import { Worlds } from '../../Worlds/Domain/Worlds';

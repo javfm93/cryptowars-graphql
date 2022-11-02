@@ -1,12 +1,12 @@
 import { UserRepositoryMock } from '../__mocks__/UserRepositoryMock';
 import { CreateUserCommandGenerator } from './CreateUserCommandGenerator';
-import { CreateUser } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUser';
-import { CreateUserCommandHandler } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommandHandler';
+import { CreateUser } from '../../../../../src/Contexts/IAM/Users/Application/Create/CreateUser';
+import { CreateUserCommandHandler } from '../../../../../src/Contexts/IAM/Users/Application/Create/CreateUserCommandHandler';
 import { UserGenerator } from '../Domain/UserGenerator';
-import { InvalidEmailError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidEmailError';
-import { InvalidPasswordError } from '../../../../../src/Contexts/CryptoWars/Users/Domain/Errors/InvalidPasswordError';
+import { InvalidEmailError } from '../../../../../src/Contexts/IAM/Users/Domain/Errors/InvalidEmailError';
+import { InvalidPasswordError } from '../../../../../src/Contexts/IAM/Users/Domain/Errors/InvalidPasswordError';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
-import { UserAlreadyTakenError } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/UserAlreadyTakenError';
+import { UserAlreadyTakenError } from '../../../../../src/Contexts/IAM/Users/Application/Create/UserAlreadyTakenError';
 
 describe('[Application] CreateUser', () => {
   const repository = new UserRepositoryMock();

@@ -1,8 +1,8 @@
-import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
+import { User } from '../../../../../src/Contexts/IAM/Users/Domain/User';
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
-import { UserRepository } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
-import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
+import { UserRepository } from '../../../../../src/Contexts/IAM/Users/Domain/UserRepository';
+import { UserEmail } from '../../../../../src/Contexts/IAM/Users/Domain/UserEmail';
 
 export class UserRepositoryMock implements UserRepository {
   private mockSave = jest.fn();

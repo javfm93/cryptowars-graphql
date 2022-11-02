@@ -8,7 +8,7 @@ import { CommandHandler } from '../../../Shared/Domain/CommandHandler';
 import { CommandClass } from '../../../Shared/Domain/Command';
 import { TownId } from '../domain/TownId';
 import { TownSoldiers } from '../domain/TownSoldiers';
-import { UserId } from '../../Users/Domain/UserId';
+import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { Forbidden } from '../../Shared/Domain/Forbidden';
 
 export type TrainSoldiersCommandErrors =

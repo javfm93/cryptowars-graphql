@@ -1,9 +1,9 @@
 import { UserIdGenerator } from './UserIdGenerator';
-import { UserId } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserId';
-import { User } from '../../../../../src/Contexts/CryptoWars/Users/Domain/User';
-import { CreateUserCommand } from '../../../../../src/Contexts/CryptoWars/Users/Application/Create/CreateUserCommand';
-import { UserEmail } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserEmail';
-import { UserPassword } from '../../../../../src/Contexts/CryptoWars/Users/Domain/UserPassword';
+import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
+import { User } from '../../../../../src/Contexts/IAM/Users/Domain/User';
+import { CreateUserCommand } from '../../../../../src/Contexts/IAM/Users/Application/Create/CreateUserCommand';
+import { UserEmail } from '../../../../../src/Contexts/IAM/Users/Domain/UserEmail';
+import { UserPassword } from '../../../../../src/Contexts/IAM/Users/Domain/UserPassword';
 import { UserEmailGenerator } from './UserEmailGenerator';
 import { UserPasswordGenerator } from './UserPasswordGenerator';
 

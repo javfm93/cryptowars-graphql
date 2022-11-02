@@ -1,5 +1,5 @@
 import { UserGenerator } from '../../Domain/UserGenerator';
-import { UserRepository } from '../../../../../../src/Contexts/CryptoWars/Users/Domain/UserRepository';
+import { UserRepository } from '../../../../../../src/Contexts/IAM/Users/Domain/UserRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 
 const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');

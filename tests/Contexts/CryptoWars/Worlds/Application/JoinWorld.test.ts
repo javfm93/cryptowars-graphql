@@ -1,4 +1,4 @@
-import { UserGenerator } from '../../Users/Domain/UserGenerator';
+import { UserGenerator } from '../../../IAM/Users/Domain/UserGenerator';
 import { JoinWorld } from '../../../../../src/Contexts/CryptoWars/Worlds/Application/Join/JoinWorld';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { JoinWorldCommandHandler } from '../../../../../src/Contexts/CryptoWars/Worlds/Application/Join/JoinWorldCommandHandler';
