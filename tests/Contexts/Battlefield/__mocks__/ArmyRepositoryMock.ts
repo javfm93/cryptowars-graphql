@@ -1,64 +1,39 @@
-import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
-import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
-import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
-import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
-import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { NothingOr } from '../../../../src/Contexts/Shared/Domain/Nullable';
+import { TownId } from '../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { ArmyRepository } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
+import { Army } from '../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 
-export class PlayerRepositoryMock implements PlayerRepository {
+export class ArmyRepositoryMock implements ArmyRepository {
   private mockSave = jest.fn();
   private mockFindById = jest.fn();
-  private mockFindByUserId = jest.fn();
+  private mockFindByTownId = jest.fn();
 
-  async save(player: Player): Promise<void> {
-    this.mockSave(player);
+  async save(army: Army): Promise<void> {
+    this.mockSave(army);
   }
 
-  expectLastSavedPlayerToBe(expectedPlayer: Player): void {
-    expect(this.mockSave).toBeCalledWith(expectedPlayer);
+  expectLastSavedArmyToBe(expectedArmy: Army): void {
+    expect(this.mockSave).toBeCalledWith(expectedArmy);
   }
 
-  expectLastSavedPlayerToContain(world: World): void {
-    expect(this.mockSave.mock.lastCall[0].props.worlds.getItems()).toContain(world);
-  }
-
-  expectLastSavedPlayerToHaveOneTown(): void {
-    expect(this.mockSave.mock.lastCall[0].props.towns.getItems()).toHaveLength(1);
-  }
-
-  expectLastSavedPlayerTownToHaveInitialBuildings(): void {
-    const savedTown: Town = this.mockSave.mock.lastCall[0].props.towns.getItems()[0];
-    const initialTown = {
-      headquarter: {
-        level: 0,
-        essenceRequiredToLevelUp: 10
-      },
-      essenceGenerator: {
-        level: 1,
-        essenceRequiredToLevelUp: 30
-      }
-    };
-    expect(savedTown.toPrimitives().buildings).toStrictEqual(initialTown);
-  }
-
-  async findById(id: PlayerId): Promise<NothingOr<Player>> {
+  async findById(id: ArmyId): Promise<NothingOr<Army>> {
     return this.mockFindById(id);
   }
 
-  whenFindByIdThenReturn(player: NothingOr<Player>): void {
+  whenFindByIdThenReturn(army: NothingOr<Army>): void {
     this.mockFindById.mockImplementationOnce(
-      (id: PlayerId): NothingOr<Player> => (id.isEqualTo(player?.id) ? player : null)
+      (id: ArmyId): NothingOr<Army> => (id.isEqualTo(army?.id) ? army : null)
     );
   }
 
-  async findByUserId(id: UserId): Promise<NothingOr<Player>> {
-    return this.mockFindByUserId(id);
+  async findByTownId(id: TownId): Promise<NothingOr<Army>> {
+    return this.mockFindByTownId(id);
   }
 
-  whenFindByUserIdThenReturn(player: Player): void {
-    this.mockFindByUserId.mockImplementationOnce((id: UserId): NothingOr<Player> => {
-      return id.isEqualTo(player?.userId) ? Player.fromPrimitives(player.toPrimitives()) : null;
+  whenFindByTownIdThenReturn(army: Army): void {
+    this.mockFindByTownId.mockImplementationOnce((id: TownId): NothingOr<Army> => {
+      return id.isEqualTo(army?.townId) ? Army.fromPrimitives(army.toPrimitives()) : null;
     });
   }
 }

@@ -10,8 +10,23 @@ import { WorldGenerator } from '../Domain/WorldGenerator';
 import { PlayerGenerator } from '../../Players/domain/PlayerGenerator';
 import { WorldEventsGenerator } from '../Domain/WorldEventsGenerator';
 import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
+import { TownEventsGenerator } from '../../Towns/domain/TownEventsGenerator';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
+
+const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
+
+jest.mock('uuid', () => {
+  return { v4: () => mockedNewUuid };
+});
+jest.mock('uuid-validate', () => {
+  return () => true;
+});
 
 describe('[Application] Join World', () => {
+  beforeAll(mockTimeSetup);
+  afterAll(mockTimeCleanUp);
+
   const worldRepository = new WorldRepositoryMock();
   const queryBusMock = new QueryBusMock();
   const eventBus = new EventBusMock();
@@ -28,10 +43,11 @@ describe('[Application] Join World', () => {
 
     await handler.handle(command);
 
-    const expectedEvent = WorldEventsGenerator.worldJoined(player.id, world.id);
+    const expectedWorldEvent = WorldEventsGenerator.worldJoined(player.id, world.id);
+    const expectedTownEvent = TownEventsGenerator.created(TownId.create(mockedNewUuid), player.id);
     worldRepository.expectLastSavedWorldToContain(player);
     worldRepository.expectLastSavedWorldToHaveOneTown();
     worldRepository.expectLastSavedWorldTownToHaveInitialBuildings();
-    eventBus.expectLastPublishedEventToBe(expectedEvent);
+    eventBus.expectPublishedEventsToBe([expectedTownEvent, expectedWorldEvent]);
   });
 });

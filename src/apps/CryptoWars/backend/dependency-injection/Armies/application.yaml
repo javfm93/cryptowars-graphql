@@ -1,25 +1,15 @@
 services:
 
-  CryptoWars.Players.PlayerRepository:
-    class: ../../../../../Contexts/CryptoWars/Players/Infrastructure/Persistence/SqlitePlayerRepository
+  Battlefield.Armies.ArmyRepository:
+    class: ../../../../../Contexts/Battlefield/Armies/Infrastructure/Persistence/SqliteArmyRepository
     arguments: [ '@Shared.ConnectionManager' ]
 
-  CryptoWars.Players.CreatePlayer:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Create/CreatePlayer
-    arguments: [ '@CryptoWars.Players.PlayerRepository', '@Shared.EventBus' ]
+  Battlefield.Armies.CreateArmy:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Create/CreateArmy
+    arguments: [ '@Battlefield.Armies.ArmyRepository', '@Shared.EventBus' ]
 
-  CryptoWars.Players.CreatePlayerOnUserCreated:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated
-    arguments: [ '@CryptoWars.Players.CreatePlayer' ]
+  Battlefield.Armies.CreateArmyOnTownCreated:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated
+    arguments: [ '@Battlefield.Armies.CreateArmy' ]
     tags:
       - { name: 'domainEventSubscriber' }
-
-  CryptoWars.Players.FindPlayer:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayer
-    arguments: [ '@CryptoWars.Players.ArmyRepository' ]
-
-  CryptoWars.Players.FindPlayerQueryHandler:
-    class: ../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayerQueryHandler
-    arguments: [ '@CryptoWars.Players.FindPlayer' ]
-    tags:
-      - { name: 'queryHandler' }

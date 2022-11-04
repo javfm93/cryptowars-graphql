@@ -1,5 +1,5 @@
 import { PlayerRepositoryMock } from '../__mocks__/PlayerRepositoryMock';
-import { UserCreatedEventGenerator } from './UserCreatedEventGenerator';
+import { UserCreatedEventGenerator } from '../../../IAM/Users/Domain/UserCreatedEventGenerator';
 import { PlayerGenerator } from '../domain/PlayerGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { CreatePlayerOnUserCreated } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated';
@@ -16,7 +16,7 @@ jest.mock('uuid-validate', () => {
   return () => true;
 });
 
-describe('[Application] Create Player', () => {
+describe('[Application] Create Army', () => {
   const repository = new PlayerRepositoryMock();
   const eventBus = new EventBusMock();
   const creator = new CreatePlayer(repository, eventBus);

@@ -1,38 +1,38 @@
-import { PlayerGenerator } from '../../domain/PlayerGenerator';
-import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
+import { ArmyGenerator } from '../../domain/ArmyGenerator';
+import { ArmyRepository } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
+import container from '../../../../../src/apps/CryptoWars/backend/dependency-injection';
+import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
-const repository: PlayerRepository = container.get('CryptoWars.Players.PlayerRepository');
+const repository: ArmyRepository = container.get('Battlefield.Armies.ArmyRepository');
 
-describe('[infra] PlayerRepository', () => {
+describe('[infra] ArmyRepository', () => {
   describe('#save', () => {
-    it('should save a player', async () => {
-      const player = PlayerGenerator.random();
-      await repository.save(player);
+    it('should save a army', async () => {
+      const army = ArmyGenerator.random();
+      await repository.save(army);
     });
   });
 
   describe('#search', () => {
-    let expectedPlayer: Player;
+    let expectedArmy: Army;
 
     beforeEach(async () => {
-      expectedPlayer = PlayerGenerator.withWorldsAndTowns();
-      await repository.save(expectedPlayer);
+      expectedArmy = ArmyGenerator.random();
+      await repository.save(expectedArmy);
     });
 
-    it('should return an existing player by Id', async () => {
-      const player = await repository.findById(expectedPlayer.id);
-      expect(player?.toPrimitives()).toEqual(expectedPlayer.toPrimitives());
+    it('should return an existing army by Id', async () => {
+      const army = await repository.findById(expectedArmy.id);
+      expect(army?.toPrimitives()).toEqual(expectedArmy.toPrimitives());
     });
 
-    it('should return an existing player by userId', async () => {
-      const player = await repository.findByUserId(expectedPlayer.userId);
-      expect(player?.toPrimitives()).toEqual(expectedPlayer.toPrimitives());
+    it('should return an existing army by townId', async () => {
+      const army = await repository.findByTownId(expectedArmy.townId);
+      expect(army?.toPrimitives()).toEqual(expectedArmy.toPrimitives());
     });
 
-    it('should not return a non existing player', async () => {
-      expect(await repository.findById(PlayerGenerator.random().id)).toBeNull();
+    it('should not return a non existing army', async () => {
+      expect(await repository.findById(ArmyGenerator.random().id)).toBeNull();
     });
   });
 });

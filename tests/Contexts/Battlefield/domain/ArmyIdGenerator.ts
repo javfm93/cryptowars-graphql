@@ -1,12 +1,12 @@
-import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
+import { UuidGenerator } from '../../Shared/Domain/UuidGenerator';
+import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 
-export class PlayerIdGenerator {
-  static create(value: string): PlayerId {
-    return PlayerId.create(value);
+export class ArmyIdGenerator {
+  static create(value: string): ArmyId {
+    return ArmyId.create(value);
   }
 
-  static random(): PlayerId {
+  static random(): ArmyId {
     return this.create(UuidGenerator.random().toString());
   }
 }

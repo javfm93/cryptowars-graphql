@@ -1,8 +1,8 @@
-import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
-import { PlayerCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerCreatedDomainEvent';
+import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
+import { ArmyCreatedDomainEvent } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyCreatedDomainEvent';
 
-export class PlayerEventsGenerator {
-  static PlayerCreated(playerId: PlayerId): PlayerCreatedDomainEvent {
-    return new PlayerCreatedDomainEvent({ id: playerId.toString() });
+export class ArmyEventsGenerator {
+  static ArmyCreated(armyId: ArmyId): ArmyCreatedDomainEvent {
+    return new ArmyCreatedDomainEvent({ id: armyId.toString() });
   }
 }

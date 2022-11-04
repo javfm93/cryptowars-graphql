@@ -1,36 +1,32 @@
 import { ArmyRepositoryMock } from '../__mocks__/ArmyRepositoryMock';
-import { UserCreatedEventGenerator } from '../../../IAM/Users/Domain/UserCreatedEventGenerator';
-import { PlayerGenerator } from '../domain/PlayerGenerator';
-import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
-import { CreatePlayerOnUserCreated } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated';
-import { CreatePlayer } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayer';
-import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
-import { PlayerEventsGenerator } from '../domain/PlayerEventsGenerator';
+import { ArmyGenerator } from '../domain/ArmyGenerator';
+import { ArmyEventsGenerator } from '../domain/ArmyEventsGenerator';
+import EventBusMock from '../../Shared/Infrastructure/EventBusMock';
+import { CreateArmy } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmy';
+import { CreateArmyOnTownCreated } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated';
+import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
+import { TownEventsGenerator } from '../../CryptoWars/Towns/domain/TownEventsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
-jest.mock('uuid', () => {
-  return { v4: () => mockedNewUuid };
-});
-jest.mock('uuid-validate', () => {
-  return () => true;
-});
+jest.mock('uuid', () => ({ v4: () => mockedNewUuid }));
+jest.mock('uuid-validate', () => () => true);
 
-describe('[Application] Create Player', () => {
+describe('[Application] Create Army', () => {
   const repository = new ArmyRepositoryMock();
   const eventBus = new EventBusMock();
-  const creator = new CreatePlayer(repository, eventBus);
-  const handler = new CreatePlayerOnUserCreated(creator);
+  const creator = new CreateArmy(repository, eventBus);
+  const handler = new CreateArmyOnTownCreated(creator);
 
-  it('should create a player when a user is created', async () => {
-    const event = UserCreatedEventGenerator.random();
+  it('should create an army when a town is created', async () => {
+    const event = TownEventsGenerator.randomCreated();
 
     await handler.on(event);
 
-    const playerId = PlayerId.create(mockedNewUuid);
-    const expectedPlayer = PlayerGenerator.fromEvent(event, playerId);
-    const expectedEvent = PlayerEventsGenerator.PlayerCreated(playerId);
-    repository.expectLastSavedPlayerToBe(expectedPlayer);
+    const armyId = ArmyId.create(mockedNewUuid);
+    const expectedArmy = ArmyGenerator.fromEvent(event, armyId);
+    const expectedEvent = ArmyEventsGenerator.ArmyCreated(armyId);
+    repository.expectLastSavedArmyToBe(expectedArmy);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });
