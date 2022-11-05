@@ -3,21 +3,21 @@ import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Tow
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 import { TownIdGenerator } from '../domain/TownIdGenerator';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
-import { UserIdGenerator } from '../../../IAM/Users/Domain/UserIdGenerator';
+import { PlayerIdGenerator } from '../../Players/domain/PlayerIdGenerator';
 
 export class TrainSoldiersCommandGenerator {
   static create(
-    userId: string,
+    playerId: string,
     townId: string,
     soldiers: TownSoldiersPrimitives
   ): TrainSoldiersCommand {
-    return new TrainSoldiersCommand({ userId, townId, soldiers });
+    return new TrainSoldiersCommand({ playerId, townId, soldiers });
   }
 
   static random(): TrainSoldiersCommand {
     const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and10() };
     return this.create(
-      UserIdGenerator.random().toString(),
+      PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),
       soldiers
     );
@@ -25,13 +25,13 @@ export class TrainSoldiersCommandGenerator {
 
   static randomFor(town: Town): TrainSoldiersCommand {
     const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and10() };
-    return this.create(UserIdGenerator.random().toString(), town.id.toString(), soldiers);
+    return this.create(town.toPrimitives().playerId, town.id.toString(), soldiers);
   }
 
   static invalidDueToNegativeSoldiers(): TrainSoldiersCommand {
     const soldiers: TownSoldiersPrimitives = { basic: -NumberGenerator.randomBetween1and10() };
     return this.create(
-      UserIdGenerator.random().toString(),
+      PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),
       soldiers
     );
@@ -40,7 +40,7 @@ export class TrainSoldiersCommandGenerator {
   static invalidDueToNotSupportedSoldiers(): TrainSoldiersCommand {
     const soldiers = { basic: NumberGenerator.randomBetween1and10(), illegal: 3 };
     return this.create(
-      UserIdGenerator.random().toString(),
+      PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),
       soldiers
     );

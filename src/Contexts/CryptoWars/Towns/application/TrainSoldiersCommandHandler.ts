@@ -8,8 +8,8 @@ import { CommandHandler } from '../../../Shared/Domain/CommandHandler';
 import { CommandClass } from '../../../Shared/Domain/Command';
 import { TownId } from '../domain/TownId';
 import { TownSoldiers } from '../domain/TownSoldiers';
-import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { Forbidden } from '../../../Shared/Domain/Errors/Forbidden';
+import { PlayerId } from '../../Players/Domain/PlayerId';
 
 export type TrainSoldiersCommandErrors =
   | InvalidSoldier
@@ -26,14 +26,14 @@ export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiers
   }
 
   async handle(command: TrainSoldiersCommand): Promise<TrainSoldiersCommandResult> {
-    const userId = UserId.create(command.userId);
+    const playerId = PlayerId.create(command.playerId);
     const townId = TownId.create(command.townId);
     const soldiersCreation = TownSoldiers.create(command.soldiers);
 
     if (soldiersCreation.isFailure()) return failure(soldiersCreation.value);
 
     const soldiers = soldiersCreation.value;
-    const trainSoldiers = await this.trainSoldiers.execute({ userId, townId, soldiers });
+    const trainSoldiers = await this.trainSoldiers.execute({ playerId, townId, soldiers });
 
     return trainSoldiers.isSuccess() ? success() : failure(trainSoldiers.value);
   }

@@ -8,16 +8,11 @@ import { TownNotFound } from '../../../../../src/Contexts/CryptoWars/Towns/appli
 import { TownGenerator } from '../domain/TownGenerator';
 import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
 import { InvalidSoldier } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidSoldier';
-import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
-import { PlayerGenerator } from '../../Players/domain/PlayerGenerator';
-import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
-import { successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
 
 describe('[Application] Train soldier', () => {
   const repository = new TownRepositoryMock();
   const eventBus = new EventBusMock();
-  const queryBus = new QueryBusMock();
-  const creator = new TrainSoldiers(repository, queryBus, eventBus);
+  const creator = new TrainSoldiers(repository, eventBus);
   const handler = new TrainSoldiersCommandHandler(creator);
 
   beforeEach(() => {
@@ -28,8 +23,6 @@ describe('[Application] Train soldier', () => {
     const expectedTown = TownGenerator.random();
     const command = TrainSoldiersCommandGenerator.randomFor(expectedTown);
     repository.whenFindByIdThenReturn(expectedTown);
-    const player = PlayerGenerator.fromUserWithTown(UserId.create(command.userId), expectedTown);
-    queryBus.whenAskThenReturn(successAndReturn(player));
 
     await handler.handle(command);
 

@@ -24,9 +24,9 @@ export class TrainSoldiersPostController implements Controller {
   async run(req: Request<RequestParams, void, TrainSoldiersPostRequest>, res: Response<void>) {
     const { id } = req.params;
     const { soldiers } = req.body;
-    const userId = req.user!.id;
+    const playerId = req.user!.playerId;
 
-    const trainSoldiersCommand = new TrainSoldiersCommand({ userId, townId: id, soldiers });
+    const trainSoldiersCommand = new TrainSoldiersCommand({ playerId, townId: id, soldiers });
     const result: TrainSoldiersCommandResult = await this.commandBus.dispatch(trainSoldiersCommand);
 
     result.isSuccess() ? res.status(httpStatus.OK).send() : this.handleError(res, result.value);

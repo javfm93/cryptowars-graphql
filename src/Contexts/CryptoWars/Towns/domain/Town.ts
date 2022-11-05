@@ -40,6 +40,10 @@ export class Town extends AggregateRoot<TownProps> {
     return town;
   }
 
+  public isManagedBy(playerId: PlayerId) {
+    return this.props.playerId.isEqualTo(playerId);
+  }
+
   toPrimitives(): TownPrimitives {
     return {
       id: this.id.toString(),
