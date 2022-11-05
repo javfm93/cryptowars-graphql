@@ -4,24 +4,31 @@ import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyI
 import { TownId } from '../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
 import { TownIdGenerator } from '../../CryptoWars/Towns/domain/TownIdGenerator';
 import { TownCreatedDomainEvent } from '../../../../src/Contexts/CryptoWars/Towns/domain/TownCreatedDomainEvent';
+import { PlayerId } from '../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
+import { PlayerIdGenerator } from '../../CryptoWars/Players/domain/PlayerIdGenerator';
 
 export class ArmyGenerator {
-  static create(id: ArmyId, townId: TownId): Army {
+  static create(id: ArmyId, townId: TownId, playerId: PlayerId): Army {
     return Army.fromPrimitives({
       id: id.toString(),
-      townId: townId.toString()
+      townId: townId.toString(),
+      playerId: playerId.toString()
     });
   }
 
   static fromEvent(event: TownCreatedDomainEvent, id: ArmyId): Army {
-    return this.create(id, TownId.create(event.aggregateId));
+    return this.create(id, TownId.create(event.aggregateId), PlayerId.create(event.playerId));
   }
 
   static random(): Army {
-    return this.create(ArmyIdGenerator.random(), TownIdGenerator.random());
+    return this.create(
+      ArmyIdGenerator.random(),
+      TownIdGenerator.random(),
+      PlayerIdGenerator.random()
+    );
   }
 
   static fromTown(townId: TownId): Army {
-    return this.create(ArmyIdGenerator.random(), townId);
+    return this.create(ArmyIdGenerator.random(), townId, PlayerIdGenerator.random());
   }
 }

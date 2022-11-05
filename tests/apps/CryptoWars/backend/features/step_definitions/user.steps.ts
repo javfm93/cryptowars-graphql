@@ -1,4 +1,4 @@
-import { Given } from '@cucumber/cucumber';
+import { Given, When } from '@cucumber/cucumber';
 import { agent } from './controller.steps';
 
 export const userId = 'ef8ac118-8d7f-49cc-abec-78e0d05af80a';
@@ -14,3 +14,13 @@ Given('I am sign in', async () => {
     password: 'P@ssw0rd'
   });
 });
+
+When(
+  'I log in with email {string} and password {string}',
+  async (email: string, password: string) => {
+    await agent.post('/login').send({
+      username: email,
+      password
+    });
+  }
+);

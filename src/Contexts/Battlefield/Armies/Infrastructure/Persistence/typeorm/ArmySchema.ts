@@ -12,6 +12,10 @@ export const ArmySchema: EntitySchema<ArmyPrimitives> = new EntitySchema<ArmyPri
     townId: {
       type: String,
       unique: true
+    },
+    playerId: {
+      type: String,
+      unique: true
     }
   }
 });

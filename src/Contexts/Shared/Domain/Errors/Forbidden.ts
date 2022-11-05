@@ -1,4 +1,4 @@
-import { DomainError } from '../../../Shared/Domain/Errors/DomainError';
+import { DomainError } from './DomainError';
 
 export class Forbidden extends DomainError {
   constructor() {

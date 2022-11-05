@@ -24,3 +24,7 @@ services:
     class: ../../Controllers/Towns/TrainSoldiersPostController
     arguments: [ '@Shared.CommandBus' ]
 
+  Apps.Battlefield.Backend.Controllers.ArmyGetController:
+    class: ../../Controllers/Armies/ArmyGetController
+    arguments: [ '@Shared.QueryBus' ]
+

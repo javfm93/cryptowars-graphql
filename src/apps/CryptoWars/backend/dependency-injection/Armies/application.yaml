@@ -13,3 +13,13 @@ services:
     arguments: [ '@Battlefield.Armies.CreateArmy' ]
     tags:
       - { name: 'domainEventSubscriber' }
+
+  Battlefield.Armies.FindArmyByTown:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTown
+    arguments: [ '@Battlefield.Armies.ArmyRepository' ]
+
+  Battlefield.Armies.FindArmyByTownQueryHandler:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler
+    arguments: [ '@Battlefield.Armies.FindArmyByTown' ]
+    tags:
+      - { name: 'queryHandler' }

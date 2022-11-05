@@ -11,12 +11,13 @@ import {
 import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/application/TownNotFound';
-import { Forbidden } from '../../../../../Contexts/CryptoWars/Shared/Domain/Forbidden';
+import { Forbidden } from '../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 
 type RequestParams = {
   id: string;
 };
 
+// todo: not longer need to send the userId, we can send the playerId
 export class TrainSoldiersPostController implements Controller {
   constructor(private commandBus: CommandBus) {}
 

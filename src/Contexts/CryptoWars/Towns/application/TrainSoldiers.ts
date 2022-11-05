@@ -10,7 +10,7 @@ import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { FindPlayerQuery } from '../../Players/Application/Find/FindPlayerQuery';
 import { QueryBus } from '../../../Shared/Domain/QueryBus';
 import { FindPlayerQueryResult } from '../../Players/Application/Find/FindPlayerQueryHandler';
-import { Forbidden } from '../../Shared/Domain/Forbidden';
+import { Forbidden } from '../../../Shared/Domain/Errors/Forbidden';
 
 type TrainSoldiersArgs = {
   userId: UserId;

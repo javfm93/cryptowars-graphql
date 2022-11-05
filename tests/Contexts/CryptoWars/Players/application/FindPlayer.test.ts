@@ -4,7 +4,7 @@ import { PlayerGenerator } from '../domain/PlayerGenerator';
 import { FindPlayer } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/FindPlayer';
 import { FindPlayerQueryHandler } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/FindPlayerQueryHandler';
 
-describe('[Application] Find Army', () => {
+describe('[Application] Find Player', () => {
   const repository = new PlayerRepositoryMock();
   const creator = new FindPlayer(repository);
   const handler = new FindPlayerQueryHandler(creator);

@@ -9,7 +9,7 @@ import { CommandClass } from '../../../Shared/Domain/Command';
 import { TownId } from '../domain/TownId';
 import { TownSoldiers } from '../domain/TownSoldiers';
 import { UserId } from '../../../IAM/Users/Domain/UserId';
-import { Forbidden } from '../../Shared/Domain/Forbidden';
+import { Forbidden } from '../../../Shared/Domain/Errors/Forbidden';
 
 export type TrainSoldiersCommandErrors =
   | InvalidSoldier

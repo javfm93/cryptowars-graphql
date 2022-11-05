@@ -15,6 +15,8 @@ tags:
     description: Operations on world towns
   - name: player
     description: Operations on game players
+  - name: army
+    description: Operations on towns army
 paths:
   /login:
     post:
@@ -131,15 +133,31 @@ paths:
       operationId: getPlayer
       responses:
         200:
-          description: User created
+          description: Player information
         401:
-          description: Unauthorize
+          description: Unauthorized
   /status:
     get:
       responses:
         200:
           description: Im okay
       security: [ ]
+  /army:
+    get:
+      tags:
+        - army
+      summary: Get the army composition
+      operationId: getArmyByTownId
+      parameters:
+        - in: query
+          name: townId
+          schema:
+            $ref: '#/components/schemas/Uuid'
+      responses:
+        200:
+          description: Army information
+        401:
+          description: Unauthorized
 components:
   requestBodies:
     TrainSoldierRequest:
