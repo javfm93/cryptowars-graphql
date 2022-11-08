@@ -16,6 +16,9 @@ export const ArmySchema: EntitySchema<ArmyPrimitives> = new EntitySchema<ArmyPri
     playerId: {
       type: String,
       unique: true
+    },
+    squads: {
+      type: 'simple-json'
     }
   }
 });

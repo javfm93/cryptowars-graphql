@@ -5,7 +5,8 @@ import EventBusMock from '../../Shared/Infrastructure/EventBusMock';
 import { CreateArmy } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmy';
 import { CreateArmyOnTownCreated } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated';
 import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
-import { TownEventsGenerator } from '../../CryptoWars/Towns/domain/TownEventsGenerator';
+import { TownEventsGenerator } from '../domain/TownEventsGenerator';
+import { BattlefieldEventsRepositoryMock } from '../__mocks__/BattlefieldEventsRepositoryMock';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -14,8 +15,9 @@ jest.mock('uuid-validate', () => () => true);
 
 describe('[Application] Create Army', () => {
   const repository = new ArmyRepositoryMock();
+  const eventRepository = new BattlefieldEventsRepositoryMock();
   const eventBus = new EventBusMock();
-  const creator = new CreateArmy(repository, eventBus);
+  const creator = new CreateArmy(repository, eventRepository, eventBus);
   const handler = new CreateArmyOnTownCreated(creator);
 
   it('should create an army when a town is created', async () => {

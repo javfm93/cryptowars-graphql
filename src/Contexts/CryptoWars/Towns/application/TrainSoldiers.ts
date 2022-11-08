@@ -4,7 +4,7 @@ import { Either, EmptyResult, failure, success } from '../../../Shared/Aplicatio
 import { TownId } from '../domain/TownId';
 import { UseCase } from '../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../Shared/Domain/EventBus';
-import { TownSoldierTrainFinished } from '../domain/TownSoldierTrainFinishedDomainEvent';
+import { TownSoldiersTrainFinished } from '../domain/TownSoldierTrainFinishedDomainEvent';
 import { TownSoldiers } from '../domain/TownSoldiers';
 import { Forbidden } from '../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../Players/Domain/PlayerId';
@@ -24,7 +24,10 @@ export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
     const town = await this.townRepository.findById(townId);
     if (!town) return failure(new TownNotFound());
     if (!town.isManagedBy(playerId)) return failure(new Forbidden());
-    const event = new TownSoldierTrainFinished({ id: townId.toString(), soldiers: soldiers.value });
+    const event = new TownSoldiersTrainFinished({
+      id: townId.toString(),
+      soldiers: soldiers.value
+    });
     await this.eventBus.publish([event]);
     return success();
   }

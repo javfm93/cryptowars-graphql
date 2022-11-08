@@ -4,12 +4,12 @@ import { TownSoldiersPrimitives } from './TownSoldiers';
 type TownSoldierTrainFinishedBody = {
   readonly eventName: string;
   readonly id: string;
-  readonly soldier: TownSoldiersPrimitives;
+  readonly soldiers: TownSoldiersPrimitives;
 };
 
-export class TownSoldierTrainFinished extends DomainEvent {
+export class TownSoldiersTrainFinished extends DomainEvent {
   static readonly EVENT_NAME = 'cryptoWars.1.event.town.soldierTrainFinished';
-  readonly soldier: TownSoldiersPrimitives;
+  readonly soldiers: TownSoldiersPrimitives;
 
   constructor({
     id,
@@ -22,16 +22,16 @@ export class TownSoldierTrainFinished extends DomainEvent {
     eventId?: string;
     occurredOn?: Date;
   }) {
-    super(TownSoldierTrainFinished.EVENT_NAME, id, eventId, occurredOn);
-    this.soldier = soldiers;
+    super(TownSoldiersTrainFinished.EVENT_NAME, id, eventId, occurredOn);
+    this.soldiers = soldiers;
   }
 
   toPrimitive(): TownSoldierTrainFinishedBody {
     const { aggregateId } = this;
     return {
-      eventName: TownSoldierTrainFinished.EVENT_NAME,
+      eventName: TownSoldiersTrainFinished.EVENT_NAME,
       id: aggregateId,
-      soldier: this.soldier
+      soldiers: this.soldiers
     };
   }
 
@@ -41,11 +41,11 @@ export class TownSoldierTrainFinished extends DomainEvent {
     eventId: string,
     occurredOn: Date
   ): DomainEvent {
-    return new TownSoldierTrainFinished({
+    return new TownSoldiersTrainFinished({
       id: aggregateId,
       eventId,
       occurredOn,
-      soldiers: body.soldier
+      soldiers: body.soldiers
     });
   }
 }

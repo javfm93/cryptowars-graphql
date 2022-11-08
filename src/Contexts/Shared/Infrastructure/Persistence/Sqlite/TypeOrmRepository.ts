@@ -13,6 +13,16 @@ export abstract class TypeOrmRepository<T> {
     return (await this._client).getRepository(this.entitySchema());
   }
 
+  protected async executeTransaction(
+    transaction: (repository: Repository<T>) => Promise<void>
+  ): Promise<void> {
+    const client = await this.client();
+    await client.transaction(async (transactionalEntityManager: any) => {
+      const repository = transactionalEntityManager.getRepository(this.entitySchema());
+      await transaction(repository);
+    });
+  }
+
   protected async persist(aggregateRoot: T): Promise<void> {
     const repository = await this.repository();
     await repository.save(aggregateRoot);

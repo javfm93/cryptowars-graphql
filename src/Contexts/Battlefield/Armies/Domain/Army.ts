@@ -1,29 +1,34 @@
-import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { ArmyCreatedDomainEvent } from './ArmyCreatedDomainEvent';
 import { ArmyId } from './ArmyId';
 import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
+import { SquadPrimitives, Squads, SquadsPrimitives } from './Squads';
+import { AggregateRoot } from '../../Shared/Domain/AggregateRoot';
 
 export interface ArmyProps {
   townId: TownId;
   playerId: PlayerId;
+  squads: Squads;
 }
 
 export interface ArmyCreationProps {
   townId: TownId;
   playerId: PlayerId;
+  squads?: Squads;
 }
 
 export interface ArmyPrimitives {
   id: string;
   townId: string;
   playerId: string;
+  squads: SquadsPrimitives;
 }
 
 export class Army extends AggregateRoot<ArmyProps> {
   private constructor(id: ArmyId, props: ArmyCreationProps) {
     super(id, {
-      ...props
+      ...props,
+      squads: props.squads ?? Squads.defaultSquads()
     });
   }
 
@@ -35,8 +40,16 @@ export class Army extends AggregateRoot<ArmyProps> {
     return this.props.townId;
   }
 
+  get basicSquad(): SquadPrimitives {
+    return this.props.squads.basic;
+  }
+
   public isCommandedBy(playerId: PlayerId) {
     return this.props.playerId.isEqualTo(playerId);
+  }
+
+  public recruit(newSquad: SquadPrimitives) {
+    this.props.squads.absorb(newSquad);
   }
 
   public static create(id: ArmyId, props: ArmyCreationProps): Army {
@@ -53,7 +66,8 @@ export class Army extends AggregateRoot<ArmyProps> {
     return {
       id: this.id.toString(),
       townId: this.props.townId.toString(),
-      playerId: this.props.playerId.toString()
+      playerId: this.props.playerId.toString(),
+      squads: this.props.squads.value
     };
   }
 
@@ -61,6 +75,7 @@ export class Army extends AggregateRoot<ArmyProps> {
     const id = ArmyId.create(plainData.id);
     const townId = TownId.create(plainData.townId);
     const playerId = PlayerId.create(plainData.playerId);
-    return new Army(id, { townId, playerId });
+    const squads = Squads.fromPrimitives(plainData.squads);
+    return new Army(id, { townId, playerId, squads });
   }
 }
