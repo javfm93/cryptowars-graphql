@@ -26,6 +26,7 @@ Then('The response content should match the player response:', (expectedResponse
   const response: PlayerPrimitives = _response.body.player;
   assert.strictEqual(response.towns.length, 1);
   assert.strictEqual(response.towns[0].playerId, response.id);
+  assert.deepStrictEqual(response.towns[0].buildings, expected.towns[0].buildings);
   assert.strictEqual(response.userId, expected.userId);
   assert.deepStrictEqual(response.worlds, expected.worlds);
 });

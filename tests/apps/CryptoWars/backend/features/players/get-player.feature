@@ -1,3 +1,4 @@
+@get-player
 Feature: As player, I want to see all my details
 
   Scenario: A player his own details
@@ -23,16 +24,24 @@ Feature: As player, I want to see all my details
               {
                 "id": ":townId",
                 "playerId": ":playerId",
-                "headquarter": {
-                  "level": 0,
-                  "essenceRequiredToLevelUp": 10
-                },
-                "essenceGenerator": {
-                  "level": 1,
-                  "essenceRequiredToLevelUp": 30
+                "buildings": {
+                  "headquarter": {
+                    "level": 0,
+                    "essenceRequiredToLevelUp": 10,
+                    "type": "creator",
+                    "units": ["basic"]
+                  },
+                  "essenceGenerator": {
+                    "level": 1,
+                    "essenceRequiredToLevelUp": 30,
+                    "type": "generator",
+                    "resource": "essence",
+                    "generationPerHour": 60
+                  }
                 }
               }
             ]
           }
        }
     """
+

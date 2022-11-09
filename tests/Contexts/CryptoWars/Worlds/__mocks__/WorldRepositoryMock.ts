@@ -5,6 +5,7 @@ import { WorldId } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Wo
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
 import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
+import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownBuildings';
 
 export class WorldRepositoryMock implements WorldRepository {
   private mockFindAll = jest.fn();
@@ -37,17 +38,9 @@ export class WorldRepositoryMock implements WorldRepository {
 
   expectLastSavedWorldTownToHaveInitialBuildings(): void {
     const savedTown: Town = this.mockSave.mock.lastCall[0].props.towns.getItems()[0];
-    const initialTown = {
-      headquarter: {
-        level: 0,
-        essenceRequiredToLevelUp: 10
-      },
-      essenceGenerator: {
-        level: 1,
-        essenceRequiredToLevelUp: 30
-      }
-    };
-    expect(savedTown.toPrimitives().buildings).toStrictEqual(initialTown);
+    expect(savedTown.toPrimitives().buildings).toStrictEqual(
+      TownBuildings.createInitialBuildings().value
+    );
   }
 
   findById(worldId: WorldId): Promise<NothingOr<World>> {
@@ -55,8 +48,8 @@ export class WorldRepositoryMock implements WorldRepository {
   }
 
   whenFindByIdThenReturn(world: NothingOr<World>): void {
-    this.mockFindById.mockImplementationOnce((id: WorldId): NothingOr<World> => {
-      return world?.id.isEqualTo(id) ? world : null;
-    });
+    this.mockFindById.mockImplementationOnce(
+      (id: WorldId): NothingOr<World> => (world?.id.isEqualTo(id) ? world : null)
+    );
   }
 }

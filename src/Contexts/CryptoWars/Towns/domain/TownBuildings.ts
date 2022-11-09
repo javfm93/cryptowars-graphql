@@ -1,14 +1,34 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { isDeepStrictEqual } from 'util';
 
+export enum TownBuildingType {
+  generator = 'generator',
+  creator = 'creator'
+}
+
+export enum TownUnits {
+  basic = 'basic'
+}
+
+export const HeadQuarterUnits = [TownUnits.basic];
+
+export enum TownResources {
+  'essence' = 'essence'
+}
+
 export interface TownBuildingsPrimitives {
   headquarter: {
     level: number;
     essenceRequiredToLevelUp: number;
+    type: TownBuildingType;
+    units: typeof HeadQuarterUnits;
   };
   essenceGenerator: {
     level: number;
     essenceRequiredToLevelUp: number;
+    type: TownBuildingType;
+    resource: TownResources;
+    generationPerHour: number;
   };
 }
 
@@ -19,9 +39,20 @@ export class TownBuildings extends ValueObject<TownBuildings> {
   }
 
   public static createInitialBuildings(): TownBuildings {
-    const initialBuildings = {
-      essenceGenerator: { essenceRequiredToLevelUp: 30, level: 1 },
-      headquarter: { essenceRequiredToLevelUp: 10, level: 0 }
+    const initialBuildings: TownBuildingsPrimitives = {
+      headquarter: {
+        level: 0,
+        essenceRequiredToLevelUp: 10,
+        type: TownBuildingType.creator,
+        units: HeadQuarterUnits
+      },
+      essenceGenerator: {
+        level: 1,
+        essenceRequiredToLevelUp: 30,
+        type: TownBuildingType.generator,
+        generationPerHour: 60,
+        resource: TownResources.essence
+      }
     };
 
     return new TownBuildings(initialBuildings);
