@@ -9,11 +9,15 @@ import TableBody from '@mui/material/TableBody';
 import { Link } from 'react-router-dom';
 import { usePlayer } from '../Town/usePlayer';
 import { AppRoutes } from '../../App';
+import { useUserLogin } from '../Login/useUserLogin';
 
 export const Home = (): JSX.Element => {
+  const login = useUserLogin();
   const { result } = usePlayer();
-  if (!result) return <></>;
-
+  if (!result) {
+    login.execute('newuser@email.com', 'P@ssw0rd');
+    return <></>;
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

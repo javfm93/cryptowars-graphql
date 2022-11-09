@@ -10,6 +10,7 @@
           "unitType": "Unit Type",
           "train": "Train",
           "unitCost": "Cost",
+          "recruited": "Recruited",
           "units": {
             "soldier": "Soldier"
           }

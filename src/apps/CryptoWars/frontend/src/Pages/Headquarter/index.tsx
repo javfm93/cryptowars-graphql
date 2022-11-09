@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,19 +6,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, TextField } from '@mui/material';
+import { Button, Input } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTrainSoldiers } from './useTrainSoldiers';
 import { useParams } from 'react-router-dom';
-
-type UnitRow = { name: string; trainCost: number };
+import { useTownArmy } from './useTownArmy';
 
 export const Headquarter = (): JSX.Element => {
-  const { id } = useParams();
-  if (!id) return <> </>;
-  const unitRows: Array<UnitRow> = [{ name: 'Soldier', trainCost: 30 }];
   const { t } = useTranslation();
   const { trainSoldiers } = useTrainSoldiers();
+  const { id } = useParams();
+  const [basicSoldiersToTrain, setBasicSoldiersToTrain] = useState<number>(0);
+
+  if (!id) return <p> Not Valid Town Id</p>;
+  const { result } = useTownArmy(id);
+  if (!result || !result.army) return <p> Loading Your Army...</p>;
   return (
     <div>
       <TableContainer component={Paper}>
@@ -27,25 +29,36 @@ export const Headquarter = (): JSX.Element => {
             <TableRow>
               <TableCell>{t('town.buildings.headquarter.unitType')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.unitCost')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.recruited')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.train')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {unitRows.map(unit => (
-              <TableRow key={unit.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            {result.army.squads.map(squad => (
+              <TableRow key={squad.type} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
-                  {unit.name}
+                  {squad.type}
                 </TableCell>
-                <TableCell align="right">{unit.trainCost}</TableCell>
+                <TableCell align="right">30</TableCell>
+                <TableCell align="right">{squad.soldiers}</TableCell>
                 <TableCell align="right">
-                  <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+                  <Input
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    onChange={value => setBasicSoldiersToTrain(parseInt(value.target.value))}
+                    defaultValue={basicSoldiersToTrain}
+                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="outlined" onClick={trainSoldiers(id, { soldiers: { basic: 1 } })}>
+      <Button
+        variant="outlined"
+        onClick={trainSoldiers(id, {
+          soldiers: { basic: basicSoldiersToTrain }
+        })}
+      >
         {t('town.buildings.headquarter.train')}
       </Button>
     </div>

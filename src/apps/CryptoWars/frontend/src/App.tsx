@@ -12,7 +12,7 @@ import { Login } from './Pages/Login';
 import { SelectWorld } from './Pages/SelectWorld';
 
 export const AppRoutes = {
-  selectWorld: '/',
+  selectWorld: '/select-world',
   town: (id: string) => `/town/${id}`,
   home: '/',
   registration: '/registration',

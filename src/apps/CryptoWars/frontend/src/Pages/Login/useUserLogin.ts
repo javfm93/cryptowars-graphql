@@ -7,7 +7,7 @@ import {AppRoutes} from '../../App';
 // todo: improve execute and error definition and move to a shared place
 // todo: frontend validation
 export type CommandTrigger = () => {
-  execute: Function;
+  execute(username: string, password: string): void;
   isExecuting: boolean;
   succeeded: boolean;
   error: unknown;
@@ -15,17 +15,16 @@ export type CommandTrigger = () => {
 
 export const useUserLogin: CommandTrigger = () => {
   const navigateTo = useNavigate();
-
   const loginMutation = useMutation((login: { username: string; password: string }) =>
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, login, { withCredentials: true })
   );
   useEffect(() => {
     if (loginMutation.isSuccess) {
-      navigateTo(AppRoutes.selectWorld);
+      navigateTo(AppRoutes.home);
     }
   }, [loginMutation.isSuccess]);
 
-  const execute = (username: string, password: string) => {
+  const execute = (username: string, password: string): void => {
     loginMutation.mutate({ username, password });
   };
 

@@ -1,5 +1,13 @@
-import { ArmyPrimitives } from '../../../../../Contexts/Battlefield/Armies/Domain/Army';
-
 export type ArmyResponse = {
-  army: ArmyPrimitives;
+  army: {
+    id: string;
+    townId: string;
+    playerId: string;
+    squads: [
+      {
+        type: 'basic';
+        soldiers: number;
+      }
+    ];
+  };
 };

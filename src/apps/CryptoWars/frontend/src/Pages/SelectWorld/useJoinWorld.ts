@@ -18,7 +18,7 @@ export const useJoinWorld = () => {
       { worldId: world.id },
       {
         onSuccess: () => {
-          navigate(AppRoutes.town);
+          navigate(AppRoutes.home);
         },
         onError: console.error
       }
