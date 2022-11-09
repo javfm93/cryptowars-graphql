@@ -29,7 +29,14 @@ Feature: As player, I want to see all my details
                     "level": 0,
                     "essenceRequiredToLevelUp": 10,
                     "type": "creator",
-                    "units": ["basic"]
+                    "units": [
+                      {
+                        "name": "basic",
+                        "cost": 30,
+                        "attack": 10,
+                        "defense": 5
+                      }
+                    ]
                   },
                   "essenceGenerator": {
                     "level": 1,

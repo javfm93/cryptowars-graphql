@@ -10,7 +10,21 @@ export enum TownUnits {
   basic = 'basic'
 }
 
-export const HeadQuarterUnits = [TownUnits.basic];
+export type TownUnit = {
+  name: TownUnits;
+  attack: number;
+  defense: number;
+  cost: number;
+};
+
+const basicUnit: TownUnit = {
+  name: TownUnits.basic,
+  attack: 10,
+  defense: 5,
+  cost: 30
+};
+
+export const HeadQuarterUnits = [basicUnit];
 
 export enum TownResources {
   'essence' = 'essence'
@@ -21,7 +35,7 @@ export interface TownBuildingsPrimitives {
     level: number;
     essenceRequiredToLevelUp: number;
     type: TownBuildingType;
-    units: typeof HeadQuarterUnits;
+    units: Array<TownUnit>;
   };
   essenceGenerator: {
     level: number;
