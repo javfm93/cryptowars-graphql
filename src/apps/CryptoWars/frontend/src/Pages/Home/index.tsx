@@ -13,9 +13,12 @@ import { useUserLogin } from '../Login/useUserLogin';
 
 export const Home = (): JSX.Element => {
   const login = useUserLogin();
-  const { result } = usePlayer();
-  if (!result) {
+  const { result, error } = usePlayer();
+  if (!result && error) {
     login.execute('newuser@email.com', 'P@ssw0rd');
+    return <></>;
+  }
+  if (!result) {
     return <></>;
   }
   return (
