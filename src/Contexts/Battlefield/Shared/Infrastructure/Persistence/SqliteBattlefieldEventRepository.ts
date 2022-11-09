@@ -1,20 +1,22 @@
 import {
-  BattlefieldDomainEvent,
-  BattlefieldEvent,
-  BattlefieldEventPrimitives
-} from '../../Domain/BattlefieldEvent';
+  BattlefieldInternalEvent,
+  BattlefieldInternalEventPrimitives
+} from '../../Domain/BattlefieldInternalEvent';
 import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema, Repository } from 'typeorm';
 import { BattlefieldEventSchema } from './typeorm/BattlefieldEventSchema';
-import { BattlefieldEventRepository } from '../../Domain/BattlefieldEventRepository';
+import { BattlefieldInternalEventRepository } from '../../Domain/BattlefieldInternalEventRepository';
+import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
+import { Army } from '../../../Armies/Domain/Army';
 
 export class SqliteBattlefieldEventRepository
-  extends TypeOrmRepository<BattlefieldEventPrimitives>
-  implements BattlefieldEventRepository
+  extends TypeOrmRepository<BattlefieldInternalEventPrimitives>
+  implements BattlefieldInternalEventRepository
 {
-  public async save(events: Array<BattlefieldDomainEvent>): Promise<void> {
+  public async save(events: Array<BattlefieldInternalEvent>): Promise<void> {
     const storeEvent =
-      (event: BattlefieldEvent) => async (repository: Repository<BattlefieldEventPrimitives>) => {
+      (event: BattlefieldInternalEvent) =>
+      async (repository: Repository<BattlefieldInternalEventPrimitives>) => {
         const lastEvent = await repository.findOne({
           where: { aggregateId: event.aggregateId },
           order: { version: 'DESC' }
@@ -23,21 +25,29 @@ export class SqliteBattlefieldEventRepository
         await repository.save(event.toPrimitives());
       };
 
-    const storing = events.map(event =>
-      this.executeTransaction(storeEvent(event.toBattlefieldEvent()))
-    );
-    await Promise.all(storing);
+    for (const event of events) {
+      await this.executeTransaction(storeEvent(event));
+    }
   }
 
-  public async findByAggregateId(id: string): Promise<Array<BattlefieldEvent>> {
+  public async materializeArmyByTownId(townId: Uuid): Promise<Army> {
+    const repository = await this.repository();
+    const events = await repository
+      .createQueryBuilder()
+      .where("json_extract(data, '$.townId') = :townId", { townId: townId.toString() })
+      .getMany();
+    return Army.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives));
+  }
+
+  public async findByAggregateId(id: string): Promise<Array<BattlefieldInternalEvent>> {
     const repository = await this.repository();
     const events = await repository.find({
       where: { aggregateId: id }
     });
-    return events.map(BattlefieldEvent.fromPrimitives);
+    return events.map(BattlefieldInternalEvent.fromPrimitives);
   }
 
-  protected entitySchema(): EntitySchema<BattlefieldEventPrimitives> {
+  protected entitySchema(): EntitySchema<BattlefieldInternalEventPrimitives> {
     return BattlefieldEventSchema;
   }
 }

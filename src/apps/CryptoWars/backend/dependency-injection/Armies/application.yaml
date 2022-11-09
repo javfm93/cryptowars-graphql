@@ -4,13 +4,13 @@ services:
     class: ../../../../../Contexts/Battlefield/Armies/Infrastructure/Persistence/SqliteArmyRepository
     arguments: [ '@Shared.ConnectionManager' ]
 
-  Battlefield.Shared.BattlefieldEventRepository:
+  Battlefield.Shared.BattlefieldInternalEventRepository:
     class: ../../../../../Contexts/Battlefield/Shared/Infrastructure/Persistence/SqliteBattlefieldEventRepository
     arguments: [ '@Shared.ConnectionManager' ]
 
   Battlefield.Armies.CreateArmy:
     class: ../../../../../Contexts/Battlefield/Armies/Application/Create/CreateArmy
-    arguments: [ '@Battlefield.Armies.ArmyRepository','@Battlefield.Shared.BattlefieldEventRepository', '@Shared.EventBus' ]
+    arguments: [ '@Battlefield.Armies.ArmyRepository','@Battlefield.Shared.BattlefieldInternalEventRepository', '@Shared.EventBus' ]
 
   Battlefield.Armies.CreateArmyOnTownCreated:
     class: ../../../../../Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated
@@ -30,7 +30,7 @@ services:
 
   Battlefield.Armies.RecruitSquad:
     class: ../../../../../Contexts/Battlefield/Armies/Application/Recruit/RecruitSquad
-    arguments: [ '@Battlefield.Armies.ArmyRepository','@Battlefield.Shared.BattlefieldEventRepository', '@Shared.EventBus' ]
+    arguments: [ '@Battlefield.Armies.ArmyRepository','@Battlefield.Shared.BattlefieldInternalEventRepository', '@Shared.EventBus' ]
 
   Battlefield.Armies.RecruitSoldiersOnTownSoldiersTrainFinished:
     class: ../../../../../Contexts/Battlefield/Armies/Application/Recruit/RecruitSquadOnTownSoldiersTrainFinished

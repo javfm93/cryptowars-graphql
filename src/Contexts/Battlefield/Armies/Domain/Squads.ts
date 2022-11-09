@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/domain/TownSoldiers';
 
-enum SquadTypes {
+export enum SquadTypes {
   basic = 'basic'
 }
 

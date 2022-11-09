@@ -1,8 +1,8 @@
-import { NothingOr } from '../../../../src/Contexts/Shared/Domain/Nullable';
-import { TownId } from '../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
-import { ArmyRepository } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
-import { Army } from '../../../../src/Contexts/Battlefield/Armies/Domain/Army';
-import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
+import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { ArmyRepository } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
+import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 
 export class ArmyRepositoryMock implements ArmyRepository {
   private mockSave = jest.fn();

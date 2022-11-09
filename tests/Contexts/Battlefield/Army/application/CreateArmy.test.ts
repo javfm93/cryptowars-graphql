@@ -1,12 +1,12 @@
 import { ArmyRepositoryMock } from '../__mocks__/ArmyRepositoryMock';
 import { ArmyGenerator } from '../domain/ArmyGenerator';
-import { ArmyEventsGenerator } from '../domain/ArmyEventsGenerator';
-import EventBusMock from '../../Shared/Infrastructure/EventBusMock';
-import { CreateArmy } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmy';
-import { CreateArmyOnTownCreated } from '../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated';
-import { ArmyId } from '../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
+import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
+import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
+import { CreateArmy } from '../../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmy';
+import { CreateArmyOnTownCreated } from '../../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated';
+import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 import { TownEventsGenerator } from '../domain/TownEventsGenerator';
-import { BattlefieldEventsRepositoryMock } from '../__mocks__/BattlefieldEventsRepositoryMock';
+import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -27,7 +27,8 @@ describe('[Application] Create Army', () => {
 
     const armyId = ArmyId.create(mockedNewUuid);
     const expectedArmy = ArmyGenerator.fromEvent(event, armyId);
-    const expectedEvent = ArmyEventsGenerator.ArmyCreated(armyId);
+    const expectedEvent = ArmyExposedEventsGenerator.ArmyCreated(expectedArmy);
+    eventRepository.expectLastSavedBattlefieldEventToBe([expectedEvent]);
     repository.expectLastSavedArmyToBe(expectedArmy);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });

@@ -1,7 +1,8 @@
 import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
 import { SquadPrimitives } from './Squads';
-import { BattlefieldDomainEvent, BattlefieldEvent } from '../../Shared/Domain/BattlefieldEvent';
+import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
+import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
 
 type SoldiersRecruitedDomainEventBody = {
   readonly eventName: string;
@@ -10,7 +11,7 @@ type SoldiersRecruitedDomainEventBody = {
   readonly soldiers: SquadPrimitives;
 };
 
-export class SoldiersRecruitedDomainEvent extends BattlefieldDomainEvent {
+export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.soldiersRecruited';
   readonly townId: string;
   readonly squad: SquadPrimitives;
@@ -38,12 +39,23 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldDomainEvent {
     };
   }
 
-  toBattlefieldEvent(): BattlefieldEvent {
-    return new BattlefieldEvent(new Uuid(this.eventId), {
+  toBattlefieldInternalEvent(): BattlefieldInternalEvent {
+    return new BattlefieldInternalEvent(new Uuid(this.eventId), {
       aggregateId: this.aggregateId,
       version: 0,
       eventName: this.eventName,
       data: { townId: this.townId, squad: this.squad }
+    });
+  }
+
+  static fromBattlefieldInternalEvent(
+    event: BattlefieldInternalEvent
+  ): SoldiersRecruitedDomainEvent {
+    return new SoldiersRecruitedDomainEvent({
+      id: event.aggregateId,
+      eventId: event.id.toString(),
+      townId: event.toPrimitives().data.townId,
+      squad: event.toPrimitives().data.squad
     });
   }
 
@@ -61,5 +73,9 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldDomainEvent {
       townId,
       squad
     });
+  }
+
+  static isMe(event: BattlefieldInternalEvent): boolean {
+    return event.name === SoldiersRecruitedDomainEvent.EVENT_NAME;
   }
 }

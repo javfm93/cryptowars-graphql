@@ -7,7 +7,7 @@ import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { ArmyId } from '../../Domain/ArmyId';
 import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
-import { BattlefieldEventRepository } from '../../../Shared/Domain/BattlefieldEventRepository';
+import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
 
 type CreateArmyArgs = {
   id: ArmyId;
@@ -20,15 +20,15 @@ type CreateArmyResult = Either<EmptyResult, DomainError>;
 export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
   constructor(
     private armyRepository: ArmyRepository,
-    private eventRepository: BattlefieldEventRepository,
+    private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus
   ) {}
 
   async execute({ id, townId, playerId }: CreateArmyArgs): Promise<CreateArmyResult> {
     const army = Army.create(id, { townId, playerId });
-    await this.armyRepository.save(army);
     const events = army.pullDomainEvents();
-    await this.eventRepository.save(events);
+    await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
+    await this.armyRepository.save(army);
     await this.eventBus.publish(events);
     return success();
   }

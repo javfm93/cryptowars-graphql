@@ -1,7 +1,7 @@
 import { ArmyGenerator } from '../../domain/ArmyGenerator';
-import { ArmyRepository } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
-import container from '../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { ArmyRepository } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
+import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
+import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
 const repository: ArmyRepository = container.get('Battlefield.Armies.ArmyRepository');
 

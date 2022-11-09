@@ -1,12 +1,12 @@
 import { FindArmyByTownQueryGenerator } from './FindArmyByTownQueryGenerator';
 import { ArmyRepositoryMock } from '../__mocks__/ArmyRepositoryMock';
 import { ArmyGenerator } from '../domain/ArmyGenerator';
-import { FindArmyByTown } from '../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
-import { FindArmyByTownQueryHandler } from '../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
-import { TownIdGenerator } from '../../CryptoWars/Towns/domain/TownIdGenerator';
-import { ArmyNotFound } from '../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
-import { PlayerIdGenerator } from '../../CryptoWars/Players/domain/PlayerIdGenerator';
-import { Forbidden } from '../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
+import { FindArmyByTown } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
+import { FindArmyByTownQueryHandler } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
+import { TownIdGenerator } from '../../../CryptoWars/Towns/domain/TownIdGenerator';
+import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
+import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
+import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
 
 describe('[Application] Find Army', () => {
   const repository = new ArmyRepositoryMock();

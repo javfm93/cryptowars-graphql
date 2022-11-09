@@ -1,8 +1,8 @@
 import { EntitySchema } from 'typeorm';
-import { BattlefieldEventPrimitives } from '../../../Domain/BattlefieldEvent';
+import { BattlefieldInternalEventPrimitives } from '../../../Domain/BattlefieldInternalEvent';
 
-export const BattlefieldEventSchema: EntitySchema<BattlefieldEventPrimitives> =
-  new EntitySchema<BattlefieldEventPrimitives>({
+export const BattlefieldEventSchema: EntitySchema<BattlefieldInternalEventPrimitives> =
+  new EntitySchema<BattlefieldInternalEventPrimitives>({
     name: 'BattlefieldEvents',
     tableName: 'battlefieldEvents',
     columns: {
