@@ -1,4 +1,3 @@
-import { ArmyRepository } from '../../Domain/ArmyRepository';
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { Army } from '../../Domain/Army';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
@@ -19,7 +18,6 @@ type CreateArmyResult = Either<EmptyResult, DomainError>;
 
 export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
   constructor(
-    private armyRepository: ArmyRepository,
     private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus
   ) {}
@@ -28,7 +26,6 @@ export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
     const army = Army.create(id, { townId, playerId });
     const events = army.pullDomainEvents();
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
-    await this.armyRepository.save(army);
     await this.eventBus.publish(events);
     return success();
   }

@@ -6,6 +6,7 @@ import { TownEventsGenerator } from '../domain/TownEventsGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
 import { SquadTypes } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
+import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -18,11 +19,14 @@ describe('[Application] Recruit Soldiers', () => {
   const creator = new RecruitSquad(repository, eventBus);
   const handler = new RecruitSquadOnTownSoldiersTrainFinished(creator);
 
+  beforeEach(() => {
+    eventBus.resetMock();
+  });
+  
   it('should recruit soldiers when town soldiers train finish', async () => {
     const army = ArmyGenerator.random();
     const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
-    const armyCreated = ArmyExposedEventsGenerator.ArmyCreated(army);
-    repository.whenFindByAggregateIdThenReturn(armyCreated.toBattlefieldInternalEvent());
+    repository.whenMaterializeArmyByTownIdThenReturn(army);
 
     await handler.on(event);
 
@@ -30,25 +34,20 @@ describe('[Application] Recruit Soldiers', () => {
       type: SquadTypes.basic,
       soldiers: event.soldiers.basic
     });
-
-    repository.expectLastSavedBattlefieldEventToBe([expectedEvent]);
+    repository.expectLastSavedBattlefieldEventToBe([expectedEvent.toBattlefieldInternalEvent()]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
-  it('should fail when the town doesnt exist', async () => {
+
+  it('should fail when the army doesnt exist', async () => {
     const army = ArmyGenerator.random();
-    // const initialSoldiers = army.toPrimitives().squads;
     const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
-    // const trainedSolders = event.soldiers;
 
-    await handler.on(event);
-
-    // const expectedEvent = ArmyEventsGenerator.SoldiersRecruited(
-    //   army.id,
-    //   army.townId,
-    //   army.basicSquad
-    // );
-
-    // repository.expectLastSavedArmyToHaveADifferenceOf(initialSoldiers, trainedSolders);
-    // eventBus.expectLastPublishedEventToBe(expectedEvent);
+    try {
+      await handler.on(event);
+      fail("Didn't throw");
+    } catch (e: any) {
+      expect(e.message).toEqual(new ArmyNotFound().message);
+      eventBus.expectEventsNotToBePublished();
+    }
   });
 });

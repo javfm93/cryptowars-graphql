@@ -1,5 +1,4 @@
 import { FindArmyByTownQueryGenerator } from './FindArmyByTownQueryGenerator';
-import { ArmyRepositoryMock } from '../__mocks__/ArmyRepositoryMock';
 import { ArmyGenerator } from '../domain/ArmyGenerator';
 import { FindArmyByTown } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
 import { FindArmyByTownQueryHandler } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
@@ -7,16 +6,17 @@ import { TownIdGenerator } from '../../../CryptoWars/Towns/domain/TownIdGenerato
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
+import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 
 describe('[Application] Find Army', () => {
-  const repository = new ArmyRepositoryMock();
+  const repository = new BattlefieldEventsRepositoryMock();
   const creator = new FindArmyByTown(repository);
   const handler = new FindArmyByTownQueryHandler(creator);
 
   it('should return the army', async () => {
     const expectedArmy = ArmyGenerator.random();
     const query = FindArmyByTownQueryGenerator.create(expectedArmy.PlayerId, expectedArmy.townId);
-    repository.whenFindByTownIdThenReturn(expectedArmy);
+    repository.whenMaterializeArmyByTownIdThenReturn(expectedArmy);
 
     const army = await handler.handle(query);
 
@@ -29,7 +29,7 @@ describe('[Application] Find Army', () => {
       expectedArmy.PlayerId,
       TownIdGenerator.random()
     );
-    repository.whenFindByTownIdThenReturn(expectedArmy);
+    repository.whenMaterializeArmyByTownIdThenReturn(expectedArmy);
 
     const result = await handler.handle(query);
 
@@ -42,7 +42,7 @@ describe('[Application] Find Army', () => {
       PlayerIdGenerator.random(),
       expectedArmy.townId
     );
-    repository.whenFindByTownIdThenReturn(expectedArmy);
+    repository.whenMaterializeArmyByTownIdThenReturn(expectedArmy);
 
     const result = await handler.handle(query);
 

@@ -1,11 +1,13 @@
 import { BattlefieldInternalEventRepository } from '../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEventRepository';
 import { BattlefieldInternalEvent } from '../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEvent';
-import { Uuid } from '../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 
 export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEventRepository {
   private mockSave = jest.fn();
   private mockFindByAggregateId = jest.fn();
+  private mockMaterializeArmyByTownId = jest.fn();
 
   async save(event: Array<BattlefieldInternalEvent>): Promise<void> {
     this.mockSave(event);
@@ -27,7 +29,13 @@ export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEvent
     );
   }
 
-  materializeArmyByTownId(townId: Uuid): Promise<Army> {
-    throw new Error('Method not implemented.');
+  materializeArmyByTownId(townId: TownId): Promise<Army> {
+    return this.mockMaterializeArmyByTownId(townId);
+  }
+
+  whenMaterializeArmyByTownIdThenReturn(army: Army): void {
+    this.mockMaterializeArmyByTownId.mockImplementationOnce(
+      (townId: TownId): NothingOr<Army> => (townId.isEqualTo(army.townId) ? army : null)
+    );
   }
 }

@@ -17,6 +17,7 @@ export class RecruitSquadOnTownSoldiersTrainFinished
   async on(domainEvent: TownSoldiersTrainFinished) {
     const townId = TownId.create(domainEvent.aggregateId);
     const squad = Squads.fromTownSoldiers(domainEvent.soldiers);
-    await this.recruitSoldiers.execute({ townId, squad });
+    const result = await this.recruitSoldiers.execute({ townId, squad });
+    if (result.isFailure()) throw Error(result.value.message);
   }
 }

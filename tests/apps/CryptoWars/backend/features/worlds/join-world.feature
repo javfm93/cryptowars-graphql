@@ -1,3 +1,4 @@
+@join-world
 Feature: As player, I want to select a world to start a game
 
   Scenario: In order to create a player in a world, a new town should be created and placed in the world

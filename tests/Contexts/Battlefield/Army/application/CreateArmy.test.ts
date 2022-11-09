@@ -1,4 +1,3 @@
-import { ArmyRepositoryMock } from '../__mocks__/ArmyRepositoryMock';
 import { ArmyGenerator } from '../domain/ArmyGenerator';
 import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
@@ -14,10 +13,9 @@ jest.mock('uuid', () => ({ v4: () => mockedNewUuid }));
 jest.mock('uuid-validate', () => () => true);
 
 describe('[Application] Create Army', () => {
-  const repository = new ArmyRepositoryMock();
   const eventRepository = new BattlefieldEventsRepositoryMock();
   const eventBus = new EventBusMock();
-  const creator = new CreateArmy(repository, eventRepository, eventBus);
+  const creator = new CreateArmy(eventRepository, eventBus);
   const handler = new CreateArmyOnTownCreated(creator);
 
   it('should create an army when a town is created', async () => {
@@ -28,8 +26,9 @@ describe('[Application] Create Army', () => {
     const armyId = ArmyId.create(mockedNewUuid);
     const expectedArmy = ArmyGenerator.fromEvent(event, armyId);
     const expectedEvent = ArmyExposedEventsGenerator.ArmyCreated(expectedArmy);
-    eventRepository.expectLastSavedBattlefieldEventToBe([expectedEvent]);
-    repository.expectLastSavedArmyToBe(expectedArmy);
+    eventRepository.expectLastSavedBattlefieldEventToBe([
+      expectedEvent.toBattlefieldInternalEvent()
+    ]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 });
