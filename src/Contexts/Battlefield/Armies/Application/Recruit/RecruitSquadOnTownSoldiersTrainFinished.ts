@@ -8,7 +8,7 @@ import { Squads } from '../../Domain/Squads';
 export class RecruitSquadOnTownSoldiersTrainFinished
   implements DomainEventSubscriber<TownSoldiersTrainFinished>
 {
-  constructor(private recruitSoldiers: RecruitSquad) {}
+  constructor(private recruitSquad: RecruitSquad) {}
 
   subscribedTo(): DomainEventClass[] {
     return [TownSoldiersTrainFinished];
@@ -17,7 +17,7 @@ export class RecruitSquadOnTownSoldiersTrainFinished
   async on(domainEvent: TownSoldiersTrainFinished) {
     const townId = TownId.create(domainEvent.aggregateId);
     const squad = Squads.fromTownSoldiers(domainEvent.soldiers);
-    const result = await this.recruitSoldiers.execute({ townId, squad });
+    const result = await this.recruitSquad.execute({ townId, squad });
     if (result.isFailure()) throw Error(result.value.message);
   }
 }

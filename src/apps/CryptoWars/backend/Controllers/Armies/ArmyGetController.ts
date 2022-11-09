@@ -5,6 +5,9 @@ import { QueryBus } from '../../../../../Contexts/Shared/Domain/QueryBus';
 import { ArmyResponse } from './ArmyResponse';
 import { FindArmyByTownQuery } from '../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQuery';
 import { FindArmyQueryResult } from '../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
+import { Forbidden } from '../../../../../Contexts/Shared/Domain/Errors/Forbidden';
+import { FindArmyErrors } from '../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
+import { ArmyNotFound } from '../../../../../Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 
 export class ArmyGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
@@ -19,7 +22,16 @@ export class ArmyGetController implements Controller {
       res.status(httpStatus.OK).json({ army: result.value.toPrimitives() });
     } else {
       console.error(result.value);
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
+      this.handleError(res, result.value);
+    }
+  }
+
+  private handleError(res: Response, error: FindArmyErrors) {
+    if (error.isEqualTo(ArmyNotFound)) {
+      res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    if (error.isEqualTo(Forbidden)) {
+      res.status(httpStatus.FORBIDDEN).send();
     }
   }
 }

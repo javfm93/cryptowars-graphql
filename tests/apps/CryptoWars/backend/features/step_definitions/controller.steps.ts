@@ -9,6 +9,7 @@ let _request: request.Test;
 export let _response: request.Response;
 let application: CryptoWarsBackendApp;
 export let agent: request.SuperAgentTest;
+export let otherUserAgent: request.SuperAgentTest;
 
 BeforeAll(async () => {
   application = new CryptoWarsBackendApp();
@@ -21,6 +22,7 @@ Before(async () => {
   );
   await (await environmentArranger).arrange();
   agent = request.agent(application.httpServer);
+  otherUserAgent = request.agent(application.httpServer);
 });
 
 AfterAll(async () => {

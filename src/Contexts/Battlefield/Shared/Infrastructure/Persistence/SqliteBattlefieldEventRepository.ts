@@ -8,6 +8,7 @@ import { BattlefieldEventSchema } from './typeorm/BattlefieldEventSchema';
 import { BattlefieldInternalEventRepository } from '../../Domain/BattlefieldInternalEventRepository';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { Army } from '../../../Armies/Domain/Army';
+import { NothingOr } from '../../../../Shared/Domain/Nullable';
 
 export class SqliteBattlefieldEventRepository
   extends TypeOrmRepository<BattlefieldInternalEventPrimitives>
@@ -30,13 +31,15 @@ export class SqliteBattlefieldEventRepository
     }
   }
 
-  public async materializeArmyByTownId(townId: Uuid): Promise<Army> {
+  public async materializeArmyByTownId(townId: Uuid): Promise<NothingOr<Army>> {
     const repository = await this.repository();
     const events = await repository
       .createQueryBuilder()
       .where("json_extract(data, '$.townId') = :townId", { townId: townId.toString() })
       .getMany();
-    return Army.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives));
+    return events.length
+      ? Army.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives))
+      : null;
   }
 
   public async findByAggregateId(id: string): Promise<Array<BattlefieldInternalEvent>> {

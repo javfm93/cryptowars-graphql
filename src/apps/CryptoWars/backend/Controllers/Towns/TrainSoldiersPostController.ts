@@ -17,7 +17,6 @@ type RequestParams = {
   id: string;
 };
 
-// todo: not longer need to send the userId, we can send the playerId
 export class TrainSoldiersPostController implements Controller {
   constructor(private commandBus: CommandBus) {}
 
