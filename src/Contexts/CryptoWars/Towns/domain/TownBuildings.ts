@@ -3,7 +3,8 @@ import { isDeepStrictEqual } from 'util';
 
 export enum TownBuildingType {
   generator = 'generator',
-  creator = 'creator'
+  creator = 'creator',
+  store = 'store'
 }
 
 export enum TownUnits {
@@ -44,6 +45,18 @@ export interface TownBuildingsPrimitives {
     resource: TownResources;
     generationPerHour: number;
   };
+  warehouse: {
+    level: number;
+    essenceRequiredToLevelUp: number;
+    type: TownBuildingType;
+    assets: [
+      {
+        name: TownResources;
+        limit: number;
+        stored: number;
+      }
+    ];
+  };
 }
 
 export class TownBuildings extends ValueObject<TownBuildings> {
@@ -66,6 +79,18 @@ export class TownBuildings extends ValueObject<TownBuildings> {
         type: TownBuildingType.generator,
         generationPerHour: 60,
         resource: TownResources.essence
+      },
+      warehouse: {
+        level: 1,
+        essenceRequiredToLevelUp: 30,
+        type: TownBuildingType.store,
+        assets: [
+          {
+            name: TownResources.essence,
+            limit: 1000,
+            stored: 10
+          }
+        ]
       }
     };
 

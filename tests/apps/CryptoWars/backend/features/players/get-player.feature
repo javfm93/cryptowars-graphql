@@ -44,6 +44,18 @@ Feature: As player, I want to see all my details
                     "type": "generator",
                     "resource": "essence",
                     "generationPerHour": 60
+                  },
+                  "warehouse": {
+                    "level": 1,
+                    "essenceRequiredToLevelUp": 30,
+                    "type": "store",
+                    "assets": [
+                      {
+                        "name": "essence",
+                        "limit": 1000,
+                        "stored": 10
+                      }
+                    ]
                   }
                 }
               }
