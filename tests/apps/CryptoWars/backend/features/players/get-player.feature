@@ -53,7 +53,8 @@ Feature: As player, I want to see all my details
                       {
                         "name": "essence",
                         "limit": 1000,
-                        "stored": 10
+                        "stored": 10,
+                        "lastStorageUpdate": ":isoTimeNow"
                       }
                     ]
                   }

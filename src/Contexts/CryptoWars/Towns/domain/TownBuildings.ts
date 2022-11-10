@@ -54,6 +54,7 @@ export interface TownBuildingsPrimitives {
         name: TownResources;
         limit: number;
         stored: number;
+        lastStorageUpdate: string;
       }
     ];
   };
@@ -88,7 +89,8 @@ export class TownBuildings extends ValueObject<TownBuildings> {
           {
             name: TownResources.essence,
             limit: 1000,
-            stored: 10
+            stored: 10,
+            lastStorageUpdate: new Date().toISOString()
           }
         ]
       }

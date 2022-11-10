@@ -19,11 +19,14 @@ Given('Other user has his player information', async () => {
 });
 
 Then('The response content should match the player response:', (expectedResponse: string) => {
+  const response: PlayerPrimitives = _response.body.player;
+  const essenceUpdatedAt = response.towns[0].buildings.warehouse.assets[0].lastStorageUpdate;
+
   expectedResponse = expectedResponse.replace(/:userId/gi, userId);
   expectedResponse = expectedResponse.replace(/:worldId/gi, worldId);
-
+  expectedResponse = expectedResponse.replace(/:isoTimeNow/gi, essenceUpdatedAt);
   const expected: PlayerPrimitives = JSON.parse(expectedResponse).player;
-  const response: PlayerPrimitives = _response.body.player;
+
   assert.strictEqual(response.towns.length, 1);
   assert.strictEqual(response.towns[0].playerId, response.id);
   assert.deepStrictEqual(response.towns[0].buildings, expected.towns[0].buildings);
