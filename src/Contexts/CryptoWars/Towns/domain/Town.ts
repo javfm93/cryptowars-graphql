@@ -4,6 +4,8 @@ import { TownId } from './TownId';
 import { PlayerId } from '../../Players/Domain/PlayerId';
 import { TownBuildings, TownBuildingsPrimitives } from './TownBuildings';
 import { WorldId } from '../../Worlds/Domain/WorldId';
+import { TownSoldiers } from './TownSoldiers';
+import { TownSoldiersTrainFinished } from './TownSoldiersTrainFinishedDomainEvent';
 
 export interface TownProps {
   playerId: PlayerId;
@@ -40,8 +42,26 @@ export class Town extends AggregateRoot<TownProps> {
     return town;
   }
 
-  public isManagedBy(playerId: PlayerId) {
+  isManagedBy(playerId: PlayerId) {
     return this.props.playerId.isEqualTo(playerId);
+  }
+
+  updateWarehouseAssets(): void {
+    this.props.buildings.updateWareHouseAssets();
+  }
+
+  hasEnoughAssetsToTrain(soldiers: TownSoldiers): boolean {
+    return this.props.buildings.getTownEssence() > soldiers.calculateCost();
+  }
+
+  train(soldiers: TownSoldiers): void {
+    this.record(
+      new TownSoldiersTrainFinished({
+        id: this.id.toString(),
+        soldiers: soldiers.value
+      })
+    );
+    this.props.buildings.payEssence(soldiers.calculateCost());
   }
 
   toPrimitives(): TownPrimitives {

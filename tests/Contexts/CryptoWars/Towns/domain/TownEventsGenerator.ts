@@ -1,6 +1,6 @@
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownCreatedDomainEvent';
-import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldierTrainFinishedDomainEvent';
+import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiersTrainFinishedDomainEvent';
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
 

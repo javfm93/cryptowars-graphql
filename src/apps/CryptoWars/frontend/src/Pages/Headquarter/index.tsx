@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +13,7 @@ import { useTrainSoldiers } from './useTrainSoldiers';
 import { useParams } from 'react-router-dom';
 import { useTownArmy } from './useTownArmy';
 import { usePlayer } from '../Town/usePlayer';
+import TownHeader from '../Town/TownHeader';
 
 export const Headquarter = (): JSX.Element => {
   const { t } = useTranslation();
@@ -29,6 +31,7 @@ export const Headquarter = (): JSX.Element => {
 
   return (
     <div>
+      <TownHeader />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

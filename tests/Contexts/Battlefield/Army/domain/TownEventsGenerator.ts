@@ -3,7 +3,7 @@ import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGe
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
 import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownCreatedDomainEvent';
-import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldierTrainFinishedDomainEvent';
+import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiersTrainFinishedDomainEvent';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
 export class TownEventsGenerator {
@@ -15,7 +15,7 @@ export class TownEventsGenerator {
   }
 
   static randomSoldiersTrainFinishedFor(army: Army): TownSoldiersTrainFinished {
-    const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and10() };
+    const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and9() };
 
     return new TownSoldiersTrainFinished({
       id: army.townId.toString(),

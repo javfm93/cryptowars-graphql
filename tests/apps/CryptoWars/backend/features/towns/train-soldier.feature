@@ -14,6 +14,22 @@ Feature: As player, I want to train Soldiers for my town
     """
     Then The town request response status code should be 200
     And The town request response should be empty
+    And The town should have less assets
+
+  Scenario: If I dont have enough essence, should return forbidden
+    Given I am sign in
+    Given I joined a world
+    Given I get my player information
+    When I send a POST request to train-soldiers endpoint with my town and body:
+    """
+    {
+      "soldiers": {
+        "basic": 200000
+      }
+    }
+    """
+    Then The town request response status code should be 403
+    And The town request response should be empty
 
   Scenario: If I dont own the town should return forbidden
     Given I am sign in

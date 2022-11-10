@@ -42,7 +42,7 @@ export class TownGenerator {
   }
 
   static multipleRandomFor(playerId: PlayerId, worldId: WorldId): Towns {
-    const towns = Array.from({ length: NumberGenerator.randomBetween1and10() }, () =>
+    const towns = Array.from({ length: NumberGenerator.randomBetween1and9() }, () =>
       this.randomFor(playerId, worldId)
     );
     return Towns.create(towns);

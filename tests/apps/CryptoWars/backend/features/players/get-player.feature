@@ -32,7 +32,7 @@ Feature: As player, I want to see all my details
                     "units": [
                       {
                         "name": "basic",
-                        "cost": 30,
+                        "cost": 1,
                         "attack": 10,
                         "defense": 5
                       }
@@ -42,7 +42,7 @@ Feature: As player, I want to see all my details
                     "level": 1,
                     "essenceRequiredToLevelUp": 30,
                     "type": "generator",
-                    "resource": "essence",
+                    "asset": "essence",
                     "generationPerHour": 60
                   },
                   "warehouse": {

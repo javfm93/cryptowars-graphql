@@ -43,9 +43,7 @@ export class WorldGenerator {
   }
 
   static multipleRandom(): Worlds {
-    const words = Array.from({ length: NumberGenerator.randomBetween1and10() }, () =>
-      this.random()
-    );
+    const words = Array.from({ length: NumberGenerator.randomBetween1and9() }, () => this.random());
     return Worlds.create(words);
   }
 }

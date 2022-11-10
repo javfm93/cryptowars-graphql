@@ -38,7 +38,7 @@ export class PlayerGenerator {
   }
 
   static multipleRandom(): Players {
-    const players = Array.from({ length: NumberGenerator.randomBetween1and10() }, () =>
+    const players = Array.from({ length: NumberGenerator.randomBetween1and9() }, () =>
       this.random()
     );
     return Players.create(players);

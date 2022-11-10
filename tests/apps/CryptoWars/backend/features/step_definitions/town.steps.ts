@@ -3,7 +3,7 @@ import { agent } from './controller.steps';
 import assert from 'assert';
 import request from 'supertest';
 import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
-import { player } from './player.steps';
+import { player, retrievePlayerInformation } from './player.steps';
 
 let townRequest: request.Test;
 let townResponse: request.Response;
@@ -27,4 +27,11 @@ Then('The town request response status code should be {int}', async (status: num
 
 Then('The town request response should be empty', () => {
   assert.deepStrictEqual(townResponse.body, {});
+});
+
+Then('The town should have less assets', async () => {
+  const before = player.towns[0].buildings.warehouse.assets[0].stored;
+  await retrievePlayerInformation();
+  const after = player.towns[0].buildings.warehouse.assets[0].stored;
+  assert.ok(before > after);
 });

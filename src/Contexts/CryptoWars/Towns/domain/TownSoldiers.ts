@@ -3,13 +3,29 @@ import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Re
 import { InvalidNumberOfSoldiers } from './InvalidNumberOfSoldiers';
 import { InvalidSoldier } from './InvalidSoldier';
 
-export interface TownSoldiersPrimitives {
-  basic: number;
+export enum TownSoldierTypes {
+  basic = 'basic'
 }
 
-export class TownSoldiers extends ValueObject<TownSoldiers> {
-  static availableSoldiers = ['basic'];
+export interface TownSoldiersPrimitives {
+  [TownSoldierTypes.basic]: number;
+}
 
+export type TownSoldier = {
+  name: TownSoldierTypes;
+  attack: number;
+  defense: number;
+  cost: number;
+};
+
+export const basicSoldier: TownSoldier = {
+  name: TownSoldierTypes.basic,
+  attack: 10,
+  defense: 5,
+  cost: 1
+};
+
+export class TownSoldiers extends ValueObject<TownSoldiers> {
   private constructor(readonly value: TownSoldiersPrimitives) {
     super();
   }
@@ -21,7 +37,7 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
     const soldiersToCreate = Object.entries(soldiers);
     for (const soldierToCreate of soldiersToCreate) {
       const [soldier, numberOfSoldiers] = soldierToCreate;
-      if (!TownSoldiers.availableSoldiers.includes(soldier)) {
+      if (!Object.keys(TownSoldierTypes).includes(soldier)) {
         return failure(new InvalidSoldier(soldier));
       }
       if (numberOfSoldiers < 1) {
@@ -30,6 +46,10 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
     }
 
     return successAndReturn(new TownSoldiers(soldiers));
+  }
+
+  public calculateCost(): number {
+    return this.value[TownSoldierTypes.basic] * basicSoldier.cost;
   }
 
   public static fromPrimitives(soldiers: TownSoldiersPrimitives): TownSoldiers {

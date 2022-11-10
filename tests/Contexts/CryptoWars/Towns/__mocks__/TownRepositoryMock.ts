@@ -19,9 +19,10 @@ export class TownRepositoryMock implements TownRepository {
     return this.mockFindById(id);
   }
 
-  whenFindByIdThenReturn(town: NothingOr<Town>): void {
+  whenFindByIdThenReturn(town: Town): void {
     this.mockFindById.mockImplementationOnce(
-      (id: TownId): NothingOr<Town> => (id.isEqualTo(town?.id) ? town : null)
+      (id: TownId): NothingOr<Town> =>
+        id.isEqualTo(town?.id) ? Town.fromPrimitives(town.toPrimitives()) : null
     );
   }
 }

@@ -1,5 +1,7 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { isDeepStrictEqual } from 'util';
+import { basicSoldier, TownSoldier } from './TownSoldiers';
+import { calculateMsSince, fromMsToHours } from './TimeUtils';
 
 export enum TownBuildingType {
   generator = 'generator',
@@ -7,27 +9,7 @@ export enum TownBuildingType {
   store = 'store'
 }
 
-export enum TownUnits {
-  basic = 'basic'
-}
-
-export type TownUnit = {
-  name: TownUnits;
-  attack: number;
-  defense: number;
-  cost: number;
-};
-
-const basicUnit: TownUnit = {
-  name: TownUnits.basic,
-  attack: 10,
-  defense: 5,
-  cost: 30
-};
-
-export const HeadQuarterUnits = [basicUnit];
-
-export enum TownResources {
+export enum TownAssets {
   'essence' = 'essence'
 }
 
@@ -36,22 +18,23 @@ export interface TownBuildingsPrimitives {
     level: number;
     essenceRequiredToLevelUp: number;
     type: TownBuildingType;
-    units: Array<TownUnit>;
+    units: Array<TownSoldier>;
   };
   essenceGenerator: {
     level: number;
     essenceRequiredToLevelUp: number;
     type: TownBuildingType;
-    resource: TownResources;
+    asset: TownAssets;
     generationPerHour: number;
   };
   warehouse: {
     level: number;
     essenceRequiredToLevelUp: number;
     type: TownBuildingType;
+    // todo: refactor this to a map
     assets: [
       {
-        name: TownResources;
+        name: TownAssets;
         limit: number;
         stored: number;
         lastStorageUpdate: string;
@@ -60,6 +43,8 @@ export interface TownBuildingsPrimitives {
   };
 }
 
+const HeadQuarterUnits = [basicSoldier];
+
 export class TownBuildings extends ValueObject<TownBuildings> {
   private constructor(readonly value: TownBuildingsPrimitives) {
     super();
@@ -67,40 +52,30 @@ export class TownBuildings extends ValueObject<TownBuildings> {
   }
 
   public static createInitialBuildings(): TownBuildings {
-    const initialBuildings: TownBuildingsPrimitives = {
-      headquarter: {
-        level: 0,
-        essenceRequiredToLevelUp: 10,
-        type: TownBuildingType.creator,
-        units: HeadQuarterUnits
-      },
-      essenceGenerator: {
-        level: 1,
-        essenceRequiredToLevelUp: 30,
-        type: TownBuildingType.generator,
-        generationPerHour: 60,
-        resource: TownResources.essence
-      },
-      warehouse: {
-        level: 1,
-        essenceRequiredToLevelUp: 30,
-        type: TownBuildingType.store,
-        assets: [
-          {
-            name: TownResources.essence,
-            limit: 1000,
-            stored: 10,
-            lastStorageUpdate: new Date().toISOString()
-          }
-        ]
-      }
-    };
-
     return new TownBuildings(initialBuildings);
   }
 
   public static fromPrimitives(value: TownBuildingsPrimitives): TownBuildings {
     return new TownBuildings(value);
+  }
+
+  public updateWareHouseAssets(): void {
+    const essenceWarehouse = this.value.warehouse.assets[0];
+    const lastEssenceUpdate = essenceWarehouse.lastStorageUpdate;
+    const hoursSinceLastUpdate = fromMsToHours(calculateMsSince(new Date(lastEssenceUpdate)));
+    const { generationPerHour } = this.value.essenceGenerator;
+    const generationSinceLastUpdate = generationPerHour * hoursSinceLastUpdate;
+    const lastEssenceRegistry = essenceWarehouse.stored;
+    this.value.warehouse.assets[0].stored = lastEssenceRegistry + generationSinceLastUpdate;
+    this.value.warehouse.assets[0].lastStorageUpdate = new Date().toISOString();
+  }
+
+  public getTownEssence(): number {
+    return this.value.warehouse.assets[0].stored;
+  }
+
+  public payEssence(toPay: number): void {
+    this.value.warehouse.assets[0].stored -= toPay;
   }
 
   public isEqualTo(townBuildings?: TownBuildings) {
@@ -111,3 +86,32 @@ export class TownBuildings extends ValueObject<TownBuildings> {
     return JSON.stringify(this.value);
   }
 }
+
+const initialBuildings: TownBuildingsPrimitives = {
+  headquarter: {
+    level: 0,
+    essenceRequiredToLevelUp: 10,
+    type: TownBuildingType.creator,
+    units: HeadQuarterUnits
+  },
+  essenceGenerator: {
+    level: 1,
+    essenceRequiredToLevelUp: 30,
+    type: TownBuildingType.generator,
+    generationPerHour: 60,
+    asset: TownAssets.essence
+  },
+  warehouse: {
+    level: 1,
+    essenceRequiredToLevelUp: 30,
+    type: TownBuildingType.store,
+    assets: [
+      {
+        name: TownAssets.essence,
+        limit: 1000,
+        stored: 10,
+        lastStorageUpdate: new Date().toISOString()
+      }
+    ]
+  }
+};
