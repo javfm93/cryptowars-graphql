@@ -3,14 +3,14 @@ import httpStatus from 'http-status';
 import { TrainSoldiersPostRequest } from './TrainSoldiersPostRequest';
 import { Controller } from '../Controller';
 import { CommandBus } from '../../../../../Contexts/Shared/Domain/CommandBus';
-import { TrainSoldiersCommand } from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiersCommand';
+import { TrainSoldiersCommand } from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiersCommand';
 import {
   TrainSoldiersCommandErrors,
   TrainSoldiersCommandResult
-} from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiersCommandHandler';
+} from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiersCommandHandler';
 import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
-import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/application/TownNotFound';
+import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiers/TownNotFound';
 import { Forbidden } from '../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 
 type RequestParams = {

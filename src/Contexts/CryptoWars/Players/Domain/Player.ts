@@ -43,6 +43,10 @@ export class Player extends AggregateRoot<PlayerProps> {
     return this.props.worlds;
   }
 
+  get towns(): Towns {
+    return this.props.towns;
+  }
+
   public isOwnerOf(town: Town): boolean {
     return this.props.towns.exists(town);
   }

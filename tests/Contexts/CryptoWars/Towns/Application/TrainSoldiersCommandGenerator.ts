@@ -1,5 +1,5 @@
 import { NumberGenerator } from '../../../Shared/domain/NumberGenerator';
-import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiersCommand';
+import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiersCommand';
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 import { TownIdGenerator } from '../domain/TownIdGenerator';
 import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';

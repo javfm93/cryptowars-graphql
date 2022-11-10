@@ -5,11 +5,11 @@ services:
     arguments: [ '@Shared.ConnectionManager' ]
 
   CryptoWars.Towns.TrainSoldiers:
-    class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers
+    class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiers
     arguments: [ '@CryptoWars.Towns.TownRepository', '@Shared.EventBus' ]
 
   CryptoWars.Towns.TrainSoldiersCommandHandler:
-    class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiersCommandHandler
+    class: ../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommandHandler
     arguments: [ '@CryptoWars.Towns.TrainSoldiers' ]
     tags:
       - { name: 'commandHandler' }

@@ -1,13 +1,13 @@
-import { TownRepository } from '../domain/TownRepository';
+import { TownRepository } from '../../domain/TownRepository';
 import { TownNotFound } from './TownNotFound';
-import { Either, EmptyResult, failure, success } from '../../../Shared/Aplication/Result';
-import { TownId } from '../domain/TownId';
-import { UseCase } from '../../../Shared/Domain/UseCase';
-import { EventBus } from '../../../Shared/Domain/EventBus';
-import { TownSoldiersTrainFinished } from '../domain/TownSoldierTrainFinishedDomainEvent';
-import { TownSoldiers } from '../domain/TownSoldiers';
-import { Forbidden } from '../../../Shared/Domain/Errors/Forbidden';
-import { PlayerId } from '../../Players/Domain/PlayerId';
+import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { TownId } from '../../domain/TownId';
+import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { EventBus } from '../../../../Shared/Domain/EventBus';
+import { TownSoldiersTrainFinished } from '../../domain/TownSoldierTrainFinishedDomainEvent';
+import { TownSoldiers } from '../../domain/TownSoldiers';
+import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
+import { PlayerId } from '../../../Players/Domain/PlayerId';
 
 type TrainSoldiersArgs = {
   playerId: PlayerId;

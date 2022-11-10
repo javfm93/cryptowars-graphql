@@ -1,4 +1,4 @@
-import { DomainError } from '../../../Shared/Domain/Errors/DomainError';
+import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
 export class TownNotFound extends DomainError {
   constructor() {

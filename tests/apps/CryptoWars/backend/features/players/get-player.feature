@@ -1,7 +1,7 @@
 @get-player
 Feature: As player, I want to see all my details
 
-  Scenario: A player his own details
+  Scenario: A player checks his own details
     Given I am sign in
     Given I joined a world
     When I send a GET request to "/player"
