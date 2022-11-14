@@ -1,7 +1,8 @@
 import { EntitySchema } from 'typeorm';
-import { ArmyPrimitives } from '../../../Domain/Army';
+import { Army } from '../../../Domain/Army';
+import { Primitives } from '../../../../../Shared/Domain/Primitives';
 
-export const ArmySchema: EntitySchema<ArmyPrimitives> = new EntitySchema<ArmyPrimitives>({
+export const ArmySchema: EntitySchema<Primitives<Army>> = new EntitySchema<Primitives<Army>>({
   name: 'Army',
   tableName: 'armies',
   columns: {

@@ -22,7 +22,7 @@ describe('[Application] Recruit Soldiers', () => {
   beforeEach(() => {
     eventBus.resetMock();
   });
-  
+
   it('should recruit soldiers when town soldiers train finish', async () => {
     const army = ArmyGenerator.random();
     const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
@@ -34,7 +34,7 @@ describe('[Application] Recruit Soldiers', () => {
       type: SquadTypes.basic,
       soldiers: event.soldiers.basic
     });
-    repository.expectLastSavedBattlefieldEventToBe([expectedEvent.toBattlefieldInternalEvent()]);
+    repository.expectLastSavedBattlefieldEventsToBe([expectedEvent.toBattlefieldInternalEvent()]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });
 

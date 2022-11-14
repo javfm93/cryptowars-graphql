@@ -15,7 +15,7 @@ describe('[Application] Find Army', () => {
 
   it('should return the army', async () => {
     const expectedArmy = ArmyGenerator.random();
-    const query = FindArmyByTownQueryGenerator.create(expectedArmy.PlayerId, expectedArmy.townId);
+    const query = FindArmyByTownQueryGenerator.create(expectedArmy.playerId, expectedArmy.townId);
     repository.whenMaterializeArmyByTownIdThenReturn(expectedArmy);
 
     const army = await handler.handle(query);
@@ -26,7 +26,7 @@ describe('[Application] Find Army', () => {
   it('should return an error when the army does not exist', async () => {
     const expectedArmy = ArmyGenerator.random();
     const query = FindArmyByTownQueryGenerator.create(
-      expectedArmy.PlayerId,
+      expectedArmy.playerId,
       TownIdGenerator.random()
     );
     repository.whenMaterializeArmyByTownIdThenReturn(expectedArmy);

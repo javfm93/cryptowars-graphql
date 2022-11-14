@@ -10,6 +10,8 @@
           "unitType": "Unit Type",
           "train": "Train",
           "unitCost": "Cost",
+          "attack": "attack",
+          "defense": "defense",
           "recruited": "Recruited",
           "units": {
             "soldier": "Soldier"

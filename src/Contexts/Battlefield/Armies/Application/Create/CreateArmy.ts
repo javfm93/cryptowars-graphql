@@ -23,7 +23,7 @@ export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
   ) {}
 
   async execute({ id, townId, playerId }: CreateArmyArgs): Promise<CreateArmyResult> {
-    const army = Army.create(id, { townId, playerId });
+    const army = Army.create({ id, townId, playerId });
     const events = army.pullDomainEvents();
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
     await this.eventBus.publish(events);

@@ -1,8 +1,8 @@
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
 export class ArmyNotFound extends DomainError {
-  constructor() {
-    super(`Army not found`);
+  constructor(army: string = '') {
+    super(`Army ${army} not found`);
   }
 
   public errorName(): string {

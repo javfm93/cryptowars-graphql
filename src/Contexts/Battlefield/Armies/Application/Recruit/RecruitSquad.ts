@@ -3,12 +3,12 @@ import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
-import { SquadPrimitives } from '../../Domain/Squads';
+import { Squads } from '../../Domain/Squads';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
 
 type RecruitSoldiersArgs = {
   townId: TownId;
-  squad: SquadPrimitives;
+  squad: Squads;
 };
 
 type RecruitSoldiersResult = Either<EmptyResult, ArmyNotFound>;

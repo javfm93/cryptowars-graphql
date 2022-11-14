@@ -26,7 +26,7 @@ describe('[Application] Create Army', () => {
     const armyId = ArmyId.create(mockedNewUuid);
     const expectedArmy = ArmyGenerator.fromEvent(event, armyId);
     const expectedEvent = ArmyExposedEventsGenerator.ArmyCreated(expectedArmy);
-    eventRepository.expectLastSavedBattlefieldEventToBe([
+    eventRepository.expectLastSavedBattlefieldEventsToBe([
       expectedEvent.toBattlefieldInternalEvent()
     ]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);

@@ -38,6 +38,8 @@ export const Headquarter = (): JSX.Element => {
             <TableRow>
               <TableCell>{t('town.buildings.headquarter.unitType')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.unitCost')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.attack')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.defense')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.recruited')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.train')}</TableCell>
             </TableRow>
@@ -57,6 +59,8 @@ export const Headquarter = (): JSX.Element => {
                     {unit.name}
                   </TableCell>
                   <TableCell align="right">{unit.cost}</TableCell>
+                  <TableCell align="right">{unit.attack}</TableCell>
+                  <TableCell align="right">{unit.defense}</TableCell>
                   <TableCell align="right">{squad?.soldiers ?? 0}</TableCell>
                   <TableCell align="right">
                     <Input

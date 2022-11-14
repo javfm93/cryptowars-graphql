@@ -7,10 +7,10 @@ import { Army } from '../../Domain/Army';
 import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 
-export type FindArmyQueryResult = Either<Army, FindArmyErrors>;
+export type FindArmyByTownQueryResult = Either<Army, FindArmyErrors>;
 
 export class FindArmyByTownQueryHandler
-  implements QueryHandler<FindArmyByTownQuery, FindArmyQueryResult>
+  implements QueryHandler<FindArmyByTownQuery, FindArmyByTownQueryResult>
 {
   constructor(private findArmyByTownId: FindArmyByTown) {}
 
@@ -18,7 +18,7 @@ export class FindArmyByTownQueryHandler
     return FindArmyByTownQuery;
   }
 
-  async handle(query: FindArmyByTownQuery): Promise<FindArmyQueryResult> {
+  async handle(query: FindArmyByTownQuery): Promise<FindArmyByTownQueryResult> {
     const playerId = PlayerId.create(query.playerId);
     const townId = TownId.create(query.townId);
     return this.findArmyByTownId.execute({ playerId, townId });

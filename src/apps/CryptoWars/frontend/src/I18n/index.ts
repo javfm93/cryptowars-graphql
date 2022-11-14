@@ -4,10 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en.json';
 import es from './es.json';
 
-const resources = {
-  en,
-  es
-};
+const resources = { en, es };
 
 export const availableLanguages = Object.keys(resources);
 

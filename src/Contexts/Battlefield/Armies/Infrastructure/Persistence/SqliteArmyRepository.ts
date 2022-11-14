@@ -1,14 +1,15 @@
 import { ArmyRepository } from '../../Domain/ArmyRepository';
-import { Army, ArmyPrimitives } from '../../Domain/Army';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { ArmyId } from '../../Domain/ArmyId';
 import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { ArmySchema } from './typeorm/ArmySchema';
 import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
+import { Army } from '../../Domain/Army';
 
 export class SqliteArmyRepository
-  extends TypeOrmRepository<ArmyPrimitives>
+  extends TypeOrmRepository<Primitives<Army>>
   implements ArmyRepository
 {
   public save(army: Army): Promise<void> {
@@ -31,7 +32,7 @@ export class SqliteArmyRepository
     return army ? Army.fromPrimitives(army) : null;
   }
 
-  protected entitySchema(): EntitySchema<ArmyPrimitives> {
+  protected entitySchema(): EntitySchema<Primitives<Army>> {
     return ArmySchema;
   }
 }

@@ -28,7 +28,7 @@ export class Squads extends ValueObject<Squads> {
     return new Squads(squads);
   }
 
-  public static fromTownSoldiers(townSoldiers: TownSoldiersPrimitives): SquadPrimitives {
+  public static fromTownSoldiers(townSoldiers: TownSoldiersPrimitives): Squads {
     function isValidSquadType(squadType: string): squadType is SquadTypes {
       return Object.keys(SquadTypes).includes(squadType);
     }
@@ -36,7 +36,7 @@ export class Squads extends ValueObject<Squads> {
     const townSoldiersTypes = Object.keys(townSoldiers);
     if (!townSoldiersTypes.length) throw Error(`Not town soldier type supplied`);
     const type = townSoldiersTypes[0];
-    if (isValidSquadType(type)) return { type, soldiers: townSoldiers.basic };
+    if (isValidSquadType(type)) return new Squads([{ type, soldiers: townSoldiers.basic }]);
     else throw Error(`town soldier type not supported: ${type}`);
   }
 
@@ -45,10 +45,10 @@ export class Squads extends ValueObject<Squads> {
     return basicSquad ?? { type: SquadTypes.basic, soldiers: 0 };
   }
 
-  public absorb(newSquad: SquadPrimitives) {
+  public absorb(newSquad: Squads) {
     this.value.forEach(squad => {
-      if (squad.type === newSquad.type) {
-        squad.soldiers += newSquad.soldiers;
+      if (squad.type === newSquad.basic.type) {
+        squad.soldiers += newSquad.basic.soldiers;
       }
     });
   }

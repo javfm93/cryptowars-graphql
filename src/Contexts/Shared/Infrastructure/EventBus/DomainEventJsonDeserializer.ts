@@ -17,9 +17,9 @@ export class DomainEventJsonDeserializer {
     }
 
     return eventClass.fromPrimitives(
-      eventData.attributes.id,
+      eventData.attributes.aggregateId,
       eventData.attributes,
-      eventData.id,
+      eventData.aggregateId,
       eventData.occurred_on
     );
   }

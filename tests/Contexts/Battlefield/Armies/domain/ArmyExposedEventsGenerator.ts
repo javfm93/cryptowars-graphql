@@ -10,7 +10,7 @@ export class ArmyExposedEventsGenerator {
     return new ArmyCreatedDomainEvent({
       id: army.id.toString(),
       townId: army.townId.toString(),
-      playerId: army.PlayerId.toString()
+      playerId: army.playerId.toString()
     });
   }
 

@@ -1,5 +1,6 @@
-import { ArmyPrimitives } from '../../../../../Contexts/Battlefield/Armies/Domain/Army';
+import { Army } from '../../../../../Contexts/Battlefield/Armies/Domain/Army';
+import { Primitives } from '../../../../../Contexts/Shared/Domain/Primitives';
 
 export type ArmyResponse = {
-  army: ArmyPrimitives;
+  army: Primitives<Army>;
 };

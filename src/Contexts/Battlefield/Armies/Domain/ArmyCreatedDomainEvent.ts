@@ -2,6 +2,10 @@ import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
+import { Army } from './Army';
+import { ArmyId } from './ArmyId';
+import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
+import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
 
 type ArmyCreatedDomainEventBody = {
   readonly eventName: string;
@@ -46,6 +50,14 @@ export class ArmyCreatedDomainEvent extends BattlefieldExposedEvent {
       version: 0,
       eventName: this.eventName,
       data: { townId: this.townId, playerId: this.playerId }
+    });
+  }
+
+  toArmy(): Army {
+    return Army.create({
+      id: ArmyId.create(this.aggregateId),
+      townId: TownId.create(this.townId),
+      playerId: PlayerId.create(this.playerId)
     });
   }
 

@@ -2,107 +2,89 @@ import { ArmyCreatedDomainEvent } from './ArmyCreatedDomainEvent';
 import { ArmyId } from './ArmyId';
 import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
-import { SquadPrimitives, Squads, SquadsPrimitives } from './Squads';
-import { AggregateRoot } from '../../Shared/Domain/AggregateRoot';
+import { SquadPrimitives, Squads } from './Squads';
 import { SoldiersRecruitedDomainEvent } from './SoldiersRecruitedDomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
+import { AggregateRoot } from '../../Shared/Domain/FlatAggregateRoot';
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export interface ArmyProps {
-  townId: TownId;
-  playerId: PlayerId;
-  squads: Squads;
-}
-
-export interface ArmyCreationProps {
+interface ArmyCreationProps {
+  id: ArmyId;
   townId: TownId;
   playerId: PlayerId;
   squads?: Squads;
 }
 
-export interface ArmyPrimitives {
-  id: string;
-  townId: string;
-  playerId: string;
-  squads: SquadsPrimitives;
-}
+export class Army extends AggregateRoot {
+  readonly squads: Squads;
 
-export class Army extends AggregateRoot<ArmyProps> {
-  private constructor(id: ArmyId, props: ArmyCreationProps) {
-    super(id, {
-      ...props,
-      squads: props.squads ?? Squads.defaultSquads()
-    });
+  private constructor(
+    id: ArmyId,
+    readonly townId: TownId,
+    readonly playerId: PlayerId,
+    squads?: Squads
+  ) {
+    super(id);
+    this.squads = squads ?? Squads.defaultSquads();
   }
 
-  get PlayerId(): PlayerId {
-    return this.props.playerId;
-  }
-
-  get townId(): TownId {
-    return this.props.townId;
-  }
-
-  get basicSquad(): SquadPrimitives {
-    return this.props.squads.basic;
+  getBasicSquad(): SquadPrimitives {
+    return this.squads.basic;
   }
 
   public isCommandedBy(playerId: PlayerId) {
-    return this.props.playerId.isEqualTo(playerId);
+    return this.playerId.isEqualTo(playerId);
   }
 
-  public recruit(newSquad: SquadPrimitives) {
-    this.props.squads.absorb(newSquad);
+  public recruit(newSquad: Squads) {
+    this.squads.absorb(newSquad);
     this.record(
       new SoldiersRecruitedDomainEvent({
         id: this.id.toString(),
         townId: this.townId.toString(),
-        squad: newSquad
+        squad: newSquad.basic
       })
     );
   }
 
-  public static create(id: ArmyId, props: ArmyCreationProps): Army {
-    const army = new Army(id, props);
+  public static create(props: ArmyCreationProps): Army {
+    const army = new Army(props.id, props.townId, props.playerId, props.squads);
     army.record(
       new ArmyCreatedDomainEvent({
         id: army.id.toString(),
         townId: army.townId.toString(),
-        playerId: army.PlayerId.toString()
+        playerId: army.playerId.toString()
       })
     );
     return army;
   }
 
-  toPrimitives(): ArmyPrimitives {
+  toPrimitives(): Primitives<Army> {
     return {
       id: this.id.toString(),
-      townId: this.props.townId.toString(),
-      playerId: this.props.playerId.toString(),
-      squads: this.props.squads.value
+      townId: this.townId.toString(),
+      playerId: this.playerId.toString(),
+      squads: this.squads.value
     };
   }
 
-  static fromPrimitives(plainData: ArmyPrimitives): Army {
+  static fromPrimitives(plainData: Primitives<Army>): Army {
     const id = ArmyId.create(plainData.id);
     const townId = TownId.create(plainData.townId);
     const playerId = PlayerId.create(plainData.playerId);
     const squads = Squads.fromPrimitives(plainData.squads);
-    return new Army(id, { townId, playerId, squads });
+    return new Army(id, townId, playerId, squads);
   }
 
   static materializeFrom(events: Array<BattlefieldInternalEvent>): Army {
-    let army = Army.create(Uuid.random(), { townId: Uuid.random(), playerId: Uuid.random() });
+    let army = Army.create({ id: Uuid.random(), townId: Uuid.random(), playerId: Uuid.random() });
     for (const event of events) {
       if (ArmyCreatedDomainEvent.isMe(event)) {
-        const exposedEvent = ArmyCreatedDomainEvent.fromBattlefieldInternalEvent(event);
-        army = Army.create(ArmyId.create(exposedEvent.aggregateId), {
-          townId: TownId.create(exposedEvent.townId),
-          playerId: PlayerId.create(exposedEvent.playerId)
-        });
+        army = ArmyCreatedDomainEvent.fromBattlefieldInternalEvent(event).toArmy();
       } else if (SoldiersRecruitedDomainEvent.isMe(event)) {
         const exposedEvent = SoldiersRecruitedDomainEvent.fromBattlefieldInternalEvent(event);
-        army.recruit(exposedEvent.squad);
+        army.recruit(Squads.fromPrimitives([exposedEvent.squad]));
       } else {
         throw Error(`Unknown event for army materialization: ${event.id}: ${event.name}`);
       }

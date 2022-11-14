@@ -7,9 +7,9 @@ export enum TownSoldierTypes {
   basic = 'basic'
 }
 
-export interface TownSoldiersPrimitives {
-  [TownSoldierTypes.basic]: number;
-}
+export type TownSoldiersPrimitives = {
+  [key in TownSoldierTypes]: number;
+};
 
 export type TownSoldier = {
   name: TownSoldierTypes;
