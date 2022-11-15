@@ -7,6 +7,7 @@ import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/T
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
 import { Squads } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
+import { SquadsGenerator } from './SquadsGenerator';
 
 export class ArmyGenerator {
   static create(id: ArmyId, townId: TownId, playerId: PlayerId, squads: Squads): Army {
@@ -32,7 +33,7 @@ export class ArmyGenerator {
       ArmyIdGenerator.random(),
       TownIdGenerator.random(),
       PlayerIdGenerator.random(),
-      Squads.defaultSquads()
+      SquadsGenerator.randomBetween10and90()
     );
   }
 }

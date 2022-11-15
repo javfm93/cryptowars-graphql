@@ -6,3 +6,4 @@ imports:
   - { resource: ./Worlds/application.yaml }
   - { resource: ./Towns/application.yaml }
   - { resource: ./Armies/application.yaml }
+  - { resource: ./Attacks/application.yaml }

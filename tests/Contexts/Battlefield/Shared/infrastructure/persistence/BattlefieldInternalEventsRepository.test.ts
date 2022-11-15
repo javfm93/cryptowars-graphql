@@ -2,16 +2,14 @@ import container from '../../../../../../src/apps/CryptoWars/backend/dependency-
 import { BattlefieldInternalEventRepository } from '../../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEventRepository';
 import { ArmyExposedEventsGenerator } from '../../../Armies/domain/ArmyExposedEventsGenerator';
 import { ArmyGenerator } from '../../../Armies/domain/ArmyGenerator';
-import { BattlefieldInternalEvent } from '../../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
-
-import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { AttackExposedEventsGenerator } from '../../../Attacks/Domain/AttackExposedEventsGenerator';
 import { AttackId } from '../../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { AttackGenerator } from '../../../Attacks/Domain/AttackGenerator';
 import { BattleGenerator } from '../../../Battles/Domain/BattleGenerator';
 import { BattleExposedEventsGenerator } from '../../../Battles/Domain/BattleExposedEventsGenerator';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/MockTime';
+import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
 const repository: BattlefieldInternalEventRepository = container.get(
   'Battlefield.Shared.BattlefieldInternalEventRepository'
@@ -34,22 +32,32 @@ describe('[infra] BattlefieldInternalEventRepository', () => {
   });
 
   describe('#search', () => {
-    let expectedArmyCreated: BattlefieldInternalEvent;
-    let expectedSoldiersRecruited: BattlefieldInternalEvent;
-    let expectedArmy: Army;
-    beforeEach(async () => {
-      expectedArmy = ArmyGenerator.random();
-      expectedArmyCreated =
+    const createArmyWithSoldiers = async () => {
+      const { expectedArmy, expectedArmyCreated } = await createArmy();
+      const { expectedSoldiersRecruited } = await recruitSoldiersFor(expectedArmy);
+      return { expectedArmy, expectedArmyCreated, expectedSoldiersRecruited };
+    };
+
+    const createArmy = async () => {
+      const expectedArmy = ArmyGenerator.random();
+      const expectedArmyCreated =
         ArmyExposedEventsGenerator.ArmyCreated(expectedArmy).toBattlefieldInternalEvent();
-      expectedSoldiersRecruited = ArmyExposedEventsGenerator.SoldiersRecruited(
-        expectedArmy.id,
-        expectedArmy.townId,
-        expectedArmy.getBasicSquad()
+      await repository.save([expectedArmyCreated]);
+      return { expectedArmy, expectedArmyCreated };
+    };
+
+    const recruitSoldiersFor = async (army: Army) => {
+      const expectedSoldiersRecruited = ArmyExposedEventsGenerator.SoldiersRecruited(
+        army.id,
+        army.townId,
+        army.getBasicSquad()
       ).toBattlefieldInternalEvent();
-      await repository.save([expectedArmyCreated, expectedSoldiersRecruited]);
-    });
+      await repository.save([expectedSoldiersRecruited]);
+      return { expectedSoldiersRecruited };
+    };
 
     it('should return the battlefield event given an aggregate id', async () => {
+      const { expectedArmyCreated } = await createArmy();
       const battlefieldEvents = await repository.findOneByAggregateId(
         new Uuid(expectedArmyCreated.aggregateId)
       );
@@ -57,11 +65,13 @@ describe('[infra] BattlefieldInternalEventRepository', () => {
     });
 
     it('should materialize an army given an townId', async () => {
+      const { expectedArmy } = await createArmyWithSoldiers();
       const army = await repository.materializeArmyByTownId(expectedArmy.townId);
       expect(army).toStrictEqual(expectedArmy);
     });
 
     it('should materialize an army given an armyId', async () => {
+      const { expectedArmy } = await createArmyWithSoldiers();
       const army = await repository.materializeArmyByArmyId(expectedArmy.id);
       expect(army).toStrictEqual(expectedArmy);
     });

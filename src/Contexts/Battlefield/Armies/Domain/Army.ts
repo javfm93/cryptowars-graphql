@@ -33,8 +33,12 @@ export class Army extends AggregateRoot {
     return this.squads.basic;
   }
 
-  public isCommandedBy(playerId: PlayerId) {
+  public isCommandedBy(playerId: PlayerId): boolean {
     return this.playerId.isEqualTo(playerId);
+  }
+
+  public hasEnoughSoldiersToCreate(squads: Squads): boolean {
+    return this.squads.thereAreEnoughSoldiersToCreate(squads);
   }
 
   public recruit(newSquad: Squads) {

@@ -21,6 +21,10 @@ export class TownSoldiersGenerator {
   }
 
   static withInvalidSoldiers(): TownSoldiers {
-    return this.create({ [faker.random.word()]: -1 } as TownSoldiersPrimitives);
+    return this.create({ [faker.random.word()]: 1 } as TownSoldiersPrimitives);
+  }
+
+  static withLotOfSoldiers(): TownSoldiers {
+    return this.create({ [TownSoldierTypes.basic]: 9999999999999 });
   }
 }

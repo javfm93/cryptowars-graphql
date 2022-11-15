@@ -28,3 +28,7 @@ services:
     class: ../../Controllers/Armies/ArmyGetController
     arguments: [ '@Shared.QueryBus' ]
 
+  Apps.Battlefield.Backend.Controllers.SendAttackPutController:
+    class: ../../Controllers/Attacks/SendAttackPutController
+    arguments: [ '@Shared.CommandBus' ]
+

@@ -1,0 +1,12 @@
+services:
+
+  Battlefield.Battles.CreateBattle:
+    class: ../../../../../Contexts/Battlefield/Battles/Application/Create/CreateBattle
+    arguments: [ '@Battlefield.Shared.BattlefieldInternalEventRepository', '@Shared.EventBus' ]
+
+  Battlefield.Battles.CreateBattleOnTownCreated:
+    class: ../../../../../Contexts/Battlefield/Battles/Application/Create/CreateBattleOnAttackArrived
+    arguments: [ '@Battlefield.Battles.CreateBattle' ]
+    tags:
+      - { name: 'domainEventSubscriber' }
+

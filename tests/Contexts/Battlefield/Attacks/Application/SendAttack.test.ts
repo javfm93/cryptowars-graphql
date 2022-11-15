@@ -2,9 +2,7 @@ import { SendAttackCommandGenerator } from './SendAttackCommandGenerator';
 import { AttackExposedEventsGenerator } from '../Domain/AttackExposedEventsGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
-import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
 import { ArmyGenerator } from '../../Armies/domain/ArmyGenerator';
-import { failure, successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { SendAttack } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttack';
@@ -21,8 +19,7 @@ jest.mock('uuid-validate', () => () => true);
 describe('[Application] SendAttack', () => {
   const repository = new BattlefieldEventsRepositoryMock();
   const eventBus = new EventBusMock();
-  const queryBus = new QueryBusMock();
-  const creator = new SendAttack(repository, queryBus, eventBus);
+  const creator = new SendAttack(repository, eventBus);
   const handler = new SendAttackCommandHandler(creator);
 
   beforeEach(() => {
@@ -37,7 +34,7 @@ describe('[Application] SendAttack', () => {
     const defenderArmy = ArmyGenerator.random();
     const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
     repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
-    queryBus.whenAskThenReturn(successAndReturn(defenderArmy));
+    repository.whenMaterializeArmyByTownIdThenReturn(defenderArmy);
 
     const result = await handler.handle(command);
 
@@ -89,12 +86,10 @@ describe('[Application] SendAttack', () => {
       const defenderArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
       repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
-      const expectedError = new ArmyNotFound(defenderArmy.id.toString());
-      queryBus.whenAskThenReturn(failure(expectedError));
 
       const result = await handler.handle(command);
 
-      expect(result.value).toStrictEqual(expectedError);
+      expect(result.value).toStrictEqual(new ArmyNotFound());
       repository.expectSavedNotToBeCalled();
       eventBus.expectEventsNotToBePublished();
     });
@@ -110,6 +105,18 @@ describe('[Application] SendAttack', () => {
       const result = await handler.handle(command);
 
       expect(result.value).toStrictEqual(new AttackAlreadyExist());
+      repository.expectSavedNotToBeCalled();
+      eventBus.expectEventsNotToBePublished();
+    });
+
+    it('the attacker does not have enough soldiers', async () => {
+      const attackerArmy = ArmyGenerator.random();
+      const command = SendAttackCommandGenerator.withMoreSoldiersThantTheArmy(attackerArmy);
+      repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+
+      const result = await handler.handle(command);
+
+      expect(result.value).toStrictEqual(new InvalidNumberOfSoldiers());
       repository.expectSavedNotToBeCalled();
       eventBus.expectEventsNotToBePublished();
     });

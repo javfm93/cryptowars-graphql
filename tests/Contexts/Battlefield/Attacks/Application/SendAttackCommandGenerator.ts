@@ -57,6 +57,16 @@ export class SendAttackCommandGenerator {
     );
   }
 
+  static withMoreSoldiersThantTheArmy(attackerArmy: Army): SendAttackCommand {
+    return this.create(
+      AttackIdGenerator.random(),
+      attackerArmy.id,
+      ArmyIdGenerator.random(),
+      TownSoldiersGenerator.withLotOfSoldiers(),
+      attackerArmy.playerId
+    );
+  }
+
   static withInvalidNumberOfSoldiersFor(): SendAttackCommand {
     return this.create(
       AttackIdGenerator.random(),

@@ -5,7 +5,8 @@ info:
     Main Cryptowars game api
   version: 1.0.0
 servers:
-  - url: http://localhost
+  - url:
+      http://localhost:5000
 tags:
   - name: user
     description: Operations on company users
@@ -17,6 +18,8 @@ tags:
     description: Operations on game players
   - name: army
     description: Operations on towns army
+  - name: attack
+    description: War operations
 paths:
   /login:
     post:
@@ -55,11 +58,7 @@ paths:
           schema:
             $ref: '#/components/schemas/Uuid'
       requestBody:
-        description: Creates a new user
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/requestBodies/SignUpUserRequest'
+        $ref: '#/components/requestBodies/SignUpUserRequest'
       responses:
         200:
           description: User created
@@ -158,6 +157,35 @@ paths:
           description: Army information
         401:
           description: Unauthorized
+  /attacks/{id}:
+    put:
+      tags:
+        - attack
+      summary: Send an attack to other town
+      operationId: CreateAttack
+      parameters:
+        - name: id
+          in: path
+          description: UUID of the new attack
+          required: true
+          schema:
+            $ref: '#/components/schemas/Uuid'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateAttackRequest'
+      responses:
+        200:
+          description: Attack sent
+        400:
+          description: Invalid Request params supplied
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        409:
+          description: Conflict, attack already exists
+        500:
+          description: Forbidden
+
 components:
   requestBodies:
     TrainSoldierRequest:
@@ -204,6 +232,22 @@ components:
             required:
               - email
               - password
+    CreateAttackRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              attackerArmy:
+                $ref: '#/components/schemas/Uuid'
+              defenderTown:
+                $ref: '#/components/schemas/Uuid'
+              soldiers:
+                $ref: '#/components/schemas/TownSoldiers'
+            required:
+              - attackerArmy
+              - defenderTown
+              - soldiers
   schemas:
     TownSoldiers:
       type: object

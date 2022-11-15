@@ -12,6 +12,7 @@ export const retrievePlayerInformation = async () => {
   const response = await agent.get('/player');
   player = response.body.player;
 };
+
 Given('I get my player information', async () => {
   await retrievePlayerInformation();
 });

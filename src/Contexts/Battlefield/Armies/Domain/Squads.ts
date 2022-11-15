@@ -53,6 +53,14 @@ export class Squads extends ValueObject<Squads> {
     });
   }
 
+  public thereAreEnoughSoldiersToCreate(subSquads: Squads): boolean {
+    for (const subSquad of subSquads.value) {
+      const squad = this.value.find(s => subSquad.type === s.type);
+      if (!squad || squad.soldiers < subSquad.soldiers) return false;
+    }
+    return true;
+  }
+
   public isEqualTo(squads?: Squads) {
     return this.toString() === squads?.toString();
   }
