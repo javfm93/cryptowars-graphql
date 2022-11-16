@@ -4,11 +4,12 @@ import { Controller } from '../Controller';
 import { QueryBus } from '../../../../../Contexts/Shared/Domain/QueryBus';
 import { ListWorldsQuery } from '../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQuery';
 import { ListWorldsQueryResult } from '../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQueryHandler';
-import { ListWorldsResponse } from './ListWorldsResponse';
+import { WorldsResponse } from './WorldsResponse';
 
 export class WorldsGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
-  async run(req: Request, res: Response<ListWorldsResponse>) {
+
+  async run(req: Request, res: Response<WorldsResponse>) {
     const listWorldsQuery = new ListWorldsQuery();
     const result = await this.queryBus.ask<ListWorldsQueryResult>(listWorldsQuery);
 

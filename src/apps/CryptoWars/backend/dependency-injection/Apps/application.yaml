@@ -12,6 +12,10 @@ services:
     class: ../../Controllers/Worlds/WorldsGetController
     arguments: [ '@Shared.QueryBus' ]
 
+  Apps.CryptoWars.Backend.Controllers.WorldGetController:
+    class: ../../Controllers/Worlds/WorldGetController
+    arguments: [ '@Shared.QueryBus' ]
+
   Apps.CryptoWars.Backend.Controllers.JoinWorldPutController:
     class: ../../Controllers/Worlds/JoinWorldPutController
     arguments: [ '@Shared.CommandBus' ]

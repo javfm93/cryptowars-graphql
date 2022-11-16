@@ -32,7 +32,7 @@ passport.use(
       const playerRepository: PlayerRepository = container.get(
         'CryptoWars.Players.PlayerRepository'
       );
-      const player = await playerRepository.findByUserId(user.id);
+      const player = await playerRepository.findByUserId(user.id, { retrieveRelations: false });
       if (!player) return cb(null, false, { message: 'Not registered as a player' });
 
       return cb(null, {

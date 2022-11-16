@@ -20,6 +20,7 @@ export class FindPlayerQueryHandler
 
   async handle(query: FindPlayerQuery): Promise<FindPlayerQueryResult> {
     const userId = UserId.create(query.userId);
-    return this.findPlayer.execute(userId);
+    const retrieveRelations = query.retrieveRelations;
+    return this.findPlayer.execute({ userId, retrieveRelations });
   }
 }

@@ -26,6 +26,11 @@ export interface PlayerPrimitives {
   towns: Array<TownPrimitives>;
 }
 
+export interface PlayerCorePrimitives {
+  id: string;
+  userId: string;
+}
+
 export class Player extends AggregateRoot<PlayerProps> {
   private constructor(id: PlayerId, props: PlayerCreationProps) {
     super(id, {
@@ -70,11 +75,24 @@ export class Player extends AggregateRoot<PlayerProps> {
     };
   }
 
+  toCorePrimitives(): PlayerCorePrimitives {
+    return {
+      id: this.id.toString(),
+      userId: this.props.userId.toString()
+    };
+  }
+
   static fromPrimitives(plainData: PlayerPrimitives): Player {
     const id = PlayerId.create(plainData.id);
     const userId = UserId.create(plainData.userId);
-    const worlds = Worlds.fromPrimitives(plainData.worlds);
-    const towns = Towns.fromPrimitives(plainData.towns);
+    const worlds = plainData.worlds ? Worlds.fromPrimitives(plainData.worlds) : Worlds.create();
+    const towns = plainData.towns ? Towns.fromPrimitives(plainData.towns) : Towns.create();
     return new Player(id, { userId, worlds, towns });
+  }
+
+  static fromCorePrimitives(plainData: PlayerCorePrimitives): Player {
+    const id = PlayerId.create(plainData.id);
+    const userId = UserId.create(plainData.userId);
+    return new Player(id, { userId });
   }
 }

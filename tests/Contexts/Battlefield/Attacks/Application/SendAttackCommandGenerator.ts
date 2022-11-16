@@ -37,6 +37,11 @@ export class SendAttackCommandGenerator {
     );
   }
 
+  // todo: show list of towns in the /world
+  // todo: attack other town
+  // todo: show result of the attack
+  // todo: apply attack changes to the armies
+
   static betweenArmies(attackerArmy: Army, defenderArmy: Army): SendAttackCommand {
     return this.create(
       AttackIdGenerator.random(),

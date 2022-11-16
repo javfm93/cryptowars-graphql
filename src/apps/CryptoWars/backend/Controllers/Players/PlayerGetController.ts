@@ -8,9 +8,10 @@ import { FindPlayerQueryResult } from '../../../../../Contexts/CryptoWars/Player
 
 export class PlayerGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
+
   async run(req: Request, res: Response<PlayerResponse>) {
     const userId = req.user!.id;
-    const playerQuery = new FindPlayerQuery({ userId });
+    const playerQuery = new FindPlayerQuery({ userId, retrieveRelations: true });
     const result = await this.queryBus.ask<FindPlayerQueryResult>(playerQuery);
 
     if (result.isSuccess()) {

@@ -6,14 +6,13 @@ import assert from 'assert';
 import request from 'supertest';
 
 let _request: request.Test;
-export let _response: request.Response;
+let _response: request.Response;
+
 Given('I send a PUT attack request to {string} with body:', (route: string, body: string) => {
   const finalBody = body
     .replace(/:armyId/gi, playerArmy?.id)
     .replace(/:otherPlayerTown/gi, otherUserPlayer?.towns[0].id)
     .replace(/:otherPlayerArmy/gi, otherPlayerArmy?.id);
-
-  console.log(finalBody);
   _request = agent.put(route).send(JSON.parse(finalBody));
 });
 

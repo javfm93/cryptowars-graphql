@@ -57,8 +57,9 @@ export class PlayerRepositoryMock implements PlayerRepository {
   }
 
   whenFindByUserIdThenReturn(player: Player): void {
-    this.mockFindByUserId.mockImplementationOnce((id: UserId): NothingOr<Player> => {
-      return id.isEqualTo(player?.userId) ? Player.fromPrimitives(player.toPrimitives()) : null;
-    });
+    this.mockFindByUserId.mockImplementationOnce(
+      (id: UserId): NothingOr<Player> =>
+        id.isEqualTo(player?.userId) ? Player.fromPrimitives(player.toPrimitives()) : null
+    );
   }
 }

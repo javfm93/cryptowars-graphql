@@ -2,7 +2,6 @@ import { Town, TownPrimitives } from '../../../../../src/Contexts/CryptoWars/Tow
 import { WorldPlayerJoinedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldPlayerJoinedDomainEvent';
 import { TownIdGenerator } from './TownIdGenerator';
 import { PlayerIdGenerator } from '../../Players/domain/PlayerIdGenerator';
-import { NumberGenerator } from '../../../Shared/domain/NumberGenerator';
 import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownBuildings';
@@ -42,9 +41,7 @@ export class TownGenerator {
   }
 
   static multipleRandomFor(playerId: PlayerId, worldId: WorldId): Towns {
-    const towns = Array.from({ length: NumberGenerator.randomBetween1and9() }, () =>
-      this.randomFor(playerId, worldId)
-    );
+    const towns = Array.from({ length: 2 }, () => this.randomFor(playerId, worldId));
     return Towns.create(towns);
   }
 }

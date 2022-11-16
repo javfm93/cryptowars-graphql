@@ -1,8 +1,8 @@
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
-import { Player, PlayerPrimitives } from './Player';
+import { Player, PlayerCorePrimitives, PlayerPrimitives } from './Player';
 
 export class Players extends WatchedList<Player, PlayerPrimitives> {
-  private constructor(initial: Array<Player>) {
+  protected constructor(initial: Array<Player>) {
     super(initial);
   }
 
@@ -14,12 +14,21 @@ export class Players extends WatchedList<Player, PlayerPrimitives> {
     return this.currentItems.map(player => player.toPrimitives());
   }
 
+  public toCorePrimitives(): Array<PlayerCorePrimitives> {
+    return this.currentItems.map(player => player.toCorePrimitives());
+  }
+
   public static create(initialPlayers?: Array<Player>): Players {
     return new Players(initialPlayers ?? []);
   }
 
   public static fromPrimitives(playersPrimitive: Array<PlayerPrimitives>): Players {
     const players = playersPrimitive.map(Player.fromPrimitives);
+    return this.create(players);
+  }
+
+  public static fromCorePrimitives(playersPrimitive: Array<PlayerCorePrimitives>): Players {
+    const players = playersPrimitive.map(Player.fromCorePrimitives);
     return this.create(players);
   }
 }

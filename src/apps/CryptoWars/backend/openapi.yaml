@@ -82,6 +82,22 @@ paths:
                   $ref: '#/components/schemas/World'
         401:
           description: Unauthorized
+  /worlds/{id}:
+    get:
+      tags:
+        - world
+      summary: Returns a specific world
+      operationId: getWorld
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/World'
+
+        401:
+          description: Unauthorized
   /worlds/{id}/join:
     put:
       tags:

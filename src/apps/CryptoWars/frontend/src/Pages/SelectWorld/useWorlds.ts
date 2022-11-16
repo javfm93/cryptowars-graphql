@@ -1,14 +1,14 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { ListWorldsResponse } from '../../../../backend/Controllers/Worlds/ListWorldsResponse';
+import { WorldsResponse } from '../../../../backend/Controllers/Worlds/WorldsResponse';
 import { handleQueryResult, QueryTrigger } from '../../API/query';
 
-export const useWorlds: QueryTrigger<void, ListWorldsResponse> = () => {
-  const getWorlds = async (): Promise<ListWorldsResponse> => {
+export const useWorlds: QueryTrigger<void, WorldsResponse> = () => {
+  const getWorlds = async (): Promise<WorldsResponse> => {
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worlds`, {
       withCredentials: true
     });
     return response.data;
   };
-  return handleQueryResult<ListWorldsResponse>(useQuery('worlds', getWorlds));
+  return handleQueryResult<WorldsResponse>(useQuery('worlds', getWorlds));
 };

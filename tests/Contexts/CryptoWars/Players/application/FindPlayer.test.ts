@@ -13,7 +13,7 @@ describe('[Application] Find Player', () => {
 
   it('should return the player', async () => {
     const expectedPlayer = PlayerGenerator.withWorldsAndTowns();
-    const query = FindPlayerQueryGenerator.create(expectedPlayer.userId);
+    const query = FindPlayerQueryGenerator.create(expectedPlayer.userId, true);
     repository.whenFindByUserIdThenReturn(expectedPlayer);
 
     const player = await handler.handle(query);
@@ -23,7 +23,7 @@ describe('[Application] Find Player', () => {
 
   it('should return player not found when the player does not exist', async () => {
     const expectedPlayer = PlayerGenerator.withWorldsAndTowns();
-    const query = FindPlayerQueryGenerator.create(PlayerIdGenerator.random());
+    const query = FindPlayerQueryGenerator.create(PlayerIdGenerator.random(), true);
     repository.whenFindByUserIdThenReturn(expectedPlayer);
 
     const player = await handler.handle(query);

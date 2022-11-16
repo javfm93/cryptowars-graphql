@@ -29,11 +29,12 @@ export class JoinWorld implements UseCase<SelectWorldArgs, EmptyResult> {
 
   async execute(args: SelectWorldArgs): Promise<SelectWorldResult> {
     const query = new FindWorldQuery({ id: args.worldId.toString() });
-    const worldResult: FindWorldQueryResult = await this.queryBus.ask(query);
+    const worldResult = await this.queryBus.ask<FindWorldQueryResult>(query);
     if (worldResult.isFailure()) return failure(worldResult.value);
     const world = worldResult.value;
 
-    const findPlayerQuery = new FindPlayerQuery({ userId: args.userId.toString() });
+    const params = { userId: args.userId.toString(), retrieveRelations: false };
+    const findPlayerQuery = new FindPlayerQuery(params);
     const playerResult: FindPlayerQueryResult = await this.queryBus.ask(findPlayerQuery);
     if (playerResult.isFailure()) return failure(playerResult.value);
     const player = playerResult.value;

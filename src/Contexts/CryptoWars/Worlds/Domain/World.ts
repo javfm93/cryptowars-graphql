@@ -3,7 +3,7 @@ import { WorldId } from './WorldId';
 import { WorldName } from './WorldName';
 import { Town, TownPrimitives } from '../../Towns/domain/Town';
 import { WorldPlayerJoinedDomainEvent } from './WorldPlayerJoinedDomainEvent';
-import { Player, PlayerPrimitives } from '../../Players/Domain/Player';
+import { Player, PlayerCorePrimitives } from '../../Players/Domain/Player';
 import { Towns } from '../../Towns/domain/Towns';
 import { Players } from '../../Players/Domain/Players';
 
@@ -22,12 +22,21 @@ export interface WorldProps {
 export interface WorldPrimitives {
   id: string;
   name: string;
-  players: Array<PlayerPrimitives>;
+  players: Array<PlayerCorePrimitives>;
   towns: Array<TownPrimitives>;
 }
 
+export type WorldTownPrimitives = Omit<TownPrimitives, 'buildings' | 'worldId'>;
+export type WorldTownsPrimitives = Array<WorldTownPrimitives>;
+
+export interface WorldMapProjection {
+  id: string;
+  name: string;
+  towns: WorldTownsPrimitives;
+}
+
 export class World extends AggregateRoot<WorldProps> {
-  private constructor(id: WorldId, props: WorldCreationProps) {
+  protected constructor(id: WorldId, props: WorldCreationProps) {
     super(id, {
       ...props,
       players: props.players ?? Players.create(),
@@ -53,15 +62,24 @@ export class World extends AggregateRoot<WorldProps> {
     return {
       id: this.id.toString(),
       name: this.props.name.toString(),
-      players: this.props.players.toPrimitives(),
+      players: this.props.players.toCorePrimitives(),
       towns: this.props.towns.toPrimitives()
+    };
+  }
+
+  toMap(): WorldMapProjection {
+    const towns = this.props.towns.toPrimitives();
+    return {
+      id: this.id.toString(),
+      name: this.props.name.toString(),
+      towns: towns.map(town => ({ id: town.id, playerId: town.playerId }))
     };
   }
 
   static fromPrimitives(plainData: WorldPrimitives): World {
     const name = new WorldName(plainData.name);
     const players = plainData.players
-      ? Players.fromPrimitives(plainData.players)
+      ? Players.fromCorePrimitives(plainData.players)
       : Players.create();
     const towns = plainData.towns ? Towns.fromPrimitives(plainData.towns) : Towns.create();
     return new World(WorldId.create(plainData.id), { name, players, towns });

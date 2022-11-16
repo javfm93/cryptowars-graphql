@@ -1,5 +1,5 @@
 import { WorldPrimitives } from '../../../../../Contexts/CryptoWars/Worlds/Domain/World';
 
-export type ListWorldsResponse = {
+export type WorldsResponse = {
   worlds: Array<WorldPrimitives>;
 };

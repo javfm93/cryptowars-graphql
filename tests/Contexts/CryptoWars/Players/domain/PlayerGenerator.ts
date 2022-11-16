@@ -6,7 +6,6 @@ import { PlayerIdGenerator } from './PlayerIdGenerator';
 import { UserCreatedDomainEvent } from '../../../../../src/Contexts/IAM/Users/Domain/UserCreatedDomainEvent';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
-import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
 import { Players } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
 import { WorldGenerator } from '../../Worlds/Domain/WorldGenerator';
 import { TownGenerator } from '../../Towns/domain/TownGenerator';
@@ -38,9 +37,7 @@ export class PlayerGenerator {
   }
 
   static multipleRandom(): Players {
-    const players = Array.from({ length: NumberGenerator.randomBetween1and9() }, () =>
-      this.random()
-    );
+    const players = Array.from({ length: 2 }, () => this.random());
     return Players.create(players);
   }
 

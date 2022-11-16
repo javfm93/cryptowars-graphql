@@ -15,13 +15,21 @@ export class SqliteWorldRepository
     super(_client);
   }
 
-  public save(world: World): Promise<void> {
-    return this.persist(world.toPrimitives());
+  public async save(world: World): Promise<void> {
+    // todo: we need to create a projection of the player because of not we have a cyclic dep
+    const repository = await this.repository();
+    // const p = world.toPrimitives();
+    // const pa = p.players.map(pl => ({ id: pl.id, userId: pl.userId }));
+    // p.players = pa as Array<PlayerPrimitives>;
+    await repository.save(world.toPrimitives());
   }
 
   public async findById(id: WorldId): Promise<NothingOr<World>> {
     const repository = await this.repository();
-    const world = await repository.findOne({ where: { id: id.toString() } });
+    const world = await repository.findOne({
+      where: { id: id.toString() },
+      relations: { towns: true, players: true }
+    });
     return world ? World.fromPrimitives(world) : null;
   }
 

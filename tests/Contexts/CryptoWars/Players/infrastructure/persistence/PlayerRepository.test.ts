@@ -27,8 +27,17 @@ describe('[infra] PlayerRepository', () => {
     });
 
     it('should return an existing player by userId', async () => {
-      const player = await repository.findByUserId(expectedPlayer.userId);
+      const player = await repository.findByUserId(expectedPlayer.userId, {
+        retrieveRelations: true
+      });
       expect(player?.toPrimitives()).toEqual(expectedPlayer.toPrimitives());
+    });
+
+    it('should return an existing player by userId', async () => {
+      const player = await repository.findByUserId(expectedPlayer.userId, {
+        retrieveRelations: false
+      });
+      expect(player?.toCorePrimitives()).toEqual(expectedPlayer.toCorePrimitives());
     });
 
     it('should not return a non existing player', async () => {
