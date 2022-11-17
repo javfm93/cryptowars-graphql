@@ -23,7 +23,7 @@ export function Login() {
     const email = data.get('email')?.toString();
     const password = data.get('password')?.toString();
     if (email && password) {
-      login.execute(email, password);
+      login.execute('test@email.es', 'P@ssw0rd');
     }
   };
 

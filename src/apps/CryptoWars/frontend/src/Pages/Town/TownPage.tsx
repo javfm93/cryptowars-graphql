@@ -15,7 +15,7 @@ import TownHeader from './TownHeader';
 type BuildingRow = { name: string; url: string; upgradeCost: number };
 //todo: study react new ways to handle loadings (react router, suspense...)
 
-export const Town = (): JSX.Element => {
+export const TownPage = (): JSX.Element => {
   const { id } = useParams();
   if (!id) return <></>;
   const { result } = usePlayer();

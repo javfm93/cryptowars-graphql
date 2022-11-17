@@ -11,7 +11,7 @@ interface WorldsProps {
 export const Worlds: FC<WorldsProps> = ({ worlds, onWorldSelected }) => (
   <>
     {worlds.map(world => (
-      <Button onClick={() => onWorldSelected(world)} key={world.id}>
+      <Button onClick={onWorldSelected(world)} key={world.id}>
         {world.name}
       </Button>
     ))}

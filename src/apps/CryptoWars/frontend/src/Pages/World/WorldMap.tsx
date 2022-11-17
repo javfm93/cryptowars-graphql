@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { Grid, ImageList, ImageListItem, styled } from '@mui/material';
 
-export const World = () => {
+export const WorldMap = () => {
   const worldXSize = 9;
   const worldYSize = 9;
   const tileSize = 50;
@@ -13,17 +12,16 @@ export const World = () => {
   const WorldTile = styled('img')(({ theme }) => ({
     width: `${tileSize}px`,
     height: `${tileSize}px`,
-    background: 'url(public/worldSprite.png) -32px -64px'
+    background: 'url(/public/worldSprite.png) -32px -64px'
   }));
 
   const TownTile = styled('img')(({ theme }) => ({
     width: `${tileSize}px`,
     height: `${tileSize}px`,
-    background: 'url(public/town.jpg)',
+    background: 'url(/public/town.jpg)',
     backgroundSize: 'cover'
   }));
 
-  // todo: test, when a world was already selected, not create another town
   return (
     <Grid container justifyContent={'center'}>
       <ImageList

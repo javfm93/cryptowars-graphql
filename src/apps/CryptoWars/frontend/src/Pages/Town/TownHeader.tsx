@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { usePlayer } from './usePlayer';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { styled } from '@mui/material';
 import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/domain/Town';
+import { AppRoutes } from '../../App';
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(3),
@@ -47,6 +48,7 @@ export default function TownHeader() {
   const { result } = usePlayer();
   const { id } = useParams();
   const [essence, setEssence] = useState<number>(0);
+  if (!result) return <></>;
 
   useEffect(() => {
     if (result) {
@@ -69,6 +71,7 @@ export default function TownHeader() {
     }
   }, [result]);
 
+  const worldRoute = `${AppRoutes.world(result.player.worlds[0].id)}?townId=${id}`;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <HeaderWrapper position="static">
@@ -76,6 +79,7 @@ export default function TownHeader() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Essence: {essence}
           </Typography>
+          <Link to={worldRoute}>World Map</Link>
         </Toolbar>
       </HeaderWrapper>
     </Box>

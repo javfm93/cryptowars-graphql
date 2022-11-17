@@ -15,7 +15,7 @@ import { useTownArmy } from './useTownArmy';
 import { usePlayer } from '../Town/usePlayer';
 import TownHeader from '../Town/TownHeader';
 
-export const Headquarter = (): JSX.Element => {
+export const HeadquarterPage = (): JSX.Element => {
   const { t } = useTranslation();
   const { trainSoldiers } = useTrainSoldiers();
   const { id } = useParams();

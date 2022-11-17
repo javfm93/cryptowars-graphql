@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWorlds } from './useWorlds';
 import { useJoinWorld } from './useJoinWorld';
-import { Layout } from './Layout';
+import { Layout } from '../Shared/Layout';
 import { Worlds } from './Worlds';
 
 export const SelectWorld: FC = () => {
@@ -12,7 +12,7 @@ export const SelectWorld: FC = () => {
 
   return (
     <Layout tittle={t('home.startPlaying')} isLoading={isLoading} error={error}>
-      <Worlds worlds={result!.worlds} onWorldSelected={joinWorld} />
+      {result ? <Worlds worlds={result.worlds} onWorldSelected={joinWorld} /> : <></>}
     </Layout>
   );
 };

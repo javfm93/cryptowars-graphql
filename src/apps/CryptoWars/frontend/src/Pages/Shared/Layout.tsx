@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FC } from 'react';
 import { CircularProgress, Grid } from '@mui/material';
 
@@ -6,7 +5,7 @@ interface LayoutProps {
   tittle: string;
   isLoading: boolean;
   error: null | unknown;
-  children: JSX.Element;
+  children: JSX.Element | null;
 }
 
 export const Layout: FC<LayoutProps> = ({ children, error, isLoading, tittle }) => (
