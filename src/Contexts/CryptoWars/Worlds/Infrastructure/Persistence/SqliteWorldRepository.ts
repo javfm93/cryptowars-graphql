@@ -16,11 +16,7 @@ export class SqliteWorldRepository
   }
 
   public async save(world: World): Promise<void> {
-    // todo: we need to create a projection of the player because of not we have a cyclic dep
     const repository = await this.repository();
-    // const p = world.toPrimitives();
-    // const pa = p.players.map(pl => ({ id: pl.id, userId: pl.userId }));
-    // p.players = pa as Array<PlayerPrimitives>;
     await repository.save(world.toPrimitives());
   }
 

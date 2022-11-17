@@ -10,6 +10,8 @@ import { SendAttackCommandHandler } from '../../../../../src/Contexts/Battlefiel
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
 import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
 import { AttackAlreadyExist } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/AttackAlreadyExist';
+import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
+import { failure, successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -19,7 +21,8 @@ jest.mock('uuid-validate', () => () => true);
 describe('[Application] SendAttack', () => {
   const repository = new BattlefieldEventsRepositoryMock();
   const eventBus = new EventBusMock();
-  const creator = new SendAttack(repository, eventBus);
+  const queryBus = new QueryBusMock();
+  const creator = new SendAttack(repository, queryBus, eventBus);
   const handler = new SendAttackCommandHandler(creator);
 
   beforeEach(() => {
@@ -33,7 +36,7 @@ describe('[Application] SendAttack', () => {
     const attackerArmy = ArmyGenerator.random();
     const defenderArmy = ArmyGenerator.random();
     const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
-    repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+    queryBus.whenAskThenReturn(successAndReturn(attackerArmy));
     repository.whenMaterializeArmyByTownIdThenReturn(defenderArmy);
 
     const result = await handler.handle(command);
@@ -60,7 +63,7 @@ describe('[Application] SendAttack', () => {
     it('the attacker does not own the town', async () => {
       const attackerArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.fromArmyWithDifferentPlayer(attackerArmy);
-      repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+      queryBus.whenAskThenReturn(failure(new Forbidden()));
 
       const result = await handler.handle(command);
 
@@ -73,10 +76,11 @@ describe('[Application] SendAttack', () => {
       const attackerArmy = ArmyGenerator.random();
       const defenderArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
+      queryBus.whenAskThenReturn(failure(new ArmyNotFound()));
 
       const result = await handler.handle(command);
 
-      expect(result.value).toStrictEqual(new ArmyNotFound(attackerArmy.id.toString()));
+      expect(result.value).toStrictEqual(new ArmyNotFound());
       repository.expectSavedNotToBeCalled();
       eventBus.expectEventsNotToBePublished();
     });
@@ -85,7 +89,7 @@ describe('[Application] SendAttack', () => {
       const attackerArmy = ArmyGenerator.random();
       const defenderArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
-      repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+      queryBus.whenAskThenReturn(successAndReturn(attackerArmy));
 
       const result = await handler.handle(command);
 
@@ -98,7 +102,7 @@ describe('[Application] SendAttack', () => {
       const attackerArmy = ArmyGenerator.random();
       const defenderArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.betweenArmies(attackerArmy, defenderArmy);
-      repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+      queryBus.whenAskThenReturn(successAndReturn(attackerArmy));
       const attackSent = AttackExposedEventsGenerator.attackSentFrom(command, defenderArmy);
       repository.whenFindByAggregateIdThenReturn(attackSent.toBattlefieldInternalEvent());
 
@@ -112,7 +116,7 @@ describe('[Application] SendAttack', () => {
     it('the attacker does not have enough soldiers', async () => {
       const attackerArmy = ArmyGenerator.random();
       const command = SendAttackCommandGenerator.withMoreSoldiersThantTheArmy(attackerArmy);
-      repository.whenMaterializeArmyByArmyIdThenReturn(attackerArmy);
+      queryBus.whenAskThenReturn(successAndReturn(attackerArmy));
 
       const result = await handler.handle(command);
 

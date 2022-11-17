@@ -22,6 +22,15 @@ export class AttackGenerator {
     });
   }
 
+  static randomFromAttacker(attacker: ArmyId): Attack {
+    return this.create(
+      AttackIdGenerator.random(),
+      AttackTroop.create(attacker.toString(), TownSoldiersGenerator.random().value),
+      ArmyIdGenerator.random(),
+      new Date().toISOString()
+    );
+  }
+
   static randomToDefender(defenderArmy: Army): Attack {
     return this.create(
       AttackIdGenerator.random(),

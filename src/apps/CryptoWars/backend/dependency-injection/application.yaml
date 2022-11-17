@@ -7,3 +7,4 @@ imports:
   - { resource: ./Towns/application.yaml }
   - { resource: ./Armies/application.yaml }
   - { resource: ./Attacks/application.yaml }
+  - { resource: ./Battles/application.yaml }

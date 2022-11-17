@@ -12,6 +12,9 @@ import { AttackAlreadyExist } from './AttackAlreadyExist';
 import { AttackTroop } from '../../Domain/AttackTroop';
 import { AttackArrivedDomainEvent } from '../../Domain/AttackArrivedDomainEvent';
 import { InvalidNumberOfSoldiers } from '../../../../CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
+import { FindArmyByArmyIdQuery } from '../../../Armies/Application/Find/FindArmyByArmyIdQuery';
+import { QueryBus } from '../../../../Shared/Domain/QueryBus';
+import { FindArmyByArmyIdQueryResult } from '../../../Armies/Application/Find/FindArmyByArmyIdQueryHandler';
 
 type SendAttackArgs = {
   id: AttackId;
@@ -25,6 +28,7 @@ type SendAttackResult = Either<EmptyResult, ArmyNotFound | Forbidden>;
 export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
+    private queryBus: QueryBus,
     private eventBus: EventBus
   ) {}
 
@@ -43,12 +47,13 @@ export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
   }
 
   private async validateAttacker(args: SendAttackArgs): Promise<SendAttackResult> {
-    const attackerArmy = await this.eventRepository.materializeArmyByArmyId(
-      args.attackerTroop.armyId
-    );
-    if (!attackerArmy) return failure(new ArmyNotFound(args.attackerTroop.armyId.toString()));
-    if (!attackerArmy.isCommandedBy(args.playerId)) return failure(new Forbidden());
-    if (!attackerArmy.hasEnoughSoldiersToCreate(args.attackerTroop.squads))
+    const query = new FindArmyByArmyIdQuery({
+      armyId: args.attackerTroop.armyId.toString(),
+      playerId: args.playerId.toString()
+    });
+    const attackerArmyResult = await this.queryBus.ask<FindArmyByArmyIdQueryResult>(query);
+    if (attackerArmyResult.isFailure()) return failure(attackerArmyResult.value);
+    if (!attackerArmyResult.value.hasEnoughSoldiersToCreate(args.attackerTroop.squads))
       return failure(new InvalidNumberOfSoldiers());
     const attackAlreadyExist = await this.eventRepository.findOneByAggregateId(args.id);
     if (attackAlreadyExist) return failure(new AttackAlreadyExist());

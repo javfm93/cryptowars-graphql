@@ -1,5 +1,6 @@
 import { BattleCreatedDomainEvent } from '../../../../../src/Contexts/Battlefield/Battles/Domain/BattleCreatedDomainEvent';
 import { Battle } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battle';
+import { Battles } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battles';
 
 export class BattleExposedEventsGenerator {
   static battleCreatedFor(battle: Battle): BattleCreatedDomainEvent {
@@ -10,5 +11,9 @@ export class BattleExposedEventsGenerator {
       finishedAt: new Date(battle.finishedAt),
       result: battle.result
     });
+  }
+
+  static multipleBattleCreatedFor(battles: Battles): Array<BattleCreatedDomainEvent> {
+    return battles.getItems().map(this.battleCreatedFor);
   }
 }

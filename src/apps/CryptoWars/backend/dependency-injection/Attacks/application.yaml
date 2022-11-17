@@ -2,7 +2,7 @@ services:
 
   Battlefield.Attacks.SendAttack:
     class: ../../../../../Contexts/Battlefield/Attacks/Application/Send/SendAttack
-    arguments: [ '@Battlefield.Shared.BattlefieldInternalEventRepository', '@Shared.EventBus' ]
+    arguments: [ '@Battlefield.Shared.BattlefieldInternalEventRepository','@Shared.QueryBus', '@Shared.EventBus' ]
 
   Battlefield.Attacks.SendAttackCommandHandler:
     class: ../../../../../Contexts/Battlefield/Attacks/Application/Send/SendAttackCommandHandler

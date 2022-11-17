@@ -20,6 +20,8 @@ tags:
     description: Operations on towns army
   - name: attack
     description: War operations
+  - name: battle
+    description: Operations on battles
 paths:
   /login:
     post:
@@ -201,6 +203,23 @@ paths:
           description: Conflict, attack already exists
         500:
           description: Forbidden
+  /battles:
+    get:
+      tags:
+        - battle
+      operationId: CreateAttack
+      parameters:
+        - in: query
+          name: armyId
+          schema:
+            $ref: '#/components/schemas/Uuid'
+      responses:
+        200:
+          description: list of battles of the army
+        401:
+          description: Unauthorized
+        403:
+          description: Unauthorized
 
 components:
   requestBodies:

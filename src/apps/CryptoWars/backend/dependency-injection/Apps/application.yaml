@@ -36,3 +36,6 @@ services:
     class: ../../Controllers/Attacks/SendAttackPutController
     arguments: [ '@Shared.CommandBus' ]
 
+  Apps.Battlefield.Backend.Controllers.BattlesGetController:
+    class: ../../Controllers/Battles/BattlesGetController
+    arguments: [ '@Shared.QueryBus' ]

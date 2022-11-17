@@ -28,6 +28,16 @@ services:
     tags:
       - { name: 'queryHandler' }
 
+  Battlefield.Armies.FindArmyByArmyId:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByArmyId
+    arguments: [ '@Battlefield.Shared.BattlefieldInternalEventRepository' ]
+
+  Battlefield.Armies.FindArmyByArmyIdQueryHandler:
+    class: ../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByArmyIdQueryHandler
+    arguments: [ '@Battlefield.Armies.FindArmyByArmyId' ]
+    tags:
+      - { name: 'queryHandler' }
+
   Battlefield.Armies.RecruitSquad:
     class: ../../../../../Contexts/Battlefield/Armies/Application/Recruit/RecruitSquad
     arguments: [ '@Battlefield.Shared.BattlefieldInternalEventRepository', '@Shared.EventBus' ]

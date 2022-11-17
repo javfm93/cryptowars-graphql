@@ -14,6 +14,7 @@ import { BattleId } from '../../../Battles/Domain/BattleId';
 import { Battle } from '../../../Battles/Domain/Battle';
 import { Attack } from '../../../Attacks/Domain/Attack';
 import { AttackId } from '../../../Attacks/Domain/AttackId';
+import { Battles } from '../../../Battles/Domain/Battles';
 
 export class SqliteBattlefieldEventRepository
   extends TypeOrmRepository<BattlefieldInternalEventPrimitives>
@@ -67,6 +68,19 @@ export class SqliteBattlefieldEventRepository
     return events.length
       ? Battle.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives))
       : null;
+  }
+
+  async materializeBattlesByArmyId(armyId: ArmyId): Promise<Battles> {
+    const repository = await this.repository();
+    const events = await repository
+      .createQueryBuilder()
+      .where("json_extract(data, '$.attack.attackerTroop.armyId') = :armyId", {
+        armyId: armyId.toString()
+      })
+      .getMany();
+    return events.length
+      ? Battles.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives))
+      : Battles.create();
   }
 
   async materializeAttackById(id: AttackId): Promise<NothingOr<Attack>> {

@@ -10,6 +10,7 @@ import { BattleGenerator } from '../../../Battles/Domain/BattleGenerator';
 import { BattleExposedEventsGenerator } from '../../../Battles/Domain/BattleExposedEventsGenerator';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/MockTime';
 import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { ArmyIdGenerator } from '../../../Armies/domain/ArmyIdGenerator';
 
 const repository: BattlefieldInternalEventRepository = container.get(
   'Battlefield.Shared.BattlefieldInternalEventRepository'
@@ -92,6 +93,17 @@ describe('[infra] BattlefieldInternalEventRepository', () => {
       await repository.save([battleCreated.toBattlefieldInternalEvent()]);
       const battle = await repository.materializeBattleById(expectedBattle.id);
       expect(battle).toStrictEqual(expectedBattle);
+    });
+
+    it('should materialize the battles given an armyId', async () => {
+      const attacker = ArmyIdGenerator.random();
+      const expectedBattles = BattleGenerator.multipleRandomFor(attacker);
+      const battlesCreated = BattleExposedEventsGenerator.multipleBattleCreatedFor(
+        expectedBattles
+      ).map(battleCreated => battleCreated.toBattlefieldInternalEvent());
+      await repository.save(battlesCreated);
+      const battles = await repository.materializeBattlesByArmyId(attacker);
+      expect(battles).toStrictEqual(expectedBattles);
     });
 
     it('should not return a non existing battlefield event', async () => {

@@ -9,6 +9,7 @@ import { Attack } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/A
 import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { Battle } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battle';
 import { BattleId } from '../../../../../src/Contexts/Battlefield/Battles/Domain/BattleId';
+import { Battles } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battles';
 
 export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEventRepository {
   private mockSave = jest.fn();
@@ -17,6 +18,7 @@ export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEvent
   private mockMaterializeArmyByArmyId = jest.fn();
   private mockMaterializeBattleById = jest.fn();
   private mockMaterializeAttackById = jest.fn();
+  private mockMaterializeBattlesByArmyId = jest.fn();
 
   async save(event: Array<BattlefieldInternalEvent>): Promise<void> {
     this.mockSave(event);
@@ -84,6 +86,16 @@ export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEvent
     );
   }
 
+  materializeBattlesByArmyId(armyId: ArmyId): Promise<Battles> {
+    return this.mockMaterializeBattlesByArmyId(armyId);
+  }
+
+  whenMaterializeBattlesByArmyIdThenReturn(armyIdParam: ArmyId, battles: Battles): void {
+    this.mockMaterializeBattlesByArmyId.mockImplementationOnce(
+      (armyId: ArmyId): Battles => (armyIdParam.isEqualTo(armyId) ? battles : Battles.create())
+    );
+  }
+
   resetMocks(): void {
     this.mockSave.mockReset();
     this.mockFindByAggregateId.mockReset();
@@ -91,5 +103,6 @@ export class BattlefieldEventsRepositoryMock implements BattlefieldInternalEvent
     this.mockMaterializeArmyByArmyId.mockReset();
     this.mockMaterializeBattleById.mockReset();
     this.mockMaterializeAttackById.mockReset();
+    this.mockMaterializeBattlesByArmyId.mockReset();
   }
 }
