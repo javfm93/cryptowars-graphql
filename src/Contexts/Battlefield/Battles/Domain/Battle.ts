@@ -1,7 +1,6 @@
 import { BattleId } from './BattleId';
 import { AggregateRoot } from '../../Shared/Domain/FlatAggregateRoot';
 import { Army } from '../../Armies/Domain/Army';
-import { NothingOr } from '../../../Shared/Domain/Nullable';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { BattleCreatedDomainEvent } from './BattleCreatedDomainEvent';
 import { SquadTypes } from '../../Armies/Domain/Squads';
@@ -10,11 +9,11 @@ import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInterna
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Attack } from '../../Attacks/Domain/Attack';
 
-export type BattleResult = NothingOr<{
+export type BattleResult = {
   winner: 'attacker' | 'defender';
   attackerCasualties: TownSoldiersPrimitives;
   defenderCasualties: TownSoldiersPrimitives;
-}>;
+};
 
 export class Battle extends AggregateRoot {
   readonly finishedAt: string;

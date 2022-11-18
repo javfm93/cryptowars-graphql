@@ -17,6 +17,13 @@
             "soldier": "Soldier"
           }
         }
+      },
+      "battles": {
+        "winner": "Winner",
+        "defender": "Defender",
+        "casualties": "Casualties",
+        "sentAt": "Sent At",
+        "finishedAt": "FinishedAt"
       }
     },
     "footer": {
