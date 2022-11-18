@@ -19,6 +19,7 @@
         }
       },
       "battles": {
+        "tittle": "Battle history",
         "winner": "Winner",
         "defender": "Defender",
         "casualties": "Casualties",
