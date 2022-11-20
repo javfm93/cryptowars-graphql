@@ -18,4 +18,13 @@ export class SquadsGenerator {
       }
     ]);
   }
+
+  static withNSoldiers(soldiers: number): Squads {
+    return this.create([
+      {
+        type: SquadTypes.basic,
+        soldiers
+      }
+    ]);
+  }
 }

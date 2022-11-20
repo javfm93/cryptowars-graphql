@@ -11,6 +11,8 @@ Feature: As player, I want to attack other towns
     Given Other user is signed in
     Given Other user is in the same world
     Given Other user has his player information
+    Given Other player has 1 basic soldiers in his army
+    Given Other player get his army
     When I send a PUT attack request to "/attacks/8d9699ee-9013-47cb-bed7-10341e6927b8" with body:
     """
     {
@@ -23,6 +25,8 @@ Feature: As player, I want to attack other towns
     """
     Then The attack response status code should be 200
     And The attack response should be empty
+    When I get my army
+    Then My Army should have 1 soldiers
 
   @send-attack-2
   Scenario: If I dont own the town should return forbidden

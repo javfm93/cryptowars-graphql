@@ -27,4 +27,8 @@ export class TownSoldiersGenerator {
   static withLotOfSoldiers(): TownSoldiers {
     return this.create({ [TownSoldierTypes.basic]: 9999999999999 });
   }
+
+  static withNSoldiers(soldiers: number): TownSoldiers {
+    return this.create({ [TownSoldierTypes.basic]: soldiers });
+  }
 }

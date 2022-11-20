@@ -8,6 +8,8 @@ import { AttackId } from '../../../Attacks/Domain/AttackId';
 import { Battle } from '../../Domain/Battle';
 import { BattleId } from '../../Domain/BattleId';
 import { AttackNotFound } from '../../../Attacks/Application/Send/AttackNotFound';
+import { BattleTroopReturnedDomainEvent } from '../../Domain/BattleTroopReturnedDomainEvent';
+import { Squads } from '../../../Armies/Domain/Squads';
 
 type CreateBattleResult = Either<EmptyResult, ArmyNotFound | Forbidden>;
 
@@ -25,12 +27,30 @@ export class CreateBattle implements UseCase<CreateBattleArgs, EmptyResult> {
   async execute({ id, attackId }: CreateBattleArgs): Promise<CreateBattleResult> {
     const attack = await this.eventRepository.materializeAttackById(attackId);
     if (!attack) return failure(new AttackNotFound(attackId.toString()));
+
     const defenderArmy = await this.eventRepository.materializeArmyByArmyId(attack.defenderArmyId);
     if (!defenderArmy) return failure(new ArmyNotFound(attack.defenderArmyId.toString()));
+
     const battle = Battle.create(id, attack, defenderArmy);
-    const events = battle.pullDomainEvents();
+    console.log(
+      'attacker troops:',
+      attack.attackerTroop.squads.basic.soldiers,
+      'defender',
+      defenderArmy.squads.basic.soldiers,
+      'to return',
+      battle.result
+    );
+    defenderArmy.applyBattleImpact(Squads.fromTownSoldiers(battle.result.defenderCasualties));
+
+    const events = battle.pullDomainEvents().concat(defenderArmy.pullDomainEvents());
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
-    await this.eventBus.publish(events);
+
+    // as we dont have scheduler yet, the attacker troops are returned automatically
+    const troopReturned = new BattleTroopReturnedDomainEvent({
+      aggregateId: battle.id.toString(),
+      troop: battle.result.returningTroop
+    });
+    await this.eventBus.publish([...events, troopReturned]);
     return success();
   }
 }

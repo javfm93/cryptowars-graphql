@@ -8,6 +8,9 @@ import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInterna
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { AggregateRoot } from '../../Shared/Domain/FlatAggregateRoot';
 import { Primitives } from '../../../Shared/Domain/Primitives';
+import { SoldiersSentToAttackDomainEvent } from './SoldiersSentToAttackDomainEvent';
+import { ArmyAttackedDomainEvent } from './ArmyAttackedDomainEvent';
+import { SoldiersReceivedFromBattleDomainEvent } from './SoldiersReceivedFromBattleDomainEvent';
 
 interface ArmyCreationProps {
   id: ArmyId;
@@ -52,6 +55,36 @@ export class Army extends AggregateRoot {
     );
   }
 
+  public receiveSquadsFromBattle(squads: Squads) {
+    this.record(
+      new SoldiersReceivedFromBattleDomainEvent({
+        aggregateId: this.id.toString(),
+        squads: squads.value
+      })
+    );
+    this.squads.absorb(squads);
+  }
+
+  public sendSquadsToAttack(squads: Squads) {
+    this.record(
+      new SoldiersSentToAttackDomainEvent({
+        aggregateId: this.id.toString(),
+        squads: squads.value
+      })
+    );
+    this.squads.reduce(squads);
+  }
+
+  public applyBattleImpact(casualties: Squads) {
+    this.record(
+      new ArmyAttackedDomainEvent({
+        aggregateId: this.id.toString(),
+        squads: casualties.value
+      })
+    );
+    this.squads.reduce(casualties);
+  }
+
   public static create(props: ArmyCreationProps): Army {
     const army = new Army(props.id, props.townId, props.playerId, props.squads);
     army.record(
@@ -89,6 +122,13 @@ export class Army extends AggregateRoot {
       } else if (SoldiersRecruitedDomainEvent.isMe(event)) {
         const exposedEvent = SoldiersRecruitedDomainEvent.fromBattlefieldInternalEvent(event);
         army.recruit(Squads.fromPrimitives([exposedEvent.squad]));
+      } else if (SoldiersSentToAttackDomainEvent.isMe(event)) {
+        const soldiersSent = SoldiersSentToAttackDomainEvent.fromBattlefieldInternalEvent(event);
+        army.sendSquadsToAttack(Squads.fromPrimitives(soldiersSent.squads));
+      } else if (SoldiersReceivedFromBattleDomainEvent.isMe(event)) {
+        const soldiersReceived =
+          SoldiersReceivedFromBattleDomainEvent.fromBattlefieldInternalEvent(event);
+        army.receiveSquadsFromBattle(Squads.fromPrimitives(soldiersReceived.squads));
       } else {
         throw Error(`Unknown event for army materialization: ${event.id}: ${event.name}`);
       }

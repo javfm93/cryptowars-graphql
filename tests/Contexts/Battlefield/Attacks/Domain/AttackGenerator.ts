@@ -40,6 +40,18 @@ export class AttackGenerator {
     );
   }
 
+  static toDefenderWithNSoldiers(defenderArmy: Army, soldiers: number): Attack {
+    return this.create(
+      AttackIdGenerator.random(),
+      AttackTroop.create(
+        ArmyIdGenerator.random().toString(),
+        TownSoldiersGenerator.withNSoldiers(soldiers).value
+      ),
+      defenderArmy.id,
+      new Date().toISOString()
+    );
+  }
+
   static random(): Attack {
     return this.create(
       AttackIdGenerator.random(),

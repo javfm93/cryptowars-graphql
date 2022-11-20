@@ -9,6 +9,9 @@ import { BattleExposedEventsGenerator } from '../Domain/BattleExposedEventsGener
 import { Battle } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battle';
 import { BattleId } from '../../../../../src/Contexts/Battlefield/Battles/Domain/BattleId';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
+import { ArmyExposedEventsGenerator } from '../../Armies/domain/ArmyExposedEventsGenerator';
+import { ArmyTroop } from '../../../../../src/Contexts/Battlefield/Battles/Domain/ArmyTroop';
+import { TownSoldierTypes } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -38,9 +41,34 @@ describe('[Application] Create Battle', () => {
     await handler.on(event);
 
     const battle = Battle.create(BattleId.create(mockedNewUuid), attack, defenderArmy);
-    const expectedEvent = BattleExposedEventsGenerator.battleCreatedFor(battle);
-    repository.expectLastSavedBattlefieldEventsToBe([expectedEvent.toBattlefieldInternalEvent()]);
-    eventBus.expectLastPublishedEventToBe(expectedEvent);
+    const expectedEventBattleCreated = BattleExposedEventsGenerator.battleCreatedFor(battle);
+    const expectedDefenderArmyAttacked = ArmyExposedEventsGenerator.ArmyAttackedIn(battle);
+    repository.expectLastSavedBattlefieldEventsToBe([
+      expectedEventBattleCreated.toBattlefieldInternalEvent(),
+      expectedDefenderArmyAttacked.toBattlefieldInternalEvent()
+    ]);
+    const battleTroopReturned = BattleExposedEventsGenerator.battleTroopReturned(battle);
+    eventBus.expectPublishedEventsToBe([
+      expectedEventBattleCreated,
+      expectedDefenderArmyAttacked,
+      battleTroopReturned
+    ]);
+  });
+
+  it('should return soldiers when attacker wins', async () => {
+    const defenderArmy = ArmyGenerator.randomWithNSoldiers(4);
+    const attack = AttackGenerator.toDefenderWithNSoldiers(defenderArmy, 6);
+    const event = AttackExposedEventsGenerator.attackArrivedFor(attack.id.toString());
+    repository.whenMaterializeAttackByIdThenReturn(attack);
+    repository.whenMaterializeArmyByArmyIdThenReturn(defenderArmy);
+
+    await handler.on(event);
+
+    const battleTroopReturned = BattleExposedEventsGenerator.battleTroopReturnedFromTroop(
+      BattleId.create(mockedNewUuid),
+      ArmyTroop.create(attack.attackerTroop.armyId.toString(), { [TownSoldierTypes.basic]: 2 })
+    );
+    eventBus.expectLastPublishedEventToBe(battleTroopReturned);
   });
 
   describe('should not create an battle when: ', () => {

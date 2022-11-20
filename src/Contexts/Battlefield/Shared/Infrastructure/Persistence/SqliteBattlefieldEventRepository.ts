@@ -47,13 +47,14 @@ export class SqliteBattlefieldEventRepository
 
   public async materializeArmyByTownId(townId: Uuid): Promise<NothingOr<Army>> {
     const repository = await this.repository();
-    const events = await repository
+    // todo: if it is of type create and...
+    // todo: remove townId wrong recruit
+    const armyEvent = await repository
       .createQueryBuilder()
       .where("json_extract(data, '$.townId') = :townId", { townId: townId.toString() })
-      .getMany();
-    return events.length
-      ? Army.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives))
-      : null;
+      .getOne();
+    if (!armyEvent) return null;
+    return this.materializeArmyByArmyId(ArmyId.create(armyEvent.aggregateId));
   }
 
   public async materializeArmyByArmyId(id: ArmyId): Promise<NothingOr<Army>> {
@@ -71,13 +72,7 @@ export class SqliteBattlefieldEventRepository
   }
 
   async materializeBattlesByArmyId(armyId: ArmyId): Promise<Battles> {
-    const repository = await this.repository();
-    const events = await repository
-      .createQueryBuilder()
-      .where("json_extract(data, '$.attack.attackerTroop.armyId') = :armyId", {
-        armyId: armyId.toString()
-      })
-      .getMany();
+    const events = await this.findBattlesByArmyId(armyId.toString());
     return events.length
       ? Battles.materializeFrom(events.map(BattlefieldInternalEvent.fromPrimitives))
       : Battles.create();
@@ -93,6 +88,18 @@ export class SqliteBattlefieldEventRepository
   private async findByAggregateId(uuid: Uuid): Promise<Array<BattlefieldInternalEventPrimitives>> {
     const repository = await this.repository();
     return repository.find({ where: { aggregateId: uuid.toString() } });
+  }
+
+  private async findBattlesByArmyId(
+    armyId: string
+  ): Promise<Array<BattlefieldInternalEventPrimitives>> {
+    const repository = await this.repository();
+    return repository
+      .createQueryBuilder()
+      .where("json_extract(data, '$.attack.attackerTroop.armyId') = :armyId", {
+        armyId
+      })
+      .getMany();
   }
 
   protected entitySchema(): EntitySchema<BattlefieldInternalEventPrimitives> {

@@ -12,6 +12,7 @@ import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/
 import { AttackAlreadyExist } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/AttackAlreadyExist';
 import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
 import { failure, successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
+import { ArmyExposedEventsGenerator } from '../../Armies/domain/ArmyExposedEventsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -43,9 +44,13 @@ describe('[Application] SendAttack', () => {
 
     if (result.isFailure()) fail(result.value);
     const attackSent = AttackExposedEventsGenerator.attackSentFrom(command, defenderArmy);
+    const soldiersSent = ArmyExposedEventsGenerator.SoldiersSentToAttack(command);
+    repository.expectLastSavedBattlefieldEventsToBe([
+      attackSent.toBattlefieldInternalEvent(),
+      soldiersSent.toBattlefieldInternalEvent()
+    ]);
     const attackArrived = AttackExposedEventsGenerator.attackArrivedFor(attackSent.aggregateId);
-    repository.expectLastSavedBattlefieldEventsToBe([attackSent.toBattlefieldInternalEvent()]);
-    eventBus.expectPublishedEventsToBe([attackSent, attackArrived]);
+    eventBus.expectPublishedEventsToBe([attackSent, soldiersSent, attackArrived]);
   });
 
   describe('should not create an attack when: ', () => {

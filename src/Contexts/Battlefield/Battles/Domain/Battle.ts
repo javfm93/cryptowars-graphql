@@ -8,11 +8,13 @@ import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/domain/TownSol
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Attack } from '../../Attacks/Domain/Attack';
+import { ArmyTroop } from './ArmyTroop';
 
 export type BattleResult = {
   winner: 'attacker' | 'defender';
   attackerCasualties: TownSoldiersPrimitives;
   defenderCasualties: TownSoldiersPrimitives;
+  returningTroop: Primitives<ArmyTroop>;
 };
 
 export class Battle extends AggregateRoot {
@@ -42,17 +44,29 @@ export class Battle extends AggregateRoot {
   private resolve(): BattleResult {
     const attackerSoldiers = this.attack.attackerTroop.squads.basic.soldiers;
     const defenderSoldiers = this.defenderArmy.squads.basic.soldiers;
-    return attackerSoldiers > defenderSoldiers
-      ? {
-          winner: 'attacker',
-          attackerCasualties: { [SquadTypes.basic]: defenderSoldiers },
-          defenderCasualties: { [SquadTypes.basic]: defenderSoldiers }
-        }
-      : {
-          winner: 'defender',
-          attackerCasualties: { [SquadTypes.basic]: attackerSoldiers },
-          defenderCasualties: { [SquadTypes.basic]: attackerSoldiers }
-        };
+    if (attackerSoldiers > defenderSoldiers) {
+      const returningTroop = ArmyTroop.create(this.attack.attackerTroop.armyId.toString(), {
+        [SquadTypes.basic]: attackerSoldiers - defenderSoldiers
+      }).toPrimitives();
+      const casualties = { [SquadTypes.basic]: defenderSoldiers };
+      return {
+        winner: 'attacker',
+        attackerCasualties: casualties,
+        defenderCasualties: casualties,
+        returningTroop
+      };
+    } else {
+      const returningTroop = ArmyTroop.create(this.attack.attackerTroop.armyId.toString(), {
+        [SquadTypes.basic]: 0
+      }).toPrimitives();
+      const casualties = { [SquadTypes.basic]: attackerSoldiers };
+      return {
+        winner: 'defender',
+        attackerCasualties: casualties,
+        defenderCasualties: casualties,
+        returningTroop
+      };
+    }
   }
 
   toPrimitives(): Primitives<Battle> {

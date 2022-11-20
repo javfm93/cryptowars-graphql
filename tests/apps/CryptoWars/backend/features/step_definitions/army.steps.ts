@@ -21,13 +21,23 @@ export const retrieveOtherPlayerArmyInformation = async () => {
   const finalRoute = '/army?townId=:townId'.replace(/:townId/gi, otherUserPlayer.towns[0].id);
   const response = await otherUserAgent.get(finalRoute).send();
   otherPlayerArmy = response.body.army;
+  console.log('-----------', otherPlayerArmy.squads);
 };
 
-Given('I have 2 basic soldiers in my army', async () => {
+Given('I have {int} basic soldiers in my army', async (numberOfSoldiers: number) => {
   const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, player.towns[0].id);
   await agent.post(finalRoute).send({
     soldiers: {
-      basic: 2
+      basic: numberOfSoldiers
+    }
+  });
+});
+
+Given('Other player has {int} basic soldiers in his army', async (numberOfSoldiers: number) => {
+  const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, otherUserPlayer.towns[0].id);
+  await otherUserAgent.post(finalRoute).send({
+    soldiers: {
+      basic: numberOfSoldiers
     }
   });
 });
@@ -63,4 +73,8 @@ Then('The army response should contain:', async (body: string) => {
   assert.strictEqual(armyResponse.body.army.playerId, player.id);
   assert.strictEqual(armyResponse.body.army.townId, player.towns[0].id);
   assert.deepStrictEqual(armyResponse.body.army.squads, expectedResponse.squads);
+});
+
+Then('My Army should have {int} soldiers', async (numberOfSoldiers: number) => {
+  assert.strictEqual(playerArmy.squads[0].soldiers, numberOfSoldiers);
 });

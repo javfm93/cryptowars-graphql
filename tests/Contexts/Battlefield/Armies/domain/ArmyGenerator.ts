@@ -36,4 +36,13 @@ export class ArmyGenerator {
       SquadsGenerator.randomBetween10and90()
     );
   }
+
+  static randomWithNSoldiers(soldiers: number): Army {
+    return this.create(
+      ArmyIdGenerator.random(),
+      TownIdGenerator.random(),
+      PlayerIdGenerator.random(),
+      SquadsGenerator.withNSoldiers(soldiers)
+    );
+  }
 }

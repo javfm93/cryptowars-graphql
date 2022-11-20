@@ -33,12 +33,6 @@ describe('[infra] BattlefieldInternalEventRepository', () => {
   });
 
   describe('#search', () => {
-    const createArmyWithSoldiers = async () => {
-      const { expectedArmy, expectedArmyCreated } = await createArmy();
-      const { expectedSoldiersRecruited } = await recruitSoldiersFor(expectedArmy);
-      return { expectedArmy, expectedArmyCreated, expectedSoldiersRecruited };
-    };
-
     const createArmy = async () => {
       const expectedArmy = ArmyGenerator.random();
       const expectedArmyCreated =
@@ -55,6 +49,12 @@ describe('[infra] BattlefieldInternalEventRepository', () => {
       ).toBattlefieldInternalEvent();
       await repository.save([expectedSoldiersRecruited]);
       return { expectedSoldiersRecruited };
+    };
+
+    const createArmyWithSoldiers = async () => {
+      const { expectedArmy, expectedArmyCreated } = await createArmy();
+      const { expectedSoldiersRecruited } = await recruitSoldiersFor(expectedArmy);
+      return { expectedArmy, expectedArmyCreated, expectedSoldiersRecruited };
     };
 
     it('should return the battlefield event given an aggregate id', async () => {

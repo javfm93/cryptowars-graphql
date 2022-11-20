@@ -54,6 +54,15 @@ Feature: As player, I want check my attack results
             },
             "defenderCasualties": {
               "basic": 0
+            },
+            "returningTroop": {
+              "armyId": ":armyId",
+              "squads": [
+                {
+                  "soldiers": 2,
+                  "type": "basic"
+                }
+              ]
             }
           }
         }
