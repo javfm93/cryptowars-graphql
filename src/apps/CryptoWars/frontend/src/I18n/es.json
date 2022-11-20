@@ -24,7 +24,9 @@
         "defender": "Defender",
         "casualties": "Casualties",
         "sentAt": "Sent At",
-        "finishedAt": "FinishedAt"
+        "finishedAt": "FinishedAt",
+        "attackedWith": "Attacked with",
+        "returning": "Returning"
       }
     },
     "footer": {

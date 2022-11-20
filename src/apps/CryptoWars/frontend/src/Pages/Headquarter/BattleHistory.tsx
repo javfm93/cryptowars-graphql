@@ -24,7 +24,9 @@ export const BattleHistory = ({ battles }: BattleHistoryProps): JSX.Element => {
             <TableRow>
               <TableCell>{t('town.battles.winner')}</TableCell>
               <TableCell align="right">{t('town.battles.defender')}</TableCell>
+              <TableCell align="right">{t('town.battles.attackedWith')}</TableCell>
               <TableCell align="right">{t('town.battles.casualties')}</TableCell>
+              <TableCell align="right">{t('town.battles.returning')}</TableCell>
               <TableCell align="right">{t('town.battles.sentAt')}</TableCell>
               <TableCell align="right">{t('town.battles.finishedAt')}</TableCell>
             </TableRow>
@@ -36,7 +38,9 @@ export const BattleHistory = ({ battles }: BattleHistoryProps): JSX.Element => {
                   {battle.result.winner.toString()}
                 </TableCell>
                 <TableCell align="right">{battle.defenderArmy.townId}</TableCell>
+                <TableCell align="right">{`basic: ${battle.attack.attackerTroop.squads[0].soldiers}`}</TableCell>
                 <TableCell align="right">{`basic: ${battle.result.attackerCasualties.basic}`}</TableCell>
+                <TableCell align="right">{`basic: ${battle.result.returningTroop.squads[0].soldiers}`}</TableCell>
                 <TableCell align="right">
                   {new Date(battle.attack.sentAt.toString()).toUTCString()}
                 </TableCell>

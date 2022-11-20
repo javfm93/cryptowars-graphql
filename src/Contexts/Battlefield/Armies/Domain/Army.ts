@@ -129,6 +129,9 @@ export class Army extends AggregateRoot {
         const soldiersReceived =
           SoldiersReceivedFromBattleDomainEvent.fromBattlefieldInternalEvent(event);
         army.receiveSquadsFromBattle(Squads.fromPrimitives(soldiersReceived.squads));
+      } else if (ArmyAttackedDomainEvent.isMe(event)) {
+        const armyAttacked = ArmyAttackedDomainEvent.fromBattlefieldInternalEvent(event);
+        army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.squads));
       } else {
         throw Error(`Unknown event for army materialization: ${event.id}: ${event.name}`);
       }
