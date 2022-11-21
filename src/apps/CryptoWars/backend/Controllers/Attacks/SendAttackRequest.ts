@@ -1,4 +1,4 @@
-import { TownSoldiersPrimitives } from '../../../../../Contexts/CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiersPrimitives } from '../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 
 export type SendAttackRequest = {
   attackerArmy: string;

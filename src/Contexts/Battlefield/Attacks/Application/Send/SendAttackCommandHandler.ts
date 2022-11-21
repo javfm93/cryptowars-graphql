@@ -4,7 +4,7 @@ import { SendAttack } from './SendAttack';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { AttackId } from '../../Domain/AttackId';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { AttackTroop } from '../../Domain/AttackTroop';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';

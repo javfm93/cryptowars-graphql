@@ -1,7 +1,7 @@
-import { ArmyGenerator } from '../domain/ArmyGenerator';
+import { ArmyGenerator } from '../Domain/ArmyGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
-import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
+import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { ReceiveSoldiersFromBattle } from '../../../../../src/Contexts/Battlefield/Armies/Application/ReceiveSoldiersFromBattle/ReceiveSoldiersFromBattle';
 import { ReceiveSoldiersFromBattleOnBattleTroopReturned } from '../../../../../src/Contexts/Battlefield/Armies/Application/ReceiveSoldiersFromBattle/ReceiveSoldiersFromBattleOnBattleTroopReturned';

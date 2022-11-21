@@ -1,9 +1,9 @@
-import { TownIdGenerator } from '../../../CryptoWars/Towns/domain/TownIdGenerator';
-import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
-import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
+import { TownIdGenerator } from '../../../CryptoWars/Towns/Domain/TownIdGenerator';
+import { PlayerIdGenerator } from '../../../CryptoWars/Players/Domain/PlayerIdGenerator';
+import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
-import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownCreatedDomainEvent';
-import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiersTrainFinishedDomainEvent';
+import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownCreatedDomainEvent';
+import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiersTrainFinishedDomainEvent';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
 export class TownEventsGenerator {

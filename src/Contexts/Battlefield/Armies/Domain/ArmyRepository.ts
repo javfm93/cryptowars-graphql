@@ -1,7 +1,7 @@
 import { Army } from './Army';
 import { NothingOr } from '../../../Shared/Domain/Nullable';
 import { ArmyId } from './ArmyId';
-import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 
 export interface ArmyRepository {
   save(army: Army): Promise<void>;

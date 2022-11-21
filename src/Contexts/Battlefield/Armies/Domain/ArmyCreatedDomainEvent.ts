@@ -4,7 +4,7 @@ import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
 import { Army } from './Army';
 import { ArmyId } from './ArmyId';
-import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
 
 type ArmyCreatedDomainEventBody = {

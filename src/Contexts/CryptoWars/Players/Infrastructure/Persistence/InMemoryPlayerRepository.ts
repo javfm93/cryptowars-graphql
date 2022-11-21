@@ -1,12 +1,11 @@
 import { PlayerRepository } from '../../Domain/PlayerRepository';
 import { Player } from '../../Domain/Player';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
-import { initialPlayers } from '../../Domain/Seed/InitialPlayers';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { PlayerId } from '../../Domain/PlayerId';
 
 export class InMemoryPlayerRepository implements PlayerRepository {
-  private players: Array<Player> = initialPlayers;
+  private players: Array<Player> = [];
 
   public save(user: Player): Promise<void> {
     this.players.push(user);

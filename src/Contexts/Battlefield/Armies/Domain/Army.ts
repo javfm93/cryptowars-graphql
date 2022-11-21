@@ -1,6 +1,6 @@
 import { ArmyCreatedDomainEvent } from './ArmyCreatedDomainEvent';
 import { ArmyId } from './ArmyId';
-import { TownId } from '../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
 import { SquadPrimitives, Squads } from './Squads';
 import { SoldiersRecruitedDomainEvent } from './SoldiersRecruitedDomainEvent';

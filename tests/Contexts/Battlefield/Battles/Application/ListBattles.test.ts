@@ -4,7 +4,7 @@ import { ListBattlesByArmyIdQueryHandler } from '../../../../../src/Contexts/Bat
 import { BattleGenerator } from '../Domain/BattleGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
-import { ArmyGenerator } from '../../Armies/domain/ArmyGenerator';
+import { ArmyGenerator } from '../../Armies/Domain/ArmyGenerator';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 
 describe('[Application] List Battles', () => {

@@ -2,17 +2,17 @@ import { SendAttackCommandGenerator } from './SendAttackCommandGenerator';
 import { AttackExposedEventsGenerator } from '../Domain/AttackExposedEventsGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
-import { ArmyGenerator } from '../../Armies/domain/ArmyGenerator';
+import { ArmyGenerator } from '../../Armies/Domain/ArmyGenerator';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { SendAttack } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttack';
 import { SendAttackCommandHandler } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttackCommandHandler';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
-import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
+import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
 import { AttackAlreadyExist } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/AttackAlreadyExist';
 import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
 import { failure, successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
-import { ArmyExposedEventsGenerator } from '../../Armies/domain/ArmyExposedEventsGenerator';
+import { ArmyExposedEventsGenerator } from '../../Armies/Domain/ArmyExposedEventsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 

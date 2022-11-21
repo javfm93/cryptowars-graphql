@@ -10,14 +10,14 @@ import {
 } from '../../../../Shared/Aplication/Result';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
 import { AttackId } from '../../Domain/AttackId';
-import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { ArmyNotFound } from '../../../Armies/Application/Find/ArmyNotFound';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { AttackAlreadyExist } from './AttackAlreadyExist';
 import { AttackTroop } from '../../Domain/AttackTroop';
 import { AttackArrivedDomainEvent } from '../../Domain/AttackArrivedDomainEvent';
-import { InvalidNumberOfSoldiers } from '../../../../CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
+import { InvalidNumberOfSoldiers } from '../../../../CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
 import { FindArmyByArmyIdQuery } from '../../../Armies/Application/Find/FindArmyByArmyIdQuery';
 import { QueryBus } from '../../../../Shared/Domain/QueryBus';
 import { FindArmyByArmyIdQueryResult } from '../../../Armies/Application/Find/FindArmyByArmyIdQueryHandler';

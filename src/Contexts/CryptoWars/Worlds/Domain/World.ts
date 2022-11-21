@@ -1,10 +1,10 @@
 import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { WorldId } from './WorldId';
 import { WorldName } from './WorldName';
-import { Town, TownPrimitives } from '../../Towns/domain/Town';
+import { Town, TownPrimitives } from '../../Towns/Domain/Town';
 import { WorldPlayerJoinedDomainEvent } from './WorldPlayerJoinedDomainEvent';
 import { Player, PlayerCorePrimitives } from '../../Players/Domain/Player';
-import { Towns } from '../../Towns/domain/Towns';
+import { Towns } from '../../Towns/Domain/Towns';
 import { Players } from '../../Players/Domain/Players';
 
 export interface WorldCreationProps {

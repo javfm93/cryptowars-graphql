@@ -4,8 +4,8 @@ import { UserId } from '../../../IAM/Users/Domain/UserId';
 import { PlayerId } from './PlayerId';
 import { WorldPrimitives } from '../../Worlds/Domain/World';
 import { Worlds } from '../../Worlds/Domain/Worlds';
-import { Town, TownPrimitives } from '../../Towns/domain/Town';
-import { Towns } from '../../Towns/domain/Towns';
+import { Town, TownPrimitives } from '../../Towns/Domain/Town';
+import { Towns } from '../../Towns/Domain/Towns';
 
 export interface PlayerProps {
   userId: UserId;

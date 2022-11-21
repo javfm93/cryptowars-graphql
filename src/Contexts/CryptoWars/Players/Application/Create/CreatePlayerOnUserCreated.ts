@@ -1,6 +1,6 @@
-import { DomainEventClass } from '../../../../Shared/domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/domain/DomainEventSubscriber';
-import { UserCreatedDomainEvent } from '../../../../IAM/Users/domain/UserCreatedDomainEvent';
+import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
+import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import { UserCreatedDomainEvent } from '../../../../IAM/Users/Domain/UserCreatedDomainEvent';
 import { CreatePlayer } from './CreatePlayer';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';

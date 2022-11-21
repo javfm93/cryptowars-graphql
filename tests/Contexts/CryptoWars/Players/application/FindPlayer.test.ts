@@ -1,9 +1,9 @@
 import { FindPlayerQueryGenerator } from './FindPlayerQueryGenerator';
 import { PlayerRepositoryMock } from '../__mocks__/PlayerRepositoryMock';
-import { PlayerGenerator } from '../domain/PlayerGenerator';
+import { PlayerGenerator } from '../Domain/PlayerGenerator';
 import { FindPlayer } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/FindPlayer';
 import { FindPlayerQueryHandler } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/FindPlayerQueryHandler';
-import { PlayerIdGenerator } from '../domain/PlayerIdGenerator';
+import { PlayerIdGenerator } from '../Domain/PlayerIdGenerator';
 import { PlayerNotFound } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/PlayerNotFound';
 
 describe('[Application] Find Player', () => {

@@ -4,7 +4,7 @@ import { Army } from '../../Armies/Domain/Army';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { BattleCreatedDomainEvent } from './BattleCreatedDomainEvent';
 import { SquadTypes } from '../../Armies/Domain/Squads';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Attack } from '../../Attacks/Domain/Attack';

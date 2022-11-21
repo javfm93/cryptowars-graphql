@@ -1,4 +1,4 @@
-import { UserIdGenerator } from '../../../IAM/Users/domain/UserIdGenerator';
+import { UserIdGenerator } from '../../../IAM/Users/Domain/UserIdGenerator';
 import { FindPlayerQuery } from '../../../../../src/Contexts/CryptoWars/Players/Application/Find/FindPlayerQuery';
 import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 

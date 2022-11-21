@@ -1,9 +1,9 @@
-import { NumberGenerator } from '../../../Shared/domain/NumberGenerator';
-import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiersCommand';
-import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
-import { TownIdGenerator } from '../domain/TownIdGenerator';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
-import { PlayerIdGenerator } from '../../Players/domain/PlayerIdGenerator';
+import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
+import { TrainSoldiersCommand } from '../../../../../src/Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommand';
+import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
+import { TownIdGenerator } from '../Domain/TownIdGenerator';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
+import { PlayerIdGenerator } from '../../Players/Domain/PlayerIdGenerator';
 
 export class TrainSoldiersCommandGenerator {
   static create(

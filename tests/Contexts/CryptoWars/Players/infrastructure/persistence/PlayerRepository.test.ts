@@ -1,4 +1,4 @@
-import { PlayerGenerator } from '../../domain/PlayerGenerator';
+import { PlayerGenerator } from '../../Domain/PlayerGenerator';
 import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';

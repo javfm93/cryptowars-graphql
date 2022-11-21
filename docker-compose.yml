@@ -1,12 +1,12 @@
-version: '3.8'
+version: '3.9'
 
 x-app-service: &default-app
   build: .
   command: ''
   environment:
     - MONGO_URL=mongodb://mongo:27017/dev
-  depends_on:
-    - mongo
+  #  depends_on:
+  #    - mongo
   volumes:
     - .:/code:delegated
     - node_modules:/code/node_modules:delegated
@@ -16,10 +16,12 @@ services:
     <<: *default-app
 
   backend:
-    <<: *default-app
-    command: bash -c "npm run dev"
+    build: .
+    #    command: bash -c "npm run start"
     ports:
       - 5000:5000
+    depends_on:
+      - logstash
 
   frontend:
     <<: *default-app
@@ -27,12 +29,73 @@ services:
     ports:
       - 3000:3000
 
-#  mongo:
-#    image: mongo:3.4.6
+  #  mongo:
+  #    image: mongo:3.4.6
+  #    volumes:
+  #      - ./data/mongo:/data/db:delegated
+  #    ports:
+  #      - 27017:27017
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: elasticsearch
+    environment:
+      - node.name=cryptowars-elasticsearch
+      - discovery.type=single-node #Elasticsearch forms a single-node cluster
+      - bootstrap.memory_lock=true # might cause the JVM or shell session to exit if it tries to allocate more memory than is available!
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+      - TAKE_FILE_OWNERSHIP=1
+      - ELASTIC_PASSWORD=elastic
+
+    ulimits:
+      memlock:
+        soft: -1 # The memlock soft and hard values configures the range of memory that ElasticSearch will use. Setting this to –1 means unlimited.
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.5.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTIC_PASSWORD: elastic
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.5.0
+    container_name: logstash
+    environment:
+      - ELASTIC_PASSWORD=elastic
+    ports:
+      - '9600:9600'
+    depends_on:
+      - elasticsearch
+      - kibana
+    volumes:
+      - ./etc/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logs:/logs
+
+#  filebeat:
+#    image: docker.elastic.co/beats/filebeat:8.5.0
+#    container_name: filebeat
+#    environment:
+#      - ELASTIC_PASSWORD=elastic
+#    user: root
 #    volumes:
-#      - ./data/mongo:/data/db:delegated
-#    ports:
-#      - 27017:27017
+#      - ./logs:/var/log/:ro
+#      - ./var/filebeat/docker.sock:/var/run/docker.sock
+#      - ./logs/:/var/lib/docker/containers/logs:ro
+#      - ./etc/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+#    command:
+#      - "--strict.perms=false"
 
 volumes:
   node_modules:

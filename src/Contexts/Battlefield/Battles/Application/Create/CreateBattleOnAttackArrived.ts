@@ -1,5 +1,5 @@
-import { DomainEventClass } from '../../../../Shared/domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/domain/DomainEventSubscriber';
+import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
+import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
 import { CreateBattle } from './CreateBattle';
 import { AttackArrivedDomainEvent } from '../../../Attacks/Domain/AttackArrivedDomainEvent';
 import { AttackId } from '../../../Attacks/Domain/AttackId';

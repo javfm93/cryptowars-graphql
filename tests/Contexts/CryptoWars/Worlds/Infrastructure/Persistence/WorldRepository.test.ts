@@ -3,8 +3,8 @@ import container from '../../../../../../src/apps/CryptoWars/backend/dependency-
 import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';
 import { WorldId } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 import { WorldName } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldName';
-import { PlayerGenerator } from '../../../Players/domain/PlayerGenerator';
-import { TownGenerator } from '../../../Towns/domain/TownGenerator';
+import { PlayerGenerator } from '../../../Players/Domain/PlayerGenerator';
+import { TownGenerator } from '../../../Towns/Domain/TownGenerator';
 
 const repository: WorldRepository = container.get('CryptoWars.Worlds.WorldRepository');
 

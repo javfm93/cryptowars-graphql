@@ -3,9 +3,9 @@ import { WorldRepository } from '../../../../../src/Contexts/CryptoWars/Worlds/D
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
 import { WorldId } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
-import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownBuildings';
+import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownBuildings';
 
 export class WorldRepositoryMock implements WorldRepository {
   private mockFindAll = jest.fn();

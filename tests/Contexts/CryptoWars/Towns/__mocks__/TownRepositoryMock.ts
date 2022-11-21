@@ -1,7 +1,7 @@
-import { TownRepository } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownRepository';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { TownRepository } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownRepository';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 import { NothingOr, Nullable } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 
 export class TownRepositoryMock implements TownRepository {
   private mockSave = jest.fn();

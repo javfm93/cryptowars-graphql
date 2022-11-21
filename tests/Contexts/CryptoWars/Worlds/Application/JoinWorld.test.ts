@@ -7,11 +7,11 @@ import { JoinWorldCommandGenerator } from './JoinWorldCommandGenerator';
 import { successAndReturn } from '../../../../../src/Contexts/Shared/Aplication/Result';
 import { WorldRepositoryMock } from '../__mocks__/WorldRepositoryMock';
 import { WorldGenerator } from '../Domain/WorldGenerator';
-import { PlayerGenerator } from '../../Players/domain/PlayerGenerator';
+import { PlayerGenerator } from '../../Players/Domain/PlayerGenerator';
 import { WorldEventsGenerator } from '../Domain/WorldEventsGenerator';
 import { QueryBusMock } from '../../../Shared/Infrastructure/QueryBusMock';
-import { TownEventsGenerator } from '../../Towns/domain/TownEventsGenerator';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownEventsGenerator } from '../../Towns/Domain/TownEventsGenerator';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';

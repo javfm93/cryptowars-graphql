@@ -1,4 +1,4 @@
-import { ArmyGenerator } from '../../domain/ArmyGenerator';
+import { ArmyGenerator } from '../../Domain/ArmyGenerator';
 import { ArmyRepository } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';

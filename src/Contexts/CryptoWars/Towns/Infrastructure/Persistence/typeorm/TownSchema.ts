@@ -1,5 +1,5 @@
 import { EntitySchema } from 'typeorm';
-import { TownPrimitives } from '../../../domain/Town';
+import { TownPrimitives } from '../../../Domain/Town';
 
 type TownDbSchema = TownPrimitives & { player: string; world: string };
 export const TownSchema = new EntitySchema<TownDbSchema>({

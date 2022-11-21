@@ -1,14 +1,14 @@
 import { TownSoldiersGenerator } from '../Domain/TownSoldiersGenerator';
 import { SendAttackCommand } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttackCommand';
-import { TownSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { AttackIdGenerator } from '../Domain/AttackIdGenerator';
-import { ArmyIdGenerator } from '../../Armies/domain/ArmyIdGenerator';
-import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
+import { ArmyIdGenerator } from '../../Armies/Domain/ArmyIdGenerator';
+import { PlayerIdGenerator } from '../../../CryptoWars/Players/Domain/PlayerIdGenerator';
 
 export class SendAttackCommandGenerator {
   static create(

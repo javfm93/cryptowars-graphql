@@ -4,16 +4,16 @@ import { SendAttackRequest } from './SendAttackRequest';
 import { Controller } from '../Controller';
 import { CommandBus } from '../../../../../Contexts/Shared/Domain/CommandBus';
 import { Forbidden } from '../../../../../Contexts/Shared/Domain/Errors/Forbidden';
-import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/application/TrainSoldiers/TownNotFound';
+import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TownNotFound';
 import { SendAttackCommand } from '../../../../../Contexts/Battlefield/Attacks/Application/Send/SendAttackCommand';
 import {
   SendAttackCommandErrors,
   SendAttackCommandResult
 } from '../../../../../Contexts/Battlefield/Attacks/Application/Send/SendAttackCommandHandler';
 import { ArmyNotFound } from '../../../../../Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
-import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidSoldier';
+import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/Domain/InvalidSoldier';
 import { AttackAlreadyExist } from '../../../../../Contexts/Battlefield/Attacks/Application/Send/AttackAlreadyExist';
-import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
+import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
 
 type QueryParams = {
   id: string;

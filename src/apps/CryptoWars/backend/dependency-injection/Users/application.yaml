@@ -1,7 +1,7 @@
 services:
 
   CryptoWars.Users.UserRepository:
-    class: ../../../../../Contexts/IAM/Users/infrastructure/persistence/SqliteUserRepository
+    class: ../../../../../Contexts/IAM/Users/Infrastructure/Persistence/SqliteUserRepository
     arguments: [ '@Shared.ConnectionManager' ]
 
   CryptoWars.Users.CreateUser:

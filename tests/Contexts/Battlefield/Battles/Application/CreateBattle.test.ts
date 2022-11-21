@@ -1,5 +1,5 @@
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
-import { ArmyGenerator } from '../../Armies/domain/ArmyGenerator';
+import { ArmyGenerator } from '../../Armies/Domain/ArmyGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { CreateBattle } from '../../../../../src/Contexts/Battlefield/Battles/Application/Create/CreateBattle';
 import { CreateBattleOnAttackArrived } from '../../../../../src/Contexts/Battlefield/Battles/Application/Create/CreateBattleOnAttackArrived';
@@ -9,9 +9,9 @@ import { BattleExposedEventsGenerator } from '../Domain/BattleExposedEventsGener
 import { Battle } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battle';
 import { BattleId } from '../../../../../src/Contexts/Battlefield/Battles/Domain/BattleId';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
-import { ArmyExposedEventsGenerator } from '../../Armies/domain/ArmyExposedEventsGenerator';
+import { ArmyExposedEventsGenerator } from '../../Armies/Domain/ArmyExposedEventsGenerator';
 import { ArmyTroop } from '../../../../../src/Contexts/Battlefield/Battles/Domain/ArmyTroop';
-import { TownSoldierTypes } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldierTypes } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 

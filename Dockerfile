@@ -1,6 +1,10 @@
-FROM node:12.16.3-slim
+FROM node:16.18
 
 WORKDIR /code
 
-COPY package.json package-lock.json ./
-RUN npm install
+COPY . .
+RUN yarn install
+RUN npm run build
+RUN ls
+RUN ls dist/
+CMD npm run start

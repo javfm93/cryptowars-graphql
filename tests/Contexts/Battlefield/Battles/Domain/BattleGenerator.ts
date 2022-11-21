@@ -4,7 +4,7 @@ import { Attack } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/A
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { BattleIdGenerator } from './BattleIdGenerator';
 import { AttackGenerator } from '../../Attacks/Domain/AttackGenerator';
-import { ArmyGenerator } from '../../Armies/domain/ArmyGenerator';
+import { ArmyGenerator } from '../../Armies/Domain/ArmyGenerator';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
 import { Battles } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battles';

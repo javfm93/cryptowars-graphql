@@ -1,7 +1,7 @@
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
 import { Squads } from '../../Domain/Squads';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';

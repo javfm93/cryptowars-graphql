@@ -2,7 +2,6 @@ node_modules/
 dist/
 .tmp
 logs/
-src/Contexts/Mooc/Courses/infrastructure/persistence/courses.*
 data
 test-results.xml
 # Logs

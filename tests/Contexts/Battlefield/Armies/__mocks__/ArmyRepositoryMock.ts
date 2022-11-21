@@ -1,5 +1,5 @@
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 import { ArmyRepository } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';

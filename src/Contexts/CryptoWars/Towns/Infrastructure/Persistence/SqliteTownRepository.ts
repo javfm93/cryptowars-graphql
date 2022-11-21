@@ -1,7 +1,7 @@
-import { TownRepository } from '../../domain/TownRepository';
-import { Town, TownPrimitives } from '../../domain/Town';
+import { TownRepository } from '../../Domain/TownRepository';
+import { Town, TownPrimitives } from '../../Domain/Town';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
-import { TownId } from '../../domain/TownId';
+import { TownId } from '../../Domain/TownId';
 import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { TownSchema } from './typeorm/TownSchema';

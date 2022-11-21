@@ -6,10 +6,10 @@ import {
 import { WorldNameGenerator } from './WorldNameGenerator';
 import { WorldIdGenerator } from './WorldIdGenerator';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
-import { NumberGenerator } from '../../../Shared/domain/NumberGenerator';
+import { NumberGenerator } from '../../../Shared/Domain/NumberGenerator';
 import { Players } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
-import { TownGenerator } from '../../Towns/domain/TownGenerator';
-import { PlayerGenerator } from '../../Players/domain/PlayerGenerator';
+import { TownGenerator } from '../../Towns/Domain/TownGenerator';
+import { PlayerGenerator } from '../../Players/Domain/PlayerGenerator';
 
 export class WorldGenerator {
   static create(id: WorldId, props: WorldCreationProps): World {

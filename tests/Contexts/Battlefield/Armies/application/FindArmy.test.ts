@@ -1,10 +1,10 @@
 import { FindArmyByTownQueryGenerator } from './FindArmyByTownQueryGenerator';
-import { ArmyGenerator } from '../domain/ArmyGenerator';
+import { ArmyGenerator } from '../Domain/ArmyGenerator';
 import { FindArmyByTown } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
 import { FindArmyByTownQueryHandler } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
-import { TownIdGenerator } from '../../../CryptoWars/Towns/domain/TownIdGenerator';
+import { TownIdGenerator } from '../../../CryptoWars/Towns/Domain/TownIdGenerator';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
-import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
+import { PlayerIdGenerator } from '../../../CryptoWars/Players/Domain/PlayerIdGenerator';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 

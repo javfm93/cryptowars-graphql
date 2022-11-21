@@ -4,7 +4,7 @@ import { ArmyId } from '../../Domain/ArmyId';
 import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { ArmySchema } from './typeorm/ArmySchema';
-import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { Army } from '../../Domain/Army';
 

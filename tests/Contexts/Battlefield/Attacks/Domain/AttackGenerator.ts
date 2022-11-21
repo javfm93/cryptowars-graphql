@@ -4,7 +4,7 @@ import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain
 import { AttackTroop } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackTroop';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 import { TownSoldiersGenerator } from './TownSoldiersGenerator';
-import { ArmyIdGenerator } from '../../Armies/domain/ArmyIdGenerator';
+import { ArmyIdGenerator } from '../../Armies/Domain/ArmyIdGenerator';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
 export class AttackGenerator {

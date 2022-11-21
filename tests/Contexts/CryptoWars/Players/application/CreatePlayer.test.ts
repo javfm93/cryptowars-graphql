@@ -1,11 +1,11 @@
 import { PlayerRepositoryMock } from '../__mocks__/PlayerRepositoryMock';
 import { UserCreatedEventGenerator } from '../../../IAM/Users/Domain/UserCreatedEventGenerator';
-import { PlayerGenerator } from '../domain/PlayerGenerator';
+import { PlayerGenerator } from '../Domain/PlayerGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { CreatePlayerOnUserCreated } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayerOnUserCreated';
 import { CreatePlayer } from '../../../../../src/Contexts/CryptoWars/Players/Application/Create/CreatePlayer';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
-import { PlayerEventsGenerator } from '../domain/PlayerEventsGenerator';
+import { PlayerEventsGenerator } from '../Domain/PlayerEventsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 

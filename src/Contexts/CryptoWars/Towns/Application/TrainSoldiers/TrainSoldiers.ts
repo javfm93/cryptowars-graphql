@@ -1,10 +1,10 @@
-import { TownRepository } from '../../domain/TownRepository';
+import { TownRepository } from '../../Domain/TownRepository';
 import { TownNotFound } from './TownNotFound';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { TownId } from '../../domain/TownId';
+import { TownId } from '../../Domain/TownId';
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { TownSoldiers } from '../../domain/TownSoldiers';
+import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../../Players/Domain/PlayerId';
 

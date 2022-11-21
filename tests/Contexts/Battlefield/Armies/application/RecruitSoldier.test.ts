@@ -1,10 +1,10 @@
-import { ArmyGenerator } from '../domain/ArmyGenerator';
+import { ArmyGenerator } from '../Domain/ArmyGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { RecruitSquad } from '../../../../../src/Contexts/Battlefield/Armies/Application/Recruit/RecruitSquad';
 import { RecruitSquadOnTownSoldiersTrainFinished } from '../../../../../src/Contexts/Battlefield/Armies/Application/Recruit/RecruitSquadOnTownSoldiersTrainFinished';
-import { TownEventsGenerator } from '../domain/TownEventsGenerator';
+import { TownEventsGenerator } from '../Domain/TownEventsGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
-import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
+import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
 import { SquadTypes } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 

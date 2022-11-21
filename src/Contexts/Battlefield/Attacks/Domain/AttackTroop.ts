@@ -2,7 +2,7 @@ import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { Squads } from '../../Armies/Domain/Squads';
 import { ArmyId } from '../../Armies/Domain/ArmyId';
 import { Primitives } from '../../../Shared/Domain/Primitives';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
 
 export class AttackTroop extends ValueObject<AttackTroop> {
   private constructor(readonly armyId: ArmyId, readonly squads: Squads) {

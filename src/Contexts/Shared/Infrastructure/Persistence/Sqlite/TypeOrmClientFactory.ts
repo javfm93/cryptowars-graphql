@@ -18,7 +18,7 @@ export class TypeOrmClientFactory {
         name: contextName,
         type: 'sqlite',
         database: config.database,
-        entities: [__dirname + '/../../../../**/**/infrastructure/persistence/typeorm/*{.js,.ts}'],
+        entities: [__dirname + '/../../../../**/**/infrastructure/Persistence/typeorm/*{.js,.ts}'],
         synchronize: true,
         logging: false,
         migrations: [config.migrations],

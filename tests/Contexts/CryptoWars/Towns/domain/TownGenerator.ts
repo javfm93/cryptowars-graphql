@@ -1,10 +1,10 @@
-import { Town, TownPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { Town, TownPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 import { WorldPlayerJoinedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldPlayerJoinedDomainEvent';
 import { TownIdGenerator } from './TownIdGenerator';
-import { PlayerIdGenerator } from '../../Players/domain/PlayerIdGenerator';
-import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
+import { PlayerIdGenerator } from '../../Players/Domain/PlayerIdGenerator';
+import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Towns';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
-import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownBuildings';
+import { TownBuildings } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownBuildings';
 import { WorldIdGenerator } from '../../Worlds/Domain/WorldIdGenerator';
 import { WorldId } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 

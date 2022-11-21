@@ -3,6 +3,7 @@
     "url": "mongodb://localhost:27017/mooc-backend-test"
   },
   "typeorm": {
-    "database": "crypto-wars-production.db"
+    "database": "crypto-wars-production.db",
+    "seeds": "dist/src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Migrations/*{.js}"
   }
 }

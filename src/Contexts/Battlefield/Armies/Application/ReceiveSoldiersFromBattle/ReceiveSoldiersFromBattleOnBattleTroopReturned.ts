@@ -1,7 +1,7 @@
-import { DomainEventClass } from '../../../../Shared/domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/domain/DomainEventSubscriber';
+import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
+import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
 import { ReceiveSoldiersFromBattle } from './ReceiveSoldiersFromBattle';
-import { TownId } from '../../../../CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { Squads } from '../../Domain/Squads';
 import { BattleTroopReturnedDomainEvent } from '../../../Battles/Domain/BattleTroopReturnedDomainEvent';
 

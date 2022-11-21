@@ -1,5 +1,5 @@
 import { Command } from '../../../../Shared/Domain/Command';
-import { TownSoldiersPrimitives } from '../../../../CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiersPrimitives } from '../../../../CryptoWars/Towns/Domain/TownSoldiers';
 
 type Params = {
   id: string;

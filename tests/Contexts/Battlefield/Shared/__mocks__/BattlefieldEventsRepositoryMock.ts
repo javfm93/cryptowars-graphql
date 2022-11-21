@@ -1,7 +1,7 @@
 import { BattlefieldInternalEventRepository } from '../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEventRepository';
 import { BattlefieldInternalEvent } from '../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEvent';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 import { NothingOr } from '../../../../../src/Contexts/Shared/Domain/Nullable';
 import { Uuid } from '../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';

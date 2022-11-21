@@ -1,10 +1,10 @@
-import { ArmyGenerator } from '../domain/ArmyGenerator';
-import { ArmyExposedEventsGenerator } from '../domain/ArmyExposedEventsGenerator';
+import { ArmyGenerator } from '../Domain/ArmyGenerator';
+import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { CreateArmy } from '../../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmy';
 import { CreateArmyOnTownCreated } from '../../../../../src/Contexts/Battlefield/Armies/Application/Create/CreateArmyOnTownCreated';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
-import { TownEventsGenerator } from '../domain/TownEventsGenerator';
+import { TownEventsGenerator } from '../Domain/TownEventsGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';

@@ -1,9 +1,9 @@
 import { ListBattlesByArmyIdQuery } from '../../../../../src/Contexts/Battlefield/Battles/Application/List/ListBattlesByArmyIdQuery';
-import { ArmyIdGenerator } from '../../Armies/domain/ArmyIdGenerator';
+import { ArmyIdGenerator } from '../../Armies/Domain/ArmyIdGenerator';
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
-import { PlayerIdGenerator } from '../../../CryptoWars/Players/domain/PlayerIdGenerator';
+import { PlayerIdGenerator } from '../../../CryptoWars/Players/Domain/PlayerIdGenerator';
 
 export class ListBattlesByArmyIdQueryGenerator {
   static create(armyId: string, playerId: string): ListBattlesByArmyIdQuery {

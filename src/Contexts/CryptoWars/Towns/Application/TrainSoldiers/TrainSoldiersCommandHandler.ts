@@ -1,13 +1,13 @@
 import { TrainSoldiersCommand } from './TrainSoldiersCommand';
 import { TrainSoldiers } from './TrainSoldiers';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { InvalidSoldier } from '../../domain/InvalidSoldier';
-import { InvalidNumberOfSoldiers } from '../../domain/InvalidNumberOfSoldiers';
+import { InvalidSoldier } from '../../Domain/InvalidSoldier';
+import { InvalidNumberOfSoldiers } from '../../Domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from './TownNotFound';
 import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CommandClass } from '../../../../Shared/Domain/Command';
-import { TownId } from '../../domain/TownId';
-import { TownSoldiers } from '../../domain/TownSoldiers';
+import { TownId } from '../../Domain/TownId';
+import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../../Players/Domain/PlayerId';
 

@@ -1,15 +1,15 @@
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { Player } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
-import { UserIdGenerator } from '../../../IAM/Users/domain/UserIdGenerator';
+import { UserIdGenerator } from '../../../IAM/Users/Domain/UserIdGenerator';
 import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 import { PlayerIdGenerator } from './PlayerIdGenerator';
 import { UserCreatedDomainEvent } from '../../../../../src/Contexts/IAM/Users/Domain/UserCreatedDomainEvent';
 import { Worlds } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Worlds';
-import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Towns';
+import { Towns } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Towns';
 import { Players } from '../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
 import { WorldGenerator } from '../../Worlds/Domain/WorldGenerator';
-import { TownGenerator } from '../../Towns/domain/TownGenerator';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { TownGenerator } from '../../Towns/Domain/TownGenerator';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 
 export class PlayerGenerator {
   static create(id: PlayerId, userId: UserId, worlds?: Worlds, towns?: Towns): Player {

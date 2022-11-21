@@ -1,13 +1,13 @@
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { TownRepositoryMock } from '../__mocks__/TownRepositoryMock';
 import { TrainSoldiersCommandGenerator } from './TrainSoldiersCommandGenerator';
-import { TrainSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiers';
-import { TrainSoldiersCommandHandler } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiers/TrainSoldiersCommandHandler';
-import { TownEventsGenerator } from '../domain/TownEventsGenerator';
-import { TownNotFound } from '../../../../../src/Contexts/CryptoWars/Towns/application/TrainSoldiers/TownNotFound';
-import { TownGenerator } from '../domain/TownGenerator';
-import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidNumberOfSoldiers';
-import { InvalidSoldier } from '../../../../../src/Contexts/CryptoWars/Towns/domain/InvalidSoldier';
+import { TrainSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiers';
+import { TrainSoldiersCommandHandler } from '../../../../../src/Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommandHandler';
+import { TownEventsGenerator } from '../Domain/TownEventsGenerator';
+import { TownNotFound } from '../../../../../src/Contexts/CryptoWars/Towns/Application/TrainSoldiers/TownNotFound';
+import { TownGenerator } from '../Domain/TownGenerator';
+import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
+import { InvalidSoldier } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/InvalidSoldier';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
 
 describe('[Application] Train soldier', () => {

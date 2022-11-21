@@ -1,5 +1,5 @@
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
-import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/domain/TownId';
+import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
 
 export class TownIdGenerator {
   static create(value: string): TownId {

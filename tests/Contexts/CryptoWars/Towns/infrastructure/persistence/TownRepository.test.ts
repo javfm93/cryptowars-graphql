@@ -1,7 +1,7 @@
-import { TownGenerator } from '../../domain/TownGenerator';
-import { TownRepository } from '../../../../../../src/Contexts/CryptoWars/Towns/domain/TownRepository';
+import { TownGenerator } from '../../Domain/TownGenerator';
+import { TownRepository } from '../../../../../../src/Contexts/CryptoWars/Towns/Domain/TownRepository';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
-import { PlayerGenerator } from '../../../Players/domain/PlayerGenerator';
+import { PlayerGenerator } from '../../../Players/Domain/PlayerGenerator';
 import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
 import { WorldGenerator } from '../../../Worlds/Domain/WorldGenerator';
 import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';

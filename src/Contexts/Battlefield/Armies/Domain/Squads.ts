@@ -1,5 +1,5 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
 
 export enum SquadTypes {
   basic = 'basic'
@@ -36,13 +36,13 @@ export class Squads extends ValueObject<Squads> {
     const townSoldiersTypes = Object.keys(townSoldiers);
     if (!townSoldiersTypes.length) throw Error(`Not town soldier type supplied`);
     const type = townSoldiersTypes[0];
-    if (isValidSquadType(type)) return new Squads([{type, soldiers: townSoldiers.basic}]);
+    if (isValidSquadType(type)) return new Squads([{ type, soldiers: townSoldiers.basic }]);
     else throw Error(`town soldier type not supported: ${type}`);
   }
 
   get basic(): SquadPrimitives {
     const basicSquad = this.value.filter(squad => squad.type === SquadTypes.basic).pop();
-    return basicSquad ?? {type: SquadTypes.basic, soldiers: 0};
+    return basicSquad ?? { type: SquadTypes.basic, soldiers: 0 };
   }
 
   public absorb(newSquad: Squads) {

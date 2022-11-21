@@ -4,7 +4,7 @@ import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/
 import { PlayerRepository } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import { UserId } from '../../../../../src/Contexts/IAM/Users/Domain/UserId';
 import { World } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
-import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/domain/Town';
+import { Town } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 
 export class PlayerRepositoryMock implements PlayerRepository {
   private mockSave = jest.fn();

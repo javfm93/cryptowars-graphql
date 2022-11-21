@@ -1,7 +1,7 @@
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { BattlefieldInternalEventRepository } from '../../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEventRepository';
-import { ArmyExposedEventsGenerator } from '../../../Armies/domain/ArmyExposedEventsGenerator';
-import { ArmyGenerator } from '../../../Armies/domain/ArmyGenerator';
+import { ArmyExposedEventsGenerator } from '../../../Armies/Domain/ArmyExposedEventsGenerator';
+import { ArmyGenerator } from '../../../Armies/Domain/ArmyGenerator';
 import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { AttackExposedEventsGenerator } from '../../../Attacks/Domain/AttackExposedEventsGenerator';
 import { AttackId } from '../../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
@@ -10,7 +10,7 @@ import { BattleGenerator } from '../../../Battles/Domain/BattleGenerator';
 import { BattleExposedEventsGenerator } from '../../../Battles/Domain/BattleExposedEventsGenerator';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/MockTime';
 import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
-import { ArmyIdGenerator } from '../../../Armies/domain/ArmyIdGenerator';
+import { ArmyIdGenerator } from '../../../Armies/Domain/ArmyIdGenerator';
 
 const repository: BattlefieldInternalEventRepository = container.get(
   'Battlefield.Shared.BattlefieldInternalEventRepository'
