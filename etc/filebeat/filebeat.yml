@@ -1,0 +1,26 @@
+logging.level: info
+logging.to_files: false
+
+filebeat.modules:
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/lib/docker/containers/logs/*.log
+      - /logs/*
+    json.keys_under_root: true
+    json.overwrite_keys: true
+    json.add_error_key: true
+    json.expand_keys: true
+    processors:
+      - decode_json_fields:
+          fields:
+            - 'message'
+          target: json
+
+output.elasticsearch:
+  hosts:
+    - "elasticsearch:9200"
+  username: elastic
+  password: elastic

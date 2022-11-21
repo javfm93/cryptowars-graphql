@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { usePlayer } from './usePlayer';
 import { Link, useParams } from 'react-router-dom';
 import { styled } from '@mui/material';
-import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/domain/Town';
+import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/Town';
 import { AppRoutes } from '../../App';
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({

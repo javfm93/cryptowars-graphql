@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Button, Input } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/Towns/TrainSoldiersPostRequest';
-import { TownSoldier } from '../../../../../../Contexts/CryptoWars/Towns/domain/TownSoldiers';
+import { TownSoldier } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 import { SquadsPrimitives } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
 
 interface TrainSoldiersProps {

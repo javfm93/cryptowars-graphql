@@ -9,7 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../App';
-import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/domain/Town';
+import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/Town';
 
 interface TownsProps {
   towns: Array<TownPrimitives>;

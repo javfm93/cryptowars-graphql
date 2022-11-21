@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { AppRoutes } from '../../App';
-import { TownBuildingsPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/domain/TownBuildings';
+import { TownBuildingsPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownBuildings';
 
 type BuildingRow = { name: string; url: string; upgradeCost: number };
 //todo: study react new ways to handle loadings (react router, suspense...)
