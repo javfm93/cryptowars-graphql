@@ -29,9 +29,7 @@ const calculateMsSince = (date: Date) => Math.abs(new Date().valueOf() - date.va
 
 const calculateInitialEssenceOf = (town: TownPrimitives): number => {
   const { generationPerHour } = town.buildings.essenceGenerator;
-  const essenceWarehouse = town?.buildings.warehouse.assets.find(
-    asset => asset.name === 'essence' // todo: we need the enum from the backend
-  );
+  const essenceWarehouse = town?.buildings.warehouse.assets.essence;
   const lastEssenceRegistry = essenceWarehouse?.stored ?? 0;
   const lastEssenceUpdate = essenceWarehouse?.lastStorageUpdate ?? new Date();
 

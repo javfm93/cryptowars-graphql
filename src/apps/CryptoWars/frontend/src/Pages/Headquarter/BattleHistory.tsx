@@ -38,9 +38,9 @@ export const BattleHistory = ({ battles }: BattleHistoryProps): JSX.Element => {
                   {battle.result.winner.toString()}
                 </TableCell>
                 <TableCell align="right">{battle.defenderArmy.townId}</TableCell>
-                <TableCell align="right">{`basic: ${battle.attack.attackerTroop.squads[0].soldiers}`}</TableCell>
+                <TableCell align="right">{`basic: ${battle.attack.attackerTroop.squads.basic}`}</TableCell>
                 <TableCell align="right">{`basic: ${battle.result.attackerCasualties.basic}`}</TableCell>
-                <TableCell align="right">{`basic: ${battle.result.returningTroop.squads[0].soldiers}`}</TableCell>
+                <TableCell align="right">{`basic: ${battle.result.returningTroop.squads.basic}`}</TableCell>
                 <TableCell align="right">
                   {new Date(battle.attack.sentAt.toString()).toUTCString()}
                 </TableCell>
