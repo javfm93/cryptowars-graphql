@@ -25,6 +25,8 @@ export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
     if (!town.isManagedBy(playerId)) return failure(new Forbidden());
     town.updateWarehouseAssets();
     if (!town.hasEnoughAssetsToTrain(soldiers)) return failure(new Forbidden());
+    // as we dont have scheduler, the soldier is automatically trained,
+    // im missing the soldiers train started event
     town.train(soldiers);
     await this.townRepository.save(town);
     await this.eventBus.publish(town.pullDomainEvents());

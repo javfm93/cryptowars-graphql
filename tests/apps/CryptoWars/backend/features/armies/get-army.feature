@@ -12,10 +12,9 @@ Feature: As player, I want to know what is the army of my town
     And The army response should contain:
     """
     {
-      "squads": [{
-        "type": "basic",
-        "soldiers": 2
-      }]
+      "squads": {
+        "basic": 2
+      }
     }
     """
 

@@ -76,5 +76,5 @@ Then('The army response should contain:', async (body: string) => {
 });
 
 Then('My Army should have {int} soldiers', async (numberOfSoldiers: number) => {
-  assert.strictEqual(playerArmy.squads[0].soldiers, numberOfSoldiers);
+  assert.strictEqual(playerArmy.squads.basic, numberOfSoldiers);
 });

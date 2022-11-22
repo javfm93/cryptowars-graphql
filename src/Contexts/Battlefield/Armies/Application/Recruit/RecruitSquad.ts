@@ -8,7 +8,7 @@ import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/Battl
 
 type RecruitSoldiersArgs = {
   townId: TownId;
-  squad: Squads;
+  squads: Squads;
 };
 
 type RecruitSoldiersResult = Either<EmptyResult, ArmyNotFound>;
@@ -19,10 +19,10 @@ export class RecruitSquad implements UseCase<RecruitSoldiersArgs, EmptyResult> {
     private eventBus: EventBus
   ) {}
 
-  async execute({ townId, squad }: RecruitSoldiersArgs): Promise<RecruitSoldiersResult> {
+  async execute({ townId, squads }: RecruitSoldiersArgs): Promise<RecruitSoldiersResult> {
     const army = await this.eventRepository.materializeArmyByTownId(townId);
     if (!army) return failure(new ArmyNotFound());
-    army.recruit(squad);
+    army.recruit(squads);
     const events = army.pullDomainEvents();
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
     await this.eventBus.publish(events);

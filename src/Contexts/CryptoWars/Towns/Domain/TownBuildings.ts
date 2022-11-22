@@ -1,47 +1,20 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { isDeepStrictEqual } from 'util';
-import { basicSoldier, TownSoldier } from './TownSoldiers';
 import { calculateMsSince, fromMsToHours } from './TimeUtils';
+import { basicSoldier } from './TownSoldier';
+import {
+  EssenceGenerator,
+  Headquarter,
+  TownAssets,
+  TownBuildingType,
+  Warehouse
+} from './TownBuilding';
 
-export enum TownBuildingType {
-  generator = 'generator',
-  creator = 'creator',
-  store = 'store'
-}
-
-export enum TownAssets {
-  'essence' = 'essence'
-}
-
-export interface TownBuildingsPrimitives {
-  headquarter: {
-    level: number;
-    essenceRequiredToLevelUp: number;
-    type: TownBuildingType;
-    units: Array<TownSoldier>;
-  };
-  essenceGenerator: {
-    level: number;
-    essenceRequiredToLevelUp: number;
-    type: TownBuildingType;
-    asset: TownAssets;
-    generationPerHour: number;
-  };
-  warehouse: {
-    level: number;
-    essenceRequiredToLevelUp: number;
-    type: TownBuildingType;
-    // todo: refactor this to a map
-    assets: [
-      {
-        name: TownAssets;
-        limit: number;
-        stored: number;
-        lastStorageUpdate: string;
-      }
-    ];
-  };
-}
+export type TownBuildingsPrimitives = {
+  headquarter: Headquarter;
+  essenceGenerator: EssenceGenerator;
+  warehouse: Warehouse;
+};
 
 const HeadQuarterUnits = [basicSoldier];
 
@@ -59,23 +32,22 @@ export class TownBuildings extends ValueObject<TownBuildings> {
     return new TownBuildings(value);
   }
 
-  public updateWareHouseAssets(): void {
-    const essenceWarehouse = this.value.warehouse.assets[0];
+  public updateWarehouseAssets(): void {
+    const essenceWarehouse = this.value.warehouse.assets.essence;
     const lastEssenceUpdate = essenceWarehouse.lastStorageUpdate;
     const hoursSinceLastUpdate = fromMsToHours(calculateMsSince(new Date(lastEssenceUpdate)));
     const { generationPerHour } = this.value.essenceGenerator;
     const generationSinceLastUpdate = generationPerHour * hoursSinceLastUpdate;
-    const lastEssenceRegistry = essenceWarehouse.stored;
-    this.value.warehouse.assets[0].stored = lastEssenceRegistry + generationSinceLastUpdate;
-    this.value.warehouse.assets[0].lastStorageUpdate = new Date().toISOString();
+    essenceWarehouse.stored += generationSinceLastUpdate;
+    essenceWarehouse.lastStorageUpdate = new Date().toISOString();
   }
 
   public getTownEssence(): number {
-    return this.value.warehouse.assets[0].stored;
+    return this.value.warehouse.assets.essence.stored;
   }
 
   public payEssence(toPay: number): void {
-    this.value.warehouse.assets[0].stored -= toPay;
+    this.value.warehouse.assets.essence.stored -= toPay;
   }
 
   public isEqualTo(townBuildings?: TownBuildings) {
@@ -105,13 +77,13 @@ const initialBuildings: TownBuildingsPrimitives = {
     level: 1,
     essenceRequiredToLevelUp: 30,
     type: TownBuildingType.store,
-    assets: [
-      {
+    assets: {
+      [TownAssets.essence]: {
         name: TownAssets.essence,
         limit: 1000,
         stored: 10,
         lastStorageUpdate: new Date().toISOString()
       }
-    ]
+    }
   }
 };

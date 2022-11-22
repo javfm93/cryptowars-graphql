@@ -31,17 +31,18 @@ class WinstonLogger implements Logger {
     });
   }
 
-  debug(message: string) {
+  debug(message?: string) {
     this.logger.debug(message);
   }
 
-  error(message: string | Error) {
+  error(message?: string | Error) {
     this.logger.error(message);
   }
 
-  info(message: string) {
+  info(message?: string) {
     this.logger.info(message);
   }
 }
 
 export default WinstonLogger;
+export const logger = new WinstonLogger();

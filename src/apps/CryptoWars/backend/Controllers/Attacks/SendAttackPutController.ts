@@ -14,6 +14,7 @@ import { ArmyNotFound } from '../../../../../Contexts/Battlefield/Armies/Applica
 import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/Domain/InvalidSoldier';
 import { AttackAlreadyExist } from '../../../../../Contexts/Battlefield/Attacks/Application/Send/AttackAlreadyExist';
 import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
+import { logger } from '../../../../../Contexts/Shared/Infrastructure/WinstonLogger';
 
 type QueryParams = {
   id: string;
@@ -39,6 +40,7 @@ export class SendAttackPutController implements Controller {
   }
 
   private handleError(res: Response, error: SendAttackCommandErrors) {
+    logger.error(error.stack);
     if (error.isEqualTo(TownNotFound)) return res.status(NOT_FOUND).send(error.message);
     if (error.isEqualTo(ArmyNotFound)) return res.status(NOT_FOUND).send(error.message);
     if (error.isEqualTo(Forbidden)) return res.status(FORBIDDEN).send();

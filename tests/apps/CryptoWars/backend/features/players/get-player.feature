@@ -49,14 +49,14 @@ Feature: As player, I want to see all my details
                     "level": 1,
                     "essenceRequiredToLevelUp": 30,
                     "type": "store",
-                    "assets": [
-                      {
+                    "assets": {
+                      "essence": {
                         "name": "essence",
                         "limit": 1000,
                         "stored": 10,
                         "lastStorageUpdate": ":isoTimeNow"
                       }
-                    ]
+                    }
                   }
                 }
               }

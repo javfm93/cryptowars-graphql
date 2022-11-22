@@ -1,7 +1,5 @@
 import { SendAttackCommand } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttackCommand';
 import { AttackSentDomainEvent } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackSentDomainEvent';
-import { AttackTroop } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackTroop';
-import { Squads } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { AttackArrivedDomainEvent } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackArrivedDomainEvent';
 import { Attack } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/Attack';
@@ -10,10 +8,10 @@ export class AttackExposedEventsGenerator {
   static attackSentFrom(command: SendAttackCommand, defenderArmy: Army): AttackSentDomainEvent {
     return new AttackSentDomainEvent({
       aggregateId: command.id,
-      attackerTroop: AttackTroop.fromPrimitives({
+      attackerTroop: {
         armyId: command.attackerArmy,
-        squads: Squads.fromTownSoldiers(command.soldiers).value
-      }).toPrimitives(),
+        squads: command.soldiers
+      },
       defenderArmyId: defenderArmy.id.toString(),
       sentAt: new Date()
     });

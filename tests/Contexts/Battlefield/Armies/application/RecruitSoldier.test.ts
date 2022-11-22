@@ -5,8 +5,8 @@ import { RecruitSquadOnTownSoldiersTrainFinished } from '../../../../../src/Cont
 import { TownEventsGenerator } from '../Domain/TownEventsGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
-import { SquadTypes } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
+import { SquadsGenerator } from '../domain/SquadsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -30,10 +30,10 @@ describe('[Application] Recruit Soldiers', () => {
 
     await handler.on(event);
 
-    const expectedEvent = ArmyExposedEventsGenerator.SoldiersRecruited(army.id, army.townId, {
-      type: SquadTypes.basic,
-      soldiers: event.soldiers.basic
-    });
+    const expectedEvent = ArmyExposedEventsGenerator.SoldiersRecruited(
+      army.id,
+      SquadsGenerator.withNSoldiers(event.soldiers.basic)
+    );
     repository.expectLastSavedBattlefieldEventsToBe([expectedEvent.toBattlefieldInternalEvent()]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
   });

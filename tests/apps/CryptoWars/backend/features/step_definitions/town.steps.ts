@@ -30,8 +30,8 @@ Then('The town request response should be empty', () => {
 });
 
 Then('The town should have less assets', async () => {
-  const before = player.towns[0].buildings.warehouse.assets[0].stored;
+  const before = player.towns[0].buildings.warehouse.assets.essence.stored;
   await retrievePlayerInformation();
-  const after = player.towns[0].buildings.warehouse.assets[0].stored;
+  const after = player.towns[0].buildings.warehouse.assets.essence.stored;
   assert.ok(before > after);
 });

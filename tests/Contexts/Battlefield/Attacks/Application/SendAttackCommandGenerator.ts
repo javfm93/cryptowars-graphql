@@ -1,6 +1,5 @@
-import { TownSoldiersGenerator } from '../Domain/TownSoldiersGenerator';
+import { SquadsGenerator } from '../../Armies/domain/SquadsGenerator';
 import { SendAttackCommand } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttackCommand';
-import { TownSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
@@ -9,13 +8,14 @@ import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/
 import { AttackIdGenerator } from '../Domain/AttackIdGenerator';
 import { ArmyIdGenerator } from '../../Armies/Domain/ArmyIdGenerator';
 import { PlayerIdGenerator } from '../../../CryptoWars/Players/Domain/PlayerIdGenerator';
+import { Squads } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 
 export class SendAttackCommandGenerator {
   static create(
     id: AttackId,
     attackerArmy: ArmyId,
     defenderTown: TownId,
-    soldiers: TownSoldiers,
+    soldiers: Squads,
     playerId: PlayerId
   ): SendAttackCommand {
     return new SendAttackCommand({
@@ -32,22 +32,17 @@ export class SendAttackCommandGenerator {
       AttackIdGenerator.random(),
       ArmyIdGenerator.random(),
       ArmyIdGenerator.random(),
-      TownSoldiersGenerator.random(),
+      SquadsGenerator.randomBetween1and9(),
       PlayerIdGenerator.random()
     );
   }
-
-  // todo: show list of towns in the /world
-  // todo: attack other town
-  // todo: show result of the attack
-  // todo: apply attack changes to the armies
 
   static betweenArmies(attackerArmy: Army, defenderArmy: Army): SendAttackCommand {
     return this.create(
       AttackIdGenerator.random(),
       attackerArmy.id,
       defenderArmy.townId,
-      TownSoldiersGenerator.random(),
+      SquadsGenerator.randomBetween1and9(),
       attackerArmy.playerId
     );
   }
@@ -57,7 +52,7 @@ export class SendAttackCommandGenerator {
       AttackIdGenerator.random(),
       attackerArmy.id,
       ArmyIdGenerator.random(),
-      TownSoldiersGenerator.random(),
+      SquadsGenerator.randomBetween1and9(),
       PlayerIdGenerator.random()
     );
   }
@@ -67,7 +62,7 @@ export class SendAttackCommandGenerator {
       AttackIdGenerator.random(),
       attackerArmy.id,
       ArmyIdGenerator.random(),
-      TownSoldiersGenerator.withLotOfSoldiers(),
+      SquadsGenerator.withLotOfSoldiers(),
       attackerArmy.playerId
     );
   }
@@ -77,7 +72,7 @@ export class SendAttackCommandGenerator {
       AttackIdGenerator.random(),
       ArmyIdGenerator.random(),
       ArmyIdGenerator.random(),
-      TownSoldiersGenerator.withInvalidNumberOfSoldiers(),
+      SquadsGenerator.withInvalidNumberOfSoldiers(),
       PlayerIdGenerator.random()
     );
   }
@@ -87,7 +82,7 @@ export class SendAttackCommandGenerator {
       AttackIdGenerator.random(),
       ArmyIdGenerator.random(),
       ArmyIdGenerator.random(),
-      TownSoldiersGenerator.withInvalidSoldiers(),
+      SquadsGenerator.withInvalidSoldiers(),
       PlayerIdGenerator.random()
     );
   }

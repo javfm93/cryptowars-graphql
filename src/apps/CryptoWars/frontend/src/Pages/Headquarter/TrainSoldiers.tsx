@@ -46,6 +46,7 @@ export const TrainSoldiers = ({
             </TableRow>
           </TableHead>
           <TableBody>
+            /* Object.values(townsUnit) // townArmySquads[townUnit.type] */
             {townUnits.map(unit => {
               const squad = townArmySquads.find(s => s.type.toString() === unit.name.toString());
 

@@ -12,7 +12,7 @@ export class BattleExposedEventsGenerator {
       attack: battle.attack.toPrimitives(),
       defenderArmy: battle.defenderArmy.toPrimitives(),
       finishedAt: new Date(battle.finishedAt),
-      result: battle.result
+      result: battle.result.toPrimitives()
     });
   }
 
@@ -23,7 +23,7 @@ export class BattleExposedEventsGenerator {
   static battleTroopReturned(battle: Battle): BattleTroopReturnedDomainEvent {
     return new BattleTroopReturnedDomainEvent({
       aggregateId: battle.id.toString(),
-      troop: battle.result.returningTroop
+      troop: battle.result.returningTroop.toPrimitives()
     });
   }
 

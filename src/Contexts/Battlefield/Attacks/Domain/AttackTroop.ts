@@ -1,17 +1,22 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { Squads } from '../../Armies/Domain/Squads';
+import { Squads, SquadsPrimitives } from '../../Armies/Domain/Squads';
 import { ArmyId } from '../../Armies/Domain/ArmyId';
 import { Primitives } from '../../../Shared/Domain/Primitives';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
+import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { InvalidSquad } from '../../Armies/Domain/InvalidSquad';
 
 export class AttackTroop extends ValueObject<AttackTroop> {
   private constructor(readonly armyId: ArmyId, readonly squads: Squads) {
     super();
   }
 
-  public static create(armyId: string, soldiers: TownSoldiersPrimitives): AttackTroop {
-    const squads = Squads.fromTownSoldiers(soldiers); // todo: convert this to a result
-    return new AttackTroop(ArmyId.create(armyId), squads);
+  public static create(
+    armyId: string,
+    soldiers: SquadsPrimitives
+  ): Either<AttackTroop, InvalidSquad> {
+    const squads = Squads.create(soldiers);
+    if (squads.isFailure()) return failure(squads.value);
+    return successAndReturn(new AttackTroop(ArmyId.create(armyId), squads.value));
   }
 
   public static fromPrimitives(primitives: Primitives<AttackTroop>): AttackTroop {

@@ -5,7 +5,8 @@ import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedE
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { Attack } from '../../Attacks/Domain/Attack';
 import { Army } from '../../Armies/Domain/Army';
-import { Battle, BattleResult } from './Battle';
+import { Battle } from './Battle';
+import { BattleResult } from './BattleResult';
 
 type BattleCreatedDomainEventBody = {
   readonly eventName: string;
@@ -14,7 +15,7 @@ type BattleCreatedDomainEventBody = {
   readonly attack: Primitives<Attack>;
   readonly defenderArmy: Primitives<Army>;
   readonly finishedAt: Date;
-  readonly result: BattleResult;
+  readonly result: Primitives<BattleResult>;
 };
 
 export class BattleCreatedDomainEvent extends BattlefieldExposedEvent {
@@ -22,7 +23,7 @@ export class BattleCreatedDomainEvent extends BattlefieldExposedEvent {
   readonly attack: Primitives<Attack>;
   readonly defenderArmy: Primitives<Army>;
   readonly finishedAt: Date;
-  readonly result: BattleResult;
+  readonly result: Primitives<BattleResult>;
 
   constructor(props: {
     aggregateId: string;
@@ -31,7 +32,7 @@ export class BattleCreatedDomainEvent extends BattlefieldExposedEvent {
     readonly attack: Primitives<Attack>;
     readonly defenderArmy: Primitives<Army>;
     readonly finishedAt: Date;
-    readonly result: BattleResult;
+    readonly result: Primitives<BattleResult>;
   }) {
     const { aggregateId, eventId, occurredOn } = props;
     super(BattleCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);

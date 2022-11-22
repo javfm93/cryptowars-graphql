@@ -47,7 +47,7 @@ export class Town extends AggregateRoot<TownProps> {
   }
 
   updateWarehouseAssets(): void {
-    this.props.buildings.updateWareHouseAssets();
+    this.props.buildings.updateWarehouseAssets();
   }
 
   hasEnoughAssetsToTrain(soldiers: TownSoldiers): boolean {

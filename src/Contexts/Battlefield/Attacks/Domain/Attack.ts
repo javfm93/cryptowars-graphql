@@ -7,6 +7,7 @@ import { Primitives } from '../../../Shared/Domain/Primitives';
 import { SquadTypes } from '../../Armies/Domain/Squads';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
+import { AttackArrivedDomainEvent } from './AttackArrivedDomainEvent';
 
 export class Attack extends AggregateRoot {
   private constructor(
@@ -58,15 +59,21 @@ export class Attack extends AggregateRoot {
   static materializeFrom(events: Array<BattlefieldInternalEvent>): Attack {
     let attack = Attack.create(
       Uuid.random(),
-      AttackTroop.create(Uuid.random().toString(), { [SquadTypes.basic]: 0 }),
+      AttackTroop.fromPrimitives({
+        armyId: Uuid.random().toString(),
+        squads: { [SquadTypes.basic]: 0 }
+      }),
       ArmyId.random()
     );
 
     for (const event of events) {
       if (AttackSentDomainEvent.isMe(event)) {
         attack = AttackSentDomainEvent.fromBattlefieldInternalEvent(event).toAttack();
+      } else if (AttackArrivedDomainEvent.isMe(event)) {
       } else {
-        throw Error(`Unknown event for attack materialization: ${event.id}: ${event.name}`);
+        throw Error(
+          `Unknown event [${event.id}] for attack materialization with name ${event.name}`
+        );
       }
     }
     attack.pullDomainEvents();

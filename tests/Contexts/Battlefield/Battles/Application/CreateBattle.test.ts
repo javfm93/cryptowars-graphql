@@ -11,7 +11,7 @@ import { BattleId } from '../../../../../src/Contexts/Battlefield/Battles/Domain
 import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
 import { ArmyExposedEventsGenerator } from '../../Armies/Domain/ArmyExposedEventsGenerator';
 import { ArmyTroop } from '../../../../../src/Contexts/Battlefield/Battles/Domain/ArmyTroop';
-import { TownSoldierTypes } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
+import { SquadTypes } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
@@ -66,7 +66,10 @@ describe('[Application] Create Battle', () => {
 
     const battleTroopReturned = BattleExposedEventsGenerator.battleTroopReturnedFromTroop(
       BattleId.create(mockedNewUuid),
-      ArmyTroop.create(attack.attackerTroop.armyId.toString(), { [TownSoldierTypes.basic]: 2 })
+      ArmyTroop.fromPrimitives({
+        armyId: attack.attackerTroop.armyId.toString(),
+        squads: { [SquadTypes.basic]: 2 }
+      })
     );
     eventBus.expectLastPublishedEventToBe(battleTroopReturned);
   });

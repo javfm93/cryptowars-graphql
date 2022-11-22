@@ -1,14 +1,13 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
+import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { InvalidSquad } from './InvalidSquad';
 
 export enum SquadTypes {
   basic = 'basic'
 }
 
-export type SquadsPrimitives = Array<SquadPrimitives>;
-export type SquadPrimitives = {
-  type: SquadTypes;
-  soldiers: number;
+export type SquadsPrimitives = {
+  [key in SquadTypes]: number;
 };
 
 export class Squads extends ValueObject<Squads> {
@@ -17,56 +16,38 @@ export class Squads extends ValueObject<Squads> {
   }
 
   public static defaultSquads(): Squads {
-    const fromSquadTypeToSquad = (squadType: SquadTypes): SquadPrimitives => ({
-      type: squadType,
-      soldiers: 0
-    });
-    return new Squads(Object.values(SquadTypes).map(fromSquadTypeToSquad));
+    return new Squads({ [SquadTypes.basic]: 0 });
   }
 
   public static fromPrimitives(squads: SquadsPrimitives): Squads {
     return new Squads(squads);
   }
 
-  public static fromTownSoldiers(townSoldiers: TownSoldiersPrimitives): Squads {
-    function isValidSquadType(squadType: string): squadType is SquadTypes {
-      return Object.keys(SquadTypes).includes(squadType);
-    }
-
-    const townSoldiersTypes = Object.keys(townSoldiers);
-    if (!townSoldiersTypes.length) throw Error(`Not town soldier type supplied`);
-    const type = townSoldiersTypes[0];
-    if (isValidSquadType(type)) return new Squads([{ type, soldiers: townSoldiers.basic }]);
-    else throw Error(`town soldier type not supported: ${type}`);
-  }
-
-  get basic(): SquadPrimitives {
-    const basicSquad = this.value.filter(squad => squad.type === SquadTypes.basic).pop();
-    return basicSquad ?? { type: SquadTypes.basic, soldiers: 0 };
-  }
-
-  public absorb(newSquad: Squads) {
-    this.value.forEach(squad => {
-      if (squad.type === newSquad.basic.type) {
-        squad.soldiers += newSquad.basic.soldiers;
+  public static create(squadsPrimitives: SquadsPrimitives): Either<Squads, InvalidSquad> {
+    if (!squadsPrimitives) return failure(new InvalidSquad('Squad not provided'));
+    const squadsToCreate = Object.entries(squadsPrimitives);
+    for (const squadToCreate of squadsToCreate) {
+      const [squad, numberOfSoldiers] = squadToCreate;
+      if (!Object.keys(SquadTypes).includes(squad)) {
+        return failure(new InvalidSquad(`Invalid squad: ${squad}`));
       }
-    });
+      if (numberOfSoldiers < 1) {
+        return failure(new InvalidSquad(`Invalid number of soldiers for squad ${squad}`));
+      }
+    }
+    return successAndReturn(new Squads(squadsPrimitives));
+  }
+
+  public absorb(newSquads: Squads) {
+    this.value.basic += newSquads.value.basic;
   }
 
   public reduce(squads: Squads) {
-    this.value.forEach(squad => {
-      if (squad.type === squads.basic.type) {
-        squad.soldiers -= squads.basic.soldiers;
-      }
-    });
+    this.value.basic -= squads.value.basic;
   }
 
   public thereAreEnoughSoldiersToCreate(subSquads: Squads): boolean {
-    for (const subSquad of subSquads.value) {
-      const squad = this.value.find(s => subSquad.type === s.type);
-      if (!squad || squad.soldiers < subSquad.soldiers) return false;
-    }
-    return true;
+    return this.value.basic >= subSquads.value.basic;
   }
 
   public isEqualTo(squads?: Squads) {

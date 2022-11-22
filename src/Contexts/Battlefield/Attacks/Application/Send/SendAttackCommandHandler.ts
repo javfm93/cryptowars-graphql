@@ -23,8 +23,9 @@ export class SendAttackCommandHandler implements CommandHandler<SendAttackComman
     const id = AttackId.create(command.id);
     const playerId = PlayerId.create(command.playerId);
     const attackerTroop = AttackTroop.create(command.attackerArmy, command.soldiers);
+    if (attackerTroop.isFailure()) return failure(attackerTroop.value);
     const defenderTownId = TownId.create(command.defenderTown);
-    const args = { id, attackerTroop, defenderTownId, playerId };
+    const args = { id, attackerTroop: attackerTroop.value, defenderTownId, playerId };
     const sendAttack = await this.sendAttack.execute(args);
     return sendAttack.isSuccess() ? success() : failure(sendAttack.value);
   }

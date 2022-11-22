@@ -2,27 +2,10 @@ import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { InvalidNumberOfSoldiers } from './InvalidNumberOfSoldiers';
 import { InvalidSoldier } from './InvalidSoldier';
-
-export enum TownSoldierTypes {
-  basic = 'basic'
-}
+import { basicSoldier, TownSoldierTypes } from './TownSoldier';
 
 export type TownSoldiersPrimitives = {
   [key in TownSoldierTypes]: number;
-};
-
-export type TownSoldier = {
-  name: TownSoldierTypes;
-  attack: number;
-  defense: number;
-  cost: number;
-};
-
-export const basicSoldier: TownSoldier = {
-  name: TownSoldierTypes.basic,
-  attack: 10,
-  defense: 5,
-  cost: 1
 };
 
 export class TownSoldiers extends ValueObject<TownSoldiers> {

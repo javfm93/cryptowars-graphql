@@ -24,7 +24,7 @@ Given('Other user has his player information', async () => {
 
 Then('The response content should match the player response:', (expectedResponse: string) => {
   const response: PlayerPrimitives = _response.body.player;
-  const essenceUpdatedAt = response.towns[0].buildings.warehouse.assets[0].lastStorageUpdate;
+  const essenceUpdatedAt = response.towns[0].buildings.warehouse.assets.essence.lastStorageUpdate;
 
   expectedResponse = expectedResponse.replace(/:userId/gi, userId);
   expectedResponse = expectedResponse.replace(/:worldId/gi, worldId);

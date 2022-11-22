@@ -4,18 +4,11 @@ import { Army } from '../../Armies/Domain/Army';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { BattleCreatedDomainEvent } from './BattleCreatedDomainEvent';
 import { SquadTypes } from '../../Armies/Domain/Squads';
-import { TownSoldiersPrimitives } from '../../../CryptoWars/Towns/Domain/TownSoldiers';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Attack } from '../../Attacks/Domain/Attack';
-import { ArmyTroop } from './ArmyTroop';
-
-export type BattleResult = {
-  winner: 'attacker' | 'defender';
-  attackerCasualties: TownSoldiersPrimitives;
-  defenderCasualties: TownSoldiersPrimitives;
-  returningTroop: Primitives<ArmyTroop>;
-};
+import { BattleResult } from './BattleResult';
+import { BattleTroopReturnedDomainEvent } from './BattleTroopReturnedDomainEvent';
 
 export class Battle extends AggregateRoot {
   readonly finishedAt: string;
@@ -35,38 +28,53 @@ export class Battle extends AggregateRoot {
         attack: attack.toPrimitives(),
         defenderArmy: defenderArmy.toPrimitives(),
         finishedAt: new Date(battle.finishedAt),
-        result: battle.result
+        result: battle.result.toPrimitives()
       })
     );
     return battle;
   }
 
   private resolve(): BattleResult {
-    const attackerSoldiers = this.attack.attackerTroop.squads.basic.soldiers;
-    const defenderSoldiers = this.defenderArmy.squads.basic.soldiers;
+    const attackerSoldiers = this.attack.attackerTroop.squads.value.basic;
+    const defenderSoldiers = this.defenderArmy.squads.value.basic;
     if (attackerSoldiers > defenderSoldiers) {
-      const returningTroop = ArmyTroop.create(this.attack.attackerTroop.armyId.toString(), {
-        [SquadTypes.basic]: attackerSoldiers - defenderSoldiers
-      }).toPrimitives();
-      const casualties = { [SquadTypes.basic]: defenderSoldiers };
-      return {
-        winner: 'attacker',
-        attackerCasualties: casualties,
-        defenderCasualties: casualties,
-        returningTroop
-      };
+      return this.calculateAttackerVictory(attackerSoldiers, defenderSoldiers);
     } else {
-      const returningTroop = ArmyTroop.create(this.attack.attackerTroop.armyId.toString(), {
-        [SquadTypes.basic]: 0
-      }).toPrimitives();
-      const casualties = { [SquadTypes.basic]: attackerSoldiers };
-      return {
-        winner: 'defender',
-        attackerCasualties: casualties,
-        defenderCasualties: casualties,
-        returningTroop
-      };
+      return this.calculateDefenderVictory(attackerSoldiers);
     }
+  }
+
+  private calculateAttackerVictory(
+    attackerSoldiers: number,
+    defenderSoldiers: number
+  ): BattleResult {
+    const returningTroop = {
+      armyId: this.attack.attackerTroop.armyId.toString(),
+      squads: { [SquadTypes.basic]: attackerSoldiers - defenderSoldiers }
+    };
+    const casualties = { [SquadTypes.basic]: defenderSoldiers };
+    return BattleResult.fromPrimitives({
+      winner: 'attacker',
+      attackerCasualties: casualties,
+      defenderCasualties: casualties,
+      returningTroop
+    });
+  }
+
+  private calculateDefenderVictory(attackerSoldiers: number): BattleResult {
+    const returningTroop = {
+      armyId: this.attack.attackerTroop.armyId.toString(),
+      squads: {
+        [SquadTypes.basic]: 0
+      }
+    };
+    const casualties = { [SquadTypes.basic]: attackerSoldiers };
+    return BattleResult.fromPrimitives({
+      winner: 'defender',
+      attackerCasualties: casualties,
+      defenderCasualties: casualties,
+      returningTroop
+    });
   }
 
   toPrimitives(): Primitives<Battle> {
@@ -75,7 +83,7 @@ export class Battle extends AggregateRoot {
       attack: this.attack.toPrimitives(),
       defenderArmy: this.defenderArmy.toPrimitives(),
       finishedAt: this.finishedAt,
-      result: this.result
+      result: this.result.toPrimitives()
     };
   }
 
@@ -92,8 +100,11 @@ export class Battle extends AggregateRoot {
     for (const event of events) {
       if (BattleCreatedDomainEvent.isMe(event)) {
         battle = BattleCreatedDomainEvent.fromBattlefieldInternalEvent(event).toBattle();
+      } else if (BattleTroopReturnedDomainEvent.isMe(event)) {
       } else {
-        throw Error(`Unknown event for battle materialization: ${event.id}: ${event.name}`);
+        throw Error(
+          `Unknown event [${event.id}] for battle materialization with name ${event.name}`
+        );
       }
     }
     battle.pullDomainEvents();

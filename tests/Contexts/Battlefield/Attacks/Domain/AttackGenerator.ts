@@ -3,7 +3,7 @@ import { Attack } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/A
 import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { AttackTroop } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackTroop';
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
-import { TownSoldiersGenerator } from './TownSoldiersGenerator';
+import { SquadsGenerator } from '../../Armies/domain/SquadsGenerator';
 import { ArmyIdGenerator } from '../../Armies/Domain/ArmyIdGenerator';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 
@@ -25,7 +25,10 @@ export class AttackGenerator {
   static randomFromAttacker(attacker: ArmyId): Attack {
     return this.create(
       AttackIdGenerator.random(),
-      AttackTroop.create(attacker.toString(), TownSoldiersGenerator.random().value),
+      AttackTroop.fromPrimitives({
+        armyId: attacker.toString(),
+        squads: SquadsGenerator.randomBetween1and9().value
+      }),
       ArmyIdGenerator.random(),
       new Date().toISOString()
     );
@@ -34,7 +37,10 @@ export class AttackGenerator {
   static randomToDefender(defenderArmy: Army): Attack {
     return this.create(
       AttackIdGenerator.random(),
-      AttackTroop.create(ArmyIdGenerator.random().toString(), TownSoldiersGenerator.random().value),
+      AttackTroop.fromPrimitives({
+        armyId: ArmyIdGenerator.random().toString(),
+        squads: SquadsGenerator.randomBetween1and9().value
+      }),
       defenderArmy.id,
       new Date().toISOString()
     );
@@ -43,10 +49,10 @@ export class AttackGenerator {
   static toDefenderWithNSoldiers(defenderArmy: Army, soldiers: number): Attack {
     return this.create(
       AttackIdGenerator.random(),
-      AttackTroop.create(
-        ArmyIdGenerator.random().toString(),
-        TownSoldiersGenerator.withNSoldiers(soldiers).value
-      ),
+      AttackTroop.fromPrimitives({
+        armyId: ArmyIdGenerator.random().toString(),
+        squads: SquadsGenerator.withNSoldiers(soldiers).value
+      }),
       defenderArmy.id,
       new Date().toISOString()
     );
@@ -55,7 +61,10 @@ export class AttackGenerator {
   static random(): Attack {
     return this.create(
       AttackIdGenerator.random(),
-      AttackTroop.create(ArmyIdGenerator.random().toString(), TownSoldiersGenerator.random().value),
+      AttackTroop.fromPrimitives({
+        armyId: ArmyIdGenerator.random().toString(),
+        squads: SquadsGenerator.randomBetween1and9().value
+      }),
       ArmyIdGenerator.random(),
       new Date().toISOString()
     );

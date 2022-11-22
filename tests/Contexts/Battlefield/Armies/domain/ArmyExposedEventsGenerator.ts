@@ -1,17 +1,13 @@
 import { ArmyId } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyId';
 import { ArmyCreatedDomainEvent } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyCreatedDomainEvent';
 import { SoldiersRecruitedDomainEvent } from '../../../../../src/Contexts/Battlefield/Armies/Domain/SoldiersRecruitedDomainEvent';
-import {
-  SquadPrimitives,
-  Squads
-} from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
-import { Uuid } from '../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { SoldiersReceivedFromBattleDomainEvent } from '../../../../../src/Contexts/Battlefield/Armies/Domain/SoldiersReceivedFromBattleDomainEvent';
 import { ArmyAttackedDomainEvent } from '../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyAttackedDomainEvent';
 import { Battle } from '../../../../../src/Contexts/Battlefield/Battles/Domain/Battle';
 import { SoldiersSentToAttackDomainEvent } from '../../../../../src/Contexts/Battlefield/Armies/Domain/SoldiersSentToAttackDomainEvent';
 import { SendAttackCommand } from '../../../../../src/Contexts/Battlefield/Attacks/Application/Send/SendAttackCommand';
+import { Squads } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Squads';
 
 export class ArmyExposedEventsGenerator {
   static ArmyCreated(army: Army): ArmyCreatedDomainEvent {
@@ -22,36 +18,38 @@ export class ArmyExposedEventsGenerator {
     });
   }
 
-  static SoldiersRecruited(
-    armyId: ArmyId,
-    townId: Uuid,
-    squad: SquadPrimitives
-  ): SoldiersRecruitedDomainEvent {
+  static SoldiersRecruited(armyId: ArmyId, squad: Squads): SoldiersRecruitedDomainEvent {
     return new SoldiersRecruitedDomainEvent({
-      id: armyId.toString(),
-      townId: townId.toString(),
-      squad
+      aggregateId: armyId.toString(),
+      squad: squad.value
     });
   }
 
-  static SoldiersSentToAttack(attack: SendAttackCommand): SoldiersSentToAttackDomainEvent {
+  static SoldiersSentToAttackFrom(attack: SendAttackCommand): SoldiersSentToAttackDomainEvent {
     return new SoldiersSentToAttackDomainEvent({
       aggregateId: attack.attackerArmy.toString(),
-      squads: Squads.fromTownSoldiers(attack.soldiers).value
+      squads: attack.soldiers
+    });
+  }
+
+  static SoldiersSentToAttack(armyId: ArmyId, squads: Squads): SoldiersSentToAttackDomainEvent {
+    return new SoldiersSentToAttackDomainEvent({
+      aggregateId: armyId.toString(),
+      squads: squads.value
     });
   }
 
   static SoldiersFromBattleReceived(battle: Battle): SoldiersReceivedFromBattleDomainEvent {
     return new SoldiersReceivedFromBattleDomainEvent({
-      aggregateId: battle.result.returningTroop.armyId,
-      squads: battle.result.returningTroop.squads
+      aggregateId: battle.result.returningTroop.armyId.toString(),
+      squads: battle.result.returningTroop.squads.value
     });
   }
 
   static ArmyAttackedIn(battle: Battle): ArmyAttackedDomainEvent {
     return new ArmyAttackedDomainEvent({
       aggregateId: battle.defenderArmy.id.toString(),
-      squads: Squads.fromTownSoldiers(battle.result.defenderCasualties).value
+      squads: battle.result.defenderCasualties.value
     });
   }
 }

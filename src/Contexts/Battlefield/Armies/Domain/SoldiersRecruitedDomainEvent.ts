@@ -1,31 +1,27 @@
 import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
-import { SquadPrimitives } from './Squads';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
+import { SquadsPrimitives } from './Squads';
 
 type SoldiersRecruitedDomainEventBody = {
   readonly eventName: string;
-  readonly id: string;
-  readonly townId: string;
-  readonly soldiers: SquadPrimitives;
+  readonly aggregateId: string;
+  readonly soldiers: SquadsPrimitives;
 };
 
 export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.soldiersRecruited';
-  readonly townId: string;
-  readonly squad: SquadPrimitives;
+  readonly squad: SquadsPrimitives;
 
   constructor(props: {
-    id: string;
+    aggregateId: string;
     eventId?: string;
     occurredOn?: Date;
-    townId: string;
-    squad: SquadPrimitives;
+    squad: SquadsPrimitives;
   }) {
-    const { id, eventId, occurredOn, townId, squad } = props;
-    super(SoldiersRecruitedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
-    this.townId = townId;
+    const { aggregateId, eventId, occurredOn, squad } = props;
+    super(SoldiersRecruitedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.squad = squad;
   }
 
@@ -33,8 +29,7 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
     const { aggregateId } = this;
     return {
       eventName: SoldiersRecruitedDomainEvent.EVENT_NAME,
-      id: aggregateId,
-      townId: this.townId,
+      aggregateId: aggregateId,
       soldiers: this.squad
     };
   }
@@ -44,7 +39,7 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
       aggregateId: this.aggregateId,
       version: 0,
       eventName: this.eventName,
-      data: { townId: this.townId, squad: this.squad }
+      data: { squad: this.squad }
     });
   }
 
@@ -52,9 +47,8 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
     event: BattlefieldInternalEvent
   ): SoldiersRecruitedDomainEvent {
     return new SoldiersRecruitedDomainEvent({
-      id: event.aggregateId,
+      aggregateId: event.aggregateId,
       eventId: event.id.toString(),
-      townId: event.toPrimitives().data.townId,
       squad: event.toPrimitives().data.squad
     });
   }
@@ -63,14 +57,12 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
     aggregateId: string,
     eventId: string,
     occurredOn: Date,
-    townId: string,
-    squad: SquadPrimitives
+    squad: SquadsPrimitives
   ): DomainEvent {
     return new SoldiersRecruitedDomainEvent({
-      id: aggregateId,
+      aggregateId,
       eventId,
       occurredOn,
-      townId,
       squad
     });
   }

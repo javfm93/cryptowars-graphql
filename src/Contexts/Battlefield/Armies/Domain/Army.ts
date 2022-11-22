@@ -2,7 +2,7 @@ import { ArmyCreatedDomainEvent } from './ArmyCreatedDomainEvent';
 import { ArmyId } from './ArmyId';
 import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
-import { SquadPrimitives, Squads } from './Squads';
+import { Squads } from './Squads';
 import { SoldiersRecruitedDomainEvent } from './SoldiersRecruitedDomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
@@ -32,10 +32,6 @@ export class Army extends AggregateRoot {
     this.squads = squads ?? Squads.defaultSquads();
   }
 
-  getBasicSquad(): SquadPrimitives {
-    return this.squads.basic;
-  }
-
   public isCommandedBy(playerId: PlayerId): boolean {
     return this.playerId.isEqualTo(playerId);
   }
@@ -48,9 +44,8 @@ export class Army extends AggregateRoot {
     this.squads.absorb(newSquad);
     this.record(
       new SoldiersRecruitedDomainEvent({
-        id: this.id.toString(),
-        townId: this.townId.toString(),
-        squad: newSquad.basic
+        aggregateId: this.id.toString(),
+        squad: newSquad.value
       })
     );
   }
@@ -121,7 +116,7 @@ export class Army extends AggregateRoot {
         army = ArmyCreatedDomainEvent.fromBattlefieldInternalEvent(event).toArmy();
       } else if (SoldiersRecruitedDomainEvent.isMe(event)) {
         const exposedEvent = SoldiersRecruitedDomainEvent.fromBattlefieldInternalEvent(event);
-        army.recruit(Squads.fromPrimitives([exposedEvent.squad]));
+        army.recruit(Squads.fromPrimitives(exposedEvent.squad));
       } else if (SoldiersSentToAttackDomainEvent.isMe(event)) {
         const soldiersSent = SoldiersSentToAttackDomainEvent.fromBattlefieldInternalEvent(event);
         army.sendSquadsToAttack(Squads.fromPrimitives(soldiersSent.squads));
@@ -133,7 +128,7 @@ export class Army extends AggregateRoot {
         const armyAttacked = ArmyAttackedDomainEvent.fromBattlefieldInternalEvent(event);
         army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.squads));
       } else {
-        throw Error(`Unknown event for army materialization: ${event.id}: ${event.name}`);
+        throw Error(`Unknown event [${event.id}] for army materialization with name ${event.name}`);
       }
     }
     army.pullDomainEvents();

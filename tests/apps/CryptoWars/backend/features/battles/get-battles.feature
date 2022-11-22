@@ -25,12 +25,9 @@ Feature: As player, I want check my attack results
             "id": ":attackId",
             "attackerTroop": {
               "armyId": ":armyId",
-              "squads": [
-                {
-                  "soldiers": 2,
-                  "type": "basic"
-                }
-              ]
+              "squads": {
+                "basic": 2
+              }
             },
             "defenderArmyId": ":otherPlayerArmy",
             "sentAt": ":date"
@@ -38,12 +35,9 @@ Feature: As player, I want check my attack results
           "defenderArmy": {
             "id": ":otherPlayerArmy",
             "playerId": ":otherPlayerId",
-            "squads": [
-              {
-                "soldiers": 0,
-                "type": "basic"
-              }
-            ],
+            "squads": {
+              "basic": 0
+            },
             "townId": ":otherPlayerTown"
           },
           "finishedAt": ":date",
@@ -57,12 +51,9 @@ Feature: As player, I want check my attack results
             },
             "returningTroop": {
               "armyId": ":armyId",
-              "squads": [
-                {
-                  "soldiers": 2,
-                  "type": "basic"
-                }
-              ]
+              "squads": {
+                "basic": 2
+              }
             }
           }
         }

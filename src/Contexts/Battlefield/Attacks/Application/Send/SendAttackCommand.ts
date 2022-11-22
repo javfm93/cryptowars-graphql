@@ -1,11 +1,11 @@
 import { Command } from '../../../../Shared/Domain/Command';
-import { TownSoldiersPrimitives } from '../../../../CryptoWars/Towns/Domain/TownSoldiers';
+import { SquadsPrimitives } from '../../../Armies/Domain/Squads';
 
 type Params = {
   id: string;
   defenderTown: string;
   attackerArmy: string;
-  soldiers: TownSoldiersPrimitives;
+  soldiers: SquadsPrimitives;
   playerId: string;
 };
 
@@ -15,7 +15,7 @@ export class SendAttackCommand extends Command {
   id: string;
   attackerArmy: string;
   defenderTown: string;
-  soldiers: TownSoldiersPrimitives;
+  soldiers: SquadsPrimitives;
   playerId: string;
 
   constructor({ id, attackerArmy, defenderTown, soldiers, playerId }: Params) {

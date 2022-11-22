@@ -44,7 +44,7 @@ describe('[Application] SendAttack', () => {
 
     if (result.isFailure()) fail(result.value);
     const attackSent = AttackExposedEventsGenerator.attackSentFrom(command, defenderArmy);
-    const soldiersSent = ArmyExposedEventsGenerator.SoldiersSentToAttack(command);
+    const soldiersSent = ArmyExposedEventsGenerator.SoldiersSentToAttackFrom(command);
     repository.expectLastSavedBattlefieldEventsToBe([
       attackSent.toBattlefieldInternalEvent(),
       soldiersSent.toBattlefieldInternalEvent()
