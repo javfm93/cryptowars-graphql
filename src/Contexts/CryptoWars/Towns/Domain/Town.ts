@@ -5,7 +5,7 @@ import { PlayerId } from '../../Players/Domain/PlayerId';
 import { TownBuildings, TownBuildingsPrimitives } from './TownBuildings';
 import { WorldId } from '../../Worlds/Domain/WorldId';
 import { TownSoldiers } from './TownSoldiers';
-import { TownSoldiersTrainFinished } from './TownSoldiersTrainFinishedDomainEvent';
+import { TownSoldiersTrainStarted } from './TownSoldiersTrainStartedDomainEvent';
 
 export interface TownProps {
   playerId: PlayerId;
@@ -55,12 +55,12 @@ export class Town extends AggregateRoot<TownProps> {
   }
 
   train(soldiers: TownSoldiers): void {
-    this.record(
-      new TownSoldiersTrainFinished({
-        aggregateId: this.id.toString(),
-        soldiers: soldiers.value
-      })
-    );
+    const trainStarted = new TownSoldiersTrainStarted({
+      aggregateId: this.id.toString(),
+      soldiers: soldiers.value
+    });
+    this.record(trainStarted);
+    this.record(trainStarted.toTaskRequest());
     this.props.buildings.payEssence(soldiers.calculateCost());
   }
 

@@ -57,9 +57,13 @@ export class CryptoWarsBackendApp {
     const checkTasksEveryInMs = parseInt(cryptoWarsConfig.get('checkTasksEveryInMs'));
     const commandBus: CommandBus = container.get('Shared.CommandBus');
     this.interval = setInterval(async () => {
-      const execute = new ExecuteTasksPreviousToCommand(Date.now());
-      const result = await commandBus.dispatch(execute);
-      if (result.isFailure()) logger.error(result.value);
+      try {
+        const execute = new ExecuteTasksPreviousToCommand(Date.now());
+        const result = await commandBus.dispatch(execute);
+        if (result.isFailure()) logger.error(result.value);
+      } catch (e: any) {
+        logger.error(e.stack);
+      }
     }, checkTasksEveryInMs);
   }
 }

@@ -67,7 +67,7 @@ export class Server {
     registerRoutes(router);
 
     router.use((err: Error, req: Request, res: Response, next: Function) => {
-      this.logger.error(err);
+      this.logger.error(err.stack ?? new Error(err.message));
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
     });
   }

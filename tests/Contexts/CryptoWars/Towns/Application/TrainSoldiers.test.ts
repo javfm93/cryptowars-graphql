@@ -9,12 +9,21 @@ import { TownGenerator } from '../Domain/TownGenerator';
 import { InvalidNumberOfSoldiers } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
 import { InvalidSoldier } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/InvalidSoldier';
 import { Forbidden } from '../../../../../src/Contexts/Shared/Domain/Errors/Forbidden';
+import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
+
+const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
+
+jest.mock('uuid', () => ({ v4: () => mockedNewUuid }));
+jest.mock('uuid-validate', () => () => true);
 
 describe('[Application] Train soldier', () => {
   const repository = new TownRepositoryMock();
   const eventBus = new EventBusMock();
   const creator = new TrainSoldiers(repository, eventBus);
   const handler = new TrainSoldiersCommandHandler(creator);
+
+  beforeAll(mockTimeSetup);
+  afterAll(mockTimeCleanUp);
 
   beforeEach(() => {
     eventBus.resetMock();
@@ -27,13 +36,10 @@ describe('[Application] Train soldier', () => {
 
     await handler.handle(command);
 
-    const expectedEvent = TownEventsGenerator.soldierTrainFinished(
-      command.townId,
-      command.soldiers
-    );
+    const expectedEvent = TownEventsGenerator.soldierTrainStarted(command.townId, command.soldiers);
     // todo: is not testing the change in the timestamp of last update
     repository.expectLastSavedTownToBe(expectedTown);
-    eventBus.expectLastPublishedEventToBe(expectedEvent);
+    eventBus.expectPublishedEventsToBe([expectedEvent, expectedEvent.toTaskRequest()]);
   });
 
   it('should return an error when the town doesnt have enough to pay', async () => {

@@ -1,14 +1,18 @@
 import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
-import { Primitives } from '../../../Shared/Domain/Primitives';
+import { Optional, Primitives } from '../../../Shared/Domain/Primitives';
+import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
+import { TaskEventToTrigger } from './TaskEventToTrigger';
+
+type Props = Optional<OptionalDomainEventProps<TaskRequestedDomainEvent>, 'aggregateId'>;
 
 export class TaskRequestedDomainEvent extends DomainEvent {
   static readonly EVENT_NAME = 'scheduler.1.event.task.requested';
   readonly triggerAt: number;
-  readonly eventToTrigger: Primitives<DomainEvent>;
+  readonly eventToTrigger: Primitives<TaskEventToTrigger>;
 
-  constructor(props: OptionalDomainEventProps<TaskRequestedDomainEvent>) {
-    const { aggregateId, eventId, occurredOn, triggerAt, eventToTrigger } = props;
-    super(TaskRequestedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
+  constructor(props: Props) {
+    const { eventId, occurredOn, triggerAt, eventToTrigger } = props;
+    super(TaskRequestedDomainEvent.EVENT_NAME, Uuid.random().toString(), eventId, occurredOn);
     this.triggerAt = triggerAt;
     this.eventToTrigger = eventToTrigger;
   }

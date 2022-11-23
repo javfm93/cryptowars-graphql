@@ -1,8 +1,8 @@
 import { PlayerId } from '../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerId';
 import { TownCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownCreatedDomainEvent';
-import { TownSoldiersTrainFinished } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiersTrainFinishedDomainEvent';
 import { TownSoldiersPrimitives } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownId';
+import { TownSoldiersTrainStarted } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/TownSoldiersTrainStartedDomainEvent';
 
 export class TownEventsGenerator {
   static created(townId: TownId, playerId: PlayerId): TownCreatedDomainEvent {
@@ -12,10 +12,10 @@ export class TownEventsGenerator {
     });
   }
 
-  static soldierTrainFinished(
+  static soldierTrainStarted(
     townId: string,
     soldiers: TownSoldiersPrimitives
-  ): TownSoldiersTrainFinished {
-    return new TownSoldiersTrainFinished({ aggregateId: townId, soldiers });
+  ): TownSoldiersTrainStarted {
+    return new TownSoldiersTrainStarted({ aggregateId: townId, soldiers });
   }
 }

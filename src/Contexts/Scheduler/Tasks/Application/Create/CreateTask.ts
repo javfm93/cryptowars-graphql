@@ -6,12 +6,13 @@ import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Resu
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { TaskId } from '../../Domain/TaskId';
 import { FutureUnixTimestamp } from '../../Domain/FutureUnixTimestamp';
-import { DomainEvent } from '../../../../Shared/Domain/DomainEvent';
+import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
+import { TaskEventToTrigger } from '../../Domain/TaskEventToTrigger';
 
 type Args = {
   id: TaskId;
   triggerAt: FutureUnixTimestamp;
-  eventToTrigger: DomainEvent;
+  eventToTrigger: TaskEventToTrigger;
 };
 
 type CreatePlayerResult = Either<EmptyResult, DomainError>;
@@ -23,6 +24,9 @@ export class CreateTask implements UseCase<Args, EmptyResult> {
     const task = Task.create(id, triggerAt, eventToTrigger);
     await this.taskRepository.save(task);
     await this.eventBus.publish(task.pullDomainEvents());
+    logger.debug(
+      `Task created, ${task.eventToTrigger.eventName} will trigger at ${task.triggerAt.toIso()}`
+    );
     return success();
   }
 }

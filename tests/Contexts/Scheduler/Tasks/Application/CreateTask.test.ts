@@ -10,7 +10,7 @@ import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTi
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
-jest.mock('uuid', () => ({ v4: () => mockedNewUuid }));
+jest.mock('uuid', () => ({v4: () => mockedNewUuid}));
 jest.mock('uuid-validate', () => () => true);
 
 describe('[Application] Create Task', () => {
@@ -21,7 +21,7 @@ describe('[Application] Create Task', () => {
 
   beforeAll(mockTimeSetup);
   afterAll(mockTimeCleanUp);
-  
+
   beforeEach(() => {
     eventBus.resetMock();
   });
@@ -45,7 +45,7 @@ describe('[Application] Create Task', () => {
       await handler.on(event);
       fail('didnt throw');
     } catch (e: any) {
-      expect(e.message).toBe(`The time should be later than now, provided: ${event.triggerAt}`);
+      expect(e.message).toBe(`The time should be later than now, provided: ${new Date(event.triggerAt).toISOString()}`);
       eventBus.expectEventsNotToBePublished();
     }
   });

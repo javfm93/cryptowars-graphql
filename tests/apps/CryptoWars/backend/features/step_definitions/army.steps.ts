@@ -31,7 +31,14 @@ Given('I have {int} basic soldiers in my army', async (numberOfSoldiers: number)
       basic: numberOfSoldiers
     }
   });
+  while (!playerArmy || playerArmy.squads.basic === 0) {
+    console.log(playerArmy?.squads.basic);
+    await retrievePlayerArmyInformation();
+    await sleep(100);
+  }
 });
+
+export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 Given('Other player has {int} basic soldiers in his army', async (numberOfSoldiers: number) => {
   const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, otherUserPlayer.towns[0].id);

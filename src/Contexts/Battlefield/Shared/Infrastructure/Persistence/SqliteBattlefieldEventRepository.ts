@@ -47,8 +47,6 @@ export class SqliteBattlefieldEventRepository
 
   public async materializeArmyByTownId(townId: Uuid): Promise<NothingOr<Army>> {
     const repository = await this.repository();
-    // todo: if it is of type create and...
-    // todo: remove townId wrong recruit
     const armyEvent = await repository
       .createQueryBuilder()
       .where("json_extract(data, '$.townId') = :townId", { townId: townId.toString() })

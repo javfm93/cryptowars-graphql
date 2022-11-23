@@ -7,6 +7,12 @@ const cryptoWarsConfig = convict({
     default: 'default',
     env: 'NODE_ENV'
   },
+  logLevel: {
+    doc: 'Min Level of the log to show',
+    format: String,
+    env: 'LOG_LEVEL',
+    default: 'info'
+  },
   checkTasksEveryInMs: {
     doc: 'Time between checks of tasks to process',
     format: Number,

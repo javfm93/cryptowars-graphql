@@ -16,6 +16,7 @@ export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
     tasks.markAsFinished();
     await this.taskRepository.saveMultiple(tasks);
     logger.sampledOneTenthInfo(`${tasks.getItems().length} tasks dispatched`);
+    logger.debug(`${tasks.getItems().length} tasks dispatched`);
     return success();
   }
 }

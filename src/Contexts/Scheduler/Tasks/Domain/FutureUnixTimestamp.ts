@@ -23,4 +23,8 @@ export class FutureUnixTimestamp extends ValueObject<FutureUnixTimestamp> {
   public toString(): string {
     return this.value.toString();
   }
+
+  public toIso(): string {
+    return new Date(this.value).toISOString();
+  }
 }

@@ -1,6 +1,7 @@
 import winston, { Logger as WinstonLoggerType } from 'winston';
 import Logger from '../Domain/Logger';
 import ecsFormat from '@elastic/ecs-winston-format';
+import cryptoWarsConfig from '../../CryptoWars/Shared/Infrastructure/Config/cryptoWarsConfig';
 
 enum Levels {
   DEBUG = 'debug',
@@ -15,8 +16,9 @@ const sampleOneTenth = (cb: () => void) => {
   }
 };
 
-const getLogLocation = (): string | undefined =>
-  new Error().stack?.split('at ')[3].split('file:')[1];
+const getLogLocation = (): string | undefined => {
+  return new Error().stack?.split('at ')[3].split('(')[1];
+};
 
 class WinstonLogger implements Logger {
   private logger: WinstonLoggerType;
@@ -32,7 +34,8 @@ class WinstonLogger implements Logger {
             winston.format.splat(),
             winston.format.colorize(),
             winston.format.simple()
-          )
+          ),
+          level: cryptoWarsConfig.get('logLevel')
         }),
         new winston.transports.File({ filename: `logs/${Levels.DEBUG}.log`, level: Levels.DEBUG }),
         new winston.transports.File({ filename: `logs/${Levels.ERROR}.log`, level: Levels.ERROR }),
