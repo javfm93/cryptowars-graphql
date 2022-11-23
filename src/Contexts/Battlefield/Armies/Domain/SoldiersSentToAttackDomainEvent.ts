@@ -1,36 +1,27 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { SquadsPrimitives } from './Squads';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
-
-type SoldiersSentDomainEventBody = {
-  readonly eventName: string;
-  readonly aggregateId: string;
-  readonly soldiers: SquadsPrimitives;
-};
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class SoldiersSentToAttackDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.soldiersSentToAttack';
   readonly squads: SquadsPrimitives;
 
-  constructor(props: {
-    aggregateId: string;
-    eventId?: string;
-    occurredOn?: Date;
-    squads: SquadsPrimitives;
-  }) {
+  constructor(props: OptionalDomainEventProps<SoldiersSentToAttackDomainEvent>) {
     const { aggregateId, eventId, occurredOn, squads } = props;
     super(SoldiersSentToAttackDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.squads = squads;
   }
 
-  toPrimitive(): SoldiersSentDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<SoldiersSentToAttackDomainEvent> {
     return {
+      eventId: this.eventId,
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn,
       eventName: SoldiersSentToAttackDomainEvent.EVENT_NAME,
-      aggregateId: aggregateId,
-      soldiers: this.squads
+      squads: this.squads
     };
   }
 

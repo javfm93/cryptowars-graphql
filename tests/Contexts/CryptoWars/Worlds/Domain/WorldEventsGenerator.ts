@@ -5,7 +5,7 @@ import { WorldId } from '../../../../../src/Contexts/CryptoWars/Worlds/Domain/Wo
 export class WorldEventsGenerator {
   static worldJoined(playerId: PlayerId, worldId: WorldId): WorldPlayerJoinedDomainEvent {
     return new WorldPlayerJoinedDomainEvent({
-      id: worldId.toString(),
+      aggregateId: worldId.toString(),
       playerId: playerId.toString()
     });
   }

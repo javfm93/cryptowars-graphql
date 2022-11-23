@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
@@ -6,10 +6,11 @@ import { Army } from './Army';
 import { ArmyId } from './ArmyId';
 import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../CryptoWars/Players/Domain/PlayerId';
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 type ArmyCreatedDomainEventBody = {
   readonly eventName: string;
-  readonly id: string;
+  readonly aggregateId: string;
   readonly townId: string;
   readonly playerId: string;
   readonly occurredOn: Date;
@@ -20,27 +21,21 @@ export class ArmyCreatedDomainEvent extends BattlefieldExposedEvent {
   readonly townId: string;
   readonly playerId: string;
 
-  constructor(props: {
-    id: string;
-    eventId?: string;
-    occurredOn?: Date;
-    townId: string;
-    playerId: string;
-  }) {
-    const { id, eventId, occurredOn, townId, playerId } = props;
-    super(ArmyCreatedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
+  constructor(props: OptionalDomainEventProps<ArmyCreatedDomainEvent>) {
+    const { aggregateId, eventId, occurredOn, townId, playerId } = props;
+    super(ArmyCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.townId = townId;
     this.playerId = playerId;
   }
 
-  toPrimitive(): ArmyCreatedDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<ArmyCreatedDomainEvent> {
     return {
       eventName: ArmyCreatedDomainEvent.EVENT_NAME,
-      id: aggregateId,
+      aggregateId: this.aggregateId,
       townId: this.townId,
       playerId: this.playerId,
-      occurredOn: this.occurredOn
+      occurredOn: this.occurredOn,
+      eventId: this.eventId
     };
   }
 
@@ -63,7 +58,7 @@ export class ArmyCreatedDomainEvent extends BattlefieldExposedEvent {
 
   static fromBattlefieldInternalEvent(event: BattlefieldInternalEvent): ArmyCreatedDomainEvent {
     return new ArmyCreatedDomainEvent({
-      id: event.aggregateId,
+      aggregateId: event.aggregateId,
       eventId: event.id.toString(),
       townId: event.toPrimitives().data.townId,
       playerId: event.toPrimitives().data.playerId

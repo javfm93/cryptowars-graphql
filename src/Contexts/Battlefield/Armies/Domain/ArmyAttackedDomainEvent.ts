@@ -1,36 +1,27 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { SquadsPrimitives } from './Squads';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
-
-type ArmyAttackedDomainEventBody = {
-  readonly eventName: string;
-  readonly aggregateId: string;
-  readonly casualties: SquadsPrimitives;
-};
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.attacked';
-  readonly squads: SquadsPrimitives;
+  readonly casualties: SquadsPrimitives;
 
-  constructor(props: {
-    aggregateId: string;
-    eventId?: string;
-    occurredOn?: Date;
-    squads: SquadsPrimitives;
-  }) {
-    const { aggregateId, eventId, occurredOn, squads } = props;
+  constructor(props: OptionalDomainEventProps<ArmyAttackedDomainEvent>) {
+    const { aggregateId, eventId, occurredOn, casualties } = props;
     super(ArmyAttackedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
-    this.squads = squads;
+    this.casualties = casualties;
   }
 
-  toPrimitive(): ArmyAttackedDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<ArmyAttackedDomainEvent> {
     return {
       eventName: ArmyAttackedDomainEvent.EVENT_NAME,
-      aggregateId: aggregateId,
-      casualties: this.squads
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn,
+      eventId: this.eventId,
+      casualties: this.casualties
     };
   }
 
@@ -39,7 +30,7 @@ export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent {
       aggregateId: this.aggregateId,
       version: 0,
       eventName: this.eventName,
-      data: { squads: this.squads }
+      data: { casualties: this.casualties }
     });
   }
 
@@ -47,7 +38,7 @@ export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent {
     return new ArmyAttackedDomainEvent({
       aggregateId: event.aggregateId,
       eventId: event.aggregateId.toString(),
-      squads: event.toPrimitives().data.squads
+      casualties: event.toPrimitives().data.casualties
     });
   }
 
@@ -55,14 +46,13 @@ export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent {
     aggregateId: string,
     eventId: string,
     occurredOn: Date,
-    armyId: string,
-    squads: SquadsPrimitives
+    casualties: SquadsPrimitives
   ): DomainEvent {
     return new ArmyAttackedDomainEvent({
-      aggregateId: aggregateId,
+      aggregateId,
       eventId,
       occurredOn,
-      squads
+      casualties
     });
   }
 

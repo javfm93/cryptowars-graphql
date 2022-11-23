@@ -1,4 +1,10 @@
 import { Uuid } from './value-object/Uuid';
+import { Optional, Primitives } from './Primitives';
+
+export type OptionalDomainEventProps<T extends DomainEvent> = Optional<
+  Primitives<T>,
+  'eventId' | 'occurredOn' | 'eventName'
+>;
 
 export abstract class DomainEvent {
   static EVENT_NAME: string;
@@ -15,10 +21,10 @@ export abstract class DomainEvent {
     this.occurredOn = occurredOn || new Date();
   }
 
-  abstract toPrimitive(): Object;
+  abstract toPrimitive(): Primitives<DomainEvent>;
 }
 
 export type DomainEventClass = {
   EVENT_NAME: string;
-  fromPrimitives(...args: any[]): DomainEvent
+  fromPrimitives(...args: any[]): DomainEvent;
 };

@@ -3,6 +3,6 @@ import { PlayerCreatedDomainEvent } from '../../../../../src/Contexts/CryptoWars
 
 export class PlayerEventsGenerator {
   static PlayerCreated(playerId: PlayerId): PlayerCreatedDomainEvent {
-    return new PlayerCreatedDomainEvent({ id: playerId.toString() });
+    return new PlayerCreatedDomainEvent({ aggregateId: playerId.toString() });
   }
 }

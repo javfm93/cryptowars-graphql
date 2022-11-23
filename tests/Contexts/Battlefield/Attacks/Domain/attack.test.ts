@@ -3,8 +3,12 @@ import { AttackGenerator } from '../../Attacks/Domain/AttackGenerator';
 import { Attack } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/Attack';
 import { BattleExposedEventsGenerator } from '../../Battles/Domain/BattleExposedEventsGenerator';
 import { BattleGenerator } from '../../Battles/Domain/BattleGenerator';
+import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTime';
 
 describe('[Domain] Attack', () => {
+  beforeAll(mockTimeSetup);
+  afterAll(mockTimeCleanUp);
+
   it('should materialize a sent attack', async () => {
     const expectedAttack = AttackGenerator.random();
     const attackSent = AttackExposedEventsGenerator.attackSentFromAttack(expectedAttack);

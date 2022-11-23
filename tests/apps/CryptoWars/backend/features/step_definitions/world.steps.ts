@@ -3,6 +3,7 @@ import { agent, otherUserAgent } from './controller.steps';
 import request from 'supertest';
 import { otherUserPlayer, player } from './player.steps';
 import assert from 'assert';
+import { TownPrimitives } from '../../../../../../src/Contexts/CryptoWars/Towns/Domain/Town';
 
 export const worldId = '93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b';
 let _request: request.Test;
@@ -30,5 +31,10 @@ Then('The world response content should be:', (response: string) => {
     .replace(/:playerId/gi, player.id)
     .replace(/:otherPlayerTownId/gi, otherUserPlayer.towns[0].id)
     .replace(/:otherPlayerId/gi, otherUserPlayer.id);
-  assert.deepStrictEqual(_response.body, JSON.parse(finalResponse));
+
+  const expectedResponse = JSON.parse(finalResponse);
+  const byTownId = (town1: TownPrimitives, town2: TownPrimitives) => (town1.id > town2.id ? 1 : -1);
+  _response.body.world.towns = _response.body.world.towns.sort(byTownId);
+  expectedResponse.world.towns = expectedResponse.world.towns.sort(byTownId);
+  assert.deepStrictEqual(_response.body, expectedResponse);
 });

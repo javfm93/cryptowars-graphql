@@ -60,7 +60,7 @@ export class Player extends AggregateRoot<PlayerProps> {
     const user = new Player(id, props);
     user.record(
       new PlayerCreatedDomainEvent({
-        id: user.id.toString()
+        aggregateId: user.id.toString()
       })
     );
     return user;

@@ -67,7 +67,7 @@ export class ArmyMaterializationEventsGenerator {
   createArmyAttacked = (): ArmyMaterializationEventsGenerator => {
     const battle = BattleGenerator.randomForAttacker(this.expectedArmy.id);
     const armyAttacked = ArmyExposedEventsGenerator.ArmyAttackedIn(battle);
-    const finalSquads = this.expectedArmy.squads.value.basic - armyAttacked.squads.basic;
+    const finalSquads = this.expectedArmy.squads.value.basic - armyAttacked.casualties.basic;
     const expectedArmy = ArmyGenerator.create(
       this.expectedArmy.id,
       this.expectedArmy.townId,

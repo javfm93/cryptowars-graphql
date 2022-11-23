@@ -9,7 +9,7 @@ import { Army } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Army
 export class TownEventsGenerator {
   static randomCreated() {
     return new TownCreatedDomainEvent({
-      id: TownIdGenerator.random().toString(),
+      aggregateId: TownIdGenerator.random().toString(),
       playerId: PlayerIdGenerator.random().toString()
     });
   }
@@ -18,7 +18,7 @@ export class TownEventsGenerator {
     const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and9() };
 
     return new TownSoldiersTrainFinished({
-      id: army.townId.toString(),
+      aggregateId: army.townId.toString(),
       soldiers
     });
   }

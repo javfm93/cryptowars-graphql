@@ -2,6 +2,7 @@ import { DomainEvent } from '../../../../src/Contexts/Shared/Domain/DomainEvent'
 import { DomainEventSubscriber } from '../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
 import { Uuid } from '../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { InMemoryAsyncEventBus } from '../../../../src/Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
+import { Primitives } from '../../../../src/Contexts/Shared/Domain/Primitives';
 
 describe('InMemoryAsyncEventBus', () => {
   let subscriber: DomainEventSubscriberDummy;
@@ -29,7 +30,7 @@ class DummyEvent extends DomainEvent {
     super(DummyEvent.EVENT_NAME, id);
   }
 
-  toPrimitive(): Object {
+  toPrimitive(): Primitives<DummyEvent> {
     throw new Error('Method not implemented.');
   }
 }

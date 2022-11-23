@@ -4,5 +4,6 @@
   },
   "typeorm": {
     "database": "crypto-wars-integration.db"
-  }
+  },
+  "checkTasksEveryInMs": 300
 }

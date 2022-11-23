@@ -54,7 +54,6 @@ describe('[Application] SendAttack', () => {
   });
 
   describe('should not create an attack when: ', () => {
-    // todo: validation with soldiers confusion with game context
     xit('the attacker number of soldiers is invalid', async () => {
       const command = SendAttackCommandGenerator.withInvalidNumberOfSoldiersFor();
 

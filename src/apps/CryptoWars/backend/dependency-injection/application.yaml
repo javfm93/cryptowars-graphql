@@ -8,3 +8,4 @@ imports:
   - { resource: ./Armies/application.yaml }
   - { resource: ./Attacks/application.yaml }
   - { resource: ./Battles/application.yaml }
+  - { resource: ./Tasks/application.yaml }

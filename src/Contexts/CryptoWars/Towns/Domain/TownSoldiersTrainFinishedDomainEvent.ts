@@ -1,51 +1,28 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { TownSoldiersPrimitives } from './TownSoldiers';
-
-type TownSoldierTrainFinishedBody = {
-  readonly eventName: string;
-  readonly id: string;
-  readonly soldiers: TownSoldiersPrimitives;
-};
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class TownSoldiersTrainFinished extends DomainEvent {
   static readonly EVENT_NAME = 'cryptoWars.1.event.town.soldierTrainFinished';
   readonly soldiers: TownSoldiersPrimitives;
 
-  constructor({
-    id,
-    soldiers,
-    eventId,
-    occurredOn
-  }: {
-    id: string;
-    soldiers: TownSoldiersPrimitives;
-    eventId?: string;
-    occurredOn?: Date;
-  }) {
-    super(TownSoldiersTrainFinished.EVENT_NAME, id, eventId, occurredOn);
+  constructor(props: OptionalDomainEventProps<TownSoldiersTrainFinished>) {
+    const { aggregateId, soldiers, eventId, occurredOn } = props;
+    super(TownSoldiersTrainFinished.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.soldiers = soldiers;
   }
 
-  toPrimitive(): TownSoldierTrainFinishedBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<TownSoldiersTrainFinished> {
     return {
+      eventId: this.eventId,
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn,
       eventName: TownSoldiersTrainFinished.EVENT_NAME,
-      id: aggregateId,
       soldiers: this.soldiers
     };
   }
 
-  static fromPrimitives(
-    aggregateId: string,
-    body: TownSoldierTrainFinishedBody,
-    eventId: string,
-    occurredOn: Date
-  ): DomainEvent {
-    return new TownSoldiersTrainFinished({
-      id: aggregateId,
-      eventId,
-      occurredOn,
-      soldiers: body.soldiers
-    });
+  static fromPrimitives(primitives: Primitives<TownSoldiersTrainFinished>): DomainEvent {
+    return new TownSoldiersTrainFinished(primitives);
   }
 }

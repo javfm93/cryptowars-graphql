@@ -2,8 +2,7 @@ import { Then, When } from '@cucumber/cucumber';
 import { agent } from './controller.steps';
 import assert from 'assert';
 import request from 'supertest';
-import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
-import { player, retrievePlayerInformation } from './player.steps';
+import { otherUserPlayer, player, retrievePlayerInformation } from './player.steps';
 
 let townRequest: request.Test;
 let townResponse: request.Response;
@@ -16,7 +15,7 @@ When('I send a POST request to train-soldiers endpoint with my town and body:', 
 When(
   'I send a POST request to train-soldiers endpoint with not my town and body:',
   (body: string) => {
-    const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, Uuid.random().toString());
+    const finalRoute = '/towns/:id/train-soldiers'.replace(/:id/gi, otherUserPlayer.towns[0].id);
     townRequest = agent.post(finalRoute).send(JSON.parse(body));
   }
 );

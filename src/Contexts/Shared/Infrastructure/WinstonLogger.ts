@@ -8,6 +8,16 @@ enum Levels {
   INFO = 'info'
 }
 
+const sampleOneTenth = (cb: () => void) => {
+  const random1ToT10 = Math.floor(Math.random() * 10) + 1;
+  if (random1ToT10 > 9) {
+    cb();
+  }
+};
+
+const getLogLocation = (): string | undefined =>
+  new Error().stack?.split('at ')[3].split('file:')[1];
+
 class WinstonLogger implements Logger {
   private logger: WinstonLoggerType;
 
@@ -33,6 +43,7 @@ class WinstonLogger implements Logger {
 
   debug(message?: string) {
     this.logger.debug(message);
+    this.logger.debug(`at (${getLogLocation()}`);
   }
 
   error(message?: string | Error) {
@@ -41,6 +52,16 @@ class WinstonLogger implements Logger {
 
   info(message?: string) {
     this.logger.info(message);
+    this.logger.debug(`at (${getLogLocation()}`);
+  }
+
+  sampledOneTenthInfo(message?: string) {
+    const logLocation = getLogLocation();
+
+    sampleOneTenth(() => {
+      this.logger.info(message);
+      this.logger.debug(`at (${logLocation}`);
+    });
   }
 }
 

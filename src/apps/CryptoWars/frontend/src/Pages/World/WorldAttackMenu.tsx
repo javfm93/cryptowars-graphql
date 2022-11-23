@@ -25,7 +25,7 @@ export const WorldAttackMenu = ({
   return (
     <>
       <FormControl variant="standard">
-        <InputLabel htmlFor="basic">Basic: Max {army.squads[0].soldiers}</InputLabel>
+        <InputLabel htmlFor="basic">Basic: Max {army.squads.basic}</InputLabel>
         <Input
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           onChange={value => setBasicSoldiers(parseInt(value.target.value))}

@@ -1,36 +1,27 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
 import { SquadsPrimitives } from './Squads';
-
-type SoldiersRecruitedDomainEventBody = {
-  readonly eventName: string;
-  readonly aggregateId: string;
-  readonly soldiers: SquadsPrimitives;
-};
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.soldiersRecruited';
   readonly squad: SquadsPrimitives;
 
-  constructor(props: {
-    aggregateId: string;
-    eventId?: string;
-    occurredOn?: Date;
-    squad: SquadsPrimitives;
-  }) {
+  constructor(props: OptionalDomainEventProps<SoldiersRecruitedDomainEvent>) {
     const { aggregateId, eventId, occurredOn, squad } = props;
     super(SoldiersRecruitedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.squad = squad;
   }
 
-  toPrimitive(): SoldiersRecruitedDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<SoldiersRecruitedDomainEvent> {
     return {
+      eventId: this.eventId,
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn,
       eventName: SoldiersRecruitedDomainEvent.EVENT_NAME,
-      aggregateId: aggregateId,
-      soldiers: this.squad
+      squad: this.squad
     };
   }
 
@@ -48,7 +39,7 @@ export class SoldiersRecruitedDomainEvent extends BattlefieldExposedEvent {
   ): SoldiersRecruitedDomainEvent {
     return new SoldiersRecruitedDomainEvent({
       aggregateId: event.aggregateId,
-      eventId: event.id.toString(),
+      eventId: event.aggregateId.toString(),
       squad: event.toPrimitives().data.squad
     });
   }

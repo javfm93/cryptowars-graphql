@@ -1,36 +1,27 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { SquadsPrimitives } from './Squads';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
-
-type SoldiersFromBattleReceivedDomainEventBody = {
-  readonly eventName: string;
-  readonly aggregateId: string;
-  readonly soldiers: SquadsPrimitives;
-};
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class SoldiersReceivedFromBattleDomainEvent extends BattlefieldExposedEvent {
   static readonly EVENT_NAME = 'battlefield.1.event.army.soldiersReceivedFromBattle';
   readonly squads: SquadsPrimitives;
 
-  constructor(props: {
-    aggregateId: string;
-    eventId?: string;
-    occurredOn?: Date;
-    squads: SquadsPrimitives;
-  }) {
+  constructor(props: OptionalDomainEventProps<SoldiersReceivedFromBattleDomainEvent>) {
     const { aggregateId, eventId, occurredOn, squads } = props;
     super(SoldiersReceivedFromBattleDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
     this.squads = squads;
   }
 
-  toPrimitive(): SoldiersFromBattleReceivedDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<SoldiersReceivedFromBattleDomainEvent> {
     return {
+      eventId: this.eventId,
       eventName: SoldiersReceivedFromBattleDomainEvent.EVENT_NAME,
-      aggregateId: aggregateId,
-      soldiers: this.squads
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn,
+      squads: this.squads
     };
   }
 
@@ -57,11 +48,10 @@ export class SoldiersReceivedFromBattleDomainEvent extends BattlefieldExposedEve
     aggregateId: string,
     eventId: string,
     occurredOn: Date,
-    townId: string,
     squads: SquadsPrimitives
   ): DomainEvent {
     return new SoldiersReceivedFromBattleDomainEvent({
-      aggregateId: aggregateId,
+      aggregateId,
       eventId,
       occurredOn,
       squads

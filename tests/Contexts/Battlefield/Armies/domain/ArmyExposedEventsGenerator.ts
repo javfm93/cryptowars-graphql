@@ -12,7 +12,7 @@ import { Squads } from '../../../../../src/Contexts/Battlefield/Armies/Domain/Sq
 export class ArmyExposedEventsGenerator {
   static ArmyCreated(army: Army): ArmyCreatedDomainEvent {
     return new ArmyCreatedDomainEvent({
-      id: army.id.toString(),
+      aggregateId: army.id.toString(),
       townId: army.townId.toString(),
       playerId: army.playerId.toString()
     });
@@ -49,7 +49,7 @@ export class ArmyExposedEventsGenerator {
   static ArmyAttackedIn(battle: Battle): ArmyAttackedDomainEvent {
     return new ArmyAttackedDomainEvent({
       aggregateId: battle.defenderArmy.id.toString(),
-      squads: battle.result.defenderCasualties.value
+      casualties: battle.result.defenderCasualties.value
     });
   }
 }

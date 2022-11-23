@@ -1,28 +1,26 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
-
-type CreateUserDomainEventBody = {
-  readonly eventName: string;
-  readonly id: string;
-};
+import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
 export class PlayerCreatedDomainEvent extends DomainEvent {
   static readonly EVENT_NAME = 'cryptoWars.1.event.player.created';
 
-  constructor({ id, eventId, occurredOn }: { id: string; eventId?: string; occurredOn?: Date }) {
-    super(PlayerCreatedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
+  constructor(props: OptionalDomainEventProps<PlayerCreatedDomainEvent>) {
+    const { aggregateId, eventId, occurredOn } = props;
+    super(PlayerCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
   }
 
-  toPrimitive(): CreateUserDomainEventBody {
-    const { aggregateId } = this;
+  toPrimitive(): Primitives<PlayerCreatedDomainEvent> {
     return {
+      eventId: this.eventId,
       eventName: PlayerCreatedDomainEvent.EVENT_NAME,
-      id: aggregateId
+      aggregateId: this.aggregateId,
+      occurredOn: this.occurredOn
     };
   }
 
   static fromPrimitives(aggregateId: string, eventId: string, occurredOn: Date): DomainEvent {
     return new PlayerCreatedDomainEvent({
-      id: aggregateId,
+      aggregateId,
       eventId,
       occurredOn
     });

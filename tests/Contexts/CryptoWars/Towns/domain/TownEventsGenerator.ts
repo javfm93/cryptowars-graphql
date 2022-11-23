@@ -6,13 +6,16 @@ import { TownId } from '../../../../../src/Contexts/CryptoWars/Towns/Domain/Town
 
 export class TownEventsGenerator {
   static created(townId: TownId, playerId: PlayerId): TownCreatedDomainEvent {
-    return new TownCreatedDomainEvent({ id: townId.toString(), playerId: playerId.toString() });
+    return new TownCreatedDomainEvent({
+      aggregateId: townId.toString(),
+      playerId: playerId.toString()
+    });
   }
 
   static soldierTrainFinished(
     townId: string,
     soldiers: TownSoldiersPrimitives
   ): TownSoldiersTrainFinished {
-    return new TownSoldiersTrainFinished({ id: townId, soldiers: soldiers });
+    return new TownSoldiersTrainFinished({ aggregateId: townId, soldiers });
   }
 }

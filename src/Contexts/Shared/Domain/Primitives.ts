@@ -6,6 +6,8 @@ type MethodsAndProperties<T> = { [key in keyof T]: T[key] };
 
 type Properties<T> = Omit<MethodsAndProperties<T>, Methods<T>>;
 
+type NativePrimitives = number | string | Date | boolean;
+
 type ValueObjectValue<T> = {
   [key in keyof T]: T[key] extends { value: unknown }
     ? Pick<T[key], 'value'>['value']
@@ -18,4 +20,5 @@ type ValueObjectValue<T> = {
     : T[key];
 };
 
-export type Primitives<T> = ValueObjectValue<Properties<T>>;
+export type Primitives<T> = T extends NativePrimitives ? T : ValueObjectValue<Properties<T>>;
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;

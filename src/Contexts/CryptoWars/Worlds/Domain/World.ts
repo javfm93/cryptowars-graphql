@@ -50,7 +50,7 @@ export class World extends AggregateRoot<WorldProps> {
 
   public addPlayer(player: Player): void {
     this.props.players.add(player);
-    const eventBody = { id: this.id.toString(), playerId: player.id.toString() };
+    const eventBody = { aggregateId: this.id.toString(), playerId: player.id.toString() };
     this.record(new WorldPlayerJoinedDomainEvent(eventBody));
   }
 

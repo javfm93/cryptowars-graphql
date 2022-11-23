@@ -31,15 +31,6 @@ export class CreateBattle implements UseCase<CreateBattleArgs, EmptyResult> {
     if (!defenderArmy) return failure(new ArmyNotFound(attack.defenderArmyId.toString()));
 
     const battle = Battle.create(id, attack, defenderArmy);
-    console.log(
-      'attacker troops:',
-      attack.attackerTroop.squads.value.basic,
-      'defender',
-      defenderArmy.squads.value.basic,
-      'to return',
-      battle.result
-    );
-
     defenderArmy.applyBattleImpact(battle.result.defenderCasualties);
 
     const events = battle.pullDomainEvents().concat(defenderArmy.pullDomainEvents());

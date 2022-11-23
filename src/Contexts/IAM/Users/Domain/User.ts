@@ -24,7 +24,7 @@ export class User extends AggregateRoot<UserProps> {
     const user = new User(id, props);
     user.record(
       new UserCreatedDomainEvent({
-        id: user.id.toString()
+        aggregateId: user.id.toString()
       })
     );
     return user;

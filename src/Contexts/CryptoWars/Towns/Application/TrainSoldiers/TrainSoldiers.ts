@@ -22,6 +22,7 @@ export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
   async execute({ townId, soldiers, playerId }: TrainSoldiersArgs): Promise<TrainSoldiersResult> {
     const town = await this.townRepository.findById(townId);
     if (!town) return failure(new TownNotFound());
+    console.log(playerId.value, town.toPrimitives().playerId);
     if (!town.isManagedBy(playerId)) return failure(new Forbidden());
     town.updateWarehouseAssets();
     if (!town.hasEnoughAssetsToTrain(soldiers)) return failure(new Forbidden());

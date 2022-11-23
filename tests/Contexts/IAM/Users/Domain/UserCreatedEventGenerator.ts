@@ -2,8 +2,8 @@ import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
 import { UserCreatedDomainEvent } from '../../../../../src/Contexts/IAM/Users/Domain/UserCreatedDomainEvent';
 
 export class UserCreatedEventGenerator {
-  static create(id: string): UserCreatedDomainEvent {
-    return new UserCreatedDomainEvent({ id });
+  static create(aggregateId: string): UserCreatedDomainEvent {
+    return new UserCreatedDomainEvent({ aggregateId });
   }
 
   static random(): UserCreatedDomainEvent {

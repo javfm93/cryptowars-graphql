@@ -12,6 +12,7 @@ import { InvalidSoldier } from '../../../../../Contexts/CryptoWars/Towns/Domain/
 import { InvalidNumberOfSoldiers } from '../../../../../Contexts/CryptoWars/Towns/Domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from '../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TownNotFound';
 import { Forbidden } from '../../../../../Contexts/Shared/Domain/Errors/Forbidden';
+import { logger } from '../../../../../Contexts/Shared/Infrastructure/WinstonLogger';
 
 type RequestParams = {
   id: string;
@@ -32,6 +33,7 @@ export class TrainSoldiersPostController implements Controller {
   }
 
   private handleError(res: Response, error: TrainSoldiersCommandErrors) {
+    logger.error(error.stack);
     if (error.isEqualTo(InvalidSoldier) || error.isEqualTo(InvalidNumberOfSoldiers)) {
       res.status(httpStatus.BAD_REQUEST).send(error.message);
     }

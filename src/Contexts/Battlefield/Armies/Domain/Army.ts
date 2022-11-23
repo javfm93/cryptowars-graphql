@@ -74,7 +74,7 @@ export class Army extends AggregateRoot {
     this.record(
       new ArmyAttackedDomainEvent({
         aggregateId: this.id.toString(),
-        squads: casualties.value
+        casualties: casualties.value
       })
     );
     this.squads.reduce(casualties);
@@ -84,7 +84,7 @@ export class Army extends AggregateRoot {
     const army = new Army(props.id, props.townId, props.playerId, props.squads);
     army.record(
       new ArmyCreatedDomainEvent({
-        id: army.id.toString(),
+        aggregateId: army.id.toString(),
         townId: army.townId.toString(),
         playerId: army.playerId.toString()
       })
@@ -126,7 +126,7 @@ export class Army extends AggregateRoot {
         army.receiveSquadsFromBattle(Squads.fromPrimitives(soldiersReceived.squads));
       } else if (ArmyAttackedDomainEvent.isMe(event)) {
         const armyAttacked = ArmyAttackedDomainEvent.fromBattlefieldInternalEvent(event);
-        army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.squads));
+        army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.casualties));
       } else {
         throw Error(`Unknown event [${event.id}] for army materialization with name ${event.name}`);
       }

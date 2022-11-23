@@ -1,5 +1,7 @@
+@train-soldiers
 Feature: As player, I want to train Soldiers for my town
 
+  @train-soldiers-1
   Scenario: If I own the town, the soldiers should be created
     Given I am sign in
     Given I joined a world
@@ -16,6 +18,7 @@ Feature: As player, I want to train Soldiers for my town
     And The town request response should be empty
     And The town should have less assets
 
+  @train-soldiers-2
   Scenario: If I dont have enough essence, should return forbidden
     Given I am sign in
     Given I joined a world
@@ -31,9 +34,13 @@ Feature: As player, I want to train Soldiers for my town
     Then The town request response status code should be 403
     And The town request response should be empty
 
+  @train-soldiers-3
   Scenario: If I dont own the town should return forbidden
     Given I am sign in
     Given I joined a world
+    Given Other user is signed in
+    Given Other user is in the same world
+    Given Other user has his player information
     When I send a POST request to train-soldiers endpoint with not my town and body:
     """
     {
@@ -42,8 +49,8 @@ Feature: As player, I want to train Soldiers for my town
       }
     }
     """
-    Then the response status code should be 403
-    And the response should be empty
+    Then The town request response status code should be 403
+    And The town request response should be empty
 
   Scenario: If the town dont exist, should return not found
     Given I am sign in

@@ -76,11 +76,11 @@ export class Server {
     return new Promise(resolve => {
       this.httpServer = this.express.listen(this.port, () => {
         this.logger.info(
-          `  Crypto Wars Backend App is running at http://localhost:${
+          `Crypto Wars Backend App is running at http://localhost:${
             this.port
           } in ${this.express.get('env')} mode`
         );
-        this.logger.info('  Press CTRL-C to stop\n');
+        this.logger.info('Press CTRL-C to stop');
         resolve();
       });
     });

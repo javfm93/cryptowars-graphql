@@ -1,11 +1,17 @@
 import convict from 'convict';
 
-const cryptowarsConfig = convict({
+const cryptoWarsConfig = convict({
   env: {
     doc: 'The application environment.',
     format: ['production', 'development', 'integration', 'test'],
     default: 'default',
     env: 'NODE_ENV'
+  },
+  checkTasksEveryInMs: {
+    doc: 'Time between checks of tasks to process',
+    format: Number,
+    env: 'CHECK_TASKS_EVERY_IN_MS',
+    default: '1000'
   },
   typeorm: {
     database: {
@@ -23,6 +29,6 @@ const cryptowarsConfig = convict({
   }
 });
 
-cryptowarsConfig.loadFile([__dirname + '/' + cryptowarsConfig.get('env') + '.json']);
+cryptoWarsConfig.loadFile([__dirname + '/' + cryptoWarsConfig.get('env') + '.json']);
 
-export default cryptowarsConfig;
+export default cryptoWarsConfig;
