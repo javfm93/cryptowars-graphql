@@ -1,3 +1,4 @@
+@cryptoWars
 @join-world
 Feature: As player, I want to select a world to start a game
 

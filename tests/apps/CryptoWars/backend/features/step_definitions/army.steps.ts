@@ -21,7 +21,7 @@ export const retrieveOtherPlayerArmyInformation = async () => {
   const finalRoute = '/army?townId=:townId'.replace(/:townId/gi, otherUserPlayer.towns[0].id);
   const response = await otherUserAgent.get(finalRoute).send();
   otherPlayerArmy = response.body.army;
-  console.log('-----------', otherPlayerArmy.squads);
+  console.log('------other squads-----', otherPlayerArmy.squads);
 };
 
 Given('I have {int} basic soldiers in my army', async (numberOfSoldiers: number) => {
@@ -31,11 +31,7 @@ Given('I have {int} basic soldiers in my army', async (numberOfSoldiers: number)
       basic: numberOfSoldiers
     }
   });
-  while (!playerArmy || playerArmy.squads.basic === 0) {
-    await sleep(1500);
-    await retrievePlayerArmyInformation();
-    console.log(playerArmy?.squads.basic);
-  }
+  await waitForPlayerArmyToHaveNSoldiers(numberOfSoldiers);
 });
 
 export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -47,6 +43,7 @@ Given('Other player has {int} basic soldiers in his army', async (numberOfSoldie
       basic: numberOfSoldiers
     }
   });
+  await waitForOtherPlayerArmyToHaveNSoldiers(numberOfSoldiers);
 });
 
 Given('I get my army', async () => {
@@ -83,5 +80,20 @@ Then('The army response should contain:', async (body: string) => {
 });
 
 Then('My Army should have {int} soldiers', async (numberOfSoldiers: number) => {
+  await waitForPlayerArmyToHaveNSoldiers(numberOfSoldiers);
   assert.strictEqual(playerArmy.squads.basic, numberOfSoldiers);
 });
+
+const waitForPlayerArmyToHaveNSoldiers = async (soldiers: number) => {
+  while (!playerArmy || playerArmy.squads.basic !== soldiers) {
+    await sleep(300);
+    await retrievePlayerArmyInformation();
+  }
+};
+
+const waitForOtherPlayerArmyToHaveNSoldiers = async (soldiers: number) => {
+  while (!otherPlayerArmy || otherPlayerArmy.squads.basic !== soldiers) {
+    await sleep(300);
+    await retrieveOtherPlayerArmyInformation();
+  }
+};

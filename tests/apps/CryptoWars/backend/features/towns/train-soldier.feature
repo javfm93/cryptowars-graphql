@@ -1,3 +1,4 @@
+@cryptoWars
 @train-soldiers
 Feature: As player, I want to train Soldiers for my town
 

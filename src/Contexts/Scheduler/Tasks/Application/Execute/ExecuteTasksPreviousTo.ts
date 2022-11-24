@@ -12,11 +12,14 @@ export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
 
   async execute(timestamp: number): Promise<SendAttackResult> {
     const tasks = await this.taskRepository.findTaskPreviousThan(timestamp);
-    await this.eventBus.publish(tasks.getEventsToTrigger());
-    tasks.markAsFinished();
-    await this.taskRepository.saveMultiple(tasks);
+
+    if (tasks.getItems().length) {
+      await this.eventBus.publish(tasks.getEventsToTrigger());
+      tasks.markAsFinished();
+      await this.taskRepository.updateMultiple(tasks);
+      if (tasks.getItems().length) logger.debug(`${tasks.getItems().length} tasks dispatched`);
+    }
     logger.sampledOneTenthInfo(`${tasks.getItems().length} tasks dispatched`);
-    logger.debug(`${tasks.getItems().length} tasks dispatched`);
     return success();
   }
 }

@@ -1,13 +1,13 @@
 import { UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
 import { Squads } from '../../Domain/Squads';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
+import { ArmyId } from '../../Domain/ArmyId';
 
 type ReturnBattleSoldiersArgs = {
-  townId: TownId;
+  armyId: ArmyId;
   squad: Squads;
 };
 
@@ -19,8 +19,8 @@ export class ReceiveSoldiersFromBattle implements UseCase<ReturnBattleSoldiersAr
     private eventBus: EventBus
   ) {}
 
-  async execute({ townId, squad }: ReturnBattleSoldiersArgs): Promise<ReturnBattleSoldiersResult> {
-    const army = await this.eventRepository.materializeArmyByArmyId(townId);
+  async execute({ armyId, squad }: ReturnBattleSoldiersArgs): Promise<ReturnBattleSoldiersResult> {
+    const army = await this.eventRepository.materializeArmyByArmyId(armyId);
     if (!army) return failure(new ArmyNotFound());
     army.receiveSquadsFromBattle(squad);
     const events = army.pullDomainEvents();

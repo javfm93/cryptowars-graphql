@@ -32,7 +32,7 @@ export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiers
     const soldiersCreation = TownSoldiers.create(command.soldiers);
     if (soldiersCreation.isFailure()) return failure(soldiersCreation.value);
     const soldiers = soldiersCreation.value;
-    logger.debug(`Request to train ${command.soldiers.basic} basic `);
+    logger.debug(`Command to train ${command.soldiers.basic} basic soldiers`);
     const trainSoldiers = await this.trainSoldiers.execute({ playerId, townId, soldiers });
     return trainSoldiers.isSuccess() ? success() : failure(trainSoldiers.value);
   }

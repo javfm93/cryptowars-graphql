@@ -15,7 +15,7 @@ export class TaskRepositoryMock implements TaskRepository {
     expect(this.mockSave).toBeCalledWith(expectedTask);
   }
 
-  async saveMultiple(task: Tasks): Promise<void> {
+  async updateMultiple(task: Tasks): Promise<void> {
     this.mockSaveMultiple(task);
   }
 

@@ -1,25 +1,49 @@
 import { DomainEvent } from '../../../Domain/DomainEvent';
 import { DomainEventSubscriber } from '../../../Domain/DomainEventSubscriber';
 import { EventBus } from '../../../Domain/EventBus';
-import { DomainEventMapping } from '../DomainEventMapping';
-import { EventEmitterBus } from '../EventEmitterBus';
+import { logger } from '../../WinstonLogger';
+
+type Subscription = {
+  boundedCallback: Function;
+  originalCallback: Function;
+};
 
 export class InMemoryAsyncEventBus implements EventBus {
-  private bus: EventEmitterBus;
+  private subscriptions: Map<string, Array<Subscription>>;
 
-  constructor(subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>>) {
-    this.bus = new EventEmitterBus(subscribers);
+  constructor() {
+    this.subscriptions = new Map();
   }
 
-  async start(): Promise<void> {}
-
-  async publish(events: DomainEvent<Record<string, unknown>>[]): Promise<void> {
-    this.bus.publish(events);
+  async publish(events: Array<DomainEvent<any>>): Promise<void> {
+    logger.debug(`publishing events: ${events.map(e => e.type).join(' | ')}`);
+    logger.debug(
+      `publishing bodies: ${events.map(e => JSON.stringify(e.attributes, null, 4)).join(' | ')}`
+    );
+    events.map(event => {
+      const subscribers = this.subscriptions.get(event.type);
+      if (subscribers) {
+        subscribers.map(subscriber => subscriber.boundedCallback(event));
+      }
+    });
   }
 
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>>) {
-    this.bus.registerSubscribers(subscribers);
+  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent<any>>>) {
+    subscribers.map(subscriber =>
+      subscriber.subscribedTo().map(event => this.subscribe(event.TYPE!, subscriber))
+    );
   }
 
-  setDomainEventMapping(domainEventMapping: DomainEventMapping): void {}
+  private subscribe(topic: string, subscriber: DomainEventSubscriber<DomainEvent<any>>): void {
+    const currentSubscriptions = this.subscriptions.get(topic);
+    const subscription = {
+      boundedCallback: subscriber.on.bind(subscriber),
+      originalCallback: subscriber.on
+    };
+    if (currentSubscriptions) {
+      currentSubscriptions.push(subscription);
+    } else {
+      this.subscriptions.set(topic, [subscription]);
+    }
+  }
 }

@@ -25,6 +25,7 @@ export class RecruitSquad implements UseCase<RecruitSoldiersArgs, EmptyResult> {
     if (!army) return failure(new ArmyNotFound());
     army.recruit(squads);
     const events = army.pullDomainEvents();
+    logger.info(`saving events ${events.map(e => e.type).join(' ^ ')}`);
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
     await this.eventBus.publish(events);
     logger.debug(`${squads.value.basic} basic soldiers added to army ${army.id.toString()} squad`);

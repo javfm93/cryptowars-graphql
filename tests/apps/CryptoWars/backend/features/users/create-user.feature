@@ -1,3 +1,4 @@
+@iam
 Feature: As player, I want to create a new user
 
   Scenario: A valid not existent user

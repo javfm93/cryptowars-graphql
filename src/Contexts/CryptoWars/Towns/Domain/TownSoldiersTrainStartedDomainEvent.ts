@@ -13,7 +13,7 @@ export class TownSoldiersTrainStarted extends DomainEvent<Attributes> {
 
   constructor(props: OptionalDomainEventProps<TownSoldiersTrainStarted>) {
     const { aggregateId, id, occurredOn, attributes, meta } = props;
-    super(TownSoldiersTrainFinished.TYPE, aggregateId, attributes, meta, occurredOn, id);
+    super(TownSoldiersTrainStarted.TYPE, aggregateId, attributes, meta, occurredOn, id);
   }
 
   toTaskRequest(): TaskRequestedDomainEvent {

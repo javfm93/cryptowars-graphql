@@ -12,29 +12,37 @@ export class SqliteTaskRepository
 {
   public async save(task: Task): Promise<void> {
     const repository = await this.repository();
-    const t = task.toPrimitives();
-    await repository
-      .createQueryBuilder()
-      .insert()
-      .values({
-        id: t.id,
-        triggerAt: t.triggerAt,
-        eventToTrigger: () => `'${JSON.stringify(t.eventToTrigger)}'`,
-        createdAt: t.createdAt,
-        status: t.status
-      })
-      .execute();
+    await repository.createQueryBuilder().insert().values(this.fromTaskToDb(task)).execute();
   }
 
-  public async saveMultiple(tasks: Tasks): Promise<void> {
+  public async updateMultiple(tasks: Tasks): Promise<void> {
     const repository = await this.repository();
-    await repository.save(tasks.toPrimitives());
+    for (const t of tasks.getItems()) {
+      await repository
+        .createQueryBuilder()
+        .update()
+        .set(this.fromTaskToDb(t))
+        .where('id = :id', { id: t.id })
+        .execute();
+    }
+  }
+
+  private fromTaskToDb(task: Task) {
+    const t = task.toPrimitives();
+    return {
+      id: t.id,
+      triggerAt: t.triggerAt,
+      eventToTrigger: () => `'${JSON.stringify(t.eventToTrigger)}'`,
+      createdAt: t.createdAt,
+      status: t.status
+    };
   }
 
   public async findTaskPreviousThan(timestamp: number): Promise<Tasks> {
+    // todo: test that we dont return in invalid status
     const repository = await this.repository();
     const tasks = await repository.find({
-      where: { triggerAt: LessThanOrEqual(timestamp) }
+      where: { triggerAt: LessThanOrEqual(timestamp), status: 'waiting' }
     });
     return Tasks.fromPrimitives(tasks);
   }

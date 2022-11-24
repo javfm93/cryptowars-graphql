@@ -1,4 +1,6 @@
+@iam
 Feature: As user, I want to login to access the application
+
   Scenario: A valid existent user
     Given I send a PUT request to "/users/ef8ac118-8d7f-49cc-abec-78e0d05af80a" with body:
     """

@@ -21,7 +21,7 @@ export class TownSoldiersTrainFinished extends DomainEvent<Attributes> {
       aggregateId: this.aggregateId,
       occurredOn: this.occurredOn,
       type: TownSoldiersTrainFinished.TYPE,
-      attributes: { data: this.attributes },
+      attributes: this.attributes,
       meta: {}
     };
   }

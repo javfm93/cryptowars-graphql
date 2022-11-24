@@ -7,7 +7,6 @@ import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../../Players/Domain/PlayerId';
-import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 type TrainSoldiersArgs = {
   playerId: PlayerId;
@@ -29,7 +28,6 @@ export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
     town.train(soldiers);
     await this.townRepository.save(town);
     await this.eventBus.publish(town.pullDomainEvents());
-    logger.info(`train of ${soldiers.value.basic} basic soldiers started`);
     return success();
   }
 }

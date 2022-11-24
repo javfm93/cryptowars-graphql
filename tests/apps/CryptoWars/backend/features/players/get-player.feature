@@ -1,3 +1,4 @@
+@cryptoWars
 @get-player
 Feature: As player, I want to see all my details
 

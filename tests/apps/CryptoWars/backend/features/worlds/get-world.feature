@@ -1,3 +1,4 @@
+@cryptoWars
 Feature: As player, I want to know all the towns in a world
 
   @get-world

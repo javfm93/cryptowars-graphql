@@ -20,7 +20,7 @@ export class FindArmyByTownQueryHandler
   }
 
   async handle(query: FindArmyByTownQuery): Promise<FindArmyByTownQueryResult> {
-    logger.debug(`Searching Army for town ${query.townId}`);
+    logger.debug(`Queried Army for town ${query.townId}`);
     const playerId = PlayerId.create(query.playerId);
     const townId = TownId.create(query.townId);
     return this.findArmyByTownId.execute({ playerId, townId });

@@ -2,27 +2,27 @@ services:
 
   Shared.QueryHandlersInformation:
     class: ../../../../../Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation
-    arguments: ['!tagged queryHandler']
+    arguments: [ '!tagged queryHandler' ]
 
   Shared.QueryBus:
     class: ../../../../../Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus
-    arguments: ['@Shared.QueryHandlersInformation']
+    arguments: [ '@Shared.QueryHandlersInformation' ]
 
   Shared.CommandHandlersInformation:
     class: ../../../../../Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation
-    arguments: ['!tagged commandHandler']
+    arguments: [ '!tagged commandHandler' ]
 
   Shared.CommandBus:
     class: ../../../../../Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus
-    arguments: ['@Shared.CommandHandlersInformation']
+    arguments: [ '@Shared.CommandHandlersInformation' ]
 
   Shared.Logger:
     class: ../../../../../Contexts/Shared/Infrastructure/WinstonLogger
-    arguments: []
+    arguments: [ ]
 
   Shared.EventBus:
-    class: ../../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemorySyncEventBus
-    arguments: []
+    class: ../../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus
+    arguments: [ ]
 
   Shared.TypeOrmConfig:
     factory:
@@ -33,4 +33,4 @@ services:
     factory:
       class: ../../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory
       method: 'createClient'
-    arguments: ['Shared', '@Shared.TypeOrmConfig']
+    arguments: [ 'Shared', '@Shared.TypeOrmConfig' ]

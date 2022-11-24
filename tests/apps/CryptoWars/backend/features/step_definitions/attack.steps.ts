@@ -1,7 +1,7 @@
 import { Given, Then } from '@cucumber/cucumber';
 import { agent } from './controller.steps';
 import { otherUserPlayer } from './player.steps';
-import { otherPlayerArmy, playerArmy } from './army.steps';
+import { otherPlayerArmy, playerArmy, sleep } from './army.steps';
 import assert from 'assert';
 import request from 'supertest';
 import { v4 } from 'uuid';
@@ -29,6 +29,12 @@ Given('I send an attack with 2 basic soldiers', async () => {
     }
   };
   await agent.put(route).send(body);
+  const battlesRoute = `/battles?armyId=${playerArmy.id}`;
+  let battles;
+  while (!battles?.body.battles.length) {
+    battles = await agent.get(battlesRoute).send();
+    await sleep(300);
+  }
 });
 
 Then('The attack response status code should be {int}', async (status: number) => {

@@ -4,7 +4,6 @@ import { Server } from './server';
 import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
 import { DomainEventSubscriber } from '../../../Contexts/Shared/Domain/DomainEventSubscriber';
 import { DomainEvent } from '../../../Contexts/Shared/Domain/DomainEvent';
-import { DomainEventMapping } from '../../../Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
 import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';
 import { ExecuteTasksPreviousToCommand } from '../../../Contexts/Scheduler/Tasks/Application/Execute/ExecuteTasksPreviousToCommand';
 import { logger } from '../../../Contexts/Shared/Infrastructure/WinstonLogger';
@@ -43,13 +42,8 @@ export class CryptoWarsBackendApp {
       Definition
     >;
     const subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>> = [];
-
     subscriberDefinitions.forEach((value: any, key: any) => subscribers.push(container.get(key)));
-    const domainEventMapping = new DomainEventMapping(subscribers);
-
-    eventBus.setDomainEventMapping(domainEventMapping);
     eventBus.addSubscribers(subscribers);
-    await eventBus.start();
   }
 
   private initScheduler() {

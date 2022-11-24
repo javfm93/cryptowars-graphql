@@ -18,7 +18,7 @@ describe('[infra] TaskRepository', () => {
     });
     it('should save multiple task', async () => {
       const tasks = TaskGenerator.multipleRandom();
-      await repository.saveMultiple(tasks);
+      await repository.updateMultiple(tasks);
     });
   });
 
@@ -28,7 +28,7 @@ describe('[infra] TaskRepository', () => {
     beforeEach(async () => {
       await repository.clear();
       expectedTasks = TaskGenerator.multipleRandom();
-      await repository.saveMultiple(expectedTasks);
+      await repository.updateMultiple(expectedTasks);
     });
 
     it('should return the tasks to execute', async () => {

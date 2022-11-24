@@ -1,3 +1,4 @@
+@cryptoWars
 Feature: As player, I want to know what are the worlds available to play
 
   Scenario:

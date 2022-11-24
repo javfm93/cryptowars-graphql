@@ -1,3 +1,4 @@
+@battlefield
 @get-army
 Feature: As player, I want to know what is the army of my town
 

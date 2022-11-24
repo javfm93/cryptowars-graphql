@@ -5,6 +5,6 @@
   "typeorm": {
     "database": "crypto-wars-integration.db"
   },
-  "checkTasksEveryInMs": 1000,
+  "checkTasksEveryInMs": 300,
   "logLevel": "debug"
 }

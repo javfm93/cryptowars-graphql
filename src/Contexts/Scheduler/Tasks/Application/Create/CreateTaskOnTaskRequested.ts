@@ -5,6 +5,7 @@ import { TaskId } from '../../Domain/TaskId';
 import { TaskRequestedDomainEvent } from '../../Domain/TaskRequestedDomainEvent';
 import { FutureUnixTimestamp } from '../../Domain/FutureUnixTimestamp';
 import { TaskEventToTrigger } from '../../Domain/TaskEventToTrigger';
+import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export class CreateTaskOnTaskRequested implements DomainEventSubscriber<TaskRequestedDomainEvent> {
   constructor(private createTask: CreateTask) {}
@@ -16,8 +17,7 @@ export class CreateTaskOnTaskRequested implements DomainEventSubscriber<TaskRequ
   async on(domainEvent: TaskRequestedDomainEvent) {
     const id = TaskId.create(domainEvent.aggregateId);
     const triggerAt = FutureUnixTimestamp.create(domainEvent.attributes.triggerAt);
-    // todo: what happens with this throw? should I log it?
-    if (triggerAt.isFailure()) throw triggerAt.value;
+    if (triggerAt.isFailure()) return logger.error(triggerAt.value.stack);
     const eventToTrigger = new TaskEventToTrigger(domainEvent.attributes.eventToTrigger);
     await this.createTask.execute({ id, triggerAt: triggerAt.value, eventToTrigger });
   }

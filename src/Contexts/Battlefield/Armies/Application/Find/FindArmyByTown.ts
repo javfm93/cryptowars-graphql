@@ -6,7 +6,6 @@ import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
-import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type FindArmyErrors = ArmyNotFound | Forbidden;
 type FindArmyResult = Either<Army, FindArmyErrors>;
@@ -23,7 +22,6 @@ export class FindArmyByTown implements UseCase<FindArmyArgs, Army> {
     const army = await this.eventRepository.materializeArmyByTownId(townId);
     if (!army) return failure(new ArmyNotFound());
     if (!army.isCommandedBy(playerId)) return failure(new Forbidden());
-    logger.debug(`Army found for town ${townId}`);
     return successAndReturn(army);
   }
 }
