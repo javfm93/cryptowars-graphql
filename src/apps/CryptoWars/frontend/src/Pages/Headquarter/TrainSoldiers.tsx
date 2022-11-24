@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,7 +10,11 @@ import { Button, Input } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/CryptoWars/Towns/TrainSoldiersPostRequest';
 import { SquadsPrimitives } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
-import { TownSoldier } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldier';
+import {
+  TownSoldier,
+  TownSoldierTypes
+} from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldier';
+import { TownSoldiersPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldiers';
 
 interface TrainSoldiersProps {
   townUnits: Array<TownSoldier>;
@@ -25,12 +29,19 @@ export const TrainSoldiers = ({
   townArmySquads
 }: TrainSoldiersProps): JSX.Element => {
   const { t } = useTranslation();
-  const [basicSoldiersToTrain, setBasicSoldiersToTrain] = useState<number>(0);
+  const [soldiersToTrain, setSoldiersToTrain] = useState<TownSoldiersPrimitives>({
+    basic: 0,
+    range: 0
+  });
 
   const trainSoldiers = () =>
     onTrainSoldiers({
-      soldiers: { basic: basicSoldiersToTrain }
+      soldiers: soldiersToTrain
     });
+
+  const onChange =
+    (unit: TownSoldierTypes) => (value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setSoldiersToTrain(previous => ({ ...previous, [unit]: parseInt(value.target.value) }));
   return (
     <>
       <TableContainer component={Paper}>
@@ -39,8 +50,9 @@ export const TrainSoldiers = ({
             <TableRow>
               <TableCell>{t('town.buildings.headquarter.unitType')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.unitCost')}</TableCell>
-              <TableCell align="right">{t('town.buildings.headquarter.attack')}</TableCell>
-              <TableCell align="right">{t('town.buildings.headquarter.defense')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.speed')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.capacity')}</TableCell>
+              <TableCell align="right">{t('town.buildings.headquarter.time')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.recruited')}</TableCell>
               <TableCell align="right">{t('town.buildings.headquarter.train')}</TableCell>
             </TableRow>
@@ -52,14 +64,17 @@ export const TrainSoldiers = ({
                   {unit.name}
                 </TableCell>
                 <TableCell align="right">{unit.cost}</TableCell>
-                <TableCell align="right">{unit.attack}</TableCell>
-                <TableCell align="right">{unit.defense}</TableCell>
-                <TableCell align="right">{townArmySquads[unit.name]}</TableCell>
+                <TableCell align="right">{unit.speed}</TableCell>
+                <TableCell align="right">{unit.capacity}</TableCell>
+                <TableCell align="right">{unit.time}</TableCell>
+                <TableCell align="right">
+                  {unit.name === 'basic' ? townArmySquads[unit.name] : 0}
+                </TableCell>
                 <TableCell align="right">
                   <Input
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                    onChange={value => setBasicSoldiersToTrain(parseInt(value.target.value))}
-                    defaultValue={basicSoldiersToTrain}
+                    onChange={onChange(unit.name)}
+                    defaultValue={soldiersToTrain[unit.name]}
                   />
                 </TableCell>
               </TableRow>

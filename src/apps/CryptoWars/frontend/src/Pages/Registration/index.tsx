@@ -23,7 +23,8 @@ export function Registration() {
     const email = data.get('email')?.toString();
     const password = data.get('password')?.toString();
     if (email && password) {
-      registration.execute(email, password);
+      if (email !== 'test2@email.es') registration.execute('test@email.es', 'P@ssw0rd');
+      else registration.execute(email, 'P@ssw0rd');
     }
   };
 

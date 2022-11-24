@@ -18,15 +18,20 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
   ): Either<TownSoldiers, InvalidSoldier | InvalidNumberOfSoldiers> {
     if (!soldiers) return failure(new InvalidNumberOfSoldiers());
     const soldiersToCreate = Object.entries(soldiers);
+    let thereIsAPositiveNumberOfSoldiers = false;
     for (const soldierToCreate of soldiersToCreate) {
       const [soldier, numberOfSoldiers] = soldierToCreate;
       if (!Object.keys(TownSoldierTypes).includes(soldier)) {
         return failure(new InvalidSoldier(soldier));
       }
-      if (numberOfSoldiers < 1) {
+      if (numberOfSoldiers < 0) {
         return failure(new InvalidNumberOfSoldiers());
       }
+      if (numberOfSoldiers > 0) {
+        thereIsAPositiveNumberOfSoldiers = true;
+      }
     }
+    if (!thereIsAPositiveNumberOfSoldiers) return failure(new InvalidNumberOfSoldiers());
 
     return successAndReturn(new TownSoldiers(soldiers));
   }

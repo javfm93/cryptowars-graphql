@@ -19,7 +19,7 @@ export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
       await this.taskRepository.updateMultiple(tasks);
       logger.debug(`${tasks.getItems().length} tasks dispatched`);
     }
-    logger.sampledOneTenthInfo(`${tasks.getItems().length} tasks dispatched`);
+    logger.sampledOneSixtyInfo(`${tasks.getItems().length} tasks dispatched`);
     return success();
   }
 }

@@ -32,10 +32,16 @@ Feature: As player, I want to see all my details
                     "type": "creator",
                     "units": [
                       {
-                        "name": "basic",
+                        "capacity": 5,
                         "cost": 1,
-                        "attack": 10,
-                        "defense": 5
+                        "name": "basic",
+                        "speed": 10
+                      },
+                      {
+                        "capacity": 20,
+                        "cost": 1,
+                        "name": "range",
+                        "speed": 5
                       }
                     ]
                   },

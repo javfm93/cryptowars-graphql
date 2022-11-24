@@ -12,6 +12,9 @@
           "unitCost": "Cost",
           "attack": "attack",
           "defense": "defense",
+          "speed": "speed",
+          "capacity": "capacity",
+          "time": "time",
           "recruited": "Recruited",
           "units": {
             "soldier": "Soldier"

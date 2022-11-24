@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { useTrainSoldiers } from './useTrainSoldiers';
 import { useParams } from 'react-router-dom';
 import { useTownArmy } from './useTownArmy';
@@ -9,7 +8,6 @@ import { BattleHistory } from './BattleHistory';
 import { TrainSoldiers } from './TrainSoldiers';
 
 export const HeadquarterPage = (): JSX.Element => {
-  const { t } = useTranslation();
   const { id } = useParams();
   if (!id) return <p> Not Valid Town Id</p>;
   const { trainSoldiers } = useTrainSoldiers(id);

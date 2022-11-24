@@ -1,17 +1,28 @@
 export enum TownSoldierTypes {
-  basic = 'basic'
+  basic = 'basic',
+  range = 'range'
 }
 
 export type TownSoldier = {
   name: TownSoldierTypes;
-  attack: number;
-  defense: number;
+  speed: number;
+  capacity: number;
+  time: number;
   cost: number;
 };
 
 export const basicSoldier: TownSoldier = {
   name: TownSoldierTypes.basic,
-  attack: 10,
-  defense: 5,
+  speed: 10,
+  capacity: 5,
+  time: 1,
+  cost: 1
+};
+
+export const rangeSoldier: TownSoldier = {
+  name: TownSoldierTypes.range,
+  speed: 5,
+  capacity: 20,
+  time: 10,
   cost: 1
 };

@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { isDeepStrictEqual } from 'util';
 import { calculateMsSince, fromMsToHours } from './TimeUtils';
-import { basicSoldier } from './TownSoldier';
+import { basicSoldier, rangeSoldier } from './TownSoldier';
 import {
   EssenceGenerator,
   Headquarter,
@@ -16,7 +16,7 @@ export type TownBuildingsPrimitives = {
   warehouse: Warehouse;
 };
 
-const HeadQuarterUnits = [basicSoldier];
+const HeadQuarterUnits = [basicSoldier, rangeSoldier];
 
 export class TownBuildings extends ValueObject<TownBuildings> {
   private constructor(readonly value: TownBuildingsPrimitives) {

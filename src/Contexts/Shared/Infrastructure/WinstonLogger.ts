@@ -9,9 +9,9 @@ enum Levels {
   INFO = 'info'
 }
 
-const sampleOneTenth = (cb: () => void) => {
-  const random1ToT10 = Math.floor(Math.random() * 10) + 1;
-  if (random1ToT10 > 9) {
+const sampleOneSixty = (cb: () => void) => {
+  const random1ToT60 = Math.floor(Math.random() * 60) + 1;
+  if (random1ToT60 > 59) {
     cb();
   }
 };
@@ -58,10 +58,10 @@ class WinstonLogger implements Logger {
     this.logger.debug(`at (${getLogLocation()}`);
   }
 
-  sampledOneTenthInfo(message?: string) {
+  sampledOneSixtyInfo(message?: string) {
     const logLocation = getLogLocation();
 
-    sampleOneTenth(() => {
+    sampleOneSixty(() => {
       this.logger.info(message);
       this.logger.debug(`at (${logLocation}`);
     });

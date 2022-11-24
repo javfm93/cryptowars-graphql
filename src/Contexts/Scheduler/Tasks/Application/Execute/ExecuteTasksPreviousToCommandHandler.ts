@@ -4,7 +4,6 @@ import { ExecuteTasksPreviousTo } from './ExecuteTasksPreviousTo';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
-import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type SendAttackCommandResult = Either<EmptyResult, DomainError>;
 
@@ -18,7 +17,6 @@ export class ExecuteTasksPreviousToCommandHandler
   }
 
   async handle(command: ExecuteTasksPreviousToCommand): Promise<SendAttackCommandResult> {
-    logger.debug(`executing tasks previous to ${new Date(command.timestamp).toISOString()}`);
     const sendAttack = await this.executeTasksPreviousTo.execute(command.timestamp);
     return sendAttack.isSuccess() ? success() : failure(sendAttack.value);
   }

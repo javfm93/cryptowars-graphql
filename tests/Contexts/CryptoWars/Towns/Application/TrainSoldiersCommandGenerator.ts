@@ -15,7 +15,10 @@ export class TrainSoldiersCommandGenerator {
   }
 
   static random(): TrainSoldiersCommand {
-    const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and9() };
+    const soldiers: TownSoldiersPrimitives = {
+      basic: NumberGenerator.randomBetween1and9(),
+      range: 0
+    };
     return this.create(
       PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),
@@ -24,22 +27,31 @@ export class TrainSoldiersCommandGenerator {
   }
 
   static randomFor(town: Town): TrainSoldiersCommand {
-    const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and9() };
+    const soldiers: TownSoldiersPrimitives = {
+      basic: NumberGenerator.randomBetween1and9(),
+      range: 0
+    };
     return this.create(town.toPrimitives().playerId, town.id.toString(), soldiers);
   }
 
   static invalidDueToSoldiersOverCost(town: Town): TrainSoldiersCommand {
-    const soldiers: TownSoldiersPrimitives = { basic: 99999999999 };
+    const soldiers: TownSoldiersPrimitives = { basic: 99999999999, range: 0 };
     return this.create(town.toPrimitives().playerId, town.id.toString(), soldiers);
   }
 
   static invalidDueToPlayerNotOwningTheTown(town: Town): TrainSoldiersCommand {
-    const soldiers: TownSoldiersPrimitives = { basic: NumberGenerator.randomBetween1and9() };
+    const soldiers: TownSoldiersPrimitives = {
+      basic: NumberGenerator.randomBetween1and9(),
+      range: 0
+    };
     return this.create(PlayerIdGenerator.random().toString(), town.id.toString(), soldiers);
   }
 
   static invalidDueToNegativeSoldiers(): TrainSoldiersCommand {
-    const soldiers: TownSoldiersPrimitives = { basic: -NumberGenerator.randomBetween1and9() };
+    const soldiers: TownSoldiersPrimitives = {
+      basic: -NumberGenerator.randomBetween1and9(),
+      range: 0
+    };
     return this.create(
       PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),
@@ -48,7 +60,7 @@ export class TrainSoldiersCommandGenerator {
   }
 
   static invalidDueToNotSupportedSoldiers(): TrainSoldiersCommand {
-    const soldiers = { basic: NumberGenerator.randomBetween1and9(), illegal: 3 };
+    const soldiers = { basic: NumberGenerator.randomBetween1and9(), illegal: 3, range: 0 };
     return this.create(
       PlayerIdGenerator.random().toString(),
       TownIdGenerator.random().toString(),

@@ -1,6 +1,5 @@
-// todo: this should be units
+import { TownSoldiersPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldiers';
+
 export type TrainSoldiersPostRequest = {
-  soldiers: {
-    basic: number;
-  };
+  soldiers: TownSoldiersPrimitives;
 };
