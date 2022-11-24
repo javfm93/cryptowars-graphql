@@ -16,12 +16,8 @@ import { mockTimeCleanUp, mockTimeSetup } from '../../../Shared/__mocks__/MockTi
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
 
-jest.mock('uuid', () => {
-  return { v4: () => mockedNewUuid };
-});
-jest.mock('uuid-validate', () => {
-  return () => true;
-});
+jest.mock('uuid', () => ({ v4: () => mockedNewUuid }));
+jest.mock('uuid-validate', () => () => true);
 
 describe('[Application] Join World', () => {
   beforeAll(mockTimeSetup);

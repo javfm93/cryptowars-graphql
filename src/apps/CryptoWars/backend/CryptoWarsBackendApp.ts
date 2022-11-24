@@ -42,7 +42,7 @@ export class CryptoWarsBackendApp {
       String,
       Definition
     >;
-    const subscribers: Array<DomainEventSubscriber<DomainEvent>> = [];
+    const subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>> = [];
 
     subscriberDefinitions.forEach((value: any, key: any) => subscribers.push(container.get(key)));
     const domainEventMapping = new DomainEventMapping(subscribers);

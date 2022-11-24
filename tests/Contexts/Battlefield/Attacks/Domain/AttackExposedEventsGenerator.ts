@@ -8,21 +8,25 @@ export class AttackExposedEventsGenerator {
   static attackSentFrom(command: SendAttackCommand, defenderArmy: Army): AttackSentDomainEvent {
     return new AttackSentDomainEvent({
       aggregateId: command.id,
-      attackerTroop: {
-        armyId: command.attackerArmy,
-        squads: command.soldiers
-      },
-      defenderArmyId: defenderArmy.id.toString(),
-      sentAt: new Date()
+      attributes: {
+        attackerTroop: {
+          armyId: command.attackerArmy,
+          squads: command.soldiers
+        },
+        defenderArmyId: defenderArmy.id.toString(),
+        sentAt: new Date()
+      }
     });
   }
 
   static attackSentFromAttack(attack: Attack): AttackSentDomainEvent {
     return new AttackSentDomainEvent({
       aggregateId: attack.id.toString(),
-      attackerTroop: attack.attackerTroop.toPrimitives(),
-      defenderArmyId: attack.defenderArmyId.toString(),
-      sentAt: new Date()
+      attributes: {
+        attackerTroop: attack.attackerTroop.toPrimitives(),
+        defenderArmyId: attack.defenderArmyId.toString(),
+        sentAt: new Date()
+      }
     });
   }
 

@@ -4,39 +4,35 @@ import { Primitives } from '../../../Shared/Domain/Primitives';
 import { TownSoldiersTrainFinished } from './TownSoldiersTrainFinishedDomainEvent';
 import { TaskRequestedDomainEvent } from '../../../Scheduler/Tasks/Domain/TaskRequestedDomainEvent';
 
-export class TownSoldiersTrainStarted extends DomainEvent {
-  static readonly EVENT_NAME = 'cryptoWars.1.event.town.soldiersTrainStarted';
-  readonly soldiers: TownSoldiersPrimitives;
+type Attributes = {
+  soldiers: TownSoldiersPrimitives;
+};
+
+export class TownSoldiersTrainStarted extends DomainEvent<Attributes> {
+  static readonly TYPE = 'cryptoWars.1.event.town.soldiersTrainStarted';
 
   constructor(props: OptionalDomainEventProps<TownSoldiersTrainStarted>) {
-    const { aggregateId, soldiers, eventId, occurredOn } = props;
-    super(TownSoldiersTrainStarted.EVENT_NAME, aggregateId, eventId, occurredOn);
-    this.soldiers = soldiers;
-  }
-
-  toPrimitive(): Primitives<TownSoldiersTrainStarted> {
-    return {
-      eventId: this.eventId,
-      aggregateId: this.aggregateId,
-      occurredOn: this.occurredOn,
-      eventName: TownSoldiersTrainStarted.EVENT_NAME,
-      soldiers: this.soldiers
-    };
+    const { aggregateId, id, occurredOn, attributes, meta } = props;
+    super(TownSoldiersTrainFinished.TYPE, aggregateId, attributes, meta, occurredOn, id);
   }
 
   toTaskRequest(): TaskRequestedDomainEvent {
     const oneSecondsInMs = 1000;
     const afterTrain = new TownSoldiersTrainFinished({
       aggregateId: this.aggregateId,
-      soldiers: this.soldiers
+      attributes: this.attributes
     });
     return new TaskRequestedDomainEvent({
-      triggerAt: Date.now() + oneSecondsInMs,
-      eventToTrigger: afterTrain.toTaskEvent()
+      attributes: {
+        triggerAt: Date.now() + oneSecondsInMs,
+        eventToTrigger: afterTrain.toTaskEvent()
+      }
     });
   }
 
-  static fromPrimitives(primitives: Primitives<TownSoldiersTrainStarted>): DomainEvent {
+  static fromPrimitives(
+    primitives: Primitives<TownSoldiersTrainStarted>
+  ): TownSoldiersTrainStarted {
     return new TownSoldiersTrainStarted(primitives);
   }
 }

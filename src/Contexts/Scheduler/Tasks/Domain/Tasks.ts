@@ -1,7 +1,7 @@
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
 import { Task } from './Task';
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { TaskEventToTrigger } from './TaskEventToTrigger';
 
 export class Tasks extends WatchedList<Task, Primitives<Task>> {
   private constructor(initial: Array<Task>) {
@@ -16,7 +16,7 @@ export class Tasks extends WatchedList<Task, Primitives<Task>> {
     return this.currentItems.map(task => task.toPrimitives());
   }
 
-  public getEventsToTrigger(): Array<DomainEvent> {
+  public getEventsToTrigger(): Array<TaskEventToTrigger> {
     return this.getItems().map(task => task.eventToTrigger);
   }
 

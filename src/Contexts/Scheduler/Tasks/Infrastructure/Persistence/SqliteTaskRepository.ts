@@ -10,8 +10,20 @@ export class SqliteTaskRepository
   extends TypeOrmRepository<Primitives<Task>>
   implements TaskRepository
 {
-  public save(task: Task): Promise<void> {
-    return this.persist(task.toPrimitives());
+  public async save(task: Task): Promise<void> {
+    const repository = await this.repository();
+    const t = task.toPrimitives();
+    await repository
+      .createQueryBuilder()
+      .insert()
+      .values({
+        id: t.id,
+        triggerAt: t.triggerAt,
+        eventToTrigger: () => `'${JSON.stringify(t.eventToTrigger)}'`,
+        createdAt: t.createdAt,
+        status: t.status
+      })
+      .execute();
   }
 
   public async saveMultiple(tasks: Tasks): Promise<void> {

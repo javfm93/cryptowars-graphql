@@ -7,6 +7,6 @@ describe('[Domain] User', () => {
     const events = user.pullDomainEvents();
 
     expect(events).toHaveLength(1);
-    expect(events[0].eventName).toBe('cryptoWars.1.event.user.created');
+    expect(events[0].type).toBe('cryptoWars.1.event.user.created');
   });
 });

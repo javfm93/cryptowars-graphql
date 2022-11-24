@@ -25,10 +25,12 @@ export class Battle extends AggregateRoot {
     battle.record(
       new BattleCreatedDomainEvent({
         aggregateId: battle.id.toString(),
-        attack: attack.toPrimitives(),
-        defenderArmy: defenderArmy.toPrimitives(),
-        finishedAt: new Date(battle.finishedAt),
-        result: battle.result.toPrimitives()
+        attributes: {
+          attack: attack.toPrimitives(),
+          defenderArmy: defenderArmy.toPrimitives(),
+          finishedAt: new Date(battle.finishedAt),
+          result: battle.result.toPrimitives()
+        }
       })
     );
     return battle;

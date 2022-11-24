@@ -1,62 +1,42 @@
-import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
-import { SquadsPrimitives } from './Squads';
+import { OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Primitives } from '../../../Shared/Domain/Primitives';
+import { SquadsPrimitives } from './Squads';
 
-export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent {
-  static readonly EVENT_NAME = 'battlefield.1.event.army.attacked';
-  readonly casualties: SquadsPrimitives;
+type Attributes = { casualties: SquadsPrimitives };
+
+export class ArmyAttackedDomainEvent extends BattlefieldExposedEvent<Attributes> {
+  static readonly TYPE = 'battlefield.1.event.army.attacked';
 
   constructor(props: OptionalDomainEventProps<ArmyAttackedDomainEvent>) {
-    const { aggregateId, eventId, occurredOn, casualties } = props;
-    super(ArmyAttackedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
-    this.casualties = casualties;
-  }
-
-  toPrimitive(): Primitives<ArmyAttackedDomainEvent> {
-    return {
-      eventName: ArmyAttackedDomainEvent.EVENT_NAME,
-      aggregateId: this.aggregateId,
-      occurredOn: this.occurredOn,
-      eventId: this.eventId,
-      casualties: this.casualties
-    };
+    const { aggregateId, id, occurredOn, attributes, meta } = props;
+    super(ArmyAttackedDomainEvent.TYPE, aggregateId, attributes, meta, occurredOn, id);
   }
 
   toBattlefieldInternalEvent(): BattlefieldInternalEvent {
-    return new BattlefieldInternalEvent(new Uuid(this.eventId), {
+    return new BattlefieldInternalEvent(new Uuid(this.id), {
       aggregateId: this.aggregateId,
       version: 0,
-      eventName: this.eventName,
-      data: { casualties: this.casualties }
+      eventName: this.type,
+      data: this.attributes
     });
   }
 
   static fromBattlefieldInternalEvent(event: BattlefieldInternalEvent): ArmyAttackedDomainEvent {
     return new ArmyAttackedDomainEvent({
       aggregateId: event.aggregateId,
-      eventId: event.aggregateId.toString(),
-      casualties: event.toPrimitives().data.casualties
+      id: event.aggregateId.toString(),
+      attributes: { casualties: event.toPrimitives().data.casualties }
     });
   }
 
-  static fromPrimitives(
-    aggregateId: string,
-    eventId: string,
-    occurredOn: Date,
-    casualties: SquadsPrimitives
-  ): DomainEvent {
-    return new ArmyAttackedDomainEvent({
-      aggregateId,
-      eventId,
-      occurredOn,
-      casualties
-    });
+  static fromPrimitives(primitives: Primitives<ArmyAttackedDomainEvent>): ArmyAttackedDomainEvent {
+    return new ArmyAttackedDomainEvent(primitives);
   }
 
   static isMe(event: BattlefieldInternalEvent): boolean {
-    return event.name === ArmyAttackedDomainEvent.EVENT_NAME;
+    return event.name === ArmyAttackedDomainEvent.TYPE;
   }
 }

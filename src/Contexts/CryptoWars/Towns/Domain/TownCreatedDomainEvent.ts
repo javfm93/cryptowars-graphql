@@ -1,27 +1,19 @@
 import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class TownCreatedDomainEvent extends DomainEvent {
-  static readonly EVENT_NAME = 'cryptoWars.1.event.town.created';
-  readonly playerId: string;
+type Attributes = {
+  playerId: string;
+};
+
+export class TownCreatedDomainEvent extends DomainEvent<Attributes> {
+  static readonly TYPE = 'cryptoWars.1.event.town.created';
 
   constructor(props: OptionalDomainEventProps<TownCreatedDomainEvent>) {
-    const { aggregateId, playerId, eventId, occurredOn } = props;
-    super(TownCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
-    this.playerId = playerId;
+    const { aggregateId, id, occurredOn, attributes, meta } = props;
+    super(TownCreatedDomainEvent.TYPE, aggregateId, attributes, meta, occurredOn, id);
   }
 
-  toPrimitive(): Primitives<TownCreatedDomainEvent> {
-    return {
-      eventId: this.eventId,
-      aggregateId: this.aggregateId,
-      occurredOn: this.occurredOn,
-      eventName: TownCreatedDomainEvent.EVENT_NAME,
-      playerId: this.playerId
-    };
-  }
-
-  static fromPrimitives(primitives: Primitives<TownCreatedDomainEvent>): DomainEvent {
+  static fromPrimitives(primitives: Primitives<TownCreatedDomainEvent>): TownCreatedDomainEvent {
     return new TownCreatedDomainEvent(primitives);
   }
 }

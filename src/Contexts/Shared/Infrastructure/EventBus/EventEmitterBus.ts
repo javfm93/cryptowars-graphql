@@ -3,25 +3,25 @@ import { DomainEvent } from '../../Domain/DomainEvent';
 import { DomainEventSubscriber } from '../../Domain/DomainEventSubscriber';
 
 export class EventEmitterBus extends EventEmitter {
-  constructor(subscribers: Array<DomainEventSubscriber<DomainEvent>>) {
+  constructor(subscribers: Array<DomainEventSubscriber<DomainEvent<any>>>) {
     super();
 
     this.registerSubscribers(subscribers);
   }
 
-  registerSubscribers(subscribers?: DomainEventSubscriber<DomainEvent>[]) {
+  registerSubscribers(subscribers?: DomainEventSubscriber<DomainEvent<any>>[]) {
     subscribers?.map(subscriber => {
       this.registerSubscriber(subscriber);
     });
   }
 
-  private registerSubscriber(subscriber: DomainEventSubscriber<DomainEvent>) {
+  private registerSubscriber(subscriber: DomainEventSubscriber<DomainEvent<any>>) {
     subscriber.subscribedTo().map(event => {
-      this.on(event.EVENT_NAME, subscriber.on.bind(subscriber));
+      this.on(event.TYPE, subscriber.on.bind(subscriber));
     });
   }
 
-  publish(events: DomainEvent[]): void {
-    events.map(event => this.emit(event.eventName, event));
+  publish(events: DomainEvent<any>[]): void {
+    events.map(event => this.emit(event.type, event));
   }
 }

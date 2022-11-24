@@ -10,7 +10,9 @@ export class TownEventsGenerator {
   static randomCreated() {
     return new TownCreatedDomainEvent({
       aggregateId: TownIdGenerator.random().toString(),
-      playerId: PlayerIdGenerator.random().toString()
+      attributes: {
+        playerId: PlayerIdGenerator.random().toString()
+      }
     });
   }
 
@@ -19,7 +21,9 @@ export class TownEventsGenerator {
 
     return new TownSoldiersTrainFinished({
       aggregateId: army.townId.toString(),
-      soldiers
+      attributes: {
+        soldiers
+      }
     });
   }
 }

@@ -16,7 +16,7 @@ export class TownGenerator {
   static fromEvent(event: WorldPlayerJoinedDomainEvent, id: string): Town {
     return this.create({
       id,
-      playerId: event.playerId,
+      playerId: event.attributes.playerId,
       worldId: event.aggregateId,
       buildings: TownBuildings.createInitialBuildings().value
     });

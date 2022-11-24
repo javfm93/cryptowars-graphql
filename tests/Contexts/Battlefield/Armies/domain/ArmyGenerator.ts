@@ -23,7 +23,7 @@ export class ArmyGenerator {
     return this.create(
       id,
       TownId.create(event.aggregateId),
-      PlayerId.create(event.playerId),
+      PlayerId.create(event.attributes.playerId),
       Squads.defaultSquads()
     );
   }

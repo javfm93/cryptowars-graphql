@@ -6,6 +6,7 @@ import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { Army } from '../../Domain/Army';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
+import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type FindArmyByTownQueryResult = Either<Army, FindArmyErrors>;
 
@@ -19,6 +20,7 @@ export class FindArmyByTownQueryHandler
   }
 
   async handle(query: FindArmyByTownQuery): Promise<FindArmyByTownQueryResult> {
+    logger.debug(`Searching Army for town ${query.townId}`);
     const playerId = PlayerId.create(query.playerId);
     const townId = TownId.create(query.townId);
     return this.findArmyByTownId.execute({ playerId, townId });

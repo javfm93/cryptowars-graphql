@@ -38,7 +38,7 @@ export class Task extends AggregateRoot {
     return {
       id: this.id.toString(),
       triggerAt: this.triggerAt.value,
-      eventToTrigger: this.eventToTrigger.toPrimitive(),
+      eventToTrigger: this.eventToTrigger.toPrimitives(),
       createdAt: this.createdAt,
       status: this.status
     };

@@ -22,11 +22,10 @@ export class User extends AggregateRoot<UserProps> {
 
   public static create(id: UserId, props: UserProps): User {
     const user = new User(id, props);
-    user.record(
-      new UserCreatedDomainEvent({
-        aggregateId: user.id.toString()
-      })
-    );
+    const userCreated = new UserCreatedDomainEvent({
+      aggregateId: user.id.toString()
+    });
+    user.record(userCreated);
     return user;
   }
 

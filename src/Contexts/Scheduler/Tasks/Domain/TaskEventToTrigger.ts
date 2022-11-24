@@ -1,22 +1,12 @@
 import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class TaskEventToTrigger extends DomainEvent {
-  public data: unknown;
+type Attributes = Record<string, unknown>;
 
+export class TaskEventToTrigger extends DomainEvent<Attributes> {
   constructor(props: Primitives<TaskEventToTrigger>) {
-    super(props.eventName, props.aggregateId, props.eventId, new Date(props.occurredOn));
-    this.data = props.data;
-  }
-
-  toPrimitive(): Primitives<TaskEventToTrigger> {
-    return {
-      eventName: this.eventName,
-      aggregateId: this.aggregateId,
-      eventId: this.eventId,
-      occurredOn: this.occurredOn,
-      data: this.data
-    };
+    const { type, aggregateId, id, occurredOn, attributes, meta } = props;
+    super(type, aggregateId, attributes, meta, new Date(occurredOn), id);
   }
 
   static fromPrimitives(primitives: Primitives<TaskEventToTrigger>): TaskEventToTrigger {

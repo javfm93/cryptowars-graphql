@@ -1,24 +1,15 @@
 import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class TaskCreatedDomainEvent extends DomainEvent {
-  static readonly EVENT_NAME = 'scheduler.1.event.task.created';
+export class TaskCreatedDomainEvent extends DomainEvent<{}> {
+  static readonly TYPE = 'scheduler.1.event.task.created';
 
   constructor(props: OptionalDomainEventProps<TaskCreatedDomainEvent>) {
-    const { aggregateId, eventId, occurredOn } = props;
-    super(TaskCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
+    const { aggregateId, id, occurredOn, attributes, meta } = props;
+    super(TaskCreatedDomainEvent.TYPE, aggregateId, attributes, meta, occurredOn, id);
   }
 
-  toPrimitive(): Primitives<TaskCreatedDomainEvent> {
-    return {
-      eventName: TaskCreatedDomainEvent.EVENT_NAME,
-      aggregateId: this.aggregateId,
-      eventId: this.eventId,
-      occurredOn: this.occurredOn
-    };
-  }
-
-  static fromPrimitives(primitives: Primitives<TaskCreatedDomainEvent>): DomainEvent {
+  static fromPrimitives(primitives: Primitives<TaskCreatedDomainEvent>): TaskCreatedDomainEvent {
     return new TaskCreatedDomainEvent(primitives);
   }
 }

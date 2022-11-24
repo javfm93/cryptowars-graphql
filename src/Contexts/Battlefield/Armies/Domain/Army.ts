@@ -45,7 +45,9 @@ export class Army extends AggregateRoot {
     this.record(
       new SoldiersRecruitedDomainEvent({
         aggregateId: this.id.toString(),
-        squad: newSquad.value
+        attributes: {
+          squad: newSquad.value
+        }
       })
     );
   }
@@ -54,7 +56,9 @@ export class Army extends AggregateRoot {
     this.record(
       new SoldiersReceivedFromBattleDomainEvent({
         aggregateId: this.id.toString(),
-        squads: squads.value
+        attributes: {
+          squads: squads.value
+        }
       })
     );
     this.squads.absorb(squads);
@@ -64,7 +68,9 @@ export class Army extends AggregateRoot {
     this.record(
       new SoldiersSentToAttackDomainEvent({
         aggregateId: this.id.toString(),
-        squads: squads.value
+        attributes: {
+          squads: squads.value
+        }
       })
     );
     this.squads.reduce(squads);
@@ -74,7 +80,9 @@ export class Army extends AggregateRoot {
     this.record(
       new ArmyAttackedDomainEvent({
         aggregateId: this.id.toString(),
-        casualties: casualties.value
+        attributes: {
+          casualties: casualties.value
+        }
       })
     );
     this.squads.reduce(casualties);
@@ -85,8 +93,10 @@ export class Army extends AggregateRoot {
     army.record(
       new ArmyCreatedDomainEvent({
         aggregateId: army.id.toString(),
-        townId: army.townId.toString(),
-        playerId: army.playerId.toString()
+        attributes: {
+          townId: army.townId.toString(),
+          playerId: army.playerId.toString()
+        }
       })
     );
     return army;
@@ -116,17 +126,17 @@ export class Army extends AggregateRoot {
         army = ArmyCreatedDomainEvent.fromBattlefieldInternalEvent(event).toArmy();
       } else if (SoldiersRecruitedDomainEvent.isMe(event)) {
         const exposedEvent = SoldiersRecruitedDomainEvent.fromBattlefieldInternalEvent(event);
-        army.recruit(Squads.fromPrimitives(exposedEvent.squad));
+        army.recruit(Squads.fromPrimitives(exposedEvent.attributes.squad));
       } else if (SoldiersSentToAttackDomainEvent.isMe(event)) {
         const soldiersSent = SoldiersSentToAttackDomainEvent.fromBattlefieldInternalEvent(event);
-        army.sendSquadsToAttack(Squads.fromPrimitives(soldiersSent.squads));
+        army.sendSquadsToAttack(Squads.fromPrimitives(soldiersSent.attributes.squads));
       } else if (SoldiersReceivedFromBattleDomainEvent.isMe(event)) {
         const soldiersReceived =
           SoldiersReceivedFromBattleDomainEvent.fromBattlefieldInternalEvent(event);
-        army.receiveSquadsFromBattle(Squads.fromPrimitives(soldiersReceived.squads));
+        army.receiveSquadsFromBattle(Squads.fromPrimitives(soldiersReceived.attributes.squads));
       } else if (ArmyAttackedDomainEvent.isMe(event)) {
         const armyAttacked = ArmyAttackedDomainEvent.fromBattlefieldInternalEvent(event);
-        army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.casualties));
+        army.applyBattleImpact(Squads.fromPrimitives(armyAttacked.attributes.casualties));
       } else {
         throw Error(`Unknown event [${event.id}] for army materialization with name ${event.name}`);
       }

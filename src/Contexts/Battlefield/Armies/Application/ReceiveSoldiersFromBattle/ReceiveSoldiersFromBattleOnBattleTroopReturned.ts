@@ -15,8 +15,8 @@ export class ReceiveSoldiersFromBattleOnBattleTroopReturned
   }
 
   async on(domainEvent: BattleTroopReturnedDomainEvent) {
-    const townId = TownId.create(domainEvent.troop.armyId);
-    const squad = Squads.fromPrimitives(domainEvent.troop.squads);
+    const townId = TownId.create(domainEvent.attributes.troop.armyId);
+    const squad = Squads.fromPrimitives(domainEvent.attributes.troop.squads);
     const result = await this.receiveSoldiersFromBattle.execute({ townId, squad });
     if (result.isFailure()) throw Error(result.value.message);
   }

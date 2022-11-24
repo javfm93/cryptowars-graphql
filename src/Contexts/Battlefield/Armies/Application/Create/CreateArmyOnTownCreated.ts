@@ -16,7 +16,7 @@ export class CreateArmyOnTownCreated implements DomainEventSubscriber<TownCreate
 
   async on(domainEvent: TownCreatedDomainEvent) {
     const townId = TownId.create(domainEvent.aggregateId);
-    const playerId = PlayerId.create(domainEvent.playerId);
+    const playerId = PlayerId.create(domainEvent.attributes.playerId);
     const id = ArmyId.create(Uuid.random().toString());
     await this.createArmy.execute({ id, playerId, townId });
   }

@@ -15,10 +15,10 @@ export class CreateTaskOnTaskRequested implements DomainEventSubscriber<TaskRequ
 
   async on(domainEvent: TaskRequestedDomainEvent) {
     const id = TaskId.create(domainEvent.aggregateId);
-    const triggerAt = FutureUnixTimestamp.create(domainEvent.triggerAt);
+    const triggerAt = FutureUnixTimestamp.create(domainEvent.attributes.triggerAt);
     // todo: what happens with this throw? should I log it?
     if (triggerAt.isFailure()) throw triggerAt.value;
-    const eventToTrigger = new TaskEventToTrigger(domainEvent.eventToTrigger);
+    const eventToTrigger = new TaskEventToTrigger(domainEvent.attributes.eventToTrigger);
     await this.createTask.execute({ id, triggerAt: triggerAt.value, eventToTrigger });
   }
 }

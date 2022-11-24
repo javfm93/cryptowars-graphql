@@ -32,9 +32,9 @@ Given('I have {int} basic soldiers in my army', async (numberOfSoldiers: number)
     }
   });
   while (!playerArmy || playerArmy.squads.basic === 0) {
-    console.log(playerArmy?.squads.basic);
+    await sleep(1500);
     await retrievePlayerArmyInformation();
-    await sleep(100);
+    console.log(playerArmy?.squads.basic);
   }
 });
 

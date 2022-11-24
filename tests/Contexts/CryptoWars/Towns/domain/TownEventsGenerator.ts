@@ -8,7 +8,9 @@ export class TownEventsGenerator {
   static created(townId: TownId, playerId: PlayerId): TownCreatedDomainEvent {
     return new TownCreatedDomainEvent({
       aggregateId: townId.toString(),
-      playerId: playerId.toString()
+      attributes: {
+        playerId: playerId.toString()
+      }
     });
   }
 
@@ -16,6 +18,6 @@ export class TownEventsGenerator {
     townId: string,
     soldiers: TownSoldiersPrimitives
   ): TownSoldiersTrainStarted {
-    return new TownSoldiersTrainStarted({ aggregateId: townId, soldiers });
+    return new TownSoldiersTrainStarted({ aggregateId: townId, attributes: { soldiers } });
   }
 }

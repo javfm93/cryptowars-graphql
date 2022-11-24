@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../../Shared/Domain/DomainEvent';
+import { OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { BattlefieldExposedEvent } from '../../Shared/Domain/BattlefieldExposedEvent';
@@ -8,93 +8,56 @@ import { Army } from '../../Armies/Domain/Army';
 import { Battle } from './Battle';
 import { BattleResult } from './BattleResult';
 
-type BattleCreatedDomainEventBody = {
-  readonly eventName: string;
-  readonly aggregateId: string;
-  readonly occurredOn: Date;
+type Attributes = {
   readonly attack: Primitives<Attack>;
   readonly defenderArmy: Primitives<Army>;
   readonly finishedAt: Date;
   readonly result: Primitives<BattleResult>;
 };
 
-export class BattleCreatedDomainEvent extends BattlefieldExposedEvent {
-  static readonly EVENT_NAME = 'battlefield.1.event.battle.created';
-  readonly attack: Primitives<Attack>;
-  readonly defenderArmy: Primitives<Army>;
-  readonly finishedAt: Date;
-  readonly result: Primitives<BattleResult>;
+export class BattleCreatedDomainEvent extends BattlefieldExposedEvent<Attributes> {
+  static readonly TYPE = 'battlefield.1.event.battle.created';
 
-  constructor(props: {
-    aggregateId: string;
-    eventId?: string;
-    occurredOn?: Date;
-    readonly attack: Primitives<Attack>;
-    readonly defenderArmy: Primitives<Army>;
-    readonly finishedAt: Date;
-    readonly result: Primitives<BattleResult>;
-  }) {
-    const { aggregateId, eventId, occurredOn } = props;
-    super(BattleCreatedDomainEvent.EVENT_NAME, aggregateId, eventId, occurredOn);
-    this.attack = props.attack;
-    this.defenderArmy = props.defenderArmy;
-    this.finishedAt = props.finishedAt;
-    this.result = props.result;
-  }
-
-  toPrimitive(): Primitives<BattleCreatedDomainEvent> {
-    return {
-      eventId: this.eventId,
-      eventName: BattleCreatedDomainEvent.EVENT_NAME,
-      aggregateId: this.aggregateId,
-      occurredOn: this.occurredOn,
-      attack: this.attack,
-      defenderArmy: this.defenderArmy,
-      finishedAt: this.finishedAt,
-      result: this.result
-    };
+  constructor(props: OptionalDomainEventProps<BattleCreatedDomainEvent>) {
+    const { aggregateId, id, occurredOn, attributes, meta } = props;
+    const att = attributes
+      ? { ...attributes, finishedAt: new Date(attributes.finishedAt) }
+      : attributes;
+    super(BattleCreatedDomainEvent.TYPE, aggregateId, att, meta, occurredOn, id);
   }
 
   toBattlefieldInternalEvent(): BattlefieldInternalEvent {
-    return new BattlefieldInternalEvent(new Uuid(this.eventId), {
+    return new BattlefieldInternalEvent(new Uuid(this.id), {
       aggregateId: this.aggregateId,
       version: 0,
-      eventName: this.eventName,
-      data: {
-        attack: this.attack,
-        defenderArmy: this.defenderArmy,
-        finishedAt: this.finishedAt,
-        result: this.result
-      }
+      eventName: this.type,
+      data: this.attributes
     });
   }
 
   toBattle(): Battle {
     return Battle.fromPrimitives({
       id: this.aggregateId,
-      attack: this.attack,
-      defenderArmy: this.defenderArmy,
-      finishedAt: this.finishedAt.toISOString(),
-      result: this.result
+      attack: this.attributes.attack,
+      defenderArmy: this.attributes.defenderArmy,
+      finishedAt: this.attributes.finishedAt.toISOString(),
+      result: this.attributes.result
     });
   }
 
   static fromBattlefieldInternalEvent(event: BattlefieldInternalEvent): BattleCreatedDomainEvent {
     return new BattleCreatedDomainEvent({
       aggregateId: event.aggregateId,
-      eventId: event.id.toString(),
-      attack: event.toPrimitives().data.attack,
-      defenderArmy: event.toPrimitives().data.defenderArmy,
-      finishedAt: new Date(event.toPrimitives().data.finishedAt),
-      result: event.toPrimitives().data.result
+      id: event.id.toString(),
+      attributes: event.toPrimitives().data
     });
   }
 
-  static fromPrimitives(plainData: BattleCreatedDomainEventBody): DomainEvent {
+  static fromPrimitives(plainData: Primitives<BattleCreatedDomainEvent>): BattleCreatedDomainEvent {
     return new BattleCreatedDomainEvent(plainData);
   }
 
   static isMe(event: BattlefieldInternalEvent): boolean {
-    return event.name === BattleCreatedDomainEvent.EVENT_NAME;
+    return event.name === BattleCreatedDomainEvent.TYPE;
   }
 }

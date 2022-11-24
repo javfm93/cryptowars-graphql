@@ -1,7 +1,6 @@
 import { TaskIdGenerator } from './TaskIdGenerator';
 import { AttackId } from '../../../../../src/Contexts/Battlefield/Attacks/Domain/AttackId';
 import { Task } from '../../../../../src/Contexts/Scheduler/Tasks/Domain/Task';
-import { DomainEvent } from '../../../../../src/Contexts/Shared/Domain/DomainEvent';
 import * as faker from 'faker';
 import { AttackExposedEventsGenerator } from '../../../Battlefield/Attacks/Domain/AttackExposedEventsGenerator';
 import { UuidGenerator } from '../../../Shared/Domain/UuidGenerator';
@@ -14,7 +13,7 @@ export class TaskGenerator {
   static create(
     id: AttackId,
     triggerAt: number,
-    eventToTrigger: DomainEvent,
+    eventToTrigger: TaskEventToTrigger,
     createdAt = new Date(),
     status: 'waiting' | 'finished' = 'waiting'
   ): Task {
@@ -43,8 +42,8 @@ export class TaskGenerator {
   static fromEvent(event: TaskRequestedDomainEvent): Task {
     return this.create(
       TaskId.create(event.aggregateId),
-      event.triggerAt,
-      TaskEventToTrigger.fromPrimitives(event.eventToTrigger)
+      event.attributes.triggerAt,
+      TaskEventToTrigger.fromPrimitives(event.attributes.eventToTrigger)
     );
   }
 }

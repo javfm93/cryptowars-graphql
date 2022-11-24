@@ -36,7 +36,9 @@ export class Town extends AggregateRoot<TownProps> {
     town.record(
       new TownCreatedDomainEvent({
         aggregateId: town.id.toString(),
-        playerId: props.playerId.toString()
+        attributes: {
+          playerId: props.playerId.toString()
+        }
       })
     );
     return town;
@@ -57,7 +59,9 @@ export class Town extends AggregateRoot<TownProps> {
   train(soldiers: TownSoldiers): void {
     const trainStarted = new TownSoldiersTrainStarted({
       aggregateId: this.id.toString(),
-      soldiers: soldiers.value
+      attributes: {
+        soldiers: soldiers.value
+      }
     });
     this.record(trainStarted);
     this.record(trainStarted.toTaskRequest());

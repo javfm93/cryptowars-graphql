@@ -39,7 +39,9 @@ export class CreateBattle implements UseCase<CreateBattleArgs, EmptyResult> {
     // as we dont have scheduler yet, the attacker troops are returned automatically
     const troopReturned = new BattleTroopReturnedDomainEvent({
       aggregateId: battle.id.toString(),
-      troop: battle.result.returningTroop.toPrimitives()
+      attributes: {
+        troop: battle.result.returningTroop.toPrimitives()
+      }
     });
     await this.eventBus.publish([...events, troopReturned]);
     return success();

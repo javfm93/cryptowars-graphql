@@ -30,9 +30,11 @@ export class Attack extends AggregateRoot {
     attack.record(
       new AttackSentDomainEvent({
         aggregateId: attack.id.toString(),
-        attackerTroop: attack.attackerTroop.toPrimitives(),
-        defenderArmyId: attack.defenderArmyId.toString(),
-        sentAt: new Date(attack.sentAt)
+        attributes: {
+          attackerTroop: attack.attackerTroop.toPrimitives(),
+          defenderArmyId: attack.defenderArmyId.toString(),
+          sentAt: new Date(attack.sentAt)
+        }
       })
     );
 

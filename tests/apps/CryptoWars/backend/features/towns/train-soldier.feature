@@ -52,6 +52,7 @@ Feature: As player, I want to train Soldiers for my town
     Then The town request response status code should be 403
     And The town request response should be empty
 
+  @train-soldiers-4
   Scenario: If the town dont exist, should return not found
     Given I am sign in
     Given I joined a world
@@ -66,6 +67,7 @@ Feature: As player, I want to train Soldiers for my town
     Then the response status code should be 404
     And the response should be empty
 
+  @train-soldiers-5
   Scenario: If the request is malformed, should return argument exception
     Given I am sign in
     Given I joined a world

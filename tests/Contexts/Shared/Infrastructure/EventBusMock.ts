@@ -6,17 +6,17 @@ import { DomainEventMapping } from '../../../../src/Contexts/Shared/Infrastructu
 export default class EventBusMock implements EventBus {
   private publishSpy = jest.fn();
 
-  async publish(events: DomainEvent[]) {
+  async publish(events: DomainEvent<any>[]) {
     this.publishSpy(events);
   }
 
   async start(): Promise<void> {}
 
-  addSubscribers(subscribers: DomainEventSubscriber<DomainEvent>[]): void {}
+  addSubscribers(subscribers: DomainEventSubscriber<DomainEvent<any>>[]): void {}
 
   setDomainEventMapping(domainEventMapping: DomainEventMapping): void {}
 
-  expectLastPublishedEventToBe(expectedEvent: DomainEvent) {
+  expectLastPublishedEventToBe(expectedEvent: DomainEvent<any>) {
     const publishSpyCalls = this.publishSpy.mock.calls;
 
     expect(publishSpyCalls.length).toBeGreaterThan(0);
@@ -29,7 +29,7 @@ export default class EventBusMock implements EventBus {
     );
   }
 
-  expectPublishedEventsToBe(expectedEvents: DomainEvent[]) {
+  expectPublishedEventsToBe(expectedEvents: DomainEvent<any>[]) {
     expect(this.publishSpy).toBeCalledWith(expectedEvents);
   }
 
@@ -42,8 +42,8 @@ export default class EventBusMock implements EventBus {
     this.publishSpy.mockReset();
   }
 
-  private getDataFromDomainEvent(event: DomainEvent) {
-    const { eventId, occurredOn, ...attributes } = event;
+  private getDataFromDomainEvent(event: DomainEvent<any>) {
+    const { id, occurredOn, ...attributes } = event;
 
     return attributes;
   }

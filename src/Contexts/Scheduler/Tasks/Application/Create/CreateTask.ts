@@ -25,7 +25,7 @@ export class CreateTask implements UseCase<Args, EmptyResult> {
     await this.taskRepository.save(task);
     await this.eventBus.publish(task.pullDomainEvents());
     logger.debug(
-      `Task created, ${task.eventToTrigger.eventName} will trigger at ${task.triggerAt.toIso()}`
+      `Task created, ${task.eventToTrigger.type} will trigger at ${task.triggerAt.toIso()}`
     );
     return success();
   }

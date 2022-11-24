@@ -9,10 +9,12 @@ export class BattleExposedEventsGenerator {
   static battleCreatedFor(battle: Battle): BattleCreatedDomainEvent {
     return new BattleCreatedDomainEvent({
       aggregateId: battle.id.toString(),
-      attack: battle.attack.toPrimitives(),
-      defenderArmy: battle.defenderArmy.toPrimitives(),
-      finishedAt: new Date(battle.finishedAt),
-      result: battle.result.toPrimitives()
+      attributes: {
+        attack: battle.attack.toPrimitives(),
+        defenderArmy: battle.defenderArmy.toPrimitives(),
+        finishedAt: new Date(battle.finishedAt),
+        result: battle.result.toPrimitives()
+      }
     });
   }
 
@@ -23,7 +25,9 @@ export class BattleExposedEventsGenerator {
   static battleTroopReturned(battle: Battle): BattleTroopReturnedDomainEvent {
     return new BattleTroopReturnedDomainEvent({
       aggregateId: battle.id.toString(),
-      troop: battle.result.returningTroop.toPrimitives()
+      attributes: {
+        troop: battle.result.returningTroop.toPrimitives()
+      }
     });
   }
 
@@ -33,7 +37,9 @@ export class BattleExposedEventsGenerator {
   ): BattleTroopReturnedDomainEvent {
     return new BattleTroopReturnedDomainEvent({
       aggregateId: battleId.toString(),
-      troop: troop.toPrimitives()
+      attributes: {
+        troop: troop.toPrimitives()
+      }
     });
   }
 }

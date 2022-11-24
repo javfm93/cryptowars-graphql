@@ -2,7 +2,6 @@ import { DomainEvent } from '../../../../src/Contexts/Shared/Domain/DomainEvent'
 import { DomainEventSubscriber } from '../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
 import { Uuid } from '../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { InMemoryAsyncEventBus } from '../../../../src/Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
-import { Primitives } from '../../../../src/Contexts/Shared/Domain/Primitives';
 
 describe('InMemoryAsyncEventBus', () => {
   let subscriber: DomainEventSubscriberDummy;
@@ -23,15 +22,11 @@ describe('InMemoryAsyncEventBus', () => {
   });
 });
 
-class DummyEvent extends DomainEvent {
-  static EVENT_NAME = 'dummy:event';
+class DummyEvent extends DomainEvent<any> {
+  static TYPE = 'dummy:event';
 
   constructor(id: string) {
-    super(DummyEvent.EVENT_NAME, id);
-  }
-
-  toPrimitive(): Primitives<DummyEvent> {
-    throw new Error('Method not implemented.');
+    super(DummyEvent.TYPE, id);
   }
 }
 

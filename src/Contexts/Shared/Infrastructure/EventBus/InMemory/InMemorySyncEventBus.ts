@@ -17,10 +17,10 @@ export class InMemorySyncEventBus implements EventBus {
 
   async start(): Promise<void> {}
 
-  async publish(events: Array<DomainEvent>): Promise<void> {
+  async publish(events: Array<DomainEvent<any>>): Promise<void> {
     const executions: any = [];
     events.map(event => {
-      const subscribers = this.subscriptions.get(event.eventName);
+      const subscribers = this.subscriptions.get(event.type);
       if (subscribers) {
         return subscribers.map(subscriber => executions.push(subscriber.boundedCallback(event)));
       }
@@ -29,15 +29,15 @@ export class InMemorySyncEventBus implements EventBus {
     await Promise.all(executions);
   }
 
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent>>) {
+  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent<any>>>) {
     subscribers.map(subscriber =>
-      subscriber.subscribedTo().map(event => this.subscribe(event.EVENT_NAME!, subscriber))
+      subscriber.subscribedTo().map(event => this.subscribe(event.TYPE!, subscriber))
     );
   }
 
   setDomainEventMapping(domainEventMapping: DomainEventMapping): void {}
 
-  private subscribe(topic: string, subscriber: DomainEventSubscriber<DomainEvent>): void {
+  private subscribe(topic: string, subscriber: DomainEventSubscriber<DomainEvent<any>>): void {
     const currentSubscriptions = this.subscriptions.get(topic);
     const subscription = {
       boundedCallback: subscriber.on.bind(subscriber),

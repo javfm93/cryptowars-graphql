@@ -10,6 +10,7 @@ import { TownId } from '../../Domain/TownId';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../../Players/Domain/PlayerId';
+import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type TrainSoldiersCommandErrors =
   | InvalidSoldier
@@ -31,6 +32,7 @@ export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiers
     const soldiersCreation = TownSoldiers.create(command.soldiers);
     if (soldiersCreation.isFailure()) return failure(soldiersCreation.value);
     const soldiers = soldiersCreation.value;
+    logger.debug(`Request to train ${command.soldiers.basic} basic `);
     const trainSoldiers = await this.trainSoldiers.execute({ playerId, townId, soldiers });
     return trainSoldiers.isSuccess() ? success() : failure(trainSoldiers.value);
   }

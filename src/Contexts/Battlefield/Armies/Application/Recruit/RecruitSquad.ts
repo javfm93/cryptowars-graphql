@@ -5,6 +5,7 @@ import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
 import { Squads } from '../../Domain/Squads';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
+import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 type RecruitSoldiersArgs = {
   townId: TownId;
@@ -26,6 +27,7 @@ export class RecruitSquad implements UseCase<RecruitSoldiersArgs, EmptyResult> {
     const events = army.pullDomainEvents();
     await this.eventRepository.save(events.map(event => event.toBattlefieldInternalEvent()));
     await this.eventBus.publish(events);
+    logger.debug(`${squads.value.basic} basic soldiers added to army ${army.id.toString()} squad`);
     return success();
   }
 }

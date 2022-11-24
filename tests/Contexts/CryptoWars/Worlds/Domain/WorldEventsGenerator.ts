@@ -6,7 +6,9 @@ export class WorldEventsGenerator {
   static worldJoined(playerId: PlayerId, worldId: WorldId): WorldPlayerJoinedDomainEvent {
     return new WorldPlayerJoinedDomainEvent({
       aggregateId: worldId.toString(),
-      playerId: playerId.toString()
+      attributes: {
+        playerId: playerId.toString()
+      }
     });
   }
 }

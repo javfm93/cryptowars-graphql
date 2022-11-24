@@ -32,7 +32,7 @@ describe('[Application] Recruit Soldiers', () => {
 
     const expectedEvent = ArmyExposedEventsGenerator.SoldiersRecruited(
       army.id,
-      SquadsGenerator.withNSoldiers(event.soldiers.basic)
+      SquadsGenerator.withNSoldiers(event.attributes.soldiers.basic)
     );
     repository.expectLastSavedBattlefieldEventsToBe([expectedEvent.toBattlefieldInternalEvent()]);
     eventBus.expectLastPublishedEventToBe(expectedEvent);
