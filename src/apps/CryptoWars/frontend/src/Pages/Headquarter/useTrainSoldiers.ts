@@ -1,6 +1,6 @@
-import {useMutation, useQueryClient} from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import {TrainSoldiersPostRequest} from '../../../../backend/Controllers/Towns/TrainSoldiersPostRequest';
+import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/CryptoWars/Towns/TrainSoldiersPostRequest';
 // todo: prefix of the backend endpoint
 export const useTrainSoldiers = (townId: string) => {
   // todo: type

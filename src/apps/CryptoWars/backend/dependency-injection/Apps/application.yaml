@@ -5,37 +5,37 @@ services:
     arguments: [ ]
 
   Apps.CryptoWars.Backend.Controllers.UsersPutController:
-    class: ../../Controllers/Users/UsersPutController
+    class: ../../Controllers/IAM/Users/UsersPutController
     arguments: [ '@Shared.CommandBus' ]
 
   Apps.CryptoWars.Backend.Controllers.WorldsGetController:
-    class: ../../Controllers/Worlds/WorldsGetController
+    class: ../../Controllers/CryptoWars/Worlds/WorldsGetController
     arguments: [ '@Shared.QueryBus' ]
 
   Apps.CryptoWars.Backend.Controllers.WorldGetController:
-    class: ../../Controllers/Worlds/WorldGetController
+    class: ../../Controllers/CryptoWars/Worlds/WorldGetController
     arguments: [ '@Shared.QueryBus' ]
 
   Apps.CryptoWars.Backend.Controllers.JoinWorldPutController:
-    class: ../../Controllers/Worlds/JoinWorldPutController
+    class: ../../Controllers/CryptoWars/Worlds/JoinWorldPutController
     arguments: [ '@Shared.CommandBus' ]
 
   Apps.CryptoWars.Backend.Controllers.PlayerGetController:
-    class: ../../Controllers/Players/PlayerGetController
+    class: ../../Controllers/CryptoWars/Players/PlayerGetController
     arguments: [ '@Shared.QueryBus' ]
 
   Apps.CryptoWars.Backend.Controllers.TrainSoldiersPostController:
-    class: ../../Controllers/Towns/TrainSoldiersPostController
+    class: ../../Controllers/CryptoWars/Towns/TrainSoldiersPostController
     arguments: [ '@Shared.CommandBus' ]
 
   Apps.Battlefield.Backend.Controllers.ArmyGetController:
-    class: ../../Controllers/Armies/ArmyGetController
+    class: ../../Controllers/Battlefield/Armies/ArmyGetController
     arguments: [ '@Shared.QueryBus' ]
 
   Apps.Battlefield.Backend.Controllers.SendAttackPutController:
-    class: ../../Controllers/Attacks/SendAttackPutController
+    class: ../../Controllers/Battlefield/Attacks/SendAttackPutController
     arguments: [ '@Shared.CommandBus' ]
 
   Apps.Battlefield.Backend.Controllers.BattlesGetController:
-    class: ../../Controllers/Battles/BattlesGetController
+    class: ../../Controllers/Battlefield/Battles/BattlesGetController
     arguments: [ '@Shared.QueryBus' ]

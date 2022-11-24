@@ -1,7 +1,7 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import container from '../dependency-injection';
-import {requireAuth} from '../Auth';
-import {PlayerGetController} from '../Controllers/Players/PlayerGetController';
+import { requireAuth } from '../Auth';
+import { PlayerGetController } from '../Controllers/CryptoWars/Players/PlayerGetController';
 
 // todo: change for worlds/:id/select
 export const register = (router: Router) => {

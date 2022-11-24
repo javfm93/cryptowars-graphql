@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import container from '../dependency-injection';
-import { SendAttackPutController } from '../Controllers/Attacks/SendAttackPutController';
+import { SendAttackPutController } from '../Controllers/Battlefield/Attacks/SendAttackPutController';
 import { requireAuth } from '../Auth';
 
 export const register = (router: Router) => {

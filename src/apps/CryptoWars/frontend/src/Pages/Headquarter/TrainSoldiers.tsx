@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Input } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/Towns/TrainSoldiersPostRequest';
+import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/CryptoWars/Towns/TrainSoldiersPostRequest';
 import { SquadsPrimitives } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
 import { TownSoldier } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldier';
 

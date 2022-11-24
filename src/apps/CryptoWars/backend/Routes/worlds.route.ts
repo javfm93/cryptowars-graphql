@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import container from '../dependency-injection';
-import { WorldsGetController } from '../Controllers/Worlds/WorldsGetController';
+import { WorldsGetController } from '../Controllers/CryptoWars/Worlds/WorldsGetController';
 import { requireAuth } from '../Auth';
-import { JoinWorldPutController } from '../Controllers/Worlds/JoinWorldPutController';
-import { WorldGetController } from '../Controllers/Worlds/WorldGetController';
+import { JoinWorldPutController } from '../Controllers/CryptoWars/Worlds/JoinWorldPutController';
+import { WorldGetController } from '../Controllers/CryptoWars/Worlds/WorldGetController';
 
 export const register = (router: Router) => {
   const worldsGetController: WorldsGetController = container.get(

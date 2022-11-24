@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { handleQueryResult, QueryTrigger } from '../../API/query';
-import { ArmyResponse } from '../../../../backend/Controllers/Armies/ArmyResponse';
+import { ArmyResponse } from '../../../../backend/Controllers/Battlefield/Armies/ArmyResponse';
 
 export const useTownArmy: QueryTrigger<string, ArmyResponse> = (townId: string) => {
   const getTownArmy = async (): Promise<ArmyResponse> => {

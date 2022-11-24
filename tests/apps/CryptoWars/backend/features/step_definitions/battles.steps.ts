@@ -4,7 +4,7 @@ import { otherPlayerArmy, playerArmy } from './army.steps';
 import assert from 'assert';
 import request from 'supertest';
 import { otherUserPlayer } from './player.steps';
-import { BattlesResponse } from '../../../../../../src/apps/CryptoWars/backend/Controllers/Battles/BattlesResponse';
+import { BattlesResponse } from '../../../../../../src/apps/CryptoWars/backend/Controllers/Battlefield/Battles/BattlesResponse';
 import { attackId } from './attack.steps';
 
 let _request: request.Test;

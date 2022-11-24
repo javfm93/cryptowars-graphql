@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import container from '../dependency-injection';
-import { UsersPutController } from '../Controllers/Users/UsersPutController';
+import { UsersPutController } from '../Controllers/IAM/Users/UsersPutController';
 
 export const register = (router: Router) => {
   const userPutController: UsersPutController = container.get(

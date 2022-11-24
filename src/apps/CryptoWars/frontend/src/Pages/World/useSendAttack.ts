@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { v4 } from 'uuid';
-import { SendAttackRequest } from '../../../../backend/Controllers/Attacks/SendAttackRequest';
+import { SendAttackRequest } from '../../../../backend/Controllers/Battlefield/Attacks/SendAttackRequest';
 
 export const useSendAttack = () => {
   const queryClient = useQueryClient();

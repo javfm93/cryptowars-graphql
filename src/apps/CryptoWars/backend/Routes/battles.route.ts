@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import container from '../dependency-injection';
-import { BattlesGetController } from '../Controllers/Battles/BattlesGetController';
+import { BattlesGetController } from '../Controllers/Battlefield/Battles/BattlesGetController';
 import { requireAuth } from '../Auth';
 
 export const register = (router: Router) => {

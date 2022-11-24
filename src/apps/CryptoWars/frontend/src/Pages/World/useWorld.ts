@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { handleQueryResult, QueryTrigger } from '../../API/query';
-import { WorldResponse } from '../../../../backend/Controllers/Worlds/WorldResponse';
+import { WorldResponse } from '../../../../backend/Controllers/CryptoWars/Worlds/WorldResponse';
 
 export const useWorld: QueryTrigger<string, WorldResponse> = (id: string) => {
   const getWorld = async (): Promise<WorldResponse> => {
