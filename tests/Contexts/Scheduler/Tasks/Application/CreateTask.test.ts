@@ -39,18 +39,11 @@ describe('[Application] Create Task', () => {
   });
 
   it('should throw when the event has an invalid date', async () => {
+    // todo: inject the logger and check
     const event = RequestTaskEventGenerator.withPastTime();
 
-    try {
-      await handler.on(event);
-      fail('didnt throw');
-    } catch (e: any) {
-      expect(e.message).toBe(
-        `The time should be later than now, provided: ${new Date(
-          event.attributes.triggerAt
-        ).toISOString()}`
-      );
-      eventBus.expectEventsNotToBePublished();
-    }
+    await handler.on(event);
+
+    eventBus.expectEventsNotToBePublished();
   });
 });

@@ -16,7 +16,8 @@ describe('InMemoryAsyncEventBus', () => {
       done();
     };
 
-    eventBus = new InMemoryAsyncEventBus([subscriber]);
+    eventBus = new InMemoryAsyncEventBus();
+    eventBus.addSubscribers([subscriber]);
 
     eventBus.publish([event]);
   });

@@ -34,3 +34,14 @@ services:
       class: ../../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory
       method: 'createClient'
     arguments: [ 'Shared', '@Shared.TypeOrmConfig' ]
+
+  Scheduler.TypeOrmConfig:
+    factory:
+      class: ../../../../../Contexts/Scheduler/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory
+      method: 'createConfig'
+
+  Scheduler.ConnectionManager:
+    factory:
+      class: ../../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory
+      method: 'createClient'
+    arguments: [ 'Scheduler', '@Scheduler.TypeOrmConfig' ]

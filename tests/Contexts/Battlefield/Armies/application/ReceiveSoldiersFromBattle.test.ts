@@ -2,7 +2,6 @@ import { ArmyGenerator } from '../Domain/ArmyGenerator';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
-import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { ReceiveSoldiersFromBattle } from '../../../../../src/Contexts/Battlefield/Armies/Application/ReceiveSoldiersFromBattle/ReceiveSoldiersFromBattle';
 import { ReceiveSoldiersFromBattleOnBattleTroopReturned } from '../../../../../src/Contexts/Battlefield/Armies/Application/ReceiveSoldiersFromBattle/ReceiveSoldiersFromBattleOnBattleTroopReturned';
 import { BattleExposedEventsGenerator } from '../../Battles/Domain/BattleExposedEventsGenerator';
@@ -37,16 +36,13 @@ describe('[Application] Receive Soldiers from battle', () => {
   });
 
   it('should fail when the army doesnt exist', async () => {
+    // todo: inject the logger and check the error
     const army = ArmyGenerator.random();
     const battle = BattleGenerator.randomForAttacker(army.id);
     const event = BattleExposedEventsGenerator.battleTroopReturned(battle);
 
-    try {
-      await handler.on(event);
-      fail("Didn't throw");
-    } catch (e: any) {
-      expect(e.message).toEqual(new ArmyNotFound().message);
-      eventBus.expectEventsNotToBePublished();
-    }
+    await handler.on(event);
+    
+    eventBus.expectEventsNotToBePublished();
   });
 });

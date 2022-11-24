@@ -1,4 +1,4 @@
-@battlefield
+@battlefield-1
 @send-attack
 Feature: As player, I want to attack other towns
 

@@ -28,7 +28,7 @@ describe('[infra] TaskRepository', () => {
     beforeEach(async () => {
       await repository.clear();
       expectedTasks = TaskGenerator.multipleRandom();
-      await repository.updateMultiple(expectedTasks);
+      for (const task of expectedTasks.getItems()) await repository.save(task);
     });
 
     it('should return the tasks to execute', async () => {

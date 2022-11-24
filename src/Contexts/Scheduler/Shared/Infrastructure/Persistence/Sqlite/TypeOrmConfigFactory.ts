@@ -1,4 +1,4 @@
-import config from '../../Config/cryptoWarsConfig';
+import config from '../../Config/SchedulerConfig';
 import { TypeOrmConfig } from '../../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfig';
 
 export class TypeOrmConfigFactory {
@@ -6,7 +6,7 @@ export class TypeOrmConfigFactory {
     return {
       database: config.get('typeorm.database'),
       migrations: config.get('typeorm.seeds'),
-      entities: '/../../../../**/**/infrastructure/Persistence/typeorm/*{.js,.ts}'
+      entities: '/../../../../Scheduler/**/infrastructure/Persistence/typeorm/*{.js,.ts}'
     };
   }
 }

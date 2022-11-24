@@ -2,7 +2,7 @@ services:
 
   Scheduler.Tasks.TaskRepository:
     class: ../../../../../../Contexts/Scheduler/Tasks/Infrastructure/Persistence/SqliteTaskRepository
-    arguments: [ '@Shared.ConnectionManager' ]
+    arguments: [ '@Scheduler.ConnectionManager' ]
 
   Scheduler.Tasks.CreateTask:
     class: ../../../../../../Contexts/Scheduler/Tasks/Application/Create/CreateTask

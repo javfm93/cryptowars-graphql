@@ -3,7 +3,6 @@
     "url": "mongodb://localhost:27017/mooc-backend-test"
   },
   "typeorm": {
-    "database": "crypto-wars-development.db"
-  },
-  "logLevel": "debug"
+    "database": "scheduler-development.db"
+  }
 }

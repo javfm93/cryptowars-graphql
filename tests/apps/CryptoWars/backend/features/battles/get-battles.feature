@@ -1,4 +1,4 @@
-@battlefield
+@battlefield-2
 @get-battles
 Feature: As player, I want check my attack results
 

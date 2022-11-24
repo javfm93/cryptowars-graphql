@@ -1,29 +1,33 @@
 import { Given, When } from '@cucumber/cucumber';
 import { agent, otherUserAgent } from './controller.steps';
+import { Uuid } from '../../../../../../src/Contexts/Shared/Domain/value-object/Uuid';
+import * as faker from 'faker';
 
-export const userId = 'ef8ac118-8d7f-49cc-abec-78e0d05af80a';
-export const otherUserId = '7c3c1cae-b473-41e7-9a3b-0b2ce2682a87';
+export const userId = Uuid.random().value;
+export const otherUserId = Uuid.random().value;
 
 Given('I am sign in', async () => {
+  const email = faker.internet.email();
   await agent.put(`/users/${userId}`).send({
-    email: 'newUser@email.com',
+    email,
     password: 'P@ssw0rd'
   });
 
   await agent.post('/login').send({
-    username: 'newUser@email.com',
+    username: email,
     password: 'P@ssw0rd'
   });
 });
 
 Given('Other user is signed in', async () => {
+  const email = faker.internet.email();
   await otherUserAgent.put(`/users/${otherUserId}`).send({
-    email: 'otherUser@email.com',
+    email: email,
     password: 'P@ssw0rd'
   });
 
   await otherUserAgent.post('/login').send({
-    username: 'otherUser@email.com',
+    username: email,
     password: 'P@ssw0rd'
   });
 });

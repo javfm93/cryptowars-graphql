@@ -3,7 +3,8 @@
     "url": "mongodb://localhost:27017/mooc-backend-test"
   },
   "typeorm": {
-    "database": "crypto-wars-development.db"
+    "database": "scheduler-integration.db"
   },
+  "checkTasksEveryInMs": 300,
   "logLevel": "debug"
 }

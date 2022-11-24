@@ -17,7 +17,7 @@ export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
       await this.eventBus.publish(tasks.getEventsToTrigger());
       tasks.markAsFinished();
       await this.taskRepository.updateMultiple(tasks);
-      if (tasks.getItems().length) logger.debug(`${tasks.getItems().length} tasks dispatched`);
+      logger.debug(`${tasks.getItems().length} tasks dispatched`);
     }
     logger.sampledOneTenthInfo(`${tasks.getItems().length} tasks dispatched`);
     return success();

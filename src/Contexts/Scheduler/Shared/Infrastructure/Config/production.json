@@ -1,0 +1,9 @@
+{
+  "mongo": {
+    "url": "mongodb://localhost:27017/mooc-backend-test"
+  },
+  "typeorm": {
+    "database": "scheduler-production.db",
+    "seeds": "dist/src/Contexts/CryptoWars/Shared/Infrastructure/Persistence/Migrations/*{.js}"
+  }
+}

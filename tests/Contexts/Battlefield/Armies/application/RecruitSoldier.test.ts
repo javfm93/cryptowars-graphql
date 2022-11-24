@@ -5,7 +5,6 @@ import { RecruitSquadOnTownSoldiersTrainFinished } from '../../../../../src/Cont
 import { TownEventsGenerator } from '../Domain/TownEventsGenerator';
 import { BattlefieldEventsRepositoryMock } from '../../Shared/__mocks__/BattlefieldEventsRepositoryMock';
 import { ArmyExposedEventsGenerator } from '../Domain/ArmyExposedEventsGenerator';
-import { ArmyNotFound } from '../../../../../src/Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
 import { SquadsGenerator } from '../domain/SquadsGenerator';
 
 const mockedNewUuid = '1f196f17-7437-47bd-9ac8-7ee33aa58987';
@@ -39,15 +38,12 @@ describe('[Application] Recruit Soldiers', () => {
   });
 
   it('should fail when the army doesnt exist', async () => {
+    // todo: inject the logger and check
     const army = ArmyGenerator.random();
     const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
 
-    try {
-      await handler.on(event);
-      fail("Didn't throw");
-    } catch (e: any) {
-      expect(e.message).toEqual(new ArmyNotFound().message);
-      eventBus.expectEventsNotToBePublished();
-    }
+    await handler.on(event);
+
+    eventBus.expectEventsNotToBePublished();
   });
 });
