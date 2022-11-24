@@ -68,7 +68,10 @@ describe('[Application] Create Battle', () => {
       BattleId.create(mockedNewUuid),
       ArmyTroop.fromPrimitives({
         armyId: attack.attackerTroop.armyId.toString(),
-        squads: { [SquadTypes.basic]: 2 }
+        squads: {
+          [SquadTypes.basic]: 2,
+          [SquadTypes.range]: 0
+        }
       })
     );
     eventBus.expectLastPublishedEventToBe(battleTroopReturned);

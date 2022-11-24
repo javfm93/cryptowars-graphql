@@ -3,7 +3,8 @@ import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Re
 import { InvalidSquad } from './InvalidSquad';
 
 export enum SquadTypes {
-  basic = 'basic'
+  basic = 'basic',
+  range = 'range'
 }
 
 export type SquadsPrimitives = {
@@ -16,7 +17,7 @@ export class Squads extends ValueObject<Squads> {
   }
 
   public static defaultSquads(): Squads {
-    return new Squads({ [SquadTypes.basic]: 0 });
+    return new Squads({ basic: 0, range: 0 });
   }
 
   public static fromPrimitives(squads: SquadsPrimitives): Squads {
@@ -26,15 +27,21 @@ export class Squads extends ValueObject<Squads> {
   public static create(squadsPrimitives: SquadsPrimitives): Either<Squads, InvalidSquad> {
     if (!squadsPrimitives) return failure(new InvalidSquad('Squad not provided'));
     const squadsToCreate = Object.entries(squadsPrimitives);
+    let thereIsAPositiveNumberOfSoldiers = false;
     for (const squadToCreate of squadsToCreate) {
       const [squad, numberOfSoldiers] = squadToCreate;
       if (!Object.keys(SquadTypes).includes(squad)) {
         return failure(new InvalidSquad(`Invalid squad: ${squad}`));
       }
-      if (numberOfSoldiers < 1) {
+      if (numberOfSoldiers < 0) {
         return failure(new InvalidSquad(`Invalid number of soldiers for squad ${squad}`));
       }
+      if (numberOfSoldiers > 0) {
+        thereIsAPositiveNumberOfSoldiers = true;
+      }
     }
+    if (!thereIsAPositiveNumberOfSoldiers)
+      return failure(new InvalidSquad(`No positive soldiers were provided`));
     return successAndReturn(new Squads(squadsPrimitives));
   }
 

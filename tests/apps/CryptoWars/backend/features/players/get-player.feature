@@ -35,13 +35,15 @@ Feature: As player, I want to see all my details
                         "capacity": 5,
                         "cost": 1,
                         "name": "basic",
-                        "speed": 10
+                        "speed": 10,
+                        "time": 1
                       },
                       {
                         "capacity": 20,
                         "cost": 1,
                         "name": "range",
-                        "speed": 5
+                        "speed": 5,
+                        "time": 10
                       }
                     ]
                   },

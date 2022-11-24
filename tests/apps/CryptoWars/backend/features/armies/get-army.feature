@@ -14,7 +14,8 @@ Feature: As player, I want to know what is the army of my town
     """
     {
       "squads": {
-        "basic": 2
+        "basic": 2,
+        "range": 0
       }
     }
     """

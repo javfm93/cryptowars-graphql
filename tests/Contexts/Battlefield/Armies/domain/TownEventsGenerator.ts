@@ -17,10 +17,9 @@ export class TownEventsGenerator {
   }
 
   static randomSoldiersTrainFinishedFor(army: Army): TownSoldiersTrainFinished {
-    // @ts-ignore
     const soldiers: TownSoldiersPrimitives = {
-      basic: NumberGenerator.randomBetween1and9()
-      // range: 0
+      basic: NumberGenerator.randomBetween1and9(),
+      range: 0
     };
 
     return new TownSoldiersTrainFinished({

@@ -37,7 +37,8 @@ Feature: As player, I want check my attack results
             "id": ":otherPlayerArmy",
             "playerId": ":otherPlayerId",
             "squads": {
-              "basic": 0
+              "basic": 0,
+              "range": 0
             },
             "townId": ":otherPlayerTown"
           },
@@ -45,15 +46,18 @@ Feature: As player, I want check my attack results
           "result": {
             "winner": "attacker",
             "attackerCasualties": {
-              "basic": 0
+              "basic": 0,
+              "range": 0
             },
             "defenderCasualties": {
-              "basic": 0
+              "basic": 0,
+              "range": 0
             },
             "returningTroop": {
               "armyId": ":armyId",
               "squads": {
-                "basic": 2
+                "basic": 2,
+                "range": 0
               }
             }
           }

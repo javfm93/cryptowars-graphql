@@ -32,7 +32,6 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
       }
     }
     if (!thereIsAPositiveNumberOfSoldiers) return failure(new InvalidNumberOfSoldiers());
-
     return successAndReturn(new TownSoldiers(soldiers));
   }
 

@@ -63,7 +63,10 @@ export class Attack extends AggregateRoot {
       Uuid.random(),
       AttackTroop.fromPrimitives({
         armyId: Uuid.random().toString(),
-        squads: { [SquadTypes.basic]: 0 }
+        squads: {
+          [SquadTypes.basic]: 0,
+          [SquadTypes.range]: 0
+        }
       }),
       ArmyId.random()
     );

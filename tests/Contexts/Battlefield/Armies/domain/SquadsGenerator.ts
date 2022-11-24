@@ -12,28 +12,44 @@ export class SquadsGenerator {
   }
 
   static randomBetween1and9(): Squads {
-    return this.create({ [SquadTypes.basic]: NumberGenerator.randomBetween1and9() });
+    return this.create({
+      [SquadTypes.basic]: NumberGenerator.randomBetween1and9(),
+      [SquadTypes.range]: 0
+    });
   }
 
   static randomBetween10and90(): Squads {
     return this.create({
-      [SquadTypes.basic]: NumberGenerator.randomBetween10and90()
+      [SquadTypes.basic]: NumberGenerator.randomBetween10and90(),
+      [SquadTypes.range]: 0
     });
   }
 
   static withInvalidNumberOfSoldiers(): Squads {
-    return this.create({ [SquadTypes.basic]: -1 });
+    return this.create({
+      [SquadTypes.basic]: -1,
+      [SquadTypes.range]: 0
+    });
   }
 
   static withInvalidSoldiers(): Squads {
-    return this.create({ [faker.random.word()]: 1 } as SquadsPrimitives);
+    return this.create({
+      [faker.random.word()]: 1,
+      [SquadTypes.range]: 0
+    } as SquadsPrimitives);
   }
 
   static withLotOfSoldiers(): Squads {
-    return this.create({ [SquadTypes.basic]: 9999999999999 });
+    return this.create({
+      [SquadTypes.basic]: 9999999999999,
+      [SquadTypes.range]: 0
+    });
   }
 
   static withNSoldiers(soldiers: number): Squads {
-    return this.create({ [SquadTypes.basic]: soldiers });
+    return this.create({
+      [SquadTypes.basic]: soldiers,
+      [SquadTypes.range]: 0
+    });
   }
 }

@@ -52,9 +52,15 @@ export class Battle extends AggregateRoot {
   ): BattleResult {
     const returningTroop = {
       armyId: this.attack.attackerTroop.armyId.toString(),
-      squads: { [SquadTypes.basic]: attackerSoldiers - defenderSoldiers }
+      squads: {
+        [SquadTypes.basic]: attackerSoldiers - defenderSoldiers,
+        [SquadTypes.range]: 0
+      }
     };
-    const casualties = { [SquadTypes.basic]: defenderSoldiers };
+    const casualties = {
+      [SquadTypes.basic]: defenderSoldiers,
+      [SquadTypes.range]: 0
+    };
     return BattleResult.fromPrimitives({
       winner: 'attacker',
       attackerCasualties: casualties,
@@ -67,10 +73,14 @@ export class Battle extends AggregateRoot {
     const returningTroop = {
       armyId: this.attack.attackerTroop.armyId.toString(),
       squads: {
-        [SquadTypes.basic]: 0
+        [SquadTypes.basic]: 0,
+        [SquadTypes.range]: 0
       }
     };
-    const casualties = { [SquadTypes.basic]: attackerSoldiers };
+    const casualties = {
+      [SquadTypes.basic]: attackerSoldiers,
+      [SquadTypes.range]: 0
+    };
     return BattleResult.fromPrimitives({
       winner: 'defender',
       attackerCasualties: casualties,
