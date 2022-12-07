@@ -1,35 +1,58 @@
 import { useWorld } from './useWorld';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../Shared/Layout';
 import { useTownArmy } from '../Headquarter/useTownArmy';
 import { useUrlQueryParams } from './useUrlQueryParams';
 import { WorldMap } from './WorldMap';
 import { WorldAttackMenu } from './WorldAttackMenu';
+import { Button } from '@mui/material';
+import { usePlayer } from '../Town/usePlayer';
+import { useCreateDirectChat } from '../Chat/useCreateDirectChat';
+import { AppRoutes } from '../../App';
 
 export const WorldPage = () => {
   const { id } = useParams();
   const townId = useUrlQueryParams('townId');
   if (!id || !townId) return <> Invalid world or town </>;
   const { result, isLoading, error } = useWorld(id);
+  const { result: playerResult } = usePlayer();
   const armyResult = useTownArmy(townId);
+  const { createChat } = useCreateDirectChat();
+  const navigate = useNavigate();
 
-  // todo: test, when a world was already selected, not create another town
   return (
     <Layout
       tittle={'World Map'}
       isLoading={isLoading || armyResult.isLoading}
       error={error || armyResult.error}
     >
-      {result && armyResult.result && (
-        <>
-          <WorldAttackMenu
-            attackerTownId={townId}
-            army={armyResult.result.army}
-            worldTowns={result.world.towns}
-          />
-          <WorldMap />
-        </>
-      )}
+      <>
+        {result && armyResult.result && playerResult && (
+          <>
+            {result.world.towns.map(town => (
+              <Button
+                key={town.id}
+                onClick={async () => {
+                  await createChat(town.playerId);
+                  navigate(AppRoutes.chat);
+                }}
+                disabled={townId === town.id}
+              >
+                Chat with {town.playerId}
+              </Button>
+            ))}
+
+            <br />
+
+            <WorldAttackMenu
+              attackerTownId={townId}
+              army={armyResult.result.army}
+              worldTowns={result.world.towns}
+            />
+            <WorldMap />
+          </>
+        )}
+      </>
     </Layout>
   );
 };

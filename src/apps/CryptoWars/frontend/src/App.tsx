@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Home } from './Pages/Home';
 import { Login } from './Pages/Login';
 import { SelectWorld } from './Pages/SelectWorld';
+import { ChatPage } from './Pages/Chat/ChatPage';
 
 export const AppRoutes = {
   selectWorld: '/select-world',
@@ -18,7 +19,8 @@ export const AppRoutes = {
   registration: '/registration',
   login: '/login',
   headquarter: (id: string) => `/towns/${id}/headquarter`,
-  world: (id: string) => `/worlds/${id}`
+  world: (id: string) => `/worlds/${id}`,
+  chat: '/chat'
 };
 
 export const App = () => {
@@ -38,6 +40,7 @@ export const App = () => {
               <Route path={AppRoutes.login} element={<Login />} />
               <Route path={AppRoutes.headquarter(':id')} element={<HeadquarterPage />} />
               <Route path={AppRoutes.world(':id')} element={<WorldPage />} />
+              <Route path={AppRoutes.chat} element={<ChatPage />} />
             </Routes>
           </Layout>
         </BrowserRouter>

@@ -4,7 +4,7 @@ import errorHandler from 'errorhandler';
 import express, { Request, Response } from 'express';
 import Router from 'express-promise-router';
 import helmet from 'helmet';
-import * as http from 'http';
+import http from 'http';
 import httpStatus from 'http-status';
 import Logger from '../../../Contexts/Shared/Domain/Logger';
 import container from './dependency-injection';
@@ -15,6 +15,9 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import * as OpenApiValidator from 'express-openapi-validator';
 import path from 'path';
+import io from 'socket.io';
+import { ClientToServerEvents, ServerToClientEvents } from './Events/events';
+import { registerEvents } from './Events/registerEvents';
 
 const SQLiteStore = require('connect-sqlite3')(session);
 
@@ -74,7 +77,18 @@ export class Server {
 
   async listen(): Promise<void> {
     return new Promise(resolve => {
-      this.httpServer = this.express.listen(this.port, () => {
+      const server = http.createServer(this.express);
+      const socketServer = new io.Server<ClientToServerEvents, ServerToClientEvents>(server, {
+        cors: {
+          origin: 'http://localhost:3000',
+          methods: ['GET', 'POST'],
+          credentials: true
+        }
+      });
+
+      registerEvents(socketServer);
+
+      this.httpServer = server.listen(this.port, () => {
         this.logger.info(
           `Crypto Wars Backend App is running at http://localhost:${
             this.port

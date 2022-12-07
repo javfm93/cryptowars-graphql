@@ -39,3 +39,24 @@ services:
   Apps.Battlefield.Backend.Controllers.BattlesGetController:
     class: ../../Controllers/Battlefield/Battles/BattlesGetController
     arguments: [ '@Shared.QueryBus' ]
+
+  Apps.Communication.Backend.Controllers.DirectChatsGetController:
+    class: ../../Controllers/Communication/Chats/DirectChatsGetController
+    arguments: [ '@Shared.QueryBus' ]
+
+  Apps.Communication.Backend.Controllers.DirectChatMessagesGetController:
+    class: ../../Controllers/Communication/Chats/DirectChatMessagesGetController
+    arguments: [ '@Shared.QueryBus' ]
+
+  Apps.Communication.Backend.Controllers.CreateDirectChatPutController:
+    class: ../../Controllers/Communication/Chats/CreateDirectChatPutController
+    arguments: [ '@Shared.CommandBus' ]
+
+  Apps.Communication.Backend.EventHandlers.SendDirectChatMessageEventHandler:
+    class: ../../EventHandlers/Communication/SendDirectChatMessageEventHandler
+    arguments: [ '@Shared.CommandBus' ]
+
+
+  Apps.Communication.Backend.EventHandlers.PlayerTypingEventHandler:
+    class: ../../EventHandlers/Communication/PlayerTypingEventHandler
+    arguments: [ '@Shared.CommandBus' ]

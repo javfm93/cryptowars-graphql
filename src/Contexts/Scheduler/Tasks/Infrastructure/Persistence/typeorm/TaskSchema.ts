@@ -5,6 +5,17 @@ import { Task } from '../../../Domain/Task';
 export const TaskSchema = new EntitySchema<Primitives<Task>>({
   name: 'TaskSchedule',
   tableName: 'TaskSchedule',
+  indices: [
+    {
+      unique: true,
+      columns: ['triggerAt', 'id']
+    }
+  ],
+  uniques: [
+    {
+      columns: ['triggerAt', 'id']
+    }
+  ],
   columns: {
     triggerAt: {
       type: Number,

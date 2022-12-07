@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import container from '../dependency-injection';
-import { requireAuth } from '../Auth';
-import { ArmyGetController } from '../Controllers/Battlefield/Armies/ArmyGetController';
+import container from '../../dependency-injection';
+import { requireAuth } from '../../Auth';
+import { ArmyGetController } from '../../Controllers/Battlefield/Armies/ArmyGetController';
 
 export const register = (router: Router) => {
   const armyGetController: ArmyGetController = container.get(

@@ -22,6 +22,8 @@ tags:
     description: War operations
   - name: battle
     description: Operations on battles
+  - name: directChat
+    description: Operations on direct chat
 paths:
   /login:
     post:
@@ -220,7 +222,48 @@ paths:
           description: Unauthorized
         403:
           description: Unauthorized
-
+  /direct-chats:
+    get:
+      tags:
+        - directChat
+      summary: Returns the list of direct chats of a player
+      operationId: getDirectChats
+      responses:
+        200:
+          description: successful operation
+        401:
+          description: Unauthorized
+  /direct-chats/{id}:
+    put:
+      tags:
+        - directChat
+      summary: Create a new direct chat with other player
+      operationId: createChat
+      parameters:
+        - name: id
+          in: path
+          description: UUID of the chat
+          required: true
+          schema:
+            $ref: '#/components/schemas/Uuid'
+      requestBody:
+        $ref: '#/components/requestBodies/TrainSoldierRequest'
+      responses:
+        200:
+          description: Done
+        401:
+          description: Unauthorized
+  /direct-chats/{id}/messages:
+    get:
+      tags:
+        - directChat
+      summary: Returns the list of messages of a chat
+      operationId: getDirectChatMessages
+      responses:
+        200:
+          description: successful operation
+        401:
+          description: Unauthorized
 components:
   requestBodies:
     TrainSoldierRequest:
@@ -232,6 +275,17 @@ components:
             properties:
               soldiers:
                 $ref: '#/components/schemas/TownSoldiers'
+    CreateChatRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              playerTwoId:
+                $ref: '#/components/schemas/Uuid'
+            required:
+              - playerTwoId
     LoginRequest:
       content:
         application/json:

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { usePlayer } from '../Town/usePlayer';
 import { Towns } from './Towns';
 

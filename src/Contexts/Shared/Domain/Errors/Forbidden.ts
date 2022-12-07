@@ -5,7 +5,7 @@ export class Forbidden extends DomainError {
     super(`Forbidden`);
   }
 
-  public errorName(): string {
+  public errorName(): 'Forbidden' {
     return 'Forbidden';
   }
 }

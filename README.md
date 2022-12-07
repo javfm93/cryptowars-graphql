@@ -1,5 +1,20 @@
-## Project Structure
+todos:
 
+- add name to the players
+- add name to the villages
+- allow training of range
+- add time to the training
+- add attacks to the schedule
+- improve the battlefield engine
+- add attack and defense to the units
+- allow level up of buildings
+- separate databases of context
+- e2e tests should only apply one context
+- create metrics based on events
+- improve logs with context data
+- create clans/guilds/kingdom/tribes with chat
+
+## Project Structure
 
 ```
 src
@@ -32,6 +47,7 @@ tests
 C/Q = Command/Query
 
 Data Flow Diagram
+
 ```
 Controller --> C/Q Bus --> C/Q Handler --> Use Case --> Repositories
                                                     --> External Services
@@ -44,12 +60,12 @@ Controller --> C/Q Bus --> C/Q Handler --> Use Case --> Repositories
 ```
 
 Dependency Diagram
+
 ```
 Controller <-- C/Q Bus -->\ C/Q Handler --> Use Case --> Repositories
                                                     --> External Services
 
 ```
-
 
 ## Deployment
 
