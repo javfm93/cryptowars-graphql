@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { Battles } from '../../Domain/Battles';
@@ -15,6 +15,7 @@ type ListBattlesByArmyIdArgs = {
   playerId: PlayerId;
 };
 
+@RegisterUseCase()
 export class ListBattlesByArmyId implements UseCase<ListBattlesByArmyIdArgs, Battles> {
   constructor(private repository: BattlefieldInternalEventRepository) {}
 

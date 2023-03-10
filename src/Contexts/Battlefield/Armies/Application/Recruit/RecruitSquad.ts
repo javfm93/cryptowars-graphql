@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
@@ -14,6 +14,7 @@ type RecruitSoldiersArgs = {
 
 type RecruitSoldiersResult = Either<EmptyResult, ArmyNotFound>;
 
+@RegisterUseCase()
 export class RecruitSquad implements UseCase<RecruitSoldiersArgs, EmptyResult> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,

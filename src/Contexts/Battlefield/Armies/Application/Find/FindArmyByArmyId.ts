@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { Army } from '../../Domain/Army';
 import { ArmyNotFound } from './ArmyNotFound';
@@ -15,6 +15,7 @@ type FindArmyArgs = {
   armyId: ArmyId;
 };
 
+@RegisterUseCase()
 export class FindArmyByArmyId implements UseCase<FindArmyArgs, Army> {
   constructor(private eventRepository: BattlefieldInternalEventRepository) {}
 

@@ -1,5 +1,8 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
+import {
+  DomainEventHandler,
+  RegisterDomainEventHandler
+} from '../../../../Shared/Domain/DomainEventHandler';
 import { CreateArmy } from './CreateArmy';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { ArmyId } from '../../Domain/ArmyId';
@@ -7,6 +10,7 @@ import { TownCreatedDomainEvent } from '../../../../CryptoWars/Towns/Domain/Town
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 
+@RegisterDomainEventHandler()
 export class CreateArmyOnTownCreated implements DomainEventHandler<TownCreatedDomainEvent> {
   constructor(private createArmy: CreateArmy) {}
 

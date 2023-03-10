@@ -1,6 +1,6 @@
 import { Either } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { Army } from '../../Domain/Army';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { ArmyId } from '../../Domain/ArmyId';
@@ -9,6 +9,7 @@ import { FindArmyByArmyIdQuery } from './FindArmyByArmyIdQuery';
 
 export type FindArmyByArmyIdQueryResult = Either<Army, FindArmyByArmyIdErrors>;
 
+@RegisterQueryHandler()
 export class FindArmyByArmyIdQueryHandler
   implements QueryHandler<FindArmyByArmyIdQuery, FindArmyByArmyIdQueryResult>
 {

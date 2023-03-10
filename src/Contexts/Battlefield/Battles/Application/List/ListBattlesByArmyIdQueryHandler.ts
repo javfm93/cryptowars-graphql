@@ -3,13 +3,14 @@ import { ListBattlesByArmyId } from './ListBattlesByArmyId';
 import { Either } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { Battles } from '../../Domain/Battles';
 import { ArmyId } from '../../../Armies/Domain/ArmyId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 
 export type ListBattlesByArmyIdQueryResult = Either<Battles, DomainError>;
 
+@RegisterQueryHandler()
 export class ListBattlesByArmyIdQueryHandler
   implements QueryHandler<ListBattlesByArmyIdQuery, ListBattlesByArmyIdQueryResult>
 {

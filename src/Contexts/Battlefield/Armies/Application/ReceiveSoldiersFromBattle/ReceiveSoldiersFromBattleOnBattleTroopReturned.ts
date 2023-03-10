@@ -1,11 +1,15 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
+import {
+  DomainEventHandler,
+  RegisterDomainEventHandler
+} from '../../../../Shared/Domain/DomainEventHandler';
 import { ReceiveSoldiersFromBattle } from './ReceiveSoldiersFromBattle';
 import { Squads } from '../../Domain/Squads';
 import { BattleTroopReturnedDomainEvent } from '../../../Battles/Domain/BattleTroopReturnedDomainEvent';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 import { ArmyId } from '../../Domain/ArmyId';
 
+@RegisterDomainEventHandler()
 export class ReceiveSoldiersFromBattleOnBattleTroopReturned
   implements DomainEventHandler<BattleTroopReturnedDomainEvent>
 {

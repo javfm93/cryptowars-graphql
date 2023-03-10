@@ -3,10 +3,10 @@ import { NothingOr } from '../../../Shared/Domain/Nullable';
 import { ArmyId } from './ArmyId';
 import { TownId } from '../../../CryptoWars/Towns/Domain/TownId';
 
-export interface ArmyRepository {
-  save(army: Army): Promise<void>;
+export abstract class ArmyRepository {
+  abstract save(army: Army): Promise<void>;
 
-  findById(id: ArmyId): Promise<NothingOr<Army>>;
+  abstract findById(id: ArmyId): Promise<NothingOr<Army>>;
 
-  findByTownId(id: TownId): Promise<NothingOr<Army>>;
+  abstract findByTownId(id: TownId): Promise<NothingOr<Army>>;
 }

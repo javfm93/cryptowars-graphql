@@ -2,7 +2,10 @@ import {
   BattlefieldInternalEvent,
   BattlefieldInternalEventPrimitives
 } from '../../Domain/BattlefieldInternalEvent';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema, Repository } from 'typeorm';
 import { BattlefieldEventSchema } from './typeorm/BattlefieldEventSchema';
 import { BattlefieldInternalEventRepository } from '../../Domain/BattlefieldInternalEventRepository';
@@ -16,6 +19,7 @@ import { Attack } from '../../../Attacks/Domain/Attack';
 import { AttackId } from '../../../Attacks/Domain/AttackId';
 import { Battles } from '../../../Battles/Domain/Battles';
 
+@RegisterRepository(BattlefieldInternalEventRepository)
 export class SqliteBattlefieldEventRepository
   extends TypeOrmRepository<BattlefieldInternalEventPrimitives>
   implements BattlefieldInternalEventRepository

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import httpStatus, { BAD_REQUEST, CONFLICT, FORBIDDEN, NOT_FOUND } from 'http-status';
 import { SendAttackRequest } from './SendAttackRequest';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { CommandBus } from '../../../../../../Contexts/Shared/Domain/CommandBus';
 import { Forbidden } from '../../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 import { TownNotFound } from '../../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TownNotFound';
@@ -20,6 +20,7 @@ type QueryParams = {
   id: string;
 };
 
+@RegisterController()
 export class SendAttackPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
 

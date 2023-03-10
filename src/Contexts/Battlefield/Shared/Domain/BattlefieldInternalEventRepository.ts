@@ -9,18 +9,18 @@ import { AttackId } from '../../Attacks/Domain/AttackId';
 import { Attack } from '../../Attacks/Domain/Attack';
 import { Battles } from '../../Battles/Domain/Battles';
 
-export interface BattlefieldInternalEventRepository {
-  save(event: Array<BattlefieldInternalEvent>): Promise<void>;
+export abstract class BattlefieldInternalEventRepository {
+  abstract save(event: Array<BattlefieldInternalEvent>): Promise<void>;
 
-  findOneByAggregateId(id: Uuid): Promise<NothingOr<BattlefieldInternalEvent>>;
+  abstract findOneByAggregateId(id: Uuid): Promise<NothingOr<BattlefieldInternalEvent>>;
 
-  materializeArmyByTownId(townId: Uuid): Promise<NothingOr<Army>>;
+  abstract materializeArmyByTownId(townId: Uuid): Promise<NothingOr<Army>>;
 
-  materializeArmyByArmyId(armyId: ArmyId): Promise<NothingOr<Army>>;
+  abstract materializeArmyByArmyId(armyId: ArmyId): Promise<NothingOr<Army>>;
 
-  materializeBattleById(battleId: BattleId): Promise<NothingOr<Battle>>;
+  abstract materializeBattleById(battleId: BattleId): Promise<NothingOr<Battle>>;
 
-  materializeBattlesByArmyId(armyId: ArmyId): Promise<Battles>;
+  abstract materializeBattlesByArmyId(armyId: ArmyId): Promise<Battles>;
 
-  materializeAttackById(attackId: AttackId): Promise<NothingOr<Attack>>;
+  abstract materializeAttackById(attackId: AttackId): Promise<NothingOr<Attack>>;
 }

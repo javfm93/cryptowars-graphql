@@ -1,4 +1,4 @@
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { SendAttackCommand } from './SendAttackCommand';
 import { SendAttack } from './SendAttack';
 import { CommandClass } from '../../../../Shared/Domain/Command';
@@ -12,6 +12,7 @@ import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 export type SendAttackCommandErrors = DomainError;
 export type SendAttackCommandResult = Either<EmptyResult, SendAttackCommandErrors>;
 
+@RegisterCommandHandler()
 export class SendAttackCommandHandler implements CommandHandler<SendAttackCommand> {
   constructor(private sendAttack: SendAttack) {}
 

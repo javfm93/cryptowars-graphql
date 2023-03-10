@@ -18,7 +18,6 @@ export class CreatePlayerOnUserCreated implements DomainEventHandler<UserCreated
   }
 
   async on(domainEvent: UserCreatedDomainEvent) {
-    console.log('----------- USER CREATED --------');
     const userId = UserId.create(domainEvent.aggregateId);
     const id = PlayerId.create(Uuid.random().toString());
     await this.createPlayer.execute({ id, userId });

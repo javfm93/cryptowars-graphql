@@ -2,7 +2,7 @@ import { FindArmyByTownQuery } from './FindArmyByTownQuery';
 import { FindArmyByTown, FindArmyErrors } from './FindArmyByTown';
 import { Either } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { Army } from '../../Domain/Army';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
@@ -10,6 +10,7 @@ import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type FindArmyByTownQueryResult = Either<Army, FindArmyErrors>;
 
+@RegisterQueryHandler()
 export class FindArmyByTownQueryHandler
   implements QueryHandler<FindArmyByTownQuery, FindArmyByTownQueryResult>
 {

@@ -1,13 +1,4 @@
 imports:
   - { resource: ./Apps/application.yaml }
   - { resource: ./Shared/application.yaml }
-  - { resource: ./IAM/Users/application.yaml }
-  - { resource: ./CryptoWars/Players/application.yaml }
-  - { resource: ./CryptoWars/Worlds/application.yaml }
-  - { resource: ./CryptoWars/Towns/application.yaml }
-  - { resource: ./Communication/Chats/application.yaml }
-  - { resource: ./Communication/ChatMessages/application.yaml }
-  - { resource: ./Battlefield/Armies/application.yaml }
-  - { resource: ./Battlefield/Attacks/application.yaml }
-  - { resource: ./Battlefield/Battles/application.yaml }
   - { resource: ./Scheduler/Tasks/application.yaml }

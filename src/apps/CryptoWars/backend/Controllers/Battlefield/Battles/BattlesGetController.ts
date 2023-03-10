@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { BattlesResponse } from './BattlesResponse';
 import { ArmyNotFound } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
@@ -8,6 +8,7 @@ import { Forbidden } from '../../../../../../Contexts/Shared/Domain/Errors/Forbi
 import { ListBattlesByArmyIdQuery } from '../../../../../../Contexts/Battlefield/Battles/Application/List/ListBattlesByArmyIdQuery';
 import { ListBattlesByArmyIdQueryResult } from '../../../../../../Contexts/Battlefield/Battles/Application/List/ListBattlesByArmyIdQueryHandler';
 
+@RegisterController()
 export class BattlesGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
 

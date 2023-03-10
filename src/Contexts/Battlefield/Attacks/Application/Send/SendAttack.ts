@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Attack } from '../../Domain/Attack';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import {
@@ -32,6 +32,7 @@ type SendAttackArgs = {
 
 type SendAttackResult = Either<EmptyResult, ArmyNotFound | Forbidden>;
 
+@RegisterUseCase()
 export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,

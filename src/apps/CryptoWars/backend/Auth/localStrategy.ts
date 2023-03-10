@@ -40,7 +40,6 @@ passport.use(
       const userRepository = DependencyInjector.get(UserRepository);
       const user = await userRepository.findByEmail(UserEmail.fromPrimitives(email));
       if (!user) return cb(null, false, { message: 'Incorrect username or password.' });
-      console.log('USER FOUND');
       const hash = hashPassword(password);
       const passwordMatches = matchPassword(password, hash);
       if (!passwordMatches) return cb(null, false, { message: 'Incorrect username or password.' });

@@ -1,11 +1,15 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
+import {
+  DomainEventHandler,
+  RegisterDomainEventHandler
+} from '../../../../Shared/Domain/DomainEventHandler';
 import { RecruitSquad } from './RecruitSquad';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { TownSoldiersTrainFinished } from '../../../../CryptoWars/Towns/Domain/TownSoldiersTrainFinishedDomainEvent';
 import { Squads } from '../../Domain/Squads';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
+@RegisterDomainEventHandler()
 export class RecruitSquadOnTownSoldiersTrainFinished
   implements DomainEventHandler<TownSoldiersTrainFinished>
 {

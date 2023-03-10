@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Army } from '../../Domain/Army';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
@@ -16,6 +16,7 @@ type CreateArmyArgs = {
 
 type CreateArmyResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,

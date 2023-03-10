@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import container from '../../dependency-injection';
 import { SendAttackPutController } from '../../Controllers/Battlefield/Attacks/SendAttackPutController';
 import { requireAuth } from '../../Auth';
+import { DependencyInjector } from '../../dependency-injection/dependencyInjector';
 
 export const register = (router: Router) => {
-  const sendAttackPutController: SendAttackPutController = container.get(
-    'Apps.Battlefield.Backend.Controllers.SendAttackPutController'
-  );
+  const sendAttackPutController = DependencyInjector.get(SendAttackPutController);
   router.put(
     '/attacks/:id',
     requireAuth,
