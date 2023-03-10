@@ -2,11 +2,15 @@ import { UserRepository } from '../../Domain/UserRepository';
 import { User, UserPrimitives } from '../../Domain/User';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { UserId } from '../../Domain/UserId';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { UserSchema } from './typeorm/UserSchema';
 import { UserEmail } from '../../Domain/UserEmail';
 
+@RegisterRepository(UserRepository)
 export class SqliteUserRepository
   extends TypeOrmRepository<UserPrimitives>
   implements UserRepository

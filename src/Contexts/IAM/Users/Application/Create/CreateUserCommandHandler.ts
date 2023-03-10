@@ -1,14 +1,14 @@
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CreateUserCommand } from './CreateUserCommand';
-import { CreateUser } from './CreateUser';
 import { CommandClass } from '../../../../Shared/Domain/Command';
-import { UserId } from '../../Domain/UserId';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidEmailError } from '../../Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../Domain/Errors/InvalidPasswordError';
 import { UserAlreadyTakenError } from './UserAlreadyTakenError';
+import { CreateUser } from './CreateUser';
+import { UserId } from '../../Domain/UserId';
 
 export type CreateUserCommandErrors =
   | InvalidEmailError
@@ -16,6 +16,7 @@ export type CreateUserCommandErrors =
   | UserAlreadyTakenError;
 export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
 
+@RegisterCommandHandler()
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
   constructor(private createUser: CreateUser) {}
 

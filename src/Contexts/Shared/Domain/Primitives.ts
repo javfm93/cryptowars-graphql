@@ -22,3 +22,11 @@ type ValueObjectValue<T> = {
 
 export type Primitives<T> = T extends NativePrimitives ? T : ValueObjectValue<Properties<T>>;
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+
+export interface Class<T> extends Function {
+  new (...args: any[]): T;
+}
+
+export interface AbstractClass<T> extends Function {
+  prototype: T;
+}

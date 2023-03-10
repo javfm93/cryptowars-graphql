@@ -2219,6 +2219,11 @@ diff@^4.0.1:
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
+diod@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/diod/-/diod-2.0.0.tgz#11f389ed77be13f027b8ff5fddca351170c01c4f"
+  integrity sha512-xnlnXzLcRG2KmB32wTGz+gsPUuguzaPz9xFuFT9M3iqXBbMk7JkYVeg5/MmbUNyiaWJu8DTn9RPmtAGthLhFgA==
+
 doctrine@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-0.7.2.tgz#7cb860359ba3be90e040b26b729ce4bfa654c523"

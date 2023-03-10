@@ -4,9 +4,9 @@ services:
     class: ../../Controllers/StatusGetController
     arguments: [ ]
 
-  Apps.CryptoWars.Backend.Controllers.UsersPutController:
-    class: ../../Controllers/IAM/Users/UsersPutController
-    arguments: [ '@Shared.CommandBus' ]
+#  Apps.CryptoWars.Backend.Controllers.UsersPutController:
+#    class: ../../Controllers/IAM/Users/UsersPutController
+#    arguments: [ '@Shared.CommandBus' ]
 
   Apps.CryptoWars.Backend.Controllers.WorldsGetController:
     class: ../../Controllers/CryptoWars/Worlds/WorldsGetController

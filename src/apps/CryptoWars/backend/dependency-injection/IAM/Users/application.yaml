@@ -1,16 +1,16 @@
 services:
 
-  CryptoWars.Users.UserRepository:
-    class: ../../../../../../Contexts/IAM/Users/Infrastructure/Persistence/SqliteUserRepository
-    arguments: [ '@Shared.ConnectionManager' ]
-
-  CryptoWars.Users.CreateUser:
-    class: ../../../../../../Contexts/IAM/Users/Application/Create/CreateUser
-    arguments: [ '@CryptoWars.Users.UserRepository', '@Shared.EventBus' ]
-
-  CryptoWars.Users.CreateUserCommandHandler:
-    class: ../../../../../../Contexts/IAM/Users/Application/Create/CreateUserCommandHandler
-    arguments: [ '@CryptoWars.Users.CreateUser' ]
-    tags:
-      - { name: 'commandHandler' }
+#  CryptoWars.Users.UserRepository:
+#    class: ../../../../../../Contexts/IAM/Users/Infrastructure/Persistence/SqliteUserRepository
+#    arguments: [ '@Shared.ConnectionManager' ]
+#
+#  CryptoWars.Users.CreateUser:
+#    class: ../../../../../../Contexts/IAM/Users/Application/Create/CreateUser
+#    arguments: [ '@CryptoWars.Users.UserRepository', '@Shared.EventBus' ]
+#
+#  CryptoWars.Users.CreateUserCommandHandler:
+#    class: ../../../../../../Contexts/IAM/Users/Application/Create/CreateUserCommandHandler
+#    arguments: [ '@CryptoWars.Users.CreateUser' ]
+#    tags:
+#      - { name: 'commandHandler' }
 

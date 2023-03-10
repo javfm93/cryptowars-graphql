@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { CryptoWarsBackendApp } from './CryptoWarsBackendApp';
 
 try {

@@ -1,10 +1,8 @@
 import { Router } from 'express';
-import container from '../../dependency-injection';
 import { UsersPutController } from '../../Controllers/IAM/Users/UsersPutController';
+import { DependencyInjector } from '../../dependency-injection/dependencyInjector';
 
 export const register = (router: Router) => {
-  const userPutController: UsersPutController = container.get(
-    'Apps.CryptoWars.Backend.Controllers.UsersPutController'
-  );
+  const userPutController = DependencyInjector.get().getDependency(UsersPutController);
   router.put('/users/:id', userPutController.run.bind(userPutController));
 };

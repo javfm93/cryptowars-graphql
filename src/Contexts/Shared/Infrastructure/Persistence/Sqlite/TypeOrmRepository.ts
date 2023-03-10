@@ -1,5 +1,11 @@
 import { Connection, EntitySchema, Repository } from 'typeorm';
+import { Service } from 'diod';
+import { AbstractClass, Class } from '../../../Domain/Primitives';
+import { TypeOrmClientFactory } from './TypeOrmClientFactory';
+import { TypeOrmConfigFactory } from '../../../../CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory2';
+import { DependencyInjector } from '../../../../../apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
+@Service()
 export abstract class TypeOrmRepository<T> {
   constructor(private _client: Promise<Connection>) {}
 
@@ -28,3 +34,17 @@ export abstract class TypeOrmRepository<T> {
     await repository.save(aggregateRoot);
   }
 }
+
+export const RegisterRepository = (repository: AbstractClass<any>) => {
+  console.log('registering a repository');
+  return (target: Class<any>): Class<any> => {
+    DependencyInjector.get()
+      .register(repository)
+      .useInstance(
+        new target(
+          TypeOrmClientFactory.createClient('Shared2', TypeOrmConfigFactory.createConfig())
+        )
+      );
+    return target;
+  };
+};

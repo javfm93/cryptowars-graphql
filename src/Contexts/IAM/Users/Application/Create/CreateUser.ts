@@ -1,5 +1,5 @@
 import { UserRepository } from '../../Domain/UserRepository';
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { User } from '../../Domain/User';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
@@ -16,6 +16,7 @@ type CreateUserArgs = {
 
 type CreateUserResult = Either<EmptyResult, UserAlreadyTakenError>;
 
+@RegisterUseCase()
 export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {
   constructor(private userRepository: UserRepository, private eventBus: EventBus) {}
 
