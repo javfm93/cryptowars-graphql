@@ -10,7 +10,6 @@ export interface QueryHandler<Q extends Query, R extends Response> {
 export const registeredQueryHandlers: Class<any>[] = [];
 
 export const RegisterQueryHandler = () => {
-  console.log('registering a query handler');
   return (target: Class<any>): Class<any> => {
     registeredQueryHandlers.push(target);
     return target;

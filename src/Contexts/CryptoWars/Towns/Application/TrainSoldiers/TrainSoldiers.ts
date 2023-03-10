@@ -2,7 +2,7 @@ import { TownRepository } from '../../Domain/TownRepository';
 import { TownNotFound } from './TownNotFound';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../Domain/TownId';
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
@@ -16,6 +16,7 @@ type TrainSoldiersArgs = {
 
 export type TrainSoldiersResult = Either<EmptyResult, TownNotFound | Forbidden>;
 
+@RegisterUseCase()
 export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
   constructor(private townRepository: TownRepository, private eventBus: EventBus) {}
 

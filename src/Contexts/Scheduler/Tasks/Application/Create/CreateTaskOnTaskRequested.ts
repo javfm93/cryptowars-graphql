@@ -1,5 +1,5 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
 import { CreateTask } from './CreateTask';
 import { TaskId } from '../../Domain/TaskId';
 import { TaskRequestedDomainEvent } from '../../Domain/TaskRequestedDomainEvent';
@@ -7,7 +7,7 @@ import { FutureUnixTimestamp } from '../../Domain/FutureUnixTimestamp';
 import { TaskEventToTrigger } from '../../Domain/TaskEventToTrigger';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
-export class CreateTaskOnTaskRequested implements DomainEventSubscriber<TaskRequestedDomainEvent> {
+export class CreateTaskOnTaskRequested implements DomainEventHandler<TaskRequestedDomainEvent> {
   constructor(private createTask: CreateTask) {}
 
   subscribedTo(): DomainEventClass[] {

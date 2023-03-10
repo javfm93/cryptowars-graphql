@@ -12,7 +12,6 @@ export interface CommandHandler<T extends Command> {
 export const registeredCommandHandlers: Class<any>[] = [];
 
 export const RegisterCommandHandler = () => {
-  console.log('registering a command handler');
   return (target: Class<any>): Class<any> => {
     registeredCommandHandlers.push(target);
 

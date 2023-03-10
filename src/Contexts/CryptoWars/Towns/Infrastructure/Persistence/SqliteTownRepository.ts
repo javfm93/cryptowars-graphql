@@ -2,10 +2,14 @@ import { TownRepository } from '../../Domain/TownRepository';
 import { Town, TownPrimitives } from '../../Domain/Town';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { TownId } from '../../Domain/TownId';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { TownSchema } from './typeorm/TownSchema';
 
+@RegisterRepository(TownRepository)
 export class SqliteTownRepository
   extends TypeOrmRepository<TownPrimitives>
   implements TownRepository

@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { WorldResponse } from './WorldResponse';
 import { FindWorldQueryResult } from '../../../../../../Contexts/CryptoWars/Worlds/Application/Find/FindWorldQueryHandler';
 import { FindWorldQuery } from '../../../../../../Contexts/CryptoWars/Worlds/Application/Find/FindWorldQuery';
 import { WorldNotFound } from '../../../../../../Contexts/CryptoWars/Worlds/Application/Find/WorldNotFound';
 
+@RegisterController()
 export class WorldGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
 

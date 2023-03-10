@@ -1,6 +1,8 @@
 import { Connection, EntityMetadata } from 'typeorm';
 import { EnvironmentArranger } from '../arranger/EnvironmentArranger';
+import { Service } from 'diod';
 
+@Service()
 export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
   constructor(private _client: Promise<Connection>) {
     super();

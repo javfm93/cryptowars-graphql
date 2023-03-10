@@ -1,5 +1,5 @@
 import { DomainEvent } from '../../../Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../Domain/DomainEventHandler';
 import { EventBus } from '../../../Domain/EventBus';
 import { logger } from '../../WinstonLogger';
 
@@ -28,13 +28,14 @@ export class InMemoryAsyncEventBus implements EventBus {
     });
   }
 
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent<any>>>) {
+  addSubscribers(subscribers: Array<DomainEventHandler<DomainEvent<any>>>) {
+    console.debug(`Registered ${subscribers.length} domain event handlers`);
     subscribers.map(subscriber =>
       subscriber.subscribedTo().map(event => this.subscribe(event.TYPE!, subscriber))
     );
   }
 
-  private subscribe(topic: string, subscriber: DomainEventSubscriber<DomainEvent<any>>): void {
+  private subscribe(topic: string, subscriber: DomainEventHandler<DomainEvent<any>>): void {
     const currentSubscriptions = this.subscriptions.get(topic);
     const subscription = {
       boundedCallback: subscriber.on.bind(subscriber),

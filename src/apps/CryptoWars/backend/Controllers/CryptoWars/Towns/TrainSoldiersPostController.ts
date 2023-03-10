@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { TrainSoldiersPostRequest } from './TrainSoldiersPostRequest';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { CommandBus } from '../../../../../../Contexts/Shared/Domain/CommandBus';
 import { TrainSoldiersCommand } from '../../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommand';
 import {
@@ -18,6 +18,7 @@ type RequestParams = {
   id: string;
 };
 
+@RegisterController()
 export class TrainSoldiersPostController implements Controller {
   constructor(private commandBus: CommandBus) {}
 

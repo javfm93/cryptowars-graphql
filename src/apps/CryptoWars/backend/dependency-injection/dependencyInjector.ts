@@ -21,11 +21,16 @@ import {TypeOrmClientFactory} from '../../../../Contexts/Shared/Infrastructure/P
 import {
   TypeOrmConfigFactory
 } from '../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory2';
+import {registeredDomainEventHandlers} from '../../../../Contexts/Shared/Domain/DomainEventHandler';
+import {EnvironmentArranger} from '../../../../../tests/Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
+import {
+  TypeOrmEnvironmentArranger
+} from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
 
 export const enum ComponentTags {
   commandHandler = 'commandHandler',
   queryHandler = 'queryHandler',
-  eventHandler = 'eventHandler'
+  domainEventHandler = 'domainEventHandler'
 }
 
 export class DependencyInjector {
@@ -37,10 +42,17 @@ export class DependencyInjector {
     this.builder = new ContainerBuilder();
   }
 
-  static get<Dependency>(dependency: Class<Dependency>): Dependency {
+  static get<Dependency>(dependency: Class<Dependency> | AbstractClass<Dependency>): Dependency {
     const dependencyInjector = this.getInstance();
     if (!dependencyInjector.dependencies) throw Error('The container was not built');
     return dependencyInjector.dependencies.get(dependency);
+  }
+
+  static getByTag<Dependency>(tag: ComponentTags): Array<Dependency> {
+    const dependencyInjector = this.getInstance();
+    if (!dependencyInjector.dependencies) throw Error('The container was not built');
+    return dependencyInjector.dependencies.findTaggedServiceIdentifiers<Dependency>(tag)
+      .map(identifier => dependencyInjector.dependencies!.get(identifier));
   }
 
   static registerAndUse(component: Class<any>) {
@@ -65,9 +77,10 @@ export class DependencyInjector {
     this.registerDatabaseConnection();
     this.registerCommandHandlers();
     this.registerQueryHandlers();
+    this.registerDomainEventHandlers();
     this.registerUseCases();
     this.registerBuses();
-
+    this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
     return this;
   }
 
@@ -107,13 +120,21 @@ export class DependencyInjector {
     });
   }
 
+  private registerDomainEventHandlers() {
+    registeredDomainEventHandlers.forEach(handler => {
+      this.builder.registerAndUse(handler).addTag(ComponentTags.domainEventHandler);
+    });
+  }
+
   private registerBuses() {
-    this.builder.register(CommandBus).use(InMemoryCommandBus);
-    this.builder.register(EventBus).use(InMemoryAsyncEventBus);
-    this.builder.register(QueryBus).use(InMemoryQueryBus);
+    // todo: Check behavour of singleton versus others
+    this.builder.register(CommandBus).use(InMemoryCommandBus).asSingleton();
+    this.builder.register(QueryBus).use(InMemoryQueryBus).asSingleton();
+    this.builder.register(EventBus).use(InMemoryAsyncEventBus).asSingleton();
   }
 
   private registerUseCases() {
     registeredUseCases.forEach(useCase => this.builder.registerAndUse(useCase));
+    console.debug(`Registered ${registeredUseCases.length} use cases`);
   }
 }

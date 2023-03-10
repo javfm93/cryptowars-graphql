@@ -1,5 +1,5 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
 import { CreateArmy } from './CreateArmy';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { ArmyId } from '../../Domain/ArmyId';
@@ -7,7 +7,7 @@ import { TownCreatedDomainEvent } from '../../../../CryptoWars/Towns/Domain/Town
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 
-export class CreateArmyOnTownCreated implements DomainEventSubscriber<TownCreatedDomainEvent> {
+export class CreateArmyOnTownCreated implements DomainEventHandler<TownCreatedDomainEvent> {
   constructor(private createArmy: CreateArmy) {}
 
   subscribedTo(): DomainEventClass[] {

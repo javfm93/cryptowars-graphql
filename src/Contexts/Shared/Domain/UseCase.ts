@@ -11,7 +11,6 @@ export interface UseCase<Arguments, ReturnType> {
 export const registeredUseCases: Class<any>[] = [];
 
 export const RegisterUseCase = () => {
-  console.log('registering a use case');
   return (target: Class<any>): Class<any> => {
     registeredUseCases.push(target);
 

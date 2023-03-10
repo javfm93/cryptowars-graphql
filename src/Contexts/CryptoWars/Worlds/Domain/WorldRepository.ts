@@ -3,8 +3,8 @@ import { WorldId } from './WorldId';
 import { Worlds } from './Worlds';
 import { NothingOr } from '../../../Shared/Domain/Nullable';
 
-export interface WorldRepository {
-  findAll(): Promise<Worlds>;
-  findById(worldId: WorldId): Promise<NothingOr<World>>;
-  save(world: World): Promise<void>;
+export abstract class WorldRepository {
+  abstract findAll(): Promise<Worlds>;
+  abstract findById(worldId: WorldId): Promise<NothingOr<World>>;
+  abstract save(world: World): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
 import { RecruitSquad } from './RecruitSquad';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { TownSoldiersTrainFinished } from '../../../../CryptoWars/Towns/Domain/TownSoldiersTrainFinishedDomainEvent';
@@ -7,7 +7,7 @@ import { Squads } from '../../Domain/Squads';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export class RecruitSquadOnTownSoldiersTrainFinished
-  implements DomainEventSubscriber<TownSoldiersTrainFinished>
+  implements DomainEventHandler<TownSoldiersTrainFinished>
 {
   constructor(private recruitSquad: RecruitSquad) {}
 

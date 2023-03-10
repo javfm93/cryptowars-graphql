@@ -1,5 +1,5 @@
 import { PlayerRepository } from '../../Domain/PlayerRepository';
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Player } from '../../Domain/Player';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
@@ -14,6 +14,7 @@ type CreatePlayerArgs = {
 
 type CreatePlayerResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class CreatePlayer implements UseCase<CreatePlayerArgs, EmptyResult> {
   constructor(private playerRepository: PlayerRepository, private eventBus: EventBus) {}
 

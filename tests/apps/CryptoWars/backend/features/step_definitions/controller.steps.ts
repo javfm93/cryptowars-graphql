@@ -1,9 +1,9 @@
 import assert from 'assert';
 import request from 'supertest';
 import { EnvironmentArranger } from '../../../../../Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { CryptoWarsBackendApp } from '../../../../../../src/apps/CryptoWars/backend/CryptoWarsBackendApp';
 import { AfterAll, Before, BeforeAll, Given, Then, When } from '@cucumber/cucumber';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
 let _request: request.Test;
 export let _response: request.Response;
@@ -17,20 +17,16 @@ BeforeAll(async () => {
 });
 
 Before(async () => {
-  const environmentArranger: Promise<EnvironmentArranger> = container.get(
-    'CryptoWars.EnvironmentArranger'
-  );
-  await (await environmentArranger).arrange();
+  const environmentArranger = DependencyInjector.get(EnvironmentArranger);
+  await environmentArranger.arrange();
   agent = request.agent(application.httpServer);
   otherUserAgent = request.agent(application.httpServer);
 });
 
 AfterAll(async () => {
-  const environmentArranger: Promise<EnvironmentArranger> = container.get(
-    'CryptoWars.EnvironmentArranger'
-  );
-  await (await environmentArranger).arrange();
-  await (await environmentArranger).close();
+  const environmentArranger = DependencyInjector.get(EnvironmentArranger);
+  await environmentArranger.arrange();
+  await environmentArranger.close();
   await application.stop();
 });
 

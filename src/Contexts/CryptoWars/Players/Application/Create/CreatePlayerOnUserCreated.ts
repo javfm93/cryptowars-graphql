@@ -1,12 +1,16 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import {
+  DomainEventHandler,
+  RegisterDomainEventHandler
+} from '../../../../Shared/Domain/DomainEventHandler';
 import { UserCreatedDomainEvent } from '../../../../IAM/Users/Domain/UserCreatedDomainEvent';
 import { CreatePlayer } from './CreatePlayer';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { PlayerId } from '../../Domain/PlayerId';
 
-export class CreatePlayerOnUserCreated implements DomainEventSubscriber<UserCreatedDomainEvent> {
+@RegisterDomainEventHandler()
+export class CreatePlayerOnUserCreated implements DomainEventHandler<UserCreatedDomainEvent> {
   constructor(private createPlayer: CreatePlayer) {}
 
   subscribedTo(): DomainEventClass[] {
@@ -14,6 +18,7 @@ export class CreatePlayerOnUserCreated implements DomainEventSubscriber<UserCrea
   }
 
   async on(domainEvent: UserCreatedDomainEvent) {
+    console.log('----------- USER CREATED --------');
     const userId = UserId.create(domainEvent.aggregateId);
     const id = PlayerId.create(Uuid.random().toString());
     await this.createPlayer.execute({ id, userId });

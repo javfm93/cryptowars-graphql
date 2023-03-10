@@ -1,5 +1,5 @@
 import { DomainEvent } from '../../../Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../Domain/DomainEventHandler';
 import { EventBus } from '../../../Domain/EventBus';
 
 type Subscription = {
@@ -26,13 +26,13 @@ export class InMemorySyncEventBus implements EventBus {
     await Promise.all(executions);
   }
 
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent<any>>>) {
+  addSubscribers(subscribers: Array<DomainEventHandler<DomainEvent<any>>>) {
     subscribers.map(subscriber =>
       subscriber.subscribedTo().map(event => this.subscribe(event.TYPE!, subscriber))
     );
   }
 
-  private subscribe(topic: string, subscriber: DomainEventSubscriber<DomainEvent<any>>): void {
+  private subscribe(topic: string, subscriber: DomainEventHandler<DomainEvent<any>>): void {
     const currentSubscriptions = this.subscriptions.get(topic);
     const subscription = {
       boundedCallback: subscriber.on.bind(subscriber),

@@ -4,7 +4,7 @@ import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplica
 import { InvalidSoldier } from '../../Domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../Domain/InvalidNumberOfSoldiers';
 import { TownNotFound } from './TownNotFound';
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { TownId } from '../../Domain/TownId';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
@@ -19,6 +19,7 @@ export type TrainSoldiersCommandErrors =
   | Forbidden;
 export type TrainSoldiersCommandResult = Either<EmptyResult, TrainSoldiersCommandErrors>;
 
+@RegisterCommandHandler()
 export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiersCommand> {
   constructor(private trainSoldiers: TrainSoldiers) {}
 

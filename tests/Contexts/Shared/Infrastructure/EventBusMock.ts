@@ -1,6 +1,6 @@
 import { EventBus } from '../../../../src/Contexts/Shared/Domain/EventBus';
 import { DomainEvent } from '../../../../src/Contexts/Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../src/Contexts/Shared/Domain/DomainEventHandler';
 import { DomainEventMapping } from '../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
 
 export default class EventBusMock implements EventBus {
@@ -12,7 +12,7 @@ export default class EventBusMock implements EventBus {
 
   async start(): Promise<void> {}
 
-  addSubscribers(subscribers: DomainEventSubscriber<DomainEvent<any>>[]): void {}
+  addSubscribers(subscribers: DomainEventHandler<DomainEvent<any>>[]): void {}
 
   setDomainEventMapping(domainEventMapping: DomainEventMapping): void {}
 

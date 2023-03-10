@@ -1,5 +1,5 @@
 import { DomainEvent } from '../../../../src/Contexts/Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../src/Contexts/Shared/Domain/DomainEventHandler';
 import { Uuid } from '../../../../src/Contexts/Shared/Domain/value-object/Uuid';
 import { InMemoryAsyncEventBus } from '../../../../src/Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
 
@@ -31,7 +31,7 @@ class DummyEvent extends DomainEvent<any> {
   }
 }
 
-class DomainEventSubscriberDummy implements DomainEventSubscriber<DummyEvent> {
+class DomainEventSubscriberDummy implements DomainEventHandler<DummyEvent> {
   subscribedTo(): any[] {
     return [DummyEvent];
   }

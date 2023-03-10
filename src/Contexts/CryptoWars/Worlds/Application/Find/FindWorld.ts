@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { World } from '../../Domain/World';
 import { WorldRepository } from '../../Domain/WorldRepository';
@@ -8,6 +8,7 @@ import { WorldNotFound } from './WorldNotFound';
 
 type FindWorldResult = Either<World, DomainError>;
 
+@RegisterUseCase()
 export class FindWorld implements UseCase<WorldId, World> {
   constructor(private worldRepository: WorldRepository) {}
 

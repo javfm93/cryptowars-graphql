@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { Player } from '../../Domain/Player';
 import { PlayerRepository } from '../../Domain/PlayerRepository';
@@ -13,6 +13,7 @@ type FindPlayerArgs = {
   retrieveRelations: boolean;
 };
 
+@RegisterUseCase()
 export class FindPlayer implements UseCase<FindPlayerArgs, Player> {
   constructor(private playerRepository: PlayerRepository) {}
 

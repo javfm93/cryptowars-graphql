@@ -3,10 +3,14 @@ import { Player, PlayerPrimitives } from '../../Domain/Player';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { PlayerId } from '../../Domain/PlayerId';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema } from 'typeorm';
 import { PlayerSchema } from './typeorm/PlayerSchema';
 
+@RegisterRepository(PlayerRepository)
 export class SqlitePlayerRepository
   extends TypeOrmRepository<PlayerPrimitives>
   implements PlayerRepository

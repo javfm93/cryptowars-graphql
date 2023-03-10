@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
@@ -20,6 +20,7 @@ type SelectWorldArgs = {
 
 type SelectWorldResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class JoinWorld implements UseCase<SelectWorldArgs, EmptyResult> {
   constructor(
     private worldRepository: WorldRepository,

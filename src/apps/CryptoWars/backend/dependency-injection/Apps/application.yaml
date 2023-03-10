@@ -8,25 +8,25 @@ services:
 #    class: ../../Controllers/IAM/Users/UsersPutController
 #    arguments: [ '@Shared.CommandBus' ]
 
-  Apps.CryptoWars.Backend.Controllers.WorldsGetController:
-    class: ../../Controllers/CryptoWars/Worlds/WorldsGetController
-    arguments: [ '@Shared.QueryBus' ]
-
-  Apps.CryptoWars.Backend.Controllers.WorldGetController:
-    class: ../../Controllers/CryptoWars/Worlds/WorldGetController
-    arguments: [ '@Shared.QueryBus' ]
-
-  Apps.CryptoWars.Backend.Controllers.JoinWorldPutController:
-    class: ../../Controllers/CryptoWars/Worlds/JoinWorldPutController
-    arguments: [ '@Shared.CommandBus' ]
-
-  Apps.CryptoWars.Backend.Controllers.PlayerGetController:
-    class: ../../Controllers/CryptoWars/Players/PlayerGetController
-    arguments: [ '@Shared.QueryBus' ]
-
-  Apps.CryptoWars.Backend.Controllers.TrainSoldiersPostController:
-    class: ../../Controllers/CryptoWars/Towns/TrainSoldiersPostController
-    arguments: [ '@Shared.CommandBus' ]
+#  Apps.CryptoWars.Backend.Controllers.WorldsGetController:
+#    class: ../../Controllers/CryptoWars/Worlds/WorldsGetController
+#    arguments: [ '@Shared.QueryBus' ]
+#
+#  Apps.CryptoWars.Backend.Controllers.WorldGetController:
+#    class: ../../Controllers/CryptoWars/Worlds/WorldGetController
+#    arguments: [ '@Shared.QueryBus' ]
+#
+#  Apps.CryptoWars.Backend.Controllers.JoinWorldPutController:
+#    class: ../../Controllers/CryptoWars/Worlds/JoinWorldPutController
+#    arguments: [ '@Shared.CommandBus' ]
+#
+#  Apps.CryptoWars.Backend.Controllers.PlayerGetController:
+#    class: ../../Controllers/CryptoWars/Players/PlayerGetController
+#    arguments: [ '@Shared.QueryBus' ]
+#
+#  Apps.CryptoWars.Backend.Controllers.TrainSoldiersPostController:
+#    class: ../../Controllers/CryptoWars/Towns/TrainSoldiersPostController
+#    arguments: [ '@Shared.CommandBus' ]
 
   Apps.Battlefield.Backend.Controllers.ArmyGetController:
     class: ../../Controllers/Battlefield/Armies/ArmyGetController
@@ -40,23 +40,23 @@ services:
     class: ../../Controllers/Battlefield/Battles/BattlesGetController
     arguments: [ '@Shared.QueryBus' ]
 
-  Apps.Communication.Backend.Controllers.DirectChatsGetController:
-    class: ../../Controllers/Communication/Chats/DirectChatsGetController
-    arguments: [ '@Shared.QueryBus' ]
-
-  Apps.Communication.Backend.Controllers.DirectChatMessagesGetController:
-    class: ../../Controllers/Communication/Chats/DirectChatMessagesGetController
-    arguments: [ '@Shared.QueryBus' ]
-
-  Apps.Communication.Backend.Controllers.CreateDirectChatPutController:
-    class: ../../Controllers/Communication/Chats/CreateDirectChatPutController
-    arguments: [ '@Shared.CommandBus' ]
-
-  Apps.Communication.Backend.EventHandlers.SendDirectChatMessageEventHandler:
-    class: ../../EventHandlers/Communication/SendDirectChatMessageEventHandler
-    arguments: [ '@Shared.CommandBus' ]
-
-
-  Apps.Communication.Backend.EventHandlers.PlayerTypingEventHandler:
-    class: ../../EventHandlers/Communication/PlayerTypingEventHandler
-    arguments: [ '@Shared.CommandBus' ]
+#  Apps.Communication.Backend.Controllers.DirectChatsGetController:
+#    class: ../../Controllers/Communication/Chats/DirectChatsGetController
+#    arguments: [ '@Shared.QueryBus' ]
+#
+#  Apps.Communication.Backend.Controllers.DirectChatMessagesGetController:
+#    class: ../../Controllers/Communication/Chats/DirectChatMessagesGetController
+#    arguments: [ '@Shared.QueryBus' ]
+#
+#  Apps.Communication.Backend.Controllers.CreateDirectChatPutController:
+#    class: ../../Controllers/Communication/Chats/CreateDirectChatPutController
+#    arguments: [ '@Shared.CommandBus' ]
+#
+#  Apps.Communication.Backend.EventHandlers.SendDirectChatMessageEventHandler:
+#    class: ../../EventHandlers/Communication/SendDirectChatMessageEventHandler
+#    arguments: [ '@Shared.CommandBus' ]
+#
+#
+#  Apps.Communication.Backend.EventHandlers.PlayerTypingEventHandler:
+#    class: ../../EventHandlers/Communication/PlayerTypingEventHandler
+#    arguments: [ '@Shared.CommandBus' ]

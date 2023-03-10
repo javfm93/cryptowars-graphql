@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { PlayerResponse } from './PlayerResponse';
 import { FindPlayerQuery } from '../../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayerQuery';
 import { FindPlayerQueryResult } from '../../../../../../Contexts/CryptoWars/Players/Application/Find/FindPlayerQueryHandler';
 
+@RegisterController()
 export class PlayerGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
 

@@ -1,17 +1,17 @@
 import { DomainEvent, DomainEventClass } from '../../Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../Domain/DomainEventHandler';
 
 type Mapping = Map<string, DomainEventClass>;
 
 export class DomainEventMapping {
   private mapping: Mapping;
 
-  constructor(mapping: DomainEventSubscriber<DomainEvent<any>>[]) {
+  constructor(mapping: DomainEventHandler<DomainEvent<any>>[]) {
     this.mapping = mapping.reduce(this.eventsExtractor(), new Map<string, DomainEventClass>());
   }
 
   private eventsExtractor() {
-    return (map: Mapping, subscriber: DomainEventSubscriber<DomainEvent<any>>) => {
+    return (map: Mapping, subscriber: DomainEventHandler<DomainEvent<any>>) => {
       subscriber.subscribedTo().forEach(this.eventNameExtractor(map));
       return map;
     };

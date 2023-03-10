@@ -34,7 +34,6 @@ export abstract class TypeOrmRepository<T> {
 }
 
 export const RegisterRepository = (repository: AbstractClass<any>) => {
-  console.log('registering a repository');
   return (target: Class<any>): Class<any> => {
     DependencyInjector.register(repository).use(target);
     return target;

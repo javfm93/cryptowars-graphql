@@ -1,13 +1,11 @@
-import { Definition } from 'node-dependency-injection';
 import container from './dependency-injection';
 import { Server } from './server';
 import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
-import { DomainEventSubscriber } from '../../../Contexts/Shared/Domain/DomainEventSubscriber';
-import { DomainEvent } from '../../../Contexts/Shared/Domain/DomainEvent';
 import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';
 import { ExecuteTasksPreviousToCommand } from '../../../Contexts/Scheduler/Tasks/Application/Execute/ExecuteTasksPreviousToCommand';
 import { logger } from '../../../Contexts/Shared/Infrastructure/WinstonLogger';
 import cryptoWarsConfig from '../../../Contexts/CryptoWars/Shared/Infrastructure/Config/cryptoWarsConfig';
+import { ComponentTags, DependencyInjector } from './dependency-injection/dependencyInjector';
 
 export class CryptoWarsBackendApp {
   server?: Server;
@@ -36,14 +34,8 @@ export class CryptoWarsBackendApp {
   }
 
   private async registerSubscribers() {
-    const eventBus = container.get('Shared.EventBus') as EventBus;
-    const subscriberDefinitions = container.findTaggedServiceIds('domainEventSubscriber') as Map<
-      String,
-      Definition
-    >;
-    const subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>> = [];
-    subscriberDefinitions.forEach((value: any, key: any) => subscribers.push(container.get(key)));
-    eventBus.addSubscribers(subscribers);
+    const eventBus = DependencyInjector.get(EventBus);
+    eventBus.addSubscribers(DependencyInjector.getByTag(ComponentTags.domainEventHandler));
   }
 
   private initScheduler() {

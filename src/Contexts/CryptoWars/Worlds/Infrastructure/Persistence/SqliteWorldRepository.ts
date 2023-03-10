@@ -2,11 +2,15 @@ import { WorldRepository } from '../../Domain/WorldRepository';
 import { World, WorldPrimitives } from '../../Domain/World';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { WorldId } from '../../Domain/WorldId';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { Connection, EntitySchema } from 'typeorm';
 import { WorldSchema } from './typeorm/WorldSchema';
 import { Worlds } from '../../Domain/Worlds';
 
+@RegisterRepository(WorldRepository)
 export class SqliteWorldRepository
   extends TypeOrmRepository<WorldPrimitives>
   implements WorldRepository

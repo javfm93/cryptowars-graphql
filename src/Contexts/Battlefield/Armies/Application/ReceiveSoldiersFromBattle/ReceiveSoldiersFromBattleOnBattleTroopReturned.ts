@@ -1,5 +1,5 @@
 import { DomainEventClass } from '../../../../Shared/Domain/DomainEvent';
-import { DomainEventSubscriber } from '../../../../Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../Shared/Domain/DomainEventHandler';
 import { ReceiveSoldiersFromBattle } from './ReceiveSoldiersFromBattle';
 import { Squads } from '../../Domain/Squads';
 import { BattleTroopReturnedDomainEvent } from '../../../Battles/Domain/BattleTroopReturnedDomainEvent';
@@ -7,7 +7,7 @@ import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 import { ArmyId } from '../../Domain/ArmyId';
 
 export class ReceiveSoldiersFromBattleOnBattleTroopReturned
-  implements DomainEventSubscriber<BattleTroopReturnedDomainEvent>
+  implements DomainEventHandler<BattleTroopReturnedDomainEvent>
 {
   constructor(private receiveSoldiersFromBattle: ReceiveSoldiersFromBattle) {}
 

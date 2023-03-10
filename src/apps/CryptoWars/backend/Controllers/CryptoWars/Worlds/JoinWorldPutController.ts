@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { CommandBus } from '../../../../../../Contexts/Shared/Domain/CommandBus';
 import { JoinWorldCommand } from '../../../../../../Contexts/CryptoWars/Worlds/Application/Join/JoinWorldCommand';
 import { JoinWorldCommandResult } from '../../../../../../Contexts/CryptoWars/Worlds/Application/Join/JoinWorldCommandHandler';
@@ -9,6 +9,7 @@ type QueryParams = {
   id: string;
 };
 
+@RegisterController()
 export class JoinWorldPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
 

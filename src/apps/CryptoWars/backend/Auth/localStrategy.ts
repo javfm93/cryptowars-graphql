@@ -1,10 +1,10 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { UserRepository } from '../../../../Contexts/IAM/Users/Domain/UserRepository';
-import container from '../dependency-injection';
 import { UserEmail } from '../../../../Contexts/IAM/Users/Domain/UserEmail';
 import { PlayerRepository } from '../../../../Contexts/CryptoWars/Players/Domain/PlayerRepository';
 import { randomBytes, scryptSync } from 'crypto';
+import { DependencyInjector } from '../dependency-injection/dependencyInjector';
 
 const encryptPassword = (password: string, salt: string) => {
   return scryptSync(password, salt, 32).toString('hex');
@@ -37,16 +37,15 @@ passport.deserializeUser(function (user: Express.User, cb) {
 passport.use(
   new LocalStrategy.Strategy(async function verify(email, password, cb) {
     try {
-      const userRepository: UserRepository = container.get('CryptoWars.Users.UserRepository');
+      const userRepository = DependencyInjector.get(UserRepository);
       const user = await userRepository.findByEmail(UserEmail.fromPrimitives(email));
       if (!user) return cb(null, false, { message: 'Incorrect username or password.' });
+      console.log('USER FOUND');
       const hash = hashPassword(password);
       const passwordMatches = matchPassword(password, hash);
       if (!passwordMatches) return cb(null, false, { message: 'Incorrect username or password.' });
 
-      const playerRepository: PlayerRepository = container.get(
-        'CryptoWars.Players.PlayerRepository'
-      );
+      const playerRepository = DependencyInjector.get(PlayerRepository);
       const player = await playerRepository.findByUserId(user.id, { retrieveRelations: false });
       if (!player) return cb(null, false, { message: 'Not registered as a player' });
 

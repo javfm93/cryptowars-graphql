@@ -1,7 +1,7 @@
 import { Definition } from 'node-dependency-injection';
 import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { EventBus } from '../../../../../../src/Contexts/Shared/Domain/EventBus';
-import { DomainEventSubscriber } from '../../../../../../src/Contexts/Shared/Domain/DomainEventSubscriber';
+import { DomainEventHandler } from '../../../../../../src/Contexts/Shared/Domain/DomainEventHandler';
 import { DomainEventJsonDeserializer } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventJsonDeserializer';
 import { DomainEventMapping } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
 import { DomainEvent } from '../../../../../../src/Contexts/Shared/Domain/DomainEvent';
@@ -21,7 +21,7 @@ function buildDeserializer() {
     String,
     Definition
   >;
-  const subscribers: Array<DomainEventSubscriber<DomainEvent<Record<string, unknown>>>> = [];
+  const subscribers: Array<DomainEventHandler<DomainEvent<Record<string, unknown>>>> = [];
 
   subscriberDefinitions.forEach((value: any, key: any) => subscribers.push(container.get(key)));
   const domainEventMapping = new DomainEventMapping(subscribers);

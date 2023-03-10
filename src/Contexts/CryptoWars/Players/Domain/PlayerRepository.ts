@@ -5,10 +5,10 @@ import { PlayerId } from './PlayerId';
 
 export type QueryOptions = { retrieveRelations: boolean };
 
-export interface PlayerRepository {
-  save(user: Player): Promise<void>;
+export abstract class PlayerRepository {
+  abstract save(user: Player): Promise<void>;
 
-  findById(id: PlayerId): Promise<NothingOr<Player>>;
+  abstract findById(id: PlayerId): Promise<NothingOr<Player>>;
 
-  findByUserId(id: UserId, options: QueryOptions): Promise<NothingOr<Player>>;
+  abstract findByUserId(id: UserId, options: QueryOptions): Promise<NothingOr<Player>>;
 }
