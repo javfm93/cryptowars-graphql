@@ -2,7 +2,9 @@ import { Query } from '../../Domain/Query';
 import { Response } from '../../Domain/Response';
 import { QueryBus } from '../../Domain/QueryBus';
 import { QueryHandlersInformation } from './QueryHandlersInformation';
+import { Service } from 'diod';
 
+@Service()
 export class InMemoryQueryBus implements QueryBus {
   constructor(private queryHandlersInformation: QueryHandlersInformation) {}
 

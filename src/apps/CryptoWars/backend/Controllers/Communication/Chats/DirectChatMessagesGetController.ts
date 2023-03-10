@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { DirectChatMessagesResponse } from './DirectChatMessagesResponse';
 import { FindChatMessagesQuery } from '../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessagesQuery';
 import { FindDirectChatMessagesQueryResult } from '../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessagesQueryHandler';
 import { Forbidden } from '../../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 
+@RegisterController()
 export class DirectChatMessagesGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
 

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { DirectChatsResponse } from './DirectChatsResponse';
 import { FindDirectChatsByPlayerIdQuery } from '../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerIdQuery';
 import { FindDirectChatsQueryResult } from '../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerIdQueryHandler';
 
+@RegisterController()
 export class DirectChatsGetController implements Controller {
   constructor(private queryBus: QueryBus) {}
 

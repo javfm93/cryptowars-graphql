@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { Controller } from '../../Controller';
+import { Controller, RegisterController } from '../../Controller';
 import { CommandBus } from '../../../../../../Contexts/Shared/Domain/CommandBus';
 import { CreateDirectChatRequest } from './CreateDirectChatRequest';
 import { CreateDirectChatCommand } from '../../../../../../Contexts/Communication/Chats/Application/Create/CreateDirectChatCommand';
@@ -10,6 +10,7 @@ type QueryParams = {
   id: string;
 };
 
+@RegisterController()
 export class CreateDirectChatPutController implements Controller {
   constructor(private commandBus: CommandBus) {}
 

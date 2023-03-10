@@ -1,25 +1,25 @@
 services:
 
-  Communication.ChatMessages.ChatMessageRepository:
-    class: ../../../../../../Contexts/Communication/ChatMessages/Infrastructure/Persistence/SqliteChatMessageRepository
-    arguments: [ '@Shared.ConnectionManager' ]
-
-  Communication.ChatMessages.SendChatMessage:
-    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Send/SendChatMessage
-    arguments: [ '@Communication.ChatMessages.ChatMessageRepository', '@Shared.EventBus' ]
-
-  Communication.ChatMessages.SendChatMessageCommandHandler:
-    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Send/SendChatMessageCommandHandler
-    arguments: [ '@Communication.ChatMessages.SendChatMessage' ]
-    tags:
-      - { name: 'commandHandler' }
-
-  Communication.ChatMessages.FindChatMessages:
-    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessages
-    arguments: [ '@Communication.ChatMessages.ChatMessageRepository' ]
-
-  Communication.ChatMessages.FindChatMessagesQueryHandler:
-    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessagesQueryHandler
-    arguments: [ '@Communication.ChatMessages.FindChatMessages' ]
-    tags:
-      - { name: 'queryHandler' }
+#  Communication.ChatMessages.ChatMessageRepository:
+#    class: ../../../../../../Contexts/Communication/ChatMessages/Infrastructure/Persistence/SqliteChatMessageRepository
+#    arguments: [ '@Shared.ConnectionManager' ]
+#
+#  Communication.ChatMessages.SendChatMessage:
+#    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Send/SendChatMessage
+#    arguments: [ '@Communication.ChatMessages.ChatMessageRepository', '@Shared.EventBus' ]
+#
+#  Communication.ChatMessages.SendChatMessageCommandHandler:
+#    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Send/SendChatMessageCommandHandler
+#    arguments: [ '@Communication.ChatMessages.SendChatMessage' ]
+#    tags:
+#      - { name: 'commandHandler' }
+#
+#  Communication.ChatMessages.FindChatMessages:
+#    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessages
+#    arguments: [ '@Communication.ChatMessages.ChatMessageRepository' ]
+#
+#  Communication.ChatMessages.FindChatMessagesQueryHandler:
+#    class: ../../../../../../Contexts/Communication/ChatMessages/Application/Find/FindChatMessagesQueryHandler
+#    arguments: [ '@Communication.ChatMessages.FindChatMessages' ]
+#    tags:
+#      - { name: 'queryHandler' }

@@ -3,6 +3,6 @@ import { UsersPutController } from '../../Controllers/IAM/Users/UsersPutControll
 import { DependencyInjector } from '../../dependency-injection/dependencyInjector';
 
 export const register = (router: Router) => {
-  const userPutController = DependencyInjector.get().getDependency(UsersPutController);
+  const userPutController = DependencyInjector.get(UsersPutController);
   router.put('/users/:id', userPutController.run.bind(userPutController));
 };

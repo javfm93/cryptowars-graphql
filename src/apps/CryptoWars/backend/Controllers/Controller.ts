@@ -9,7 +9,7 @@ export abstract class Controller {
 export const RegisterController = () => {
   console.log('registering a controller');
   return (target: Class<any>): Class<any> => {
-    DependencyInjector.get().registerAndUse(target);
+    DependencyInjector.registerAndUse(target);
     return target;
   };
 };

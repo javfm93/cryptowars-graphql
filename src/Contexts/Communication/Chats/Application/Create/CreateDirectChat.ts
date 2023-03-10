@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
@@ -16,6 +16,7 @@ type CreateDirectChatArgs = {
 
 type CreateDirectChatResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class CreateDirectChat implements UseCase<CreateDirectChatArgs, EmptyResult> {
   constructor(private directChatRepository: DirectChatRepository, private eventBus: EventBus) {}
 

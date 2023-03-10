@@ -1,25 +1,25 @@
 services:
 
-  Communication.Chats.DirectChatRepository:
-    class: ../../../../../../Contexts/Communication/Chats/Infrastructure/Persistence/SqliteDirectChatRepository
-    arguments: [ '@Shared.ConnectionManager' ]
-
-  Communication.Chats.CreateDirectChat:
-    class: ../../../../../../Contexts/Communication/Chats/Application/Create/CreateDirectChat
-    arguments: [ '@Communication.Chats.DirectChatRepository', '@Shared.EventBus' ]
-
-  Communication.Chats.CreateDirectChatCommandHandler:
-    class: ../../../../../../Contexts/Communication/Chats/Application/Create/CreateDirectChatCommandHandler
-    arguments: [ '@Communication.Chats.CreateDirectChat' ]
-    tags:
-      - { name: 'commandHandler' }
-
-  Communication.Chats.FindDirectChatsByPlayerId:
-    class: ../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerId
-    arguments: [ '@Communication.Chats.DirectChatRepository' ]
-
-  Communication.Chats.FindDirectChatsByPlayerIdQueryHandler:
-    class: ../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerIdQueryHandler
-    arguments: [ '@Communication.Chats.FindDirectChatsByPlayerId' ]
-    tags:
-      - { name: 'queryHandler' }
+#  Communication.Chats.DirectChatRepository:
+#    class: ../../../../../../Contexts/Communication/Chats/Infrastructure/Persistence/SqliteDirectChatRepository
+#    arguments: [ '@Shared.ConnectionManager' ]
+#
+#  Communication.Chats.CreateDirectChat:
+#    class: ../../../../../../Contexts/Communication/Chats/Application/Create/CreateDirectChat
+#    arguments: [ '@Communication.Chats.DirectChatRepository', '@Shared.EventBus' ]
+#
+#  Communication.Chats.CreateDirectChatCommandHandler:
+#    class: ../../../../../../Contexts/Communication/Chats/Application/Create/CreateDirectChatCommandHandler
+#    arguments: [ '@Communication.Chats.CreateDirectChat' ]
+#    tags:
+#      - { name: 'commandHandler' }
+#
+#  Communication.Chats.FindDirectChatsByPlayerId:
+#    class: ../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerId
+#    arguments: [ '@Communication.Chats.DirectChatRepository' ]
+#
+#  Communication.Chats.FindDirectChatsByPlayerIdQueryHandler:
+#    class: ../../../../../../Contexts/Communication/Chats/Application/Find/FindDirectChatsByPlayerIdQueryHandler
+#    arguments: [ '@Communication.Chats.FindDirectChatsByPlayerId' ]
+#    tags:
+#      - { name: 'queryHandler' }

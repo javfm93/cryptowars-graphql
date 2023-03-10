@@ -69,7 +69,7 @@ export class Server {
     router.use(errorHandler());
     this.express.use(router);
     ComponentDiscovery.scan();
-    DependencyInjector.get().registerComponents().build();
+    DependencyInjector.getInstance().registerComponents().build();
     registerRoutes(router);
 
     router.use((err: Error, req: Request, res: Response, next: Function) => {

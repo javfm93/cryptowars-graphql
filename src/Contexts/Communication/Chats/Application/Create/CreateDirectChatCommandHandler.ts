@@ -3,12 +3,13 @@ import { CreateDirectChat } from './CreateDirectChat';
 import { Either, EmptyResult } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { CommandClass } from '../../../../Shared/Domain/Command';
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { DirectChatId } from '../../Domain/DirectChatId';
 
 export type CreateDirectChatCommandResult = Either<EmptyResult, DomainError>;
 
+@RegisterCommandHandler()
 export class CreateDirectChatCommandHandler implements CommandHandler<CreateDirectChatCommand> {
   constructor(private createDirectChat: CreateDirectChat) {}
 

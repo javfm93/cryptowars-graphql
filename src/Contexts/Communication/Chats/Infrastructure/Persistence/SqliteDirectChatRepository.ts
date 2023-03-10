@@ -1,6 +1,9 @@
 import { DirectChatRepository } from '../../Domain/DirectChatRepository';
 import { DirectChat } from '../../Domain/DirectChat';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { Connection, EntitySchema } from 'typeorm';
 import { DirectChatSchema } from './typeorm/DirectChatSchema';
 import { DirectChats } from '../../Domain/DirectChats';
@@ -8,6 +11,7 @@ import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 
+@RegisterRepository(DirectChatRepository)
 export class SqliteDirectChatRepository
   extends TypeOrmRepository<Primitives<DirectChat>>
   implements DirectChatRepository
