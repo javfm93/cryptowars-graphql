@@ -7,7 +7,7 @@ import { FindArmyByTownQuery } from '../../../../../../Contexts/Battlefield/Armi
 import { FindArmyByTownQueryResult } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
 import { Forbidden } from '../../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 import { FindArmyErrors } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
-import { ArmyNotFound } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/ArmyNotFound';
+import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
 
 @RegisterController()
 export class ArmyGetController implements Controller {
@@ -28,13 +28,14 @@ export class ArmyGetController implements Controller {
   }
 
   private handleError(res: Response, error: FindArmyErrors) {
-    switch (error.constructor) {
-      case ArmyNotFound:
+    const errorName = error.errorName();
+    switch (errorName) {
+      case 'ArmyNotFoundError':
         return res.status(httpStatus.NOT_FOUND).send(error.message);
-      case Forbidden:
+      case 'Forbidden':
         return res.status(httpStatus.FORBIDDEN).send();
       default:
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.errorName());
+        assertNeverHappen(errorName);
     }
   }
 }

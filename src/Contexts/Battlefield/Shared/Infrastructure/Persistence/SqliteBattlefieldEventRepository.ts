@@ -11,7 +11,7 @@ import { BattlefieldEventSchema } from './typeorm/BattlefieldEventSchema';
 import { BattlefieldInternalEventRepository } from '../../Domain/BattlefieldInternalEventRepository';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { Army } from '../../../Armies/Domain/Army';
-import { NothingOr, Nullable } from '../../../../Shared/Domain/Nullable';
+import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { ArmyId } from '../../../Armies/Domain/ArmyId';
 import { BattleId } from '../../../Battles/Domain/BattleId';
 import { Battle } from '../../../Battles/Domain/Battle';
@@ -41,7 +41,7 @@ export class SqliteBattlefieldEventRepository
     }
   }
 
-  public async findOneByAggregateId(id: Uuid): Promise<Nullable<BattlefieldInternalEvent>> {
+  public async findOneByAggregateId(id: Uuid): Promise<NothingOr<BattlefieldInternalEvent>> {
     const repository = await this.repository();
     const event = await repository.findOne({
       where: { aggregateId: id.toString() }

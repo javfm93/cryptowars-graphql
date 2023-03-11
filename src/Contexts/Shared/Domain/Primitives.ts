@@ -30,3 +30,7 @@ export interface Class<T> extends Function {
 export interface AbstractClass<T> extends Function {
   prototype: T;
 }
+
+export function assertNeverHappen(value: never) {
+  throw new Error(`Unhandled discriminated union member: ${JSON.stringify(value)}`);
+}
