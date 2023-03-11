@@ -4,7 +4,7 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { Connection, EntitySchema } from 'typeorm';
+import { EntitySchema } from 'typeorm';
 import { ChatMessageSchema } from './typeorm/ChatMessageSchema';
 import { ChatMessages } from '../../Domain/ChatMessages';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
@@ -15,10 +15,6 @@ export class SqliteChatMessageRepository
   extends TypeOrmRepository<Primitives<ChatMessage>>
   implements ChatMessageRepository
 {
-  constructor(_client: Promise<Connection>) {
-    super(_client);
-  }
-
   public async save(message: ChatMessage): Promise<void> {
     const repository = await this.repository();
     await repository.save(message.toPrimitives());

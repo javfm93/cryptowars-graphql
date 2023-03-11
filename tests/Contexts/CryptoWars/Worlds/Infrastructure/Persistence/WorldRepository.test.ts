@@ -6,9 +6,13 @@ import { PlayerGenerator } from '../../../Players/Domain/PlayerGenerator';
 import { TownGenerator } from '../../../Towns/Domain/TownGenerator';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(WorldRepository);
-
 describe('[infra] WorldRepository', () => {
+  let repository: WorldRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(WorldRepository);
+  });
+
   describe('#save', () => {
     it('should save a world', async () => {
       const world = WorldGenerator.create(WorldId.create('93bf78e8-d3d6-4e5a-9c0d-ff8e57ebc29b'), {

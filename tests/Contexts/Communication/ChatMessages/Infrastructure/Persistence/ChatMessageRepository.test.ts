@@ -3,9 +3,13 @@ import { ChatMessageRepository } from '../../../../../../src/Contexts/Communicat
 import { DirectChatGenerator } from '../../../Chats/Domain/DirectChatGenerator';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(ChatMessageRepository);
-
 describe('[infra] Chat Message Repository', () => {
+  let repository: ChatMessageRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(ChatMessageRepository);
+  });
+
   describe('#save', () => {
     it('should save a chat message', async () => {
       const chatMessage = ChatMessageGenerator.random();

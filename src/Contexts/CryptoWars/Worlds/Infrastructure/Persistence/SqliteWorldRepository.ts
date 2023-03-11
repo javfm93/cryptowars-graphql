@@ -6,7 +6,7 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { Connection, EntitySchema } from 'typeorm';
+import { EntitySchema } from 'typeorm';
 import { WorldSchema } from './typeorm/WorldSchema';
 import { Worlds } from '../../Domain/Worlds';
 
@@ -15,10 +15,6 @@ export class SqliteWorldRepository
   extends TypeOrmRepository<WorldPrimitives>
   implements WorldRepository
 {
-  constructor(_client: Promise<Connection>) {
-    super(_client);
-  }
-
   public async save(world: World): Promise<void> {
     const repository = await this.repository();
     await repository.save(world.toPrimitives());

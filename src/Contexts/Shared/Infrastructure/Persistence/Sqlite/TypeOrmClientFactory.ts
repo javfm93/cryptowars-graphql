@@ -2,10 +2,9 @@ import { DataSource } from 'typeorm';
 import { TypeOrmConfig } from './TypeOrmConfig';
 
 export class TypeOrmClientFactory {
-  static createClient(contextName: string, config: TypeOrmConfig): Promise<DataSource> {
+  static createClient(contextName: string, config: TypeOrmConfig): DataSource {
     try {
-      const client = this.createMigrationClient(contextName, config);
-      return client.initialize();
+      return this.createMigrationClient(contextName, config);
     } catch (error) {
       console.log(error);
       throw error;

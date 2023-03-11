@@ -5,10 +5,13 @@ import * as faker from 'faker';
 import { TaskRepository } from '../../../../../../src/Contexts/Scheduler/Tasks/Domain/TaskRepository';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(TaskRepository);
-
 describe('[infra] TaskRepository', () => {
-  beforeAll(mockTimeSetup);
+  let repository: TaskRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(TaskRepository);
+    mockTimeSetup();
+  });
   afterAll(mockTimeCleanUp);
 
   describe('#save', () => {

@@ -8,13 +8,17 @@ import { World } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/W
 import { Players } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const dependencyInjector = DependencyInjector.initForRepositories();
-const repository = dependencyInjector.get(TownRepository);
-const worldRepository = dependencyInjector.get(WorldRepository);
-
 describe('[infra] TownRepository', () => {
   let player: Player;
   let world: World;
+  let repository: TownRepository;
+  let worldRepository: WorldRepository;
+
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(TownRepository);
+    worldRepository = dependencyInjector.get(WorldRepository);
+  });
 
   beforeEach(async () => {
     player = PlayerGenerator.random();

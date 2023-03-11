@@ -3,9 +3,13 @@ import { DirectChatRepository } from '../../../../../../src/Contexts/Communicati
 import { PlayerIdGenerator } from '../../../../CryptoWars/Players/domain/PlayerIdGenerator';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(DirectChatRepository);
-
 describe('[infra] Direct Chat Repository', () => {
+  let repository: DirectChatRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(DirectChatRepository);
+  });
+
   describe('#save', () => {
     it('should save a direct chat', async () => {
       const directChat = DirectChatGenerator.random();

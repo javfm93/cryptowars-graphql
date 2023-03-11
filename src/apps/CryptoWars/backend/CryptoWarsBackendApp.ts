@@ -5,6 +5,7 @@ import { ExecuteTasksPreviousToCommand } from '../../../Contexts/Scheduler/Tasks
 import { logger } from '../../../Contexts/Shared/Infrastructure/WinstonLogger';
 import cryptoWarsConfig from '../../../Contexts/CryptoWars/Shared/Infrastructure/Config/cryptoWarsConfig';
 import { ComponentTags, DependencyInjector } from './dependency-injection/dependencyInjector';
+import { DataSource } from 'typeorm';
 
 export class CryptoWarsBackendApp {
   server?: Server;
@@ -15,6 +16,7 @@ export class CryptoWarsBackendApp {
     this.server = new Server(port);
     try {
       await this.registerSubscribers();
+      await DependencyInjector.get(DataSource).initialize();
     } catch (e) {
       console.log(e);
     }

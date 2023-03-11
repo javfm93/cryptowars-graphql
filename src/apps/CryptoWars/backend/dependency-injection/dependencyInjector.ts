@@ -1,34 +1,32 @@
-import {Container as diodContainer, ContainerBuilder} from 'diod';
-import {CommandBus} from '../../../../Contexts/Shared/Domain/CommandBus';
-import {AbstractClass, Class} from '../../../../Contexts/Shared/Domain/Primitives';
-import {CommandHandler, registeredCommandHandlers} from '../../../../Contexts/Shared/Domain/CommandHandler';
-import {Command} from '../../../../Contexts/Shared/Domain/Command';
-import {registeredUseCases} from '../../../../Contexts/Shared/Domain/UseCase';
-import {EventBus} from '../../../../Contexts/Shared/Domain/EventBus';
+import { Container as diodContainer, ContainerBuilder } from 'diod';
+import { CommandBus } from '../../../../Contexts/Shared/Domain/CommandBus';
+import { AbstractClass, Class } from '../../../../Contexts/Shared/Domain/Primitives';
 import {
-  InMemoryAsyncEventBus
-} from '../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
-import {InMemoryQueryBus} from '../../../../Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus';
-import {QueryBus} from '../../../../Contexts/Shared/Domain/QueryBus';
-import {QueryHandler, registeredQueryHandlers} from '../../../../Contexts/Shared/Domain/QueryHandler';
-import {QueryHandlersInformation} from '../../../../Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation';
+  CommandHandler,
+  registeredCommandHandlers
+} from '../../../../Contexts/Shared/Domain/CommandHandler';
+import { Command } from '../../../../Contexts/Shared/Domain/Command';
+import { registeredUseCases } from '../../../../Contexts/Shared/Domain/UseCase';
+import { EventBus } from '../../../../Contexts/Shared/Domain/EventBus';
+import { InMemoryAsyncEventBus } from '../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
+import { InMemoryQueryBus } from '../../../../Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus';
+import { QueryBus } from '../../../../Contexts/Shared/Domain/QueryBus';
 import {
-  CommandHandlersInformation
-} from '../../../../Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
-import {InMemoryCommandBus} from '../../../../Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus';
-import {Connection} from 'typeorm';
-import {TypeOrmClientFactory} from '../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory';
-import {
-  TypeOrmConfigFactory
-} from '../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory';
+  QueryHandler,
+  registeredQueryHandlers
+} from '../../../../Contexts/Shared/Domain/QueryHandler';
+import { QueryHandlersInformation } from '../../../../Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation';
+import { CommandHandlersInformation } from '../../../../Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
+import { InMemoryCommandBus } from '../../../../Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus';
+import { DataSource } from 'typeorm';
+import { TypeOrmClientFactory } from '../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory';
+import { TypeOrmConfigFactory } from '../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory';
 import WinstonLogger from '../../../../Contexts/Shared/Infrastructure/WinstonLogger';
 import Logger from '../../../../Contexts/Shared/Domain/Logger';
-import {EnvironmentArranger} from '../../../../../tests/Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
-import {
-  TypeOrmEnvironmentArranger
-} from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
-import {registeredDomainEventHandlers} from '../../../../Contexts/Shared/Domain/DomainEventHandler';
-import {ComponentDiscovery} from "./componentDiscovery";
+import { EnvironmentArranger } from '../../../../../tests/Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
+import { TypeOrmEnvironmentArranger } from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
+import { registeredDomainEventHandlers } from '../../../../Contexts/Shared/Domain/DomainEventHandler';
+import { ComponentDiscovery } from './componentDiscovery';
 
 export enum ComponentTags {
   commandHandler = 'commandHandler',
@@ -55,10 +53,11 @@ export class DependencyInjector {
     return this;
   }
 
-  static initForRepositories() {
+  static async initForRepositories() {
     ComponentDiscovery.scanRepositories();
     DependencyInjector.getInstance().registerDatabaseConnection().build();
-    return this
+    await DependencyInjector.get(DataSource).initialize();
+    return this;
   }
 
   static registerAndUse(component: Class<any>) {
@@ -80,7 +79,8 @@ export class DependencyInjector {
   static getByTag<Dependency>(tag: ComponentTags): Array<Dependency> {
     const dependencyInjector = this.getInstance();
     if (!dependencyInjector.dependencies) throw Error('The container was not built');
-    return dependencyInjector.dependencies.findTaggedServiceIdentifiers<Dependency>(tag)
+    return dependencyInjector.dependencies
+      .findTaggedServiceIdentifiers<Dependency>(tag)
       .map(identifier => dependencyInjector.dependencies!.get(identifier));
   }
 
@@ -108,13 +108,16 @@ export class DependencyInjector {
   private build() {
     this.dependencies = this.builder.build();
     Object.values(ComponentTags).forEach(tag =>
-      console.debug(` - Registered ${this.dependencies!.findTaggedServiceIdentifiers(tag).length} ${tag}`)
+      console.debug(
+        ` - Registered ${this.dependencies!.findTaggedServiceIdentifiers(tag).length} ${tag}`
+      )
     );
     console.debug('Finished Component Registration Process \n');
   }
 
   private registerDatabaseConnection() {
-    this.builder.register<Promise<Connection>>(Promise<Connection>)
+    this.builder
+      .register(DataSource)
       .useFactory(() =>
         TypeOrmClientFactory.createClient('Shared', TypeOrmConfigFactory.createConfig())
       )
@@ -159,12 +162,15 @@ export class DependencyInjector {
   }
 
   private registerUseCases() {
-    registeredUseCases.forEach(useCase => this.builder.registerAndUse(useCase).addTag(ComponentTags.useCase));
+    registeredUseCases.forEach(useCase =>
+      this.builder.registerAndUse(useCase).addTag(ComponentTags.useCase)
+    );
   }
 
   private registerEnvironmentSpecificDependencies() {
     switch (process.env.NODE_ENV || 'development') {
-      case 'development': break;
+      case 'development':
+        break;
       case 'test': {
         this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
         break;
@@ -173,11 +179,11 @@ export class DependencyInjector {
         this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
         break;
       }
-      case 'production': break;
+      case 'production':
+        break;
       default: {
         throw new Error(`${process.env.NODE_ENV} environment is not valid`);
       }
     }
-
   }
 }

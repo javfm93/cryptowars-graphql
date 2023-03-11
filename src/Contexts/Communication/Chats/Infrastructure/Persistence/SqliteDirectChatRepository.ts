@@ -4,7 +4,7 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { Connection, EntitySchema } from 'typeorm';
+import { EntitySchema } from 'typeorm';
 import { DirectChatSchema } from './typeorm/DirectChatSchema';
 import { DirectChats } from '../../Domain/DirectChats';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
@@ -16,10 +16,6 @@ export class SqliteDirectChatRepository
   extends TypeOrmRepository<Primitives<DirectChat>>
   implements DirectChatRepository
 {
-  constructor(_client: Promise<Connection>) {
-    super(_client);
-  }
-
   public async save(directChat: DirectChat): Promise<void> {
     const repository = await this.repository();
     await repository.save(directChat.toPrimitives());

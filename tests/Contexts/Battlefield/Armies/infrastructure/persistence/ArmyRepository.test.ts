@@ -3,9 +3,13 @@ import { ArmyRepository } from '../../../../../../src/Contexts/Battlefield/Armie
 import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(ArmyRepository);
-
 describe('[infra] ArmyRepository', () => {
+  let repository: ArmyRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(ArmyRepository);
+  });
+
   describe('#save', () => {
     it('should save a army', async () => {
       const army = ArmyGenerator.random();

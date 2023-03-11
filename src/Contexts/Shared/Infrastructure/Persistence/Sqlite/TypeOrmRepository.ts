@@ -1,4 +1,4 @@
-import { Connection, EntitySchema, Repository } from 'typeorm';
+import { DataSource, EntitySchema, Repository } from 'typeorm';
 import { Service } from 'diod';
 import { AbstractClass, Class } from '../../../Domain/Primitives';
 import {
@@ -8,11 +8,11 @@ import {
 
 @Service()
 export abstract class TypeOrmRepository<T> {
-  constructor(private _client: Promise<Connection>) {}
+  constructor(private _client: DataSource) {}
 
   protected abstract entitySchema(): EntitySchema<T>;
 
-  protected client(): Promise<Connection> {
+  protected client(): DataSource {
     return this._client;
   }
 

@@ -2,9 +2,13 @@ import { UserGenerator } from '../../Domain/UserGenerator';
 import { UserRepository } from '../../../../../../src/Contexts/IAM/Users/Domain/UserRepository';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(UserRepository);
-
 describe('[infra] UserRepository', () => {
+  let repository: UserRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(UserRepository);
+  });
+
   describe('#save', () => {
     it('should save a user', async () => {
       const user = UserGenerator.random();

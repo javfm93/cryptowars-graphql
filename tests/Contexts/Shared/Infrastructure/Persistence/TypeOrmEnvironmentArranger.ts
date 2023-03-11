@@ -1,10 +1,10 @@
-import { Connection, EntityMetadata } from 'typeorm';
+import { DataSource, EntityMetadata } from 'typeorm';
 import { EnvironmentArranger } from '../arranger/EnvironmentArranger';
 import { Service } from 'diod';
 
 @Service()
 export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
-  constructor(private _client: Promise<Connection>) {
+  constructor(private _client: DataSource) {
     super();
   }
 
@@ -30,7 +30,7 @@ export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
     return (await this._client).entityMetadatas;
   }
 
-  protected client(): Promise<Connection> {
+  protected client(): DataSource {
     return this._client;
   }
 

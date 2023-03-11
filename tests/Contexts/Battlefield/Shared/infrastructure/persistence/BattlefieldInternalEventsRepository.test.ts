@@ -11,10 +11,13 @@ import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/Moc
 import { ArmyIdGenerator } from '../../../Armies/Domain/ArmyIdGenerator';
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository = DependencyInjector.initForRepositories().get(BattlefieldInternalEventRepository);
-
 describe('[infra] BattlefieldInternalEventRepository', () => {
-  beforeAll(mockTimeSetup);
+  let repository: BattlefieldInternalEventRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(BattlefieldInternalEventRepository);
+    mockTimeSetup();
+  });
   afterAll(mockTimeCleanUp);
 
   describe('#save', () => {

@@ -3,9 +3,13 @@ import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain
 import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 
-const repository = DependencyInjector.initForRepositories().get(PlayerRepository);
-
 describe('[infra] PlayerRepository', () => {
+  let repository: PlayerRepository;
+  beforeAll(async () => {
+    const dependencyInjector = await DependencyInjector.initForRepositories();
+    repository = dependencyInjector.get(PlayerRepository);
+  });
+
   describe('#save', () => {
     it('should save a player', async () => {
       const player = PlayerGenerator.random();
