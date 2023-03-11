@@ -1,11 +1,11 @@
 import { TaskGenerator } from '../../Domain/TaskGenerator';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { Tasks } from '../../../../../../src/Contexts/Scheduler/Tasks/Domain/Tasks';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/MockTime';
 import * as faker from 'faker';
 import { TaskRepository } from '../../../../../../src/Contexts/Scheduler/Tasks/Domain/TaskRepository';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: TaskRepository = container.get('Scheduler.Tasks.TaskRepository');
+const repository = DependencyInjector.initForRepositories().get(TaskRepository);
 
 describe('[infra] TaskRepository', () => {
   beforeAll(mockTimeSetup);

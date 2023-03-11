@@ -1,9 +1,9 @@
 import { PlayerGenerator } from '../../Domain/PlayerGenerator';
-import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
+import { PlayerRepository } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/PlayerRepository';
 
-const repository: PlayerRepository = container.get('CryptoWars.Players.PlayerRepository');
+const repository = DependencyInjector.initForRepositories().get(PlayerRepository);
 
 describe('[infra] PlayerRepository', () => {
   describe('#save', () => {

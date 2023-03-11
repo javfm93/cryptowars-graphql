@@ -1,15 +1,16 @@
 import { TownGenerator } from '../../Domain/TownGenerator';
 import { TownRepository } from '../../../../../../src/Contexts/CryptoWars/Towns/Domain/TownRepository';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { PlayerGenerator } from '../../../Players/Domain/PlayerGenerator';
 import { Player } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Player';
 import { WorldGenerator } from '../../../Worlds/Domain/WorldGenerator';
 import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';
 import { World } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/World';
 import { Players } from '../../../../../../src/Contexts/CryptoWars/Players/Domain/Players';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: TownRepository = container.get('CryptoWars.Towns.TownRepository');
-const worldRepository: WorldRepository = container.get('CryptoWars.Worlds.WorldRepository');
+const dependencyInjector = DependencyInjector.initForRepositories();
+const repository = dependencyInjector.get(TownRepository);
+const worldRepository = dependencyInjector.get(WorldRepository);
 
 describe('[infra] TownRepository', () => {
   let player: Player;

@@ -1,9 +1,9 @@
 import { ArmyGenerator } from '../../Domain/ArmyGenerator';
 import { ArmyRepository } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/ArmyRepository';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { Army } from '../../../../../../src/Contexts/Battlefield/Armies/Domain/Army';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: ArmyRepository = container.get('Battlefield.Armies.ArmyRepository');
+const repository = DependencyInjector.initForRepositories().get(ArmyRepository);
 
 describe('[infra] ArmyRepository', () => {
   describe('#save', () => {

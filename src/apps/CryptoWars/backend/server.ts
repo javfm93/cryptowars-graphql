@@ -17,7 +17,6 @@ import path from 'path';
 import io from 'socket.io';
 import { ClientToServerEvents, ServerToClientEvents } from './Events/events';
 import { registerEvents } from './Events/registerEvents';
-import { ComponentDiscovery } from './dependency-injection/componentDiscovery';
 import { DependencyInjector } from './dependency-injection/dependencyInjector';
 
 const SQLiteStore = require('connect-sqlite3')(session);
@@ -66,8 +65,7 @@ export class Server {
     const router = Router();
     router.use(errorHandler());
     this.express.use(router);
-    ComponentDiscovery.scan();
-    DependencyInjector.getInstance().registerComponents().build();
+    DependencyInjector.init();
     this.logger = DependencyInjector.get(Logger);
     registerRoutes(router);
 

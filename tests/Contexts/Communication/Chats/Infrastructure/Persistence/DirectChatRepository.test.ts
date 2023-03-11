@@ -1,9 +1,9 @@
 import { DirectChatGenerator } from '../../Domain/DirectChatGenerator';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { DirectChatRepository } from '../../../../../../src/Contexts/Communication/Chats/Domain/DirectChatRepository';
 import { PlayerIdGenerator } from '../../../../CryptoWars/Players/domain/PlayerIdGenerator';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: DirectChatRepository = container.get('Communication.Chats.DirectChatRepository');
+const repository = DependencyInjector.initForRepositories().get(DirectChatRepository);
 
 describe('[infra] Direct Chat Repository', () => {
   describe('#save', () => {

@@ -1,8 +1,8 @@
 import { UserGenerator } from '../../Domain/UserGenerator';
 import { UserRepository } from '../../../../../../src/Contexts/IAM/Users/Domain/UserRepository';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: UserRepository = container.get('CryptoWars.Users.UserRepository');
+const repository = DependencyInjector.initForRepositories().get(UserRepository);
 
 describe('[infra] UserRepository', () => {
   describe('#save', () => {

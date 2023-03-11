@@ -1,12 +1,12 @@
 import { WorldGenerator } from '../../Domain/WorldGenerator';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { WorldRepository } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldRepository';
 import { WorldId } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldId';
 import { WorldName } from '../../../../../../src/Contexts/CryptoWars/Worlds/Domain/WorldName';
 import { PlayerGenerator } from '../../../Players/Domain/PlayerGenerator';
 import { TownGenerator } from '../../../Towns/Domain/TownGenerator';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: WorldRepository = container.get('CryptoWars.Worlds.WorldRepository');
+const repository = DependencyInjector.initForRepositories().get(WorldRepository);
 
 describe('[infra] WorldRepository', () => {
   describe('#save', () => {

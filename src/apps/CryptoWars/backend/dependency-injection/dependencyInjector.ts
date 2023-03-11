@@ -20,14 +20,15 @@ import {Connection} from 'typeorm';
 import {TypeOrmClientFactory} from '../../../../Contexts/Shared/Infrastructure/Persistence/Sqlite/TypeOrmClientFactory';
 import {
   TypeOrmConfigFactory
-} from '../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory2';
-import {registeredDomainEventHandlers} from '../../../../Contexts/Shared/Domain/DomainEventHandler';
+} from '../../../../Contexts/CryptoWars/Shared/Infrastructure/Persistence/Sqlite/TypeOrmConfigFactory';
+import WinstonLogger from '../../../../Contexts/Shared/Infrastructure/WinstonLogger';
+import Logger from '../../../../Contexts/Shared/Domain/Logger';
 import {EnvironmentArranger} from '../../../../../tests/Contexts/Shared/Infrastructure/arranger/EnvironmentArranger';
 import {
   TypeOrmEnvironmentArranger
 } from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
-import WinstonLogger from '../../../../Contexts/Shared/Infrastructure/WinstonLogger';
-import Logger from '../../../../Contexts/Shared/Domain/Logger';
+import {registeredDomainEventHandlers} from '../../../../Contexts/Shared/Domain/DomainEventHandler';
+import {ComponentDiscovery} from "./componentDiscovery";
 
 export enum ComponentTags {
   commandHandler = 'commandHandler',
@@ -48,6 +49,28 @@ export class DependencyInjector {
     this.builder = new ContainerBuilder();
   }
 
+  static init() {
+    ComponentDiscovery.scan();
+    DependencyInjector.getInstance().registerComponents().build();
+    return this;
+  }
+
+  static initForRepositories() {
+    ComponentDiscovery.scanRepositories();
+    DependencyInjector.getInstance().registerDatabaseConnection().build();
+    return this
+  }
+
+  static registerAndUse(component: Class<any>) {
+    const dependencyInjector = this.getInstance();
+    return dependencyInjector.builder.registerAndUse(component);
+  }
+
+  static register(component: AbstractClass<any>) {
+    const dependencyInjector = this.getInstance();
+    return dependencyInjector.builder.register(component);
+  }
+
   static get<Dependency>(dependency: Class<Dependency> | AbstractClass<Dependency>): Dependency {
     const dependencyInjector = this.getInstance();
     if (!dependencyInjector.dependencies) throw Error('The container was not built');
@@ -61,17 +84,7 @@ export class DependencyInjector {
       .map(identifier => dependencyInjector.dependencies!.get(identifier));
   }
 
-  static registerAndUse(component: Class<any>) {
-    const dependencyInjector = this.getInstance();
-    return dependencyInjector.builder.registerAndUse(component);
-  }
-
-  static register(component: AbstractClass<any>) {
-    const dependencyInjector = this.getInstance();
-    return dependencyInjector.builder.register(component);
-  }
-
-  static getInstance(): DependencyInjector {
+  private static getInstance(): DependencyInjector {
     if (!DependencyInjector.instance) {
       DependencyInjector.instance = new DependencyInjector();
     }
@@ -79,7 +92,7 @@ export class DependencyInjector {
     return DependencyInjector.instance;
   }
 
-  registerComponents(): this {
+  private registerComponents(): this {
     console.debug('Starting Component Registration Process');
     this.registerDatabaseConnection();
     this.registerCommandHandlers();
@@ -87,12 +100,12 @@ export class DependencyInjector {
     this.registerDomainEventHandlers();
     this.registerUseCases();
     this.registerBuses();
-    this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
     this.builder.register(Logger).use(WinstonLogger);
+    this.registerEnvironmentSpecificDependencies();
     return this;
   }
 
-  build() {
+  private build() {
     this.dependencies = this.builder.build();
     Object.values(ComponentTags).forEach(tag =>
       console.debug(` - Registered ${this.dependencies!.findTaggedServiceIdentifiers(tag).length} ${tag}`)
@@ -101,11 +114,12 @@ export class DependencyInjector {
   }
 
   private registerDatabaseConnection() {
-    this.builder.register(Promise<Connection>)
+    this.builder.register<Promise<Connection>>(Promise<Connection>)
       .useFactory(() =>
-        TypeOrmClientFactory.createClient('Shared2', TypeOrmConfigFactory.createConfig())
+        TypeOrmClientFactory.createClient('Shared', TypeOrmConfigFactory.createConfig())
       )
       .asSingleton();
+    return this;
   }
 
   private registerCommandHandlers() {
@@ -139,7 +153,6 @@ export class DependencyInjector {
   }
 
   private registerBuses() {
-    // todo: Check behavour of singleton versus others
     this.builder.register(CommandBus).use(InMemoryCommandBus).asSingleton();
     this.builder.register(QueryBus).use(InMemoryQueryBus).asSingleton();
     this.builder.register(EventBus).use(InMemoryAsyncEventBus).asSingleton();
@@ -147,5 +160,24 @@ export class DependencyInjector {
 
   private registerUseCases() {
     registeredUseCases.forEach(useCase => this.builder.registerAndUse(useCase).addTag(ComponentTags.useCase));
+  }
+
+  private registerEnvironmentSpecificDependencies() {
+    switch (process.env.NODE_ENV || 'development') {
+      case 'development': break;
+      case 'test': {
+        this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
+        break;
+      }
+      case 'integration': {
+        this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
+        break;
+      }
+      case 'production': break;
+      default: {
+        throw new Error(`${process.env.NODE_ENV} environment is not valid`);
+      }
+    }
+
   }
 }

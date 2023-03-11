@@ -1,4 +1,3 @@
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { BattlefieldInternalEventRepository } from '../../../../../../src/Contexts/Battlefield/Shared/Domain/BattlefieldInternalEventRepository';
 import { ArmyExposedEventsGenerator } from '../../../Armies/Domain/ArmyExposedEventsGenerator';
 import { ArmyGenerator } from '../../../Armies/Domain/ArmyGenerator';
@@ -10,10 +9,9 @@ import { BattleGenerator } from '../../../Battles/Domain/BattleGenerator';
 import { BattleExposedEventsGenerator } from '../../../Battles/Domain/BattleExposedEventsGenerator';
 import { mockTimeCleanUp, mockTimeSetup } from '../../../../Shared/__mocks__/MockTime';
 import { ArmyIdGenerator } from '../../../Armies/Domain/ArmyIdGenerator';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: BattlefieldInternalEventRepository = container.get(
-  'Battlefield.Shared.BattlefieldInternalEventRepository'
-);
+const repository = DependencyInjector.initForRepositories().get(BattlefieldInternalEventRepository);
 
 describe('[infra] BattlefieldInternalEventRepository', () => {
   beforeAll(mockTimeSetup);

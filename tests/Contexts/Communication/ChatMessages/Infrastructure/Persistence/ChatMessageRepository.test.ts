@@ -1,11 +1,9 @@
 import { ChatMessageGenerator } from '../../Domain/ChatMessageGenerator';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { ChatMessageRepository } from '../../../../../../src/Contexts/Communication/ChatMessages/Domain/ChatMessageRepository';
 import { DirectChatGenerator } from '../../../Chats/Domain/DirectChatGenerator';
+import { DependencyInjector } from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-const repository: ChatMessageRepository = container.get(
-  'Communication.ChatMessages.ChatMessageRepository'
-);
+const repository = DependencyInjector.initForRepositories().get(ChatMessageRepository);
 
 describe('[infra] Chat Message Repository', () => {
   describe('#save', () => {
