@@ -7,7 +7,6 @@ export class QueryHandlersInformation {
   private queryHandlersMap: Map<Query, QueryHandler<Query, Response>>;
 
   constructor(queryHandlers: Array<QueryHandler<Query, Response>>) {
-    console.debug(`Registered ${queryHandlers.length} query handlers`);
     this.queryHandlersMap = this.formatHandlers(queryHandlers);
   }
 

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Class } from '../../../../Contexts/Shared/Domain/Primitives';
-import { DependencyInjector } from '../dependency-injection/dependencyInjector';
+import { ComponentTags, DependencyInjector } from '../dependency-injection/dependencyInjector';
 
 export abstract class Controller {
   abstract run(req: Request, res: Response): Promise<void>;
@@ -8,7 +8,7 @@ export abstract class Controller {
 
 export const RegisterController = () => {
   return (target: Class<any>): Class<any> => {
-    DependencyInjector.registerAndUse(target);
+    DependencyInjector.registerAndUse(target).addTag(ComponentTags.controller);
     return target;
   };
 };

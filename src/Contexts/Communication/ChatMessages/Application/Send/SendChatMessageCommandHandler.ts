@@ -3,7 +3,7 @@ import { SendChatMessage } from './SendChatMessage';
 import { Either, EmptyResult } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { CommandClass } from '../../../../Shared/Domain/Command';
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { ChatMessageContent } from '../../Domain/ChatMessageContent';
 import { ChatMessageId } from '../../Domain/ChatMessageId';
@@ -11,6 +11,7 @@ import { DirectChatId } from '../../../Chats/Domain/DirectChatId';
 
 export type SendMessageCommandResult = Either<EmptyResult, DomainError>;
 
+@RegisterCommandHandler()
 export class SendChatMessageCommandHandler implements CommandHandler<SendChatMessageCommand> {
   constructor(private sendMessage: SendChatMessage) {}
 

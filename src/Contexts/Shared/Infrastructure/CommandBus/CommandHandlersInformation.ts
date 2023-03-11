@@ -6,7 +6,6 @@ export class CommandHandlersInformation {
   private commandHandlersMap: Map<string, CommandHandler<Command>>;
 
   constructor(commandHandlers: Array<CommandHandler<Command>>) {
-    console.debug(`Registered ${commandHandlers.length} command handlers`);
     this.commandHandlersMap = this.formatHandlers(commandHandlers);
   }
 

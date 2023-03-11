@@ -1,30 +1,23 @@
-import { Definition } from 'node-dependency-injection';
-import container from '../../../../../../src/apps/CryptoWars/backend/dependency-injection';
 import { EventBus } from '../../../../../../src/Contexts/Shared/Domain/EventBus';
-import { DomainEventHandler } from '../../../../../../src/Contexts/Shared/Domain/DomainEventHandler';
 import { DomainEventJsonDeserializer } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventJsonDeserializer';
 import { DomainEventMapping } from '../../../../../../src/Contexts/Shared/Infrastructure/EventBus/DomainEventMapping';
-import { DomainEvent } from '../../../../../../src/Contexts/Shared/Domain/DomainEvent';
 import { Given } from '@cucumber/cucumber';
-
-const eventBus = container.get('Shared.EventBus') as EventBus;
-const deserializer = buildDeserializer();
+import {
+  ComponentTags,
+  DependencyInjector
+} from '../../../../../../src/apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
 Given('I send an event to the event bus:', async (event: any) => {
+  const deserializer = buildDeserializer();
   const domainEvent = deserializer.deserialize(event);
-
+  const eventBus = DependencyInjector.get(EventBus);
   await eventBus.publish([domainEvent!]);
 });
 
 function buildDeserializer() {
-  const subscriberDefinitions = container.findTaggedServiceIds('domainEventSubscriber') as Map<
-    String,
-    Definition
-  >;
-  const subscribers: Array<DomainEventHandler<DomainEvent<Record<string, unknown>>>> = [];
-
-  subscriberDefinitions.forEach((value: any, key: any) => subscribers.push(container.get(key)));
-  const domainEventMapping = new DomainEventMapping(subscribers);
+  const domainEventMapping = new DomainEventMapping(
+    DependencyInjector.getByTag(ComponentTags.domainEventHandler)
+  );
 
   return new DomainEventJsonDeserializer(domainEventMapping);
 }

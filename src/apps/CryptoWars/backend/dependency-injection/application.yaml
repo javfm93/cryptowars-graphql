@@ -1,4 +1,2 @@
 imports:
-  - { resource: ./Apps/application.yaml }
   - { resource: ./Shared/application.yaml }
-  - { resource: ./Scheduler/Tasks/application.yaml }

@@ -1,12 +1,17 @@
-import { EventHandler, EventHandlerResponse } from '../EventHandler';
+import {
+  RegisterSocketEventHandler,
+  SocketEventHandler,
+  SocketEventHandlerResponse
+} from '../SocketEventHandler';
 import { getChatRoomFrom } from './SocketRooms';
 import { ServerToClientEventsName } from '../../Events/events';
 import { PlayerTypingEvent } from './PlayerTypingEvent';
 
-export class PlayerTypingEventHandler implements EventHandler<PlayerTypingEvent> {
+@RegisterSocketEventHandler()
+export class PlayerTypingEventHandler implements SocketEventHandler<PlayerTypingEvent> {
   constructor() {}
 
-  async run(event: PlayerTypingEvent, res: EventHandlerResponse) {
+  async run(event: PlayerTypingEvent, res: SocketEventHandlerResponse) {
     console.log(`${event.playerId} is typing`);
     res.socket
       .to(getChatRoomFrom(event.chatId))

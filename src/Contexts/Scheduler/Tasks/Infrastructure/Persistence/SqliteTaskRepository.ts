@@ -1,11 +1,15 @@
 import { TaskRepository } from '../../Domain/TaskRepository';
 import { Task } from '../../Domain/Task';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { EntitySchema, LessThanOrEqual } from 'typeorm';
 import { TaskSchema } from './typeorm/TaskSchema';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { Tasks } from '../../Domain/Tasks';
 
+@RegisterRepository(TaskRepository)
 export class SqliteTaskRepository
   extends TypeOrmRepository<Primitives<Task>>
   implements TaskRepository

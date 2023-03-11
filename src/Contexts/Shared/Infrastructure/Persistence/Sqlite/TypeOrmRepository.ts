@@ -1,7 +1,10 @@
 import { Connection, EntitySchema, Repository } from 'typeorm';
 import { Service } from 'diod';
 import { AbstractClass, Class } from '../../../Domain/Primitives';
-import { DependencyInjector } from '../../../../../apps/CryptoWars/backend/dependency-injection/dependencyInjector';
+import {
+  ComponentTags,
+  DependencyInjector
+} from '../../../../../apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
 @Service()
 export abstract class TypeOrmRepository<T> {
@@ -35,7 +38,7 @@ export abstract class TypeOrmRepository<T> {
 
 export const RegisterRepository = (repository: AbstractClass<any>) => {
   return (target: Class<any>): Class<any> => {
-    DependencyInjector.register(repository).use(target);
+    DependencyInjector.register(repository).use(target).addTag(ComponentTags.repository);
     return target;
   };
 };

@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
 import { TaskRepository } from '../../Domain/TaskRepository';
@@ -7,6 +7,7 @@ import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 type SendAttackResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
   constructor(private taskRepository: TaskRepository, private eventBus: EventBus) {}
 

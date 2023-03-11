@@ -3,12 +3,12 @@ import { Tasks } from './Tasks';
 
 export type QueryOptions = { retrieveRelations: boolean };
 
-export interface TaskRepository {
-  save(task: Task): Promise<void>;
+export abstract class TaskRepository {
+  abstract save(task: Task): Promise<void>;
 
-  updateMultiple(tasks: Tasks): Promise<void>;
+  abstract updateMultiple(tasks: Tasks): Promise<void>;
 
-  findTaskPreviousThan(timestamp: number): Promise<Tasks>;
+  abstract findTaskPreviousThan(timestamp: number): Promise<Tasks>;
 
-  clear(): Promise<void>;
+  abstract clear(): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import { TaskRepository } from '../../Domain/TaskRepository';
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Task } from '../../Domain/Task';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
@@ -17,6 +17,7 @@ type Args = {
 
 type CreatePlayerResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class CreateTask implements UseCase<Args, EmptyResult> {
   constructor(private taskRepository: TaskRepository, private eventBus: EventBus) {}
 

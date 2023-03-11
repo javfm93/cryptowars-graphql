@@ -1,4 +1,4 @@
-import { CommandHandler } from '../../../../Shared/Domain/CommandHandler';
+import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { ExecuteTasksPreviousToCommand } from './ExecuteTasksPreviousToCommand';
 import { ExecuteTasksPreviousTo } from './ExecuteTasksPreviousTo';
 import { CommandClass } from '../../../../Shared/Domain/Command';
@@ -7,6 +7,7 @@ import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
 export type SendAttackCommandResult = Either<EmptyResult, DomainError>;
 
+@RegisterCommandHandler()
 export class ExecuteTasksPreviousToCommandHandler
   implements CommandHandler<ExecuteTasksPreviousToCommand>
 {

@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import http from 'http';
 import httpStatus from 'http-status';
 import Logger from '../../../Contexts/Shared/Domain/Logger';
-import container from './dependency-injection';
 import { registerRoutes } from './Routes';
 import cors from 'cors';
 import passport from 'passport';
@@ -31,7 +30,6 @@ export class Server {
 
   constructor(port: string) {
     this.port = port;
-    this.logger = container.get('Shared.Logger');
     this.express = express();
     const corsConfig = {
       origin: 'http://localhost:3000',
@@ -70,6 +68,7 @@ export class Server {
     this.express.use(router);
     ComponentDiscovery.scan();
     DependencyInjector.getInstance().registerComponents().build();
+    this.logger = DependencyInjector.get(Logger);
     registerRoutes(router);
 
     router.use((err: Error, req: Request, res: Response, next: Function) => {

@@ -1,12 +1,16 @@
 import { ChatMessageRepository } from '../../Domain/ChatMessageRepository';
 import { ChatMessage } from '../../Domain/ChatMessage';
-import { TypeOrmRepository } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
+import {
+  RegisterRepository,
+  TypeOrmRepository
+} from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
 import { Connection, EntitySchema } from 'typeorm';
 import { ChatMessageSchema } from './typeorm/ChatMessageSchema';
 import { ChatMessages } from '../../Domain/ChatMessages';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { DirectChatId } from '../../../Chats/Domain/DirectChatId';
 
+@RegisterRepository(ChatMessageRepository)
 export class SqliteChatMessageRepository
   extends TypeOrmRepository<Primitives<ChatMessage>>
   implements ChatMessageRepository

@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
@@ -18,6 +18,7 @@ type SendMessageArgs = {
 
 type SendMessageResult = Either<EmptyResult, DomainError>;
 
+@RegisterUseCase()
 export class SendChatMessage implements UseCase<SendMessageArgs, EmptyResult> {
   constructor(private messageRepository: ChatMessageRepository, private eventBus: EventBus) {}
 

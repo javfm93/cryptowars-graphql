@@ -1,4 +1,3 @@
-import container from './dependency-injection';
 import { Server } from './server';
 import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
 import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';
@@ -41,7 +40,7 @@ export class CryptoWarsBackendApp {
   private initScheduler() {
     logger.info('Initializing the scheduler');
     const checkTasksEveryInMs = parseInt(cryptoWarsConfig.get('checkTasksEveryInMs'));
-    const commandBus: CommandBus = container.get('Shared.CommandBus');
+    const commandBus = DependencyInjector.get(CommandBus);
     this.interval = setInterval(async () => {
       try {
         const execute = new ExecuteTasksPreviousToCommand(Date.now());

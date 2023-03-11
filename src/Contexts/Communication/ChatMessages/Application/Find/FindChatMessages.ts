@@ -1,4 +1,4 @@
-import { UseCase } from '../../../../Shared/Domain/UseCase';
+import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { ChatMessages } from '../../Domain/ChatMessages';
@@ -13,6 +13,7 @@ type FindMessageArgs = {
   chatId: UserId;
 };
 
+@RegisterUseCase()
 export class FindChatMessages implements UseCase<FindMessageArgs, ChatMessages> {
   constructor(private messageRepository: ChatMessageRepository) {}
 

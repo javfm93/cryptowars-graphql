@@ -1,14 +1,21 @@
 import { CommandBus } from '../../../../../Contexts/Shared/Domain/CommandBus';
 import { SendChatMessageCommand } from '../../../../../Contexts/Communication/ChatMessages/Application/Send/SendChatMessageCommand';
-import { EventHandler, EventHandlerResponse } from '../EventHandler';
+import {
+  RegisterSocketEventHandler,
+  SocketEventHandler,
+  SocketEventHandlerResponse
+} from '../SocketEventHandler';
 import { ServerToClientEventsName } from '../../Events/events';
 import { SendDirectChatMessageEvent } from './SendDirectChatMessageEvent';
 import { getChatRoomFrom } from './SocketRooms';
 
-export class SendDirectChatMessageEventHandler implements EventHandler<SendDirectChatMessageEvent> {
+@RegisterSocketEventHandler()
+export class SendDirectChatMessageEventHandler
+  implements SocketEventHandler<SendDirectChatMessageEvent>
+{
   constructor(private commandBus: CommandBus) {}
 
-  async run(event: SendDirectChatMessageEvent, res: EventHandlerResponse) {
+  async run(event: SendDirectChatMessageEvent, res: SocketEventHandlerResponse) {
     const sendMessageCommand = new SendChatMessageCommand(
       event.id,
       event.message,

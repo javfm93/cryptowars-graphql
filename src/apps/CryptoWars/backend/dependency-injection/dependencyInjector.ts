@@ -26,11 +26,17 @@ import {EnvironmentArranger} from '../../../../../tests/Contexts/Shared/Infrastr
 import {
   TypeOrmEnvironmentArranger
 } from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
+import WinstonLogger from '../../../../Contexts/Shared/Infrastructure/WinstonLogger';
+import Logger from '../../../../Contexts/Shared/Domain/Logger';
 
-export const enum ComponentTags {
+export enum ComponentTags {
   commandHandler = 'commandHandler',
   queryHandler = 'queryHandler',
-  domainEventHandler = 'domainEventHandler'
+  domainEventHandler = 'domainEventHandler',
+  controller = 'controller',
+  socketEventHandler = 'socketEventHandler',
+  useCase = 'useCase',
+  repository = 'repository'
 }
 
 export class DependencyInjector {
@@ -74,6 +80,7 @@ export class DependencyInjector {
   }
 
   registerComponents(): this {
+    console.debug('Starting Component Registration Process');
     this.registerDatabaseConnection();
     this.registerCommandHandlers();
     this.registerQueryHandlers();
@@ -81,11 +88,16 @@ export class DependencyInjector {
     this.registerUseCases();
     this.registerBuses();
     this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
+    this.builder.register(Logger).use(WinstonLogger);
     return this;
   }
 
   build() {
     this.dependencies = this.builder.build();
+    Object.values(ComponentTags).forEach(tag =>
+      console.debug(` - Registered ${this.dependencies!.findTaggedServiceIdentifiers(tag).length} ${tag}`)
+    );
+    console.debug('Finished Component Registration Process \n');
   }
 
   private registerDatabaseConnection() {
@@ -134,7 +146,6 @@ export class DependencyInjector {
   }
 
   private registerUseCases() {
-    registeredUseCases.forEach(useCase => this.builder.registerAndUse(useCase));
-    console.debug(`Registered ${registeredUseCases.length} use cases`);
+    registeredUseCases.forEach(useCase => this.builder.registerAndUse(useCase).addTag(ComponentTags.useCase));
   }
 }

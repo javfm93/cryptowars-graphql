@@ -29,7 +29,6 @@ export class InMemoryAsyncEventBus implements EventBus {
   }
 
   addSubscribers(subscribers: Array<DomainEventHandler<DomainEvent<any>>>) {
-    console.debug(`Registered ${subscribers.length} domain event handlers`);
     subscribers.map(subscriber =>
       subscriber.subscribedTo().map(event => this.subscribe(event.TYPE!, subscriber))
     );
