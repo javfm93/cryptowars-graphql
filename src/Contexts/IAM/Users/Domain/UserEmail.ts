@@ -1,11 +1,10 @@
-import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { InvalidEmailError } from './Errors/InvalidEmailError';
 import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { StringValueObject } from '../../../Shared/Domain/value-object/StringValueObject';
 
-export class UserEmail extends ValueObject<UserEmail> {
-  private constructor(readonly value: string) {
-    super();
-    this.value = value.toLowerCase();
+export class UserEmail extends StringValueObject {
+  private constructor(value: string) {
+    super(value.toLowerCase());
   }
 
   public static create(value: string): Either<UserEmail, InvalidEmailError> {
@@ -19,13 +18,5 @@ export class UserEmail extends ValueObject<UserEmail> {
 
   public static fromPrimitives(email: string): UserEmail {
     return new UserEmail(email);
-  }
-
-  public isEqualTo(email?: UserEmail) {
-    return this.toString() === email?.toString();
-  }
-
-  public toString(): string {
-    return this.value;
   }
 }

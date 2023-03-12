@@ -1,53 +1,44 @@
-import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
 import { UserCreatedDomainEvent } from './UserCreatedDomainEvent';
 import { UserEmail } from './UserEmail';
 import { UserId } from './UserId';
 import { UserPassword } from './UserPassword';
+import { UserName } from './UserName';
+import { AggregateRoot } from '../../../Shared/Domain/FlatAggregateRoot';
+import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export interface UserProps {
-  email: UserEmail;
-  password: UserPassword;
-}
-
-export interface UserPrimitives {
-  id: string;
-  email: string;
-  password: string;
-}
-
-export class User extends AggregateRoot<UserProps> {
-  private constructor(id: UserId, props: UserProps) {
-    super(id, props);
+export class User extends AggregateRoot {
+  private constructor(
+    id: UserId,
+    readonly email: UserEmail,
+    readonly password: UserPassword,
+    readonly name: UserName
+  ) {
+    super(id);
   }
 
-  public static create(id: UserId, props: UserProps): User {
-    const user = new User(id, props);
+  public static create(id: UserId, email: UserEmail, password: UserPassword, name: UserName): User {
+    const user = new User(id, email, password, name);
     const userCreated = new UserCreatedDomainEvent({
-      aggregateId: user.id.toString()
+      aggregateId: user.id.toString(),
+      attributes: { name: name.toString() }
     });
     user.record(userCreated);
     return user;
   }
 
-  public get email(): UserEmail {
-    return this.props.email;
-  }
-
-  public get password(): UserPassword {
-    return this.props.password;
-  }
-
-  toPrimitives(): UserPrimitives {
+  toPrimitives(): Primitives<User> {
     return {
       id: this.id.toString(),
-      email: this.props.email.toString(),
-      password: this.props.password.toString()
+      email: this.email.toString(),
+      password: this.password.toString(),
+      name: this.name.toString()
     };
   }
 
-  static fromPrimitives(plainData: UserPrimitives): User {
+  static fromPrimitives(plainData: Primitives<User>): User {
     const email = UserEmail.fromPrimitives(plainData.email);
     const password = UserPassword.fromPrimitives(plainData.password);
-    return new User(UserId.create(plainData.id), { email, password });
+    const name = UserName.fromPrimitives(plainData.name);
+    return new User(UserId.create(plainData.id), email, password, name);
   }
 }

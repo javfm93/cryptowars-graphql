@@ -35,13 +35,14 @@ export enum ComponentTags {
   controller = 'controller',
   socketEventHandler = 'socketEventHandler',
   useCase = 'useCase',
-  repository = 'repository'
+  repository = 'repository',
+  resolver = 'resolver'
 }
 
 export class DependencyInjector {
   private builder: ContainerBuilder;
   private static instance: DependencyInjector;
-  private dependencies?: diodContainer;
+  private container?: diodContainer;
 
   private constructor() {
     this.builder = new ContainerBuilder();
@@ -71,24 +72,26 @@ export class DependencyInjector {
   }
 
   static get<Dependency>(dependency: Class<Dependency> | AbstractClass<Dependency>): Dependency {
+    return this.getContainer().get(dependency);
+  }
+
+  static getContainer() {
     const dependencyInjector = this.getInstance();
-    if (!dependencyInjector.dependencies) throw Error('The container was not built');
-    return dependencyInjector.dependencies.get(dependency);
+    if (!dependencyInjector.container) throw Error('The container was not built');
+    return dependencyInjector.container;
   }
 
   static getByTag<Dependency>(tag: ComponentTags): Array<Dependency> {
-    const dependencyInjector = this.getInstance();
-    if (!dependencyInjector.dependencies) throw Error('The container was not built');
-    return dependencyInjector.dependencies
+    const container = this.getContainer();
+    return container
       .findTaggedServiceIdentifiers<Dependency>(tag)
-      .map(identifier => dependencyInjector.dependencies!.get(identifier));
+      .map(identifier => container.get(identifier));
   }
 
   private static getInstance(): DependencyInjector {
     if (!DependencyInjector.instance) {
       DependencyInjector.instance = new DependencyInjector();
     }
-
     return DependencyInjector.instance;
   }
 
@@ -106,10 +109,10 @@ export class DependencyInjector {
   }
 
   private build() {
-    this.dependencies = this.builder.build();
+    this.container = this.builder.build();
     Object.values(ComponentTags).forEach(tag =>
       console.debug(
-        ` - Registered ${this.dependencies!.findTaggedServiceIdentifiers(tag).length} ${tag}`
+        ` - Registered ${this.container!.findTaggedServiceIdentifiers(tag).length} ${tag}`
       )
     );
     console.debug('Finished Component Registration Process \n');

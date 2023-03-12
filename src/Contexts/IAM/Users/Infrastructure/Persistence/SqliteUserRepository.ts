@@ -1,18 +1,20 @@
 import { UserRepository } from '../../Domain/UserRepository';
-import { User, UserPrimitives } from '../../Domain/User';
+import { User } from '../../Domain/User';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
 import { UserId } from '../../Domain/UserId';
 import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema } from 'typeorm';
-import { UserSchema } from './typeorm/UserSchema';
+import { EntityTarget } from 'typeorm';
+import { UserSchema } from '../UserSchema';
 import { UserEmail } from '../../Domain/UserEmail';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
 
+console.log('____________ user repostory _______');
 @RegisterRepository(UserRepository)
 export class SqliteUserRepository
-  extends TypeOrmRepository<UserPrimitives>
+  extends TypeOrmRepository<Primitives<User>>
   implements UserRepository
 {
   public save(user: User): Promise<void> {
@@ -31,7 +33,7 @@ export class SqliteUserRepository
     return user ? User.fromPrimitives(user) : null;
   }
 
-  protected entitySchema(): EntitySchema<UserPrimitives> {
+  protected entitySchema(): EntityTarget<Primitives<User>> {
     return UserSchema;
   }
 }

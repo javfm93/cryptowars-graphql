@@ -10,7 +10,7 @@ import { BattleId } from '../../Domain/BattleId';
 import { AttackNotFound } from '../../../Attacks/Application/Send/AttackNotFound';
 import { BattleTroopReturnedDomainEvent } from '../../Domain/BattleTroopReturnedDomainEvent';
 
-type CreateBattleResult = Either<EmptyResult, ArmyNotFound | Forbidden>;
+type CreateBattleResult = Either<EmptyResult, ArmyNotFound | Forbidden | AttackNotFound>;
 
 type CreateBattleArgs = {
   id: BattleId;

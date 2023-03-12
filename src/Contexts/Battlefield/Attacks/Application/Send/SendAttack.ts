@@ -2,6 +2,7 @@ import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Attack } from '../../Domain/Attack';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import {
+  CommandResult,
   Either,
   EmptyResult,
   failure,
@@ -30,7 +31,8 @@ type SendAttackArgs = {
   playerId: PlayerId;
 };
 
-type SendAttackResult = Either<EmptyResult, ArmyNotFound | Forbidden>;
+type SendAttackErrors = ArmyNotFound | Forbidden | AttackAlreadyExist | InvalidNumberOfSoldiers;
+type SendAttackResult = CommandResult<SendAttackErrors>;
 
 @RegisterUseCase()
 export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
@@ -62,7 +64,9 @@ export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
     return success();
   }
 
-  private async getAttackerArmy(args: SendAttackArgs): Promise<Either<Army, ArmyNotFound>> {
+  private async getAttackerArmy(
+    args: SendAttackArgs
+  ): Promise<Either<Army, ArmyNotFound | Forbidden | InvalidNumberOfSoldiers>> {
     const query = new FindArmyByArmyIdQuery({
       armyId: args.attackerTroop.armyId.toString(),
       playerId: args.playerId.toString()

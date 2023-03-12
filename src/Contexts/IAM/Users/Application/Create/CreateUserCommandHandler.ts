@@ -9,10 +9,13 @@ import { InvalidPasswordError } from '../../Domain/Errors/InvalidPasswordError';
 import { UserAlreadyTakenError } from './UserAlreadyTakenError';
 import { CreateUser } from './CreateUser';
 import { UserId } from '../../Domain/UserId';
+import { UserName } from '../../Domain/UserName';
+import { InvalidNameError } from '../../Domain/Errors/InvalidNameError';
 
 export type CreateUserCommandErrors =
   | InvalidEmailError
   | InvalidPasswordError
+  | InvalidNameError
   | UserAlreadyTakenError;
 export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
 
@@ -28,13 +31,16 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
     const id = UserId.create(command.id);
     const emailCreation = UserEmail.create(command.email);
     const passwordCreation = UserPassword.create(command.password);
+    const nameCreation = UserName.create(command.name);
 
     if (emailCreation.isFailure()) return failure(emailCreation.value);
     if (passwordCreation.isFailure()) return failure(passwordCreation.value);
+    if (nameCreation.isFailure()) return failure(nameCreation.value);
 
     const email = emailCreation.value;
     const password = passwordCreation.value;
-    const userCreation = await this.createUser.execute({ id, email, password });
+    const name = nameCreation.value;
+    const userCreation = await this.createUser.execute({ id, email, password, name });
 
     return userCreation.isSuccess() ? success() : failure(userCreation.value);
   }

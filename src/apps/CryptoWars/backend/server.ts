@@ -12,12 +12,15 @@ import cors from 'cors';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import * as OpenApiValidator from 'express-openapi-validator';
 import path from 'path';
 import io from 'socket.io';
 import { ClientToServerEvents, ServerToClientEvents } from './Events/events';
 import { registerEvents } from './Events/registerEvents';
 import { DependencyInjector } from './dependency-injection/dependencyInjector';
+import { ApolloServer } from '@apollo/server';
+import { getSchema } from './schema';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { expressMiddleware } from '@apollo/server/express4';
 
 const SQLiteStore = require('connect-sqlite3')(session);
 
@@ -55,13 +58,6 @@ export class Server {
     const spec = path.join(__dirname, 'openapi.yaml');
     this.express.use('/spec', express.static(spec));
     this.express.use(passport.authenticate('session'));
-    this.express.use(
-      OpenApiValidator.middleware({
-        apiSpec: spec,
-        validateRequests: true,
-        validateResponses: false
-      })
-    );
     const router = Router();
     router.use(errorHandler());
     this.express.use(router);
@@ -76,7 +72,7 @@ export class Server {
   }
 
   async listen(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
       const server = http.createServer(this.express);
       const socketServer = new io.Server<ClientToServerEvents, ServerToClientEvents>(server, {
         cors: {
@@ -85,9 +81,19 @@ export class Server {
           credentials: true
         }
       });
-
       registerEvents(socketServer);
+      const apolloServer = new ApolloServer({
+        schema: await getSchema(),
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer: server })]
+      });
+      await apolloServer.start();
 
+      this.express.use(
+        '/',
+        cors<cors.CorsRequest>(),
+        bodyParser.json(),
+        expressMiddleware(apolloServer)
+      );
       this.httpServer = server.listen(this.port, () => {
         this.logger.info(
           `Crypto Wars Backend App is running at http://localhost:${

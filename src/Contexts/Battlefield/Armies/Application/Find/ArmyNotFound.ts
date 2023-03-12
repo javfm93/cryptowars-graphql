@@ -5,7 +5,7 @@ export class ArmyNotFound extends DomainError {
     super(`Army ${army} not found`);
   }
 
-  public errorName() {
+  public errorName(): 'ArmyNotFoundError' {
     return 'ArmyNotFoundError';
   }
 }

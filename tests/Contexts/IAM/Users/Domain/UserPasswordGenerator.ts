@@ -3,8 +3,7 @@ import { UserPassword } from '../../../../../src/Contexts/IAM/Users/Domain/UserP
 
 export class UserPasswordGenerator {
   static create(value: string): UserPassword {
-    const passwordCreation = UserPassword.create(value);
-    return passwordCreation.value as UserPassword;
+    return UserPassword.fromPrimitives(value);
   }
 
   static random(): UserPassword {

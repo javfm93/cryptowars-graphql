@@ -25,7 +25,12 @@ export class UsersPutController implements Controller {
     const email: string = req.body.email;
     const password: string = req.body.password;
 
-    const createUserCommand = new CreateUserCommand({ id, email, password });
+    const createUserCommand = new CreateUserCommand({
+      id,
+      email,
+      password,
+      name: 'deprecated'
+    });
     const result: CreateUserCommandResult = await this.commandBus.dispatch(createUserCommand);
 
     result.isSuccess() ? res.status(httpStatus.OK).send() : this.handleError(res, result.value);

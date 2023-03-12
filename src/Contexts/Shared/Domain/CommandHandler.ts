@@ -1,12 +1,12 @@
 import { Command, CommandClass } from './Command';
-import { Either, Result } from '../Aplication/Result';
-import { DomainError } from './Errors/DomainError';
+import { CommandResult } from '../Aplication/Result';
 import { Class } from './Primitives';
+import { DomainError } from './Errors/DomainError';
 
 export interface CommandHandler<T extends Command> {
   subscribedTo(): CommandClass;
 
-  handle(command: T): Promise<Either<Result<void>, DomainError>>;
+  handle(command: T): Promise<CommandResult<DomainError>>;
 }
 
 export const registeredCommandHandlers: Class<any>[] = [];

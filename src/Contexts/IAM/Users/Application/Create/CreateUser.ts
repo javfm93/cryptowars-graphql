@@ -7,11 +7,13 @@ import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { UserAlreadyTakenError } from './UserAlreadyTakenError';
+import { UserName } from '../../Domain/UserName';
 
 type CreateUserArgs = {
   id: Uuid;
   email: UserEmail;
   password: UserPassword;
+  name: UserName;
 };
 
 type CreateUserResult = Either<EmptyResult, UserAlreadyTakenError>;
@@ -20,8 +22,8 @@ type CreateUserResult = Either<EmptyResult, UserAlreadyTakenError>;
 export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {
   constructor(private userRepository: UserRepository, private eventBus: EventBus) {}
 
-  async execute({ id, email, password }: CreateUserArgs): Promise<CreateUserResult> {
-    const user = User.create(id, { email, password });
+  async execute({ id, email, password, name }: CreateUserArgs): Promise<CreateUserResult> {
+    const user = User.create(id, email, password, name);
     const userAlreadyExist = await this.userRepository.findByEmail(email);
     if (userAlreadyExist) return failure(new UserAlreadyTakenError(email.toString()));
     await this.userRepository.save(user);

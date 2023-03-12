@@ -1,7 +1,7 @@
 import { DomainEvent, OptionalDomainEventProps } from '../../../Shared/Domain/DomainEvent';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class UserCreatedDomainEvent extends DomainEvent<{}> {
+export class UserCreatedDomainEvent extends DomainEvent<{ name: string }> {
   static readonly TYPE = 'cryptoWars.1.event.user.created';
 
   constructor(props: OptionalDomainEventProps<UserCreatedDomainEvent>) {

@@ -6,6 +6,7 @@ export class ComponentDiscovery {
   static scan() {
     console.log('Starting Component Discovery Process');
     this.scanControllers();
+    this.scanResolvers();
     this.scanCommandHandlers();
     this.scanQueryHandlers();
     this.scanDomainEventHandlers();
@@ -18,6 +19,12 @@ export class ComponentDiscovery {
     const dir = __dirname + '/../Controllers/**/*Controller.ts';
     const files = this.loadFilesMatching(dir);
     console.debug(` - Discovered ${files.length} controller files`);
+  }
+
+  static scanResolvers() {
+    const dir = __dirname + '/../Resolvers/**/*Resolver.ts';
+    const files = this.loadFilesMatching(dir);
+    console.debug(` - Discovered ${files.length} resolver files`);
   }
 
   static scanCommandHandlers() {

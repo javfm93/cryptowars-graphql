@@ -7,6 +7,7 @@ import { InvalidEmailError } from '../../../../../src/Contexts/IAM/Users/Domain/
 import { InvalidPasswordError } from '../../../../../src/Contexts/IAM/Users/Domain/Errors/InvalidPasswordError';
 import EventBusMock from '../../../Shared/Infrastructure/EventBusMock';
 import { UserAlreadyTakenError } from '../../../../../src/Contexts/IAM/Users/Application/Create/UserAlreadyTakenError';
+import { InvalidNameError } from '../../../../../src/Contexts/IAM/Users/Domain/Errors/InvalidNameError';
 
 describe('[Application] CreateUser', () => {
   const repository = new UserRepositoryMock();
@@ -36,8 +37,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidEmailError)).toBeTruthy();
+      expect(result.value).toStrictEqual(new InvalidEmailError(command.email));
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -48,8 +48,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(UserAlreadyTakenError)).toBeTruthy();
+      expect(result.value).toStrictEqual(new UserAlreadyTakenError(command.email));
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -58,8 +57,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldNotContainWhitespaces());
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -68,8 +66,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldHaveValidLength());
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -78,8 +75,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldHaveASymbol());
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -88,8 +84,7 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldHaveALowercase());
       eventBus.expectEventsNotToBePublished();
     });
 
@@ -98,18 +93,25 @@ describe('[Application] CreateUser', () => {
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldHaveAnUppercase());
       eventBus.expectEventsNotToBePublished();
     });
 
-    it('the password does not have a number', async () => {
+    it('the password does not have a digit', async () => {
       const command = CreateUserCommandGenerator.withInvalidPasswordDueTo.digit();
 
       const result = await handler.handle(command);
 
-      if (result.isSuccess()) fail();
-      expect(result.value.isEqualTo(InvalidPasswordError)).toBeTruthy();
+      expect(result.value).toStrictEqual(InvalidPasswordError.shouldHaveADigit());
+      eventBus.expectEventsNotToBePublished();
+    });
+
+    it('the username is invalid', async () => {
+      const command = CreateUserCommandGenerator.withInvalidName();
+
+      const result = await handler.handle(command);
+
+      expect(result.value).toStrictEqual(new InvalidNameError(command.name));
       eventBus.expectEventsNotToBePublished();
     });
   });

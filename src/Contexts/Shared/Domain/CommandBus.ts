@@ -1,7 +1,7 @@
 import { Command } from './Command';
-import { Either, Result } from '../Aplication/Result';
 import { DomainError } from './Errors/DomainError';
+import { CommandResult } from '../Aplication/Result';
 
 export abstract class CommandBus {
-  abstract dispatch(command: Command): Promise<Either<Result<void>, DomainError>>;
+  abstract dispatch<E extends DomainError>(command: Command): Promise<CommandResult<E>>;
 }

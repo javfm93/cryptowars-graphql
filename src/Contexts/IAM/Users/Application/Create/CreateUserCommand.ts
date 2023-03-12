@@ -4,6 +4,7 @@ type Params = {
   id: string;
   email: string;
   password: string;
+  name: string;
 };
 
 export class CreateUserCommand extends Command {
@@ -12,11 +13,13 @@ export class CreateUserCommand extends Command {
   id: string;
   email: string;
   password: string;
+  name: string;
 
-  constructor({ id, email, password }: Params) {
+  constructor({ id, email, password, name }: Params) {
     super(CreateUserCommand.COMMAND_NAME);
     this.id = id;
     this.email = email;
     this.password = password;
+    this.name = name;
   }
 }

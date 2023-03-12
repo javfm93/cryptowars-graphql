@@ -5,7 +5,7 @@ export class InvalidEmailError extends DomainError {
     super(`The format of the email [${email}] is not valid`);
   }
 
-  public errorName(): string {
+  public errorName(): 'InvalidEmailError' {
     return 'InvalidEmailError';
   }
 }

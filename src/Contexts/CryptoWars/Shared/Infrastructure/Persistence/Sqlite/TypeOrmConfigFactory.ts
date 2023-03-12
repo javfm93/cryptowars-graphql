@@ -6,7 +6,7 @@ export class TypeOrmConfigFactory {
     return {
       database: config.get('typeorm.database'),
       migrations: config.get('typeorm.seeds'),
-      entities: '/../../../../**/**/infrastructure/Persistence/typeorm/*{.js,.ts}'
+      entities: ['/../../../../**/**/Infrastructure/**/*Schema.ts']
     };
   }
 }

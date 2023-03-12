@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Server } from './server';
 import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
 import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';

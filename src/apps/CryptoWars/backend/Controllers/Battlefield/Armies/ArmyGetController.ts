@@ -5,7 +5,6 @@ import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { ArmyResponse } from './ArmyResponse';
 import { FindArmyByTownQuery } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQuery';
 import { FindArmyByTownQueryResult } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTownQueryHandler';
-import { Forbidden } from '../../../../../../Contexts/Shared/Domain/Errors/Forbidden';
 import { FindArmyErrors } from '../../../../../../Contexts/Battlefield/Armies/Application/Find/FindArmyByTown';
 import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
 

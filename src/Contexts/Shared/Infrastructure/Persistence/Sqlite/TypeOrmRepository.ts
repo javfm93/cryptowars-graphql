@@ -1,4 +1,4 @@
-import { DataSource, EntitySchema, Repository } from 'typeorm';
+import { DataSource, EntityTarget, ObjectLiteral, Repository } from 'typeorm';
 import { Service } from 'diod';
 import { AbstractClass, Class } from '../../../Domain/Primitives';
 import {
@@ -6,18 +6,19 @@ import {
   DependencyInjector
 } from '../../../../../apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
+console.log('+++++++++++++ typeormreposotory +++++++');
 @Service()
-export abstract class TypeOrmRepository<T> {
+export abstract class TypeOrmRepository<T extends ObjectLiteral> {
   constructor(private _client: DataSource) {}
 
-  protected abstract entitySchema(): EntitySchema<T>;
+  protected abstract entitySchema(): EntityTarget<T>;
 
   protected client(): DataSource {
     return this._client;
   }
 
   protected async repository(): Promise<Repository<T>> {
-    return (await this._client).getRepository(this.entitySchema());
+    return this._client.getRepository(this.entitySchema());
   }
 
   protected async executeTransaction(

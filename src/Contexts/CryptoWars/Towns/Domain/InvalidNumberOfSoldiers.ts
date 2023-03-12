@@ -5,7 +5,7 @@ export class InvalidNumberOfSoldiers extends DomainError {
     super(`Soldiers to train must be positive or you dont have enough`);
   }
 
-  public errorName(): string {
+  public errorName(): 'InvalidNumberOfSoldiers' {
     return 'InvalidNumberOfSoldiers';
   }
 }

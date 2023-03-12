@@ -5,7 +5,7 @@ export class UserAlreadyTakenError extends DomainError {
     super(`The user with the email [${email}] is already taken`);
   }
 
-  public errorName(): string {
+  public errorName(): 'UserAlreadyTaken' {
     return 'UserAlreadyTaken';
   }
 }

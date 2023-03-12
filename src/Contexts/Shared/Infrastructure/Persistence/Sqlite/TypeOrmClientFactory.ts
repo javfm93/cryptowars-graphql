@@ -17,7 +17,7 @@ export class TypeOrmClientFactory {
         name: contextName,
         type: 'sqlite',
         database: config.database,
-        entities: [__dirname + config.entities],
+        entities: config.entities.map(path => __dirname + path),
         synchronize: true,
         logging: false,
         migrations: [config.migrations],

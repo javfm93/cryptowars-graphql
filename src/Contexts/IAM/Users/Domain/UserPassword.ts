@@ -1,11 +1,10 @@
-import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { InvalidPasswordError } from './Errors/InvalidPasswordError';
 import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { StringValueObject } from '../../../Shared/Domain/value-object/StringValueObject';
 
-export class UserPassword extends ValueObject<UserPassword> {
-  private constructor(readonly value: string) {
-    super();
-    this.value = value;
+export class UserPassword extends StringValueObject {
+  private constructor(value: string) {
+    super(value);
   }
 
   public static create(value: string): Either<UserPassword, InvalidPasswordError> {
@@ -40,15 +39,8 @@ export class UserPassword extends ValueObject<UserPassword> {
     }
     return successAndReturn(new UserPassword(value));
   }
-  public isEqualTo(password: UserPassword) {
-    return this.toString() === password.toString();
-  }
 
   public static fromPrimitives(password: string): UserPassword {
     return new UserPassword(password);
-  }
-
-  public toString(): string {
-    return this.value;
   }
 }

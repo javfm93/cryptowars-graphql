@@ -43,6 +43,7 @@ export const thereIsAFailure = (
 ) => {};
 
 export type EmptyResult = Result<void>;
+export type CommandResult<CommandErrors extends DomainError> = Either<EmptyResult, CommandErrors>;
 
 export class Result<T> {
   public isSuccess: boolean;

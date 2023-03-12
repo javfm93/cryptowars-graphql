@@ -5,7 +5,7 @@ export class InvalidPasswordError extends DomainError {
     super(message);
   }
 
-  public errorName(): string {
+  public errorName(): 'InvalidPasswordError' {
     return 'InvalidPasswordError';
   }
 
