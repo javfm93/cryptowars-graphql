@@ -1,6 +1,5 @@
 import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { WorldId } from '../../Domain/WorldId';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
@@ -12,13 +11,16 @@ import { TownId } from '../../../Towns/Domain/TownId';
 import { FindPlayerQuery } from '../../../Players/Application/Find/FindPlayerQuery';
 import { FindPlayerQueryResult } from '../../../Players/Application/Find/FindPlayerQueryHandler';
 import { WorldRepository } from '../../Domain/WorldRepository';
+import { WorldNotFound } from '../Find/WorldNotFound';
+import { PlayerNotFound } from '../../../Players/Application/Find/PlayerNotFound';
 
 type SelectWorldArgs = {
   userId: UserId;
   worldId: WorldId;
 };
 
-type SelectWorldResult = Either<EmptyResult, DomainError>;
+export type JoinWorldResultErrors = WorldNotFound | PlayerNotFound;
+type JoinWorldResult = Either<EmptyResult, JoinWorldResultErrors>;
 
 @RegisterUseCase()
 export class JoinWorld implements UseCase<SelectWorldArgs, EmptyResult> {
@@ -28,7 +30,7 @@ export class JoinWorld implements UseCase<SelectWorldArgs, EmptyResult> {
     private eventBus: EventBus
   ) {}
 
-  async execute(args: SelectWorldArgs): Promise<SelectWorldResult> {
+  async execute(args: SelectWorldArgs): Promise<JoinWorldResult> {
     const query = new FindWorldQuery({ id: args.worldId.toString() });
     const worldResult = await this.queryBus.ask<FindWorldQueryResult>(query);
     if (worldResult.isFailure()) return failure(worldResult.value);

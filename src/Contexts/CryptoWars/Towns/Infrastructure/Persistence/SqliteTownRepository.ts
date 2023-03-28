@@ -6,8 +6,8 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema } from 'typeorm';
-import { TownSchema } from './typeorm/TownSchema';
+import { EntityTarget } from 'typeorm';
+import { TownSchema } from '../TownSchema';
 
 @RegisterRepository(TownRepository)
 export class SqliteTownRepository
@@ -24,7 +24,7 @@ export class SqliteTownRepository
     return town ? Town.fromPrimitives(town) : null;
   }
 
-  protected entitySchema(): EntitySchema<TownPrimitives> {
+  protected entitySchema(): EntityTarget<TownPrimitives> {
     return TownSchema;
   }
 }

@@ -8,36 +8,43 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Input } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/CryptoWars/Towns/TrainSoldiersPostRequest';
 import { SquadsPrimitives } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
 import {
-  TownSoldier,
+  FragmentType,
+  gql,
+  useFragment
+} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
+import {
+  TownSoldiers,
   TownSoldierTypes
-} from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldier';
-import { TownSoldiersPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownSoldiers';
+} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
 
-interface TrainSoldiersProps {
-  townUnits: Array<TownSoldier>;
+const townSoldierFragment = gql(/* GraphQL */ `
+  fragment TownSoldier on TownSoldier {
+    name
+    speed
+    capacity
+    time
+    cost
+  }
+`);
+
+type TrainSoldiersProps = {
+  townUnits: Array<FragmentType<typeof townSoldierFragment>>;
   townArmySquads: SquadsPrimitives;
 
-  onTrainSoldiers(soldiers: TrainSoldiersPostRequest): void;
-}
+  onTrainSoldiers(soldiers: TownSoldiers): Promise<void>;
+};
 
-export const TrainSoldiers = ({
-  townUnits,
-  onTrainSoldiers,
-  townArmySquads
-}: TrainSoldiersProps): JSX.Element => {
+export const TrainSoldiers = (props: TrainSoldiersProps): JSX.Element => {
   const { t } = useTranslation();
-  const [soldiersToTrain, setSoldiersToTrain] = useState<TownSoldiersPrimitives>({
+  const townUnits = useFragment(townSoldierFragment, props.townUnits);
+  const [soldiersToTrain, setSoldiersToTrain] = useState<TownSoldiers>({
     basic: 0,
     range: 0
   });
 
-  const trainSoldiers = () =>
-    onTrainSoldiers({
-      soldiers: soldiersToTrain
-    });
+  const trainSoldiers = () => props.onTrainSoldiers(soldiersToTrain);
 
   const onChange =
     (unit: TownSoldierTypes) => (value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -68,7 +75,7 @@ export const TrainSoldiers = ({
                 <TableCell align="right">{unit.capacity}</TableCell>
                 <TableCell align="right">{unit.time}</TableCell>
                 <TableCell align="right">
-                  {unit.name === 'basic' ? townArmySquads[unit.name] : 0}
+                  {unit.name === 'basic' ? props.townArmySquads[unit.name] : 0}
                 </TableCell>
                 <TableCell align="right">
                   <Input

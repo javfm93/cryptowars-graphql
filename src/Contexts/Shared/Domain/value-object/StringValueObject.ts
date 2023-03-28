@@ -5,7 +5,7 @@ export class StringValueObject {
     return this.value;
   }
 
-  public isEqualTo(stringValueObject?: StringValueObject) {
+  public isEqualTo(stringValueObject?: StringValueObject | string) {
     return this.toString() === stringValueObject?.toString();
   }
 }

@@ -6,8 +6,8 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema } from 'typeorm';
-import { WorldSchema } from './typeorm/WorldSchema';
+import { EntityTarget } from 'typeorm';
+import { WorldSchema } from './WorldSchema';
 import { Worlds } from '../../Domain/Worlds';
 
 @RegisterRepository(WorldRepository)
@@ -35,7 +35,7 @@ export class SqliteWorldRepository
     return Worlds.fromPrimitives(worlds);
   }
 
-  protected entitySchema(): EntitySchema<WorldPrimitives> {
+  protected entitySchema(): EntityTarget<WorldPrimitives> {
     return WorldSchema;
   }
 }

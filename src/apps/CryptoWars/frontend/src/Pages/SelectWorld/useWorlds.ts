@@ -1,14 +1,24 @@
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import { WorldsResponse } from '../../../../backend/Controllers/CryptoWars/Worlds/WorldsResponse';
-import { handleQueryResult, QueryTrigger } from '../../API/query';
+import { handleQueryResult } from '../../API/query';
+import { useState } from 'react';
+import { BaseError } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
+import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { gql } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
+import { useQuery } from '@apollo/client';
 
-export const useWorlds: QueryTrigger<void, WorldsResponse> = () => {
-  const getWorlds = async (): Promise<WorldsResponse> => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worlds`, {
-      withCredentials: true
-    });
-    return response.data;
-  };
-  return handleQueryResult<WorldsResponse>(useQuery('worlds', getWorlds));
+export const useWorlds = () => {
+  const { data, error } = useQuery(selectWorldPageQuery);
+  const [domainError, setError] = useState<BaseError>();
+  useUnexpectedError(setError, error);
+
+  return handleQueryResult(data?.GetWorlds, domainError);
 };
+
+const selectWorldPageQuery = gql(/* GraphQL */ `
+  query SelectWorldPage {
+    GetWorlds {
+      worlds {
+        ...WorldSelection
+      }
+    }
+  }
+`);

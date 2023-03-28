@@ -4,18 +4,20 @@
 # -----------------------------------------------
 
 interface BaseError {
+  error: ErrorTypes!
   message: String!
   status: Float!
-  type: String!
 }
 
 type ConflictError implements BaseError {
+  error: ErrorTypes!
   message: String!
   status: Float!
-  type: String!
 }
 
-union CreateUser = ConflictError | InvalidInputError | Success
+union CreateUser = ConflictError | InvalidInputError | SuccessCommand
+
+union CreateUserErrors = ConflictError | InvalidInputError
 
 input CreateUserInput {
   email: String!
@@ -24,34 +26,217 @@ input CreateUserInput {
   password: String!
 }
 
-union FindUser = NotFoundError | User
+enum ErrorTypes {
+  conflict
+  forbidden
+  invalidInput
+  notFound
+  unauthorized
+  unexpected
+}
 
-type InvalidInputError implements BaseError {
+type EssenceGenerator implements TownBuildingSchema {
+  asset: TownAssets!
+  essenceRequiredToLevelUp: Float!
+  generationPerHour: Float!
+  level: Float!
+  type: TownBuildingTypes!
+}
+
+type FailedCreateUserResponse {
+  errors: CreateUserErrors!
+}
+
+type FailedGetPlayerResponse {
+  errors: GetPlayerErrors!
+}
+
+type FailedJoinWorldResponse {
+  errors: JoinWorldErrors!
+}
+
+type FailedLoginResponse {
+  errors: LoginErrors!
+}
+
+type FailedTrainSoldiersResponse {
+  errors: TrainSoldiersErrors!
+}
+
+type ForbiddenError implements BaseError {
+  error: ErrorTypes!
   message: String!
   status: Float!
-  type: String!
+}
+
+union GetPlayer = NotFoundError | Player
+
+union GetPlayerErrors = NotFoundError
+
+type Headquarter implements TownBuildingSchema {
+  essenceRequiredToLevelUp: Float!
+  level: Float!
+  type: TownBuildingTypes!
+  units: [TownSoldier!]!
+}
+
+type InvalidInputError implements BaseError {
+  error: ErrorTypes!
+  message: String!
+  status: Float!
+}
+
+union JoinWorld = NotFoundError | SuccessCommand
+
+union JoinWorldErrors = NotFoundError
+
+union Login = InvalidInputError | SuccessCommand
+
+union LoginErrors = InvalidInputError
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
+  JoinWorld(id: String!): JoinWorld!
+  Login(login: LoginInput!): Login!
+  TrainSoldiers(input: TrainSoldiersInput!): TrainSoldiers!
   createUser(user: CreateUserInput!): CreateUser!
 }
 
 type NotFoundError implements BaseError {
+  error: ErrorTypes!
   message: String!
   status: Float!
-  type: String!
+}
+
+type Player {
+  id: ID!
+  towns: [Town!]!
+  userId: String!
+  worlds: [World!]!
 }
 
 type Query {
-  findUserByName(name: String!): FindUser!
+  GetPlayer: GetPlayer!
+  GetWorldMap(id: String!): WorldMap!
+  GetWorlds: Worlds!
 }
 
-type Success {
-  success: Boolean!
+type SuccessCommand {
+  isSuccess: Boolean!
+}
+
+type Town {
+  buildings: TownBuildings!
+  id: ID!
+  playerId: String!
+  worldId: String!
+}
+
+enum TownAssets {
+  essence
+}
+
+interface TownBuildingSchema {
+  essenceRequiredToLevelUp: Float!
+  level: Float!
+  type: TownBuildingTypes!
+}
+
+enum TownBuildingTypes {
+  creator
+  generator
+  store
+}
+
+type TownBuildings {
+  essenceGenerator: EssenceGenerator!
+  headquarter: Headquarter!
+  warehouse: Warehouse!
+}
+
+type TownSoldier {
+  capacity: Float!
+  cost: Float!
+  name: TownSoldierTypes!
+  speed: Float!
+  time: Float!
+}
+
+enum TownSoldierTypes {
+  basic
+  range
+}
+
+input TownSoldiers {
+  basic: Float!
+  range: Float!
+}
+
+union TrainSoldiers = ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand
+
+union TrainSoldiersErrors = ForbiddenError | InvalidInputError | NotFoundError
+
+input TrainSoldiersInput {
+  soldiers: TownSoldiers!
+  townId: String!
+}
+
+type Unauthorized implements BaseError {
+  error: ErrorTypes!
+  message: String!
+  status: Float!
+}
+
+type UnexpectedError implements BaseError {
+  error: ErrorTypes!
+  message: String!
+  status: Float!
 }
 
 type User {
   email: String!
   id: ID!
   name: String!
+}
+
+type Warehouse implements TownBuildingSchema {
+  assets: WarehouseAssets!
+  essenceRequiredToLevelUp: Float!
+  level: Float!
+  type: TownBuildingTypes!
+}
+
+type WarehouseAsset {
+  lastStorageUpdate: String!
+  limit: Float!
+  name: TownAssets!
+  stored: Float!
+}
+
+type WarehouseAssets {
+  essence: WarehouseAsset!
+}
+
+type World {
+  id: ID!
+  name: String!
+}
+
+type WorldMap {
+  id: ID!
+  name: String!
+  towns: [WorldTown!]!
+}
+
+type WorldTown {
+  id: ID!
+  playerId: String!
+}
+
+type Worlds {
+  worlds: [World!]!
 }

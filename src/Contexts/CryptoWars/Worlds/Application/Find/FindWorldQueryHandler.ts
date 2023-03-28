@@ -1,13 +1,13 @@
 import { FindWorldQuery } from './FindWorldQuery';
-import { FindWorld } from './FindWorld';
+import { FindWorld, FindWorldErrors } from './FindWorld';
 import { Either } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
 import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
 import { World } from '../../Domain/World';
 import { WorldId } from '../../Domain/WorldId';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
-export type FindWorldQueryResult = Either<World, DomainError>;
+export type FindWorldQueryErrors = FindWorldErrors;
+export type FindWorldQueryResult = Either<World, FindWorldQueryErrors>;
 
 @RegisterQueryHandler()
 export class FindWorldQueryHandler implements QueryHandler<FindWorldQuery, FindWorldQueryResult> {

@@ -1,28 +1,39 @@
-import {useMutation} from 'react-query';
-import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import {AppRoutes} from '../../App';
-import {WorldPrimitives} from '../../../../../../Contexts/CryptoWars/Worlds/Domain/World';
-// todo: prefix of the backend endpoint
-// todo: add the credentials for everything
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../../App';
+import { JoinWorldErrors } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
+import { handleMutationResult } from '../../API/command';
+import { useEffect, useState } from 'react';
+import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
+import { JOIN_WORLD } from '../../../../../../../tests/apps/CryptoWars/backend/CryptoWars/Worlds/joinWorldMutation';
+import { useMutation } from '@apollo/client';
+
 export const useJoinWorld = () => {
-  const navigate = useNavigate();
-  // todo: type
-  const mutation = useMutation((data: { worldId: string }) =>
-    axios.put(`${import.meta.env.VITE_BACKEND_URL}/worlds/${data.worldId}/join`, null, {
-      withCredentials: true
-    })
-  );
-  const joinWorld = (world: WorldPrimitives) => () => {
-    mutation.mutate(
-      { worldId: world.id },
-      {
-        onSuccess: () => {
-          navigate(AppRoutes.home);
-        },
-        onError: console.error
+  const navigateTo = useNavigate();
+  const [joinWorld, { data, loading, error, called }] = useMutation(JOIN_WORLD);
+  const [domainError, setError] = useState<JoinWorldErrors | undefined>();
+
+  useUnexpectedError(setError, error);
+
+  useEffect(() => {
+    const result = data?.JoinWorld;
+    if (result && result.__typename) {
+      switch (result.__typename) {
+        case 'SuccessCommand':
+          navigateTo(AppRoutes.home);
+          break;
+        case 'NotFoundError':
+          setError(result);
+          break;
+        default:
+          assertNeverHappen(result.__typename);
       }
-    );
+    }
+  }, [data]);
+
+  const execute = async (id: string) => {
+    await joinWorld({ variables: { id } });
   };
-  return { joinWorld };
+
+  return handleMutationResult(execute, loading, called, domainError);
 };

@@ -14,7 +14,8 @@ type TrainSoldiersArgs = {
   soldiers: TownSoldiers;
 };
 
-export type TrainSoldiersResult = Either<EmptyResult, TownNotFound | Forbidden>;
+export type TrainSoldiersErrors = TownNotFound | Forbidden;
+export type TrainSoldiersResult = Either<EmptyResult, TrainSoldiersErrors>;
 
 @RegisterUseCase()
 export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {

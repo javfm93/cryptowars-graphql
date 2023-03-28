@@ -16,7 +16,8 @@ type CreateUserArgs = {
   name: UserName;
 };
 
-type CreateUserResult = Either<EmptyResult, UserAlreadyTakenError>;
+export type CreateUserErrors = UserAlreadyTakenError;
+type CreateUserResult = Either<EmptyResult, CreateUserErrors>;
 
 @RegisterUseCase()
 export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {

@@ -1,23 +1,46 @@
-import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
-import { TrainSoldiersPostRequest } from '../../../../backend/Controllers/CryptoWars/Towns/TrainSoldiersPostRequest';
-// todo: prefix of the backend endpoint
+import { useEffect, useState } from 'react';
+import {
+  TownSoldiers,
+  TrainSoldiersErrors
+} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
+import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
+import { handleMutationResult } from '../../API/command';
+import { TRAIN_SOLDIERS } from '../../../../../../../tests/apps/CryptoWars/backend/CryptoWars/Towns/trainSoldiersMutation';
+import { useMutation } from '@apollo/client';
+
 export const useTrainSoldiers = (townId: string) => {
-  // todo: type
-  const queryClient = useQueryClient();
-  const mutation = useMutation((soldiers: TrainSoldiersPostRequest) =>
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/towns/${townId}/train-soldiers`, soldiers, {
-      withCredentials: true
-    })
-  );
-  const trainSoldiers = (soldiers: TrainSoldiersPostRequest) => {
-    mutation.mutate(soldiers, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: ['townArmy'] });
-        console.log('trained!');
-      },
-      onError: console.error
-    });
+  const [trainSoldiers, { data, loading, error, called }] = useMutation(TRAIN_SOLDIERS);
+  const [domainError, setError] = useState<TrainSoldiersErrors>();
+
+  useUnexpectedError(setError, error);
+
+  useEffect(() => {
+    const result = data?.TrainSoldiers;
+    if (result && result.__typename) {
+      switch (result.__typename) {
+        case 'SuccessCommand':
+          console.log('trained!');
+          break;
+        case 'InvalidInputError':
+          setError(result);
+          break;
+        case 'NotFoundError':
+          setError(result);
+          break;
+        case 'ForbiddenError':
+          setError(result);
+          break;
+
+        default:
+          assertNeverHappen(result.__typename);
+      }
+    }
+  }, [data]);
+
+  const execute = async (soldiers: TownSoldiers): Promise<void> => {
+    await trainSoldiers({ variables: { input: { townId, soldiers } } });
   };
-  return { trainSoldiers };
+
+  return handleMutationResult(execute, loading, called, domainError);
 };

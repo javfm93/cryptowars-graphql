@@ -5,7 +5,7 @@ export class WorldNotFound extends DomainError {
     super(`World not found`);
   }
 
-  public errorName(): string {
+  public errorName(): 'WorldNotFoundError' {
     return 'WorldNotFoundError';
   }
 }

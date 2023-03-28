@@ -1,37 +1,39 @@
-import {useMutation} from 'react-query';
-import axios from 'axios';
-import {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {AppRoutes} from '../../App';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../../App';
+import { LoginErrors } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
+import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
+import { handleMutationResult } from '../../API/command';
+import { LOGIN } from '../../../../../../../tests/apps/CryptoWars/backend/IAM/Auth/LoginMutation';
+import { useMutation } from '@apollo/client';
 
-// todo: improve execute and error definition and move to a shared place
-// todo: frontend validation
-export type CommandTrigger = () => {
-  execute(username: string, password: string): void;
-  isExecuting: boolean;
-  succeeded: boolean;
-  error: unknown;
-};
-
-export const useUserLogin: CommandTrigger = () => {
+export const useUserLogin = () => {
   const navigateTo = useNavigate();
-  const loginMutation = useMutation((login: { username: string; password: string }) =>
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, login, { withCredentials: true })
-  );
+  const [login, { data, loading, error, called }] = useMutation(LOGIN);
+  const [domainError, setError] = useState<LoginErrors | undefined>();
+
+  useUnexpectedError(setError, error);
+
   useEffect(() => {
-    if (loginMutation.isSuccess) {
-      navigateTo(AppRoutes.home);
+    const result = data?.Login;
+    if (result && result.__typename) {
+      switch (result.__typename) {
+        case 'SuccessCommand':
+          navigateTo(AppRoutes.home);
+          break;
+        case 'InvalidInputError':
+          setError(result);
+          break;
+        default:
+          assertNeverHappen(result.__typename);
+      }
     }
-  }, [loginMutation.isSuccess]);
+  }, [data]);
 
-  const execute = (username: string, password: string): void => {
-    loginMutation.mutate({ username, password });
+  const execute = async (email: string, password: string): Promise<void> => {
+    await login({ variables: { login: { email, password } } });
   };
 
-  return {
-    execute,
-    isExecuting: loginMutation.isLoading,
-    succeeded: loginMutation.isSuccess,
-    error: loginMutation.error
-  };
+  return handleMutationResult(execute, loading, called, domainError);
 };

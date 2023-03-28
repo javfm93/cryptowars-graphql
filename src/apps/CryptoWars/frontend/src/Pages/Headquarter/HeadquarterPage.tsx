@@ -1,33 +1,31 @@
 import { useTrainSoldiers } from './useTrainSoldiers';
 import { useParams } from 'react-router-dom';
 import { useTownArmy } from './useTownArmy';
-import { usePlayer } from '../Town/usePlayer';
-import TownHeader from '../Town/TownHeader';
+import TownHeader from '../Town/Components/TownHeader';
 import { useBattles } from '../Town/useBattles';
 import { BattleHistory } from './BattleHistory';
 import { TrainSoldiers } from './TrainSoldiers';
+import { usePlayerTownHeadquarter } from './usePlayerTownHeadQuarter';
 
 export const HeadquarterPage = (): JSX.Element => {
   const { id } = useParams();
   if (!id) return <p> Not Valid Town Id</p>;
-  const { trainSoldiers } = useTrainSoldiers(id);
-  const { result } = useTownArmy(id);
-  const { result: playerResult } = usePlayer();
-  const { result: battlesResult } = useBattles(result?.army.id);
-  if (!result || !result.army || !playerResult || !playerResult.player)
-    return <p> Loading Your Army...</p>;
-  if (!battlesResult) return <p> Error Loading battle results</p>;
 
-  const town = playerResult.player.towns.find(to => to.id === id);
-  if (!town) return <p> Not Valid Town Id</p>;
+  const { execute } = useTrainSoldiers(id);
+  const { result } = useTownArmy(id);
+  const { result: headquarter } = usePlayerTownHeadquarter(id);
+  const { result: battlesResult } = useBattles(result?.army.id);
+
+  if (!result || !result.army || !headquarter) return <p> Loading Your Army...</p>;
+  if (!battlesResult) return <p> Error Loading battle results</p>;
 
   return (
     <div>
       <TownHeader />
       <TrainSoldiers
-        townUnits={town.buildings.headquarter.units}
+        townUnits={headquarter.units}
         townArmySquads={result.army.squads}
-        onTrainSoldiers={trainSoldiers}
+        onTrainSoldiers={execute}
       />
       <BattleHistory battles={battlesResult.battles} />
     </div>

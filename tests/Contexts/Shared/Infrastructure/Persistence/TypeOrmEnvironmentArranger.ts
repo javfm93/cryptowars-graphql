@@ -18,8 +18,9 @@ export class TypeOrmEnvironmentArranger extends EnvironmentArranger {
     try {
       for (const entity of entities) {
         const repository = (await this._client).getRepository(entity.name);
-        if (entity.tableName !== 'worlds')
+        if (entity.tableName === 'towns') {
           await repository.query(`DELETE FROM ${entity.tableName};`);
+        }
       }
     } catch (error) {
       throw new Error(`Unable to clean test database: ${error}`);

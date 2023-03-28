@@ -1,5 +1,3 @@
-import { UseQueryResult } from 'react-query';
-
 export type SucceededQuery<Result> = {
   result: Result;
   isLoading: false;
@@ -12,13 +10,13 @@ export const succeededQuery = <Result>(result: Result): SucceededQuery<Result> =
   error: null
 });
 
-export type FailedQuery = {
+export type FailedQuery<DomainError> = {
   result: null;
   isLoading: false;
-  error: unknown;
+  error: DomainError;
 };
 
-export const failedQuery = (error: unknown): FailedQuery => ({
+export const failedQuery = <Error>(error: Error): FailedQuery<Error> => ({
   result: null,
   isLoading: false,
   error
@@ -36,13 +34,9 @@ export const loadingQuery = (): LoadingQuery => ({
   error: null
 });
 
-export const handleQueryResult = <Response>(queryResult: UseQueryResult<Response>) =>
-  queryResult.isSuccess
-    ? succeededQuery(queryResult.data)
-    : queryResult.error
-    ? failedQuery(queryResult.error)
-    : loadingQuery();
+export const handleQueryResult = <Result, Error>(result: Result, error?: Error) =>
+  result ? succeededQuery(result) : error ? failedQuery(error) : loadingQuery();
 
-export type QueryTrigger<Args, Response> = (
+export type QueryTrigger<Args, Response, DomainError> = (
   args: Args
-) => SucceededQuery<Response> | LoadingQuery | FailedQuery;
+) => SucceededQuery<Response> | LoadingQuery | FailedQuery<DomainError>;

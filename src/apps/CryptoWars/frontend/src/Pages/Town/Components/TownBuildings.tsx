@@ -8,17 +8,22 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
-import { AppRoutes } from '../../App';
-import { TownBuildingsPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/TownBuildings';
+import { AppRoutes } from '../../../App';
+import {
+  FragmentType,
+  gql,
+  useFragment
+} from '../../../../../../../../tests/apps/CryptoWars/backend/__generated__';
 
 type BuildingRow = { name: string; url: string; upgradeCost: number };
 //todo: study react new ways to handle loadings (react router, suspense...)
 
-export const TownBuildings = ({
-  buildings
-}: {
-  buildings: TownBuildingsPrimitives;
-}): JSX.Element => {
+type TownBuildingsProps = {
+  townBuildings: FragmentType<typeof playerTownBuildingsFragment>;
+};
+
+export const TownBuildings = ({ townBuildings }: TownBuildingsProps): JSX.Element => {
+  const buildings = useFragment(playerTownBuildingsFragment, townBuildings);
   const { id } = useParams();
   if (!id) return <></>;
 
@@ -66,3 +71,20 @@ export const TownBuildings = ({
     </TableContainer>
   );
 };
+
+const playerTownBuildingsFragment = gql(/* GraphQL */ `
+  fragment PlayerTownBuildings on TownBuildings {
+    headquarter {
+      level
+      essenceRequiredToLevelUp
+    }
+    essenceGenerator {
+      level
+      essenceRequiredToLevelUp
+    }
+    warehouse {
+      level
+      essenceRequiredToLevelUp
+    }
+  }
+`);

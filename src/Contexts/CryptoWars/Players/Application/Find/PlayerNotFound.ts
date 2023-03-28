@@ -5,7 +5,7 @@ export class PlayerNotFound extends DomainError {
     super(`Player not found`);
   }
 
-  public errorName(): string {
+  public errorName(): 'PlayerNotFoundError' {
     return 'PlayerNotFoundError';
   }
 }

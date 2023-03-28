@@ -1,6 +1,6 @@
 import { Layout } from '../Shared/Layout';
 import { Button, Grid } from '@mui/material';
-import { usePlayer } from '../Town/usePlayer';
+import { useChatPagePlayer } from './useChatPagePlayer';
 import React, { useState } from 'react';
 import { ChatFeed } from './components/ChatFeed';
 import Message from './Message';
@@ -10,13 +10,13 @@ import { useDirectChats } from './useDirectChats';
 import { useDirectChatMessages } from './useDirectChatMessages';
 
 export const ChatPage = () => {
-  const { result: playerResult, isLoading, error } = usePlayer();
+  const { result: playerResult, isLoading, error } = useChatPagePlayer();
   const [connectedChat, setConnectedChat] = useState<string>();
   const chatsResult = useDirectChats();
   const initialMessagesResult = useDirectChatMessages(connectedChat);
   const { sendMessage, setMessage, playerIsTypingText, messages } = useSendChatMessage(
     connectedChat,
-    playerResult?.player.id,
+    playerResult?.id,
     initialMessagesResult?.result?.messages
   );
 
@@ -26,7 +26,7 @@ export const ChatPage = () => {
     ? messages.map(
         message =>
           new Message({
-            id: message.senderPlayerId === playerResult?.player.id ? 0 : 1,
+            id: message.senderPlayerId === playerResult?.id ? 0 : 1,
             message: message.message,
             senderName: message.senderPlayerId
           })

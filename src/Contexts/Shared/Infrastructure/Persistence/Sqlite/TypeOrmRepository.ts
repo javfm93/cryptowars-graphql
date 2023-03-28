@@ -6,7 +6,6 @@ import {
   DependencyInjector
 } from '../../../../../apps/CryptoWars/backend/dependency-injection/dependencyInjector';
 
-console.log('+++++++++++++ typeormreposotory +++++++');
 @Service()
 export abstract class TypeOrmRepository<T extends ObjectLiteral> {
   constructor(private _client: DataSource) {}

@@ -1,8 +1,8 @@
-import { usePlayer } from '../Town/usePlayer';
 import { Towns } from './Towns';
+import { useHomePagePlayer } from './useHomePagePlayer';
 
 export const Home = (): JSX.Element => {
-  const { result, isLoading } = usePlayer();
+  const { result, isLoading } = useHomePagePlayer();
 
   if (isLoading) {
     return <></>;
@@ -11,5 +11,5 @@ export const Home = (): JSX.Element => {
     return <>An error happen</>;
   }
 
-  return <Towns towns={result.player.towns} />;
+  return <Towns towns={result.towns} />;
 };

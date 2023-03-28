@@ -5,7 +5,7 @@ export class TownNotFound extends DomainError {
     super(`Town not found`);
   }
 
-  public errorName(): string {
+  public errorName(): 'TownNotFoundError' {
     return 'TownNotFoundError';
   }
 }

@@ -26,13 +26,13 @@ export interface WorldPrimitives {
   towns: Array<TownPrimitives>;
 }
 
-export type WorldTownPrimitives = Omit<TownPrimitives, 'buildings' | 'worldId'>;
-export type WorldTownsPrimitives = Array<WorldTownPrimitives>;
+export type WorldTownProjection = Omit<TownPrimitives, 'buildings' | 'worldId'>;
+export type WorldTownsProjection = Array<WorldTownProjection>;
 
 export interface WorldMapProjection {
   id: string;
   name: string;
-  towns: WorldTownsPrimitives;
+  towns: WorldTownsProjection;
 }
 
 export class World extends AggregateRoot<WorldProps> {

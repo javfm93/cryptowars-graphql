@@ -1,22 +1,19 @@
 import { TrainSoldiersCommand } from './TrainSoldiersCommand';
-import { TrainSoldiers } from './TrainSoldiers';
+import { TrainSoldiers, TrainSoldiersErrors } from './TrainSoldiers';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidSoldier } from '../../Domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../Domain/InvalidNumberOfSoldiers';
-import { TownNotFound } from './TownNotFound';
 import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { TownId } from '../../Domain/TownId';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
-import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { PlayerId } from '../../../Players/Domain/PlayerId';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
 export type TrainSoldiersCommandErrors =
   | InvalidSoldier
   | InvalidNumberOfSoldiers
-  | TownNotFound
-  | Forbidden;
+  | TrainSoldiersErrors;
 export type TrainSoldiersCommandResult = Either<EmptyResult, TrainSoldiersCommandErrors>;
 
 @RegisterCommandHandler()

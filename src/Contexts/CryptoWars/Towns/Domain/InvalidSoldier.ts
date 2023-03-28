@@ -5,7 +5,7 @@ export class InvalidSoldier extends DomainError {
     super(`Invalid soldier to train: ${invalidSoldier}`);
   }
 
-  public errorName(): string {
+  public errorName(): 'InvalidSoldier' {
     return 'InvalidSoldier';
   }
 }

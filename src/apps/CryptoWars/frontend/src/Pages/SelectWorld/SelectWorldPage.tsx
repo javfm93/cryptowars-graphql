@@ -8,11 +8,11 @@ import { Worlds } from './Worlds';
 export const SelectWorld: FC = () => {
   const { t } = useTranslation();
   const { isLoading, error, result } = useWorlds();
-  const { joinWorld } = useJoinWorld();
+  const { execute } = useJoinWorld();
 
   return (
     <Layout tittle={t('home.startPlaying')} isLoading={isLoading} error={error}>
-      {result ? <Worlds worlds={result.worlds} onWorldSelected={joinWorld} /> : <></>}
+      {result ? <Worlds worlds={result.worlds} onWorldSelected={execute} /> : <></>}
     </Layout>
   );
 };

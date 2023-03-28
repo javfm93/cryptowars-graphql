@@ -6,7 +6,7 @@ import {
   EssenceGenerator,
   Headquarter,
   TownAssets,
-  TownBuildingType,
+  TownBuildingTypes,
   Warehouse
 } from './TownBuilding';
 
@@ -63,20 +63,20 @@ const initialBuildings: TownBuildingsPrimitives = {
   headquarter: {
     level: 0,
     essenceRequiredToLevelUp: 10,
-    type: TownBuildingType.creator,
+    type: TownBuildingTypes.creator,
     units: HeadQuarterUnits
   },
   essenceGenerator: {
     level: 1,
     essenceRequiredToLevelUp: 30,
-    type: TownBuildingType.generator,
+    type: TownBuildingTypes.generator,
     generationPerHour: 60,
     asset: TownAssets.essence
   },
   warehouse: {
     level: 1,
     essenceRequiredToLevelUp: 30,
-    type: TownBuildingType.store,
+    type: TownBuildingTypes.store,
     assets: {
       [TownAssets.essence]: {
         name: TownAssets.essence,

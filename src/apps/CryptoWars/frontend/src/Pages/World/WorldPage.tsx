@@ -1,4 +1,4 @@
-import { useWorld } from './useWorld';
+import { useWorldMap } from './useWorldMap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../Shared/Layout';
 import { useTownArmy } from '../Headquarter/useTownArmy';
@@ -6,7 +6,6 @@ import { useUrlQueryParams } from './useUrlQueryParams';
 import { WorldMap } from './WorldMap';
 import { WorldAttackMenu } from './WorldAttackMenu';
 import { Button } from '@mui/material';
-import { usePlayer } from '../Town/usePlayer';
 import { useCreateDirectChat } from '../Chat/useCreateDirectChat';
 import { AppRoutes } from '../../App';
 
@@ -14,8 +13,7 @@ export const WorldPage = () => {
   const { id } = useParams();
   const townId = useUrlQueryParams('townId');
   if (!id || !townId) return <> Invalid world or town </>;
-  const { result, isLoading, error } = useWorld(id);
-  const { result: playerResult } = usePlayer();
+  const { result, isLoading, error } = useWorldMap(id);
   const armyResult = useTownArmy(townId);
   const { createChat } = useCreateDirectChat();
   const navigate = useNavigate();
@@ -27,9 +25,9 @@ export const WorldPage = () => {
       error={error || armyResult.error}
     >
       <>
-        {result && armyResult.result && playerResult && (
+        {result && armyResult.result && (
           <>
-            {result.world.towns.map(town => (
+            {result.towns.map(town => (
               <Button
                 key={town.id}
                 onClick={async () => {
@@ -47,7 +45,7 @@ export const WorldPage = () => {
             <WorldAttackMenu
               attackerTownId={townId}
               army={armyResult.result.army}
-              worldTowns={result.world.towns}
+              worldTowns={result.towns}
             />
             <WorldMap />
           </>

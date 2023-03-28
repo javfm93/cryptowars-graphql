@@ -7,8 +7,8 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema } from 'typeorm';
-import { PlayerSchema } from './typeorm/PlayerSchema';
+import { EntityTarget } from 'typeorm';
+import { PlayerSchema } from '../PlayerSchema';
 
 @RegisterRepository(PlayerRepository)
 export class SqlitePlayerRepository
@@ -40,7 +40,7 @@ export class SqlitePlayerRepository
     return player ? Player.fromPrimitives(player) : null;
   }
 
-  protected entitySchema(): EntitySchema<PlayerPrimitives> {
+  protected entitySchema(): EntityTarget<PlayerPrimitives> {
     return PlayerSchema;
   }
 }

@@ -1,30 +1,33 @@
 import { ClassType } from 'type-graphql/dist/interfaces';
 import { createUnionType, Field, ObjectType } from 'type-graphql';
+import { createErrorResponse } from './ResolverErrors';
 
 export const resolverResult = <Entity extends ClassType, Errors extends ClassType[]>(
-  resultName: string,
+  operationName: string,
   entity: Entity,
   errors: Errors
-) =>
-  createUnionType<readonly [Entity, ...Errors]>({
-    name: resultName,
+) => {
+  createErrorResponse(operationName, errors);
+  return createUnionType<readonly [Entity, ...Errors]>({
+    name: operationName,
     types: () => [entity, ...errors] as const,
     resolveType: value => {
-      if ('status' in value && 'message' in value) {
-        return errors.find(e => new e().status === value.status);
+      if ('error' in value) {
+        return errors.find(e => new e().error === value.error);
       } else {
         return entity;
       }
     }
   });
-
-export const resolverCommandResult = <Errors extends ClassType[]>(
-  resultName: string,
-  ...errors: Errors
-) => resolverResult(resultName, Success, errors);
+};
 
 @ObjectType()
-export class Success {
+export class SuccessCommand {
   @Field()
-  success: Boolean = true;
+  isSuccess: Boolean = true;
 }
+
+export const SuccessCommandResult = <Errors extends ClassType[]>(
+  operationName: string,
+  errors: Errors
+) => resolverResult(operationName, SuccessCommand, errors);

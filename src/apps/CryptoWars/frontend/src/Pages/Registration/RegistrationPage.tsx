@@ -13,10 +13,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useUserRegistration } from './useUserRegistration';
 import { AppRoutes } from '../../App';
+import { isUnexpectedError } from '../../API/useUnexpectedError';
 
 export function Registration() {
   const registration = useUserRegistration();
 
+  if (isUnexpectedError(registration.error)) {
+    return <p> An unexpected Error happened</p>;
+  }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

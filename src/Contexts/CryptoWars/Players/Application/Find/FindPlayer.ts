@@ -2,11 +2,11 @@ import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
 import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { Player } from '../../Domain/Player';
 import { PlayerRepository } from '../../Domain/PlayerRepository';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerNotFound } from './PlayerNotFound';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 
-type FindPlayerResult = Either<Player, DomainError>;
+export type FindPlayerErrors = PlayerNotFound;
+type FindPlayerResult = Either<Player, FindPlayerErrors>;
 
 type FindPlayerArgs = {
   userId: UserId;

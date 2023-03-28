@@ -38,59 +38,21 @@ export const success = <F>(): Either<EmptyResult, F> => new Success(Result.ok())
 export const successAndReturn = <S, F>(l: S): Either<S, F> => new Success(l);
 export const failure = <S, F>(a: F): Either<S, F> => new Failure<S, F>(a);
 
-export const thereIsAFailure = (
-  validations: (Success<unknown, any> | Failure<unknown, any> | undefined)[]
-) => {};
-
 export type EmptyResult = Result<void>;
 export type CommandResult<CommandErrors extends DomainError> = Either<EmptyResult, CommandErrors>;
 
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  public error: DomainError | undefined;
-  private readonly _value: T | undefined;
 
-  private constructor(isSuccess: boolean, error?: DomainError, value?: T) {
-    if (isSuccess && error) {
-      throw new Error(`InvalidOperation: A result cannot be
-        successful and contain an error`);
-    }
-    if (!isSuccess && !error) {
-      throw new Error(`InvalidOperation: A failing result
-        needs to contain an error message`);
-    }
-
+  private constructor(isSuccess: boolean) {
     this.isSuccess = isSuccess;
     this.isFailure = !isSuccess;
-    this.error = error;
-    this._value = value;
 
     Object.freeze(this);
   }
 
-  public getValue(): T {
-    if (!this.isSuccess || !this._value) {
-      throw new Error(`Cant retrieve the value from a failed result.`);
-    }
-
-    return this._value;
-  }
-
-  public static ok<U>(value?: U): Result<U> {
-    return new Result<U>(true, undefined, value);
-  }
-
-  public static fail<U>(error?: DomainError): Result<U> {
-    return new Result<U>(false, error);
-  }
-
-  public static combine(results: Result<any>[]): Result<any> {
-    for (const result of results) {
-      if (result.isFailure) {
-        return result;
-      }
-    }
-    return Result.ok<any>();
+  public static ok<U>(): Result<U> {
+    return new Result<U>(true);
   }
 }

@@ -12,7 +12,6 @@ import cors from 'cors';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import path from 'path';
 import io from 'socket.io';
 import { ClientToServerEvents, ServerToClientEvents } from './Events/events';
 import { registerEvents } from './Events/registerEvents';
@@ -21,8 +20,23 @@ import { ApolloServer } from '@apollo/server';
 import { getSchema } from './schema';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from '@apollo/server/express4';
+import { buildContext, GraphQLLocalStrategy } from 'graphql-passport';
+import { UserRepository } from '../../../Contexts/IAM/Users/Domain/UserRepository';
+import { UserEmail } from '../../../Contexts/IAM/Users/Domain/UserEmail';
+import { PlayerRepository } from '../../../Contexts/CryptoWars/Players/Domain/PlayerRepository';
+import { Context } from 'graphql-passport/lib/buildContext';
 
 const SQLiteStore = require('connect-sqlite3')(session);
+export type ContextUser = {
+  id: string;
+  playerId: string;
+};
+export type ServerContext = Context<ContextUser>;
+
+const corsConfig = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
 
 export class Server {
   private express: express.Express;
@@ -33,10 +47,6 @@ export class Server {
   constructor(port: string) {
     this.port = port;
     this.express = express();
-    const corsConfig = {
-      origin: 'http://localhost:3000',
-      credentials: true
-    };
 
     this.express.use(cors(corsConfig));
     this.express.use(bodyParser.json());
@@ -55,8 +65,37 @@ export class Server {
         store: new SQLiteStore()
       })
     );
-    const spec = path.join(__dirname, 'openapi.yaml');
-    this.express.use('/spec', express.static(spec));
+    this.express.use(passport.initialize());
+    this.express.use(passport.session()); // if session is used
+    passport.use(
+      new GraphQLLocalStrategy(async (e, p, done) => {
+        try {
+          console.log('using graphql local strategy');
+          const email = e as string;
+          const password = p as string;
+          const userRepository = DependencyInjector.get(UserRepository);
+          const user = await userRepository.findByEmail(UserEmail.fromPrimitives(email));
+          if (!user) return done({ message: 'Incorrect username or password.' });
+          // const hash = hashPassword(password);
+          // const passwordMatches = matchPassword(password, hash);
+          // if (!passwordMatches) return done({ message: 'Incorrect username or password.' });
+          if (!user.password.isEqualTo(password))
+            return done({ message: 'Incorrect username or password.' });
+
+          const playerRepository = DependencyInjector.get(PlayerRepository);
+          const player = await playerRepository.findByUserId(user.id, { retrieveRelations: false });
+          if (!player) return done({ message: 'Not registered as a player' });
+          return done(null, {
+            id: user.id.toString(),
+            playerId: player.id.toString()
+          });
+        } catch (err) {
+          if (err) {
+            return done(err);
+          }
+        }
+      })
+    );
     this.express.use(passport.authenticate('session'));
     const router = Router();
     router.use(errorHandler());
@@ -82,17 +121,19 @@ export class Server {
         }
       });
       registerEvents(socketServer);
-      const apolloServer = new ApolloServer({
-        schema: await getSchema(),
+      const apolloServer = new ApolloServer<ServerContext>({
+        schema: getSchema(),
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer: server })]
       });
       await apolloServer.start();
 
       this.express.use(
         '/',
-        cors<cors.CorsRequest>(),
+        cors<cors.CorsRequest>(corsConfig),
         bodyParser.json(),
-        expressMiddleware(apolloServer)
+        expressMiddleware(apolloServer, {
+          context: async ({ req, res }) => buildContext<ContextUser>({ req, res })
+        })
       );
       this.httpServer = server.listen(this.port, () => {
         this.logger.info(

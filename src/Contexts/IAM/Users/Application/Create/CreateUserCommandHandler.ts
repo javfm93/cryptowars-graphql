@@ -6,8 +6,7 @@ import { UserPassword } from '../../Domain/UserPassword';
 import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidEmailError } from '../../Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../Domain/Errors/InvalidPasswordError';
-import { UserAlreadyTakenError } from './UserAlreadyTakenError';
-import { CreateUser } from './CreateUser';
+import { CreateUser, CreateUserErrors } from './CreateUser';
 import { UserId } from '../../Domain/UserId';
 import { UserName } from '../../Domain/UserName';
 import { InvalidNameError } from '../../Domain/Errors/InvalidNameError';
@@ -16,7 +15,7 @@ export type CreateUserCommandErrors =
   | InvalidEmailError
   | InvalidPasswordError
   | InvalidNameError
-  | UserAlreadyTakenError;
+  | CreateUserErrors;
 export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
 
 @RegisterCommandHandler()

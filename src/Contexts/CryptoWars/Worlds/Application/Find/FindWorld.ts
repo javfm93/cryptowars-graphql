@@ -3,10 +3,10 @@ import { Either, failure, successAndReturn } from '../../../../Shared/Aplication
 import { World } from '../../Domain/World';
 import { WorldRepository } from '../../Domain/WorldRepository';
 import { WorldId } from '../../Domain/WorldId';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { WorldNotFound } from './WorldNotFound';
 
-type FindWorldResult = Either<World, DomainError>;
+export type FindWorldErrors = WorldNotFound;
+type FindWorldResult = Either<World, FindWorldErrors>;
 
 @RegisterUseCase()
 export class FindWorld implements UseCase<WorldId, World> {

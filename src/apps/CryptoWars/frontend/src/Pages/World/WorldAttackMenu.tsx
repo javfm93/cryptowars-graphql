@@ -5,7 +5,7 @@ import { useSendAttack } from './useSendAttack';
 import { useUrlQueryParams } from './useUrlQueryParams';
 import { Primitives } from '../../../../../../Contexts/Shared/Domain/Primitives';
 import { Army } from '../../../../../../Contexts/Battlefield/Armies/Domain/Army';
-import { WorldTownsPrimitives } from '../../../../../../Contexts/CryptoWars/Worlds/Domain/World';
+import { WorldTownsProjection } from '../../../../../../Contexts/CryptoWars/Worlds/Domain/World';
 
 export const WorldAttackMenu = ({
   attackerTownId,
@@ -14,7 +14,7 @@ export const WorldAttackMenu = ({
 }: {
   attackerTownId: string;
   army: Primitives<Army>;
-  worldTowns: WorldTownsPrimitives;
+  worldTowns: WorldTownsProjection;
 }) => {
   const { id } = useParams();
   const townId = useUrlQueryParams('townId');

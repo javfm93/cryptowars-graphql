@@ -1,6 +1,6 @@
 import { TownSoldier } from './TownSoldier';
 
-export enum TownBuildingType {
+export enum TownBuildingTypes {
   generator = 'generator',
   creator = 'creator',
   store = 'store'
@@ -9,7 +9,7 @@ export enum TownBuildingType {
 type TownBuilding = {
   level: number;
   essenceRequiredToLevelUp: number;
-  type: TownBuildingType;
+  type: TownBuildingTypes;
 };
 
 export type Headquarter = TownBuilding & {
@@ -22,10 +22,10 @@ export type EssenceGenerator = TownBuilding & {
 };
 
 export type Warehouse = TownBuilding & {
-  assets: Assets;
+  assets: WarehouseAssets;
 };
 
-type Assets = {
+export type WarehouseAssets = {
   [key in TownAssets]: {
     name: TownAssets;
     limit: number;

@@ -11,7 +11,6 @@ import { UserSchema } from '../UserSchema';
 import { UserEmail } from '../../Domain/UserEmail';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 
-console.log('____________ user repostory _______');
 @RegisterRepository(UserRepository)
 export class SqliteUserRepository
   extends TypeOrmRepository<Primitives<User>>

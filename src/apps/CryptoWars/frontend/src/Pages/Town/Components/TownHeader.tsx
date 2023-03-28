@@ -3,11 +3,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { usePlayer } from './usePlayer';
 import { Link, useParams } from 'react-router-dom';
 import { styled } from '@mui/material';
-import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/Town';
-import { AppRoutes } from '../../App';
+import { AppRoutes } from '../../../App';
+import { TownHeaderQueryResult, useTownHeaderPlayer } from '../useTownHeaderPlayer';
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(3),
@@ -15,8 +14,8 @@ const HeaderWrapper = styled(AppBar)(({ theme }) => ({
 }));
 
 const calculateCurrentAssetValue = (
-  initial: number,
   generationPerHour: number,
+  initial: number,
   hoursToUpdate: number
 ): number => parseFloat((initial + generationPerHour * hoursToUpdate).toFixed(0));
 
@@ -27,15 +26,15 @@ const fromMsToHours = (ms: number): number => {
 
 const calculateMsSince = (date: Date) => Math.abs(new Date().valueOf() - date.valueOf());
 
-const calculateInitialEssenceOf = (town: TownPrimitives): number => {
-  const { generationPerHour } = town.buildings.essenceGenerator;
-  const essenceWarehouse = town?.buildings.warehouse.assets.essence;
-  const lastEssenceRegistry = essenceWarehouse?.stored ?? 0;
-  const lastEssenceUpdate = essenceWarehouse?.lastStorageUpdate ?? new Date();
+const calculateInitialEssenceOf = (town: TownHeaderQueryResult['towns'][number]): number => {
+  const generationPerHour = town.buildings.essenceGenerator.generationPerHour;
+  const essenceWarehouse = town.buildings.warehouse.assets.essence;
+  const lastEssenceRegistry = essenceWarehouse.stored;
+  const lastEssenceUpdate = essenceWarehouse.lastStorageUpdate;
 
   return calculateCurrentAssetValue(
-    lastEssenceRegistry,
     generationPerHour,
+    lastEssenceRegistry,
     fromMsToHours(calculateMsSince(new Date(lastEssenceUpdate)))
   );
 };
@@ -43,14 +42,12 @@ const calculateInitialEssenceOf = (town: TownPrimitives): number => {
 const msToRecalculateEssence = 1000;
 
 export default function TownHeader() {
-  const { result } = usePlayer();
+  const { result } = useTownHeaderPlayer();
   const { id } = useParams();
   const [essence, setEssence] = useState<number>(0);
-  if (!result) return <></>;
-
   useEffect(() => {
     if (result) {
-      const town = result.player.towns.find(to => to.id === id);
+      const town = result.towns.find(to => to.id === id);
 
       if (town) {
         const { generationPerHour } = town.buildings.essenceGenerator;
@@ -69,7 +66,8 @@ export default function TownHeader() {
     }
   }, [result]);
 
-  const worldRoute = `${AppRoutes.world(result.player.worlds[0].id)}?townId=${id}`;
+  if (!result) return <></>;
+  const worldRoute = `${AppRoutes.world(result.worlds[0].id)}?townId=${id}`;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <HeaderWrapper position="static">

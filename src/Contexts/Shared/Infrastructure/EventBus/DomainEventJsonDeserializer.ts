@@ -9,7 +9,7 @@ export class DomainEventJsonDeserializer {
 
   deserialize(event: string) {
     const eventData = JSON.parse(event).data;
-    const eventName = eventData.type;
+    const eventName = eventData.error;
     const eventClass = this.mapping.for(eventName);
 
     if (!eventClass) {

@@ -1,40 +1,46 @@
-import { useMutation } from 'react-query';
-import axios from 'axios';
 import { v4 } from 'uuid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../App';
-import { CreateUserRequest } from '../../../../backend/Controllers/IAM/Users/CreateUserRequest';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../../../../../../../tests/apps/CryptoWars/backend/IAM/Users/createUserMutation';
+import * as faker from 'faker';
+import { CreateUserErrors } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
+import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
+import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { handleMutationResult } from '../../API/command';
 
-// todo: improve execute and error definition and move to a shared place
-// todo: frontend validation
-export type CommandTrigger = () => {
-  execute: Function;
-  isExecuting: boolean;
-  succeeded: boolean;
-  error: unknown;
-};
-
-export const useUserRegistration: CommandTrigger = () => {
+export const useUserRegistration = () => {
   const navigateTo = useNavigate();
+  const [createUser, { data, loading, error, called }] = useMutation(CREATE_USER);
+  const [domainError, setError] = useState<CreateUserErrors | undefined>();
 
-  const registerMutation = useMutation((newUser: CreateUserRequest) =>
-    axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/${v4()}`, newUser)
-  );
+  useUnexpectedError(setError, error);
+
   useEffect(() => {
-    if (registerMutation.isSuccess) {
-      navigateTo(AppRoutes.selectWorld);
+    const result = data?.createUser;
+    if (result && result.__typename) {
+      switch (result.__typename) {
+        case 'SuccessCommand':
+          navigateTo(AppRoutes.selectWorld);
+          break;
+        case 'ConflictError':
+          setError(result);
+          break;
+        case 'InvalidInputError':
+          setError(result);
+          break;
+        default:
+          assertNeverHappen(result.__typename);
+      }
     }
-  }, [registerMutation.isSuccess]);
+  }, [data]);
 
-  const execute = (email: string, password: string) => {
-    registerMutation.mutate({ email, password });
+  const execute = async (email: string, password: string) => {
+    await createUser({
+      variables: { user: { id: v4(), email, password, name: faker.internet.userName() } }
+    });
   };
 
-  return {
-    execute,
-    isExecuting: registerMutation.isLoading,
-    succeeded: registerMutation.isSuccess,
-    error: registerMutation.error
-  };
+  return handleMutationResult(execute, loading, called, domainError);
 };
