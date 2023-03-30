@@ -3,10 +3,43 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Army {
+  id: ID!
+  playerId: String!
+  squads: Squads!
+  townId: String!
+}
+
+type ArmyTroop {
+  armyId: String!
+  squads: Squads!
+}
+
 interface BaseError {
   error: ErrorTypes!
   message: String!
   status: Float!
+}
+
+type Battle {
+  finishedAt: String!
+  result: BattleResult!
+}
+
+type BattleResult {
+  attackerCasualties: Squads!
+  defenderCasualties: Squads!
+  returningTroop: ArmyTroop!
+  winner: BattleWinner!
+}
+
+enum BattleWinner {
+  attacker
+  defender
+}
+
+type Battles {
+  battles: [Battle!]!
 }
 
 type ConflictError implements BaseError {
@@ -59,6 +92,10 @@ type FailedLoginResponse {
   errors: LoginErrors!
 }
 
+type FailedSendAttackResponse {
+  errors: SendAttackErrors!
+}
+
 type FailedTrainSoldiersResponse {
   errors: TrainSoldiersErrors!
 }
@@ -102,6 +139,7 @@ input LoginInput {
 type Mutation {
   JoinWorld(id: String!): JoinWorld!
   Login(login: LoginInput!): Login!
+  SendAttack(input: SendAttackInput!): SendAttack!
   TrainSoldiers(input: TrainSoldiersInput!): TrainSoldiers!
   createUser(user: CreateUserInput!): CreateUser!
 }
@@ -120,9 +158,32 @@ type Player {
 }
 
 type Query {
+  GetArmy(townId: String!): Army!
+  GetBattles(armyId: String!): Battles!
   GetPlayer: GetPlayer!
   GetWorldMap(id: String!): WorldMap!
   GetWorlds: Worlds!
+}
+
+union SendAttack = ConflictError | ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand
+
+union SendAttackErrors = ConflictError | ForbiddenError | InvalidInputError | NotFoundError
+
+input SendAttackInput {
+  attackerArmy: String!
+  defenderTown: String!
+  id: String!
+  soldiers: SquadsInput!
+}
+
+type Squads {
+  basic: Float!
+  range: Float!
+}
+
+input SquadsInput {
+  basic: Float!
+  range: Float!
 }
 
 type SuccessCommand {

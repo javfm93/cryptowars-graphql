@@ -3,7 +3,7 @@ import { CreateUserCommand } from './CreateUserCommand';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidEmailError } from '../../Domain/Errors/InvalidEmailError';
 import { InvalidPasswordError } from '../../Domain/Errors/InvalidPasswordError';
 import { CreateUser, CreateUserErrors } from './CreateUser';
@@ -16,7 +16,7 @@ export type CreateUserCommandErrors =
   | InvalidPasswordError
   | InvalidNameError
   | CreateUserErrors;
-export type CreateUserCommandResult = Either<EmptyResult, CreateUserCommandErrors>;
+export type CreateUserCommandResult = Result<Nothing, CreateUserCommandErrors>;
 
 @RegisterCommandHandler()
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {

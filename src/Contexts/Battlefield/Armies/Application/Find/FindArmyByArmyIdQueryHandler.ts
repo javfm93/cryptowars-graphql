@@ -1,17 +1,17 @@
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { Army } from '../../Domain/Army';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { ArmyId } from '../../Domain/ArmyId';
 import { FindArmyByArmyId, FindArmyByArmyIdErrors } from './FindArmyByArmyId';
 import { FindArmyByArmyIdQuery } from './FindArmyByArmyIdQuery';
 
-export type FindArmyByArmyIdQueryResult = Either<Army, FindArmyByArmyIdErrors>;
+export type FindArmyByArmyIdQueryResult = Result<Army, FindArmyByArmyIdErrors>;
 
-@RegisterQueryHandler()
+@QueryHandler()
 export class FindArmyByArmyIdQueryHandler
-  implements QueryHandler<FindArmyByArmyIdQuery, FindArmyByArmyIdQueryResult>
+  implements BaseQueryHandler<FindArmyByArmyIdQuery, FindArmyByArmyIdQueryResult>
 {
   constructor(private findArmyByArmyId: FindArmyByArmyId) {}
 

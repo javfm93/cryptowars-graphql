@@ -1,18 +1,18 @@
 import { ListBattlesByArmyIdQuery } from './ListBattlesByArmyIdQuery';
-import { ListBattlesByArmyId } from './ListBattlesByArmyId';
-import { Either } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
+import { ListBattlesByArmyId, ListBattlesByArmyIdErrors } from './ListBattlesByArmyId';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { Battles } from '../../Domain/Battles';
 import { ArmyId } from '../../../Armies/Domain/ArmyId';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 
-export type ListBattlesByArmyIdQueryResult = Either<Battles, DomainError>;
+export type ListBattlesByArmyIdQueryErrors = ListBattlesByArmyIdErrors;
+export type ListBattlesByArmyIdQueryResult = Result<Battles, ListBattlesByArmyIdQueryErrors>;
 
-@RegisterQueryHandler()
+@QueryHandler()
 export class ListBattlesByArmyIdQueryHandler
-  implements QueryHandler<ListBattlesByArmyIdQuery, ListBattlesByArmyIdQueryResult>
+  implements BaseQueryHandler<ListBattlesByArmyIdQuery, ListBattlesByArmyIdQueryResult>
 {
   constructor(private listBattles: ListBattlesByArmyId) {}
 

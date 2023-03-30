@@ -1,18 +1,18 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, successAndReturn } from '../../../../Shared/Aplication/Result';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { DirectChatRepository } from '../../Domain/DirectChatRepository';
 import { DirectChats } from '../../Domain/DirectChats';
 
-type FindMessageResult = Either<DirectChats, Forbidden>;
+type FindMessageResult = Result<DirectChats, Forbidden>;
 
 type FindMessageArgs = {
   playerId: PlayerId;
 };
 
-@RegisterUseCase()
-export class FindDirectChatsByPlayerId implements UseCase<FindMessageArgs, DirectChats> {
+@UseCase()
+export class FindDirectChatsByPlayerId implements BaseUseCase<FindMessageArgs, DirectChats> {
   constructor(private directChatRepository: DirectChatRepository) {}
 
   async execute({ playerId }: FindMessageArgs): Promise<FindMessageResult> {

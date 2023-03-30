@@ -5,7 +5,7 @@ export class InvalidSquad extends DomainError {
     super(message);
   }
 
-  public errorName(): string {
+  public errorName(): 'InvalidSquad' {
     return 'InvalidSquad';
   }
 }

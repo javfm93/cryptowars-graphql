@@ -1,5 +1,5 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { Army } from '../../Domain/Army';
 import { ArmyNotFound } from './ArmyNotFound';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
@@ -8,15 +8,15 @@ import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/Battl
 import { ArmyId } from '../../Domain/ArmyId';
 
 export type FindArmyByArmyIdErrors = ArmyNotFound | Forbidden;
-type FindArmyResult = Either<Army, FindArmyByArmyIdErrors>;
+type FindArmyResult = Result<Army, FindArmyByArmyIdErrors>;
 
 type FindArmyArgs = {
   playerId: PlayerId;
   armyId: ArmyId;
 };
 
-@RegisterUseCase()
-export class FindArmyByArmyId implements UseCase<FindArmyArgs, Army> {
+@UseCase()
+export class FindArmyByArmyId implements BaseUseCase<FindArmyArgs, Army> {
   constructor(private eventRepository: BattlefieldInternalEventRepository) {}
 
   async execute({ playerId, armyId }: FindArmyArgs): Promise<FindArmyResult> {

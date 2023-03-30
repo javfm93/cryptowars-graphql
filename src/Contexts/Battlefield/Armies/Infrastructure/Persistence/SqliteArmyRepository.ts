@@ -5,8 +5,8 @@ import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema } from 'typeorm';
-import { ArmySchema } from './typeorm/ArmySchema';
+import { EntityTarget } from 'typeorm';
+import { ArmySchema } from './ArmySchema';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { Army } from '../../Domain/Army';
@@ -36,7 +36,7 @@ export class SqliteArmyRepository
     return army ? Army.fromPrimitives(army) : null;
   }
 
-  protected entitySchema(): EntitySchema<Primitives<Army>> {
+  protected entitySchema(): EntityTarget<Primitives<Army>> {
     return ArmySchema;
   }
 }

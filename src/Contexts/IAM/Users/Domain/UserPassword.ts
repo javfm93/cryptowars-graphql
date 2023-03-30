@@ -1,5 +1,5 @@
 import { InvalidPasswordError } from './Errors/InvalidPasswordError';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { StringValueObject } from '../../../Shared/Domain/value-object/StringValueObject';
 
 export class UserPassword extends StringValueObject {
@@ -7,7 +7,7 @@ export class UserPassword extends StringValueObject {
     super(value);
   }
 
-  public static create(value: string): Either<UserPassword, InvalidPasswordError> {
+  public static create(value: string): Result<UserPassword, InvalidPasswordError> {
     const hasWhitespaceRegex = /^(?=.*\s)/;
     if (hasWhitespaceRegex.test(value)) {
       return failure(InvalidPasswordError.shouldNotContainWhitespaces());

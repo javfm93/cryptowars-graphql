@@ -1,5 +1,5 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { InvalidNumberOfSoldiers } from './InvalidNumberOfSoldiers';
 import { InvalidSoldier } from './InvalidSoldier';
 import { basicSoldier, TownSoldierTypes } from './TownSoldier';
@@ -15,7 +15,7 @@ export class TownSoldiers extends ValueObject<TownSoldiers> {
 
   public static create(
     soldiers: TownSoldiersPrimitives
-  ): Either<TownSoldiers, InvalidSoldier | InvalidNumberOfSoldiers> {
+  ): Result<TownSoldiers, InvalidSoldier | InvalidNumberOfSoldiers> {
     if (!soldiers) return failure(new InvalidNumberOfSoldiers());
     const soldiersToCreate = Object.entries(soldiers);
     let thereIsAPositiveNumberOfSoldiers = false;

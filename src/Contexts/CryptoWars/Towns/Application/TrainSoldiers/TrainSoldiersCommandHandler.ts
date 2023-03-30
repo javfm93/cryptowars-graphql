@@ -1,6 +1,6 @@
 import { TrainSoldiersCommand } from './TrainSoldiersCommand';
 import { TrainSoldiers, TrainSoldiersErrors } from './TrainSoldiers';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { InvalidSoldier } from '../../Domain/InvalidSoldier';
 import { InvalidNumberOfSoldiers } from '../../Domain/InvalidNumberOfSoldiers';
 import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
@@ -14,7 +14,7 @@ export type TrainSoldiersCommandErrors =
   | InvalidSoldier
   | InvalidNumberOfSoldiers
   | TrainSoldiersErrors;
-export type TrainSoldiersCommandResult = Either<EmptyResult, TrainSoldiersCommandErrors>;
+export type TrainSoldiersCommandResult = Result<Nothing, TrainSoldiersCommandErrors>;
 
 @RegisterCommandHandler()
 export class TrainSoldiersCommandHandler implements CommandHandler<TrainSoldiersCommand> {

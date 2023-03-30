@@ -1,9 +1,8 @@
 import { CommandBus } from '../../../../../../Contexts/Shared/Domain/CommandBus';
 import { TrainSoldiersCommand } from '../../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommand';
 import { TrainSoldiersCommandErrors } from '../../../../../../Contexts/CryptoWars/Towns/Application/TrainSoldiers/TrainSoldiersCommandHandler';
-
-import { BaseResolver, RegisterResolver } from '../../Resolver';
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { BaseResolver, Resolver } from '../../Resolver';
+import { Arg, Ctx, Mutation } from 'type-graphql';
 import { SuccessCommand, SuccessCommandResult } from '../../ResolverResult';
 import { ForbiddenError, InvalidInputError, NotFoundError } from '../../ResolverErrors';
 import { ServerContext } from '../../../server';
@@ -17,7 +16,6 @@ const Result = SuccessCommandResult('TrainSoldiers', [
   NotFoundError
 ]);
 
-@RegisterResolver()
 @Resolver()
 export class TrainSoldiersResolver implements BaseResolver {
   constructor(private commandBus: CommandBus) {}

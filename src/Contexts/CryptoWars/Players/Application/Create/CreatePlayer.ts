@@ -1,8 +1,8 @@
 import { PlayerRepository } from '../../Domain/PlayerRepository';
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { Player } from '../../Domain/Player';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, success } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerId } from '../../Domain/PlayerId';
@@ -12,10 +12,10 @@ type CreatePlayerArgs = {
   userId: UserId;
 };
 
-type CreatePlayerResult = Either<EmptyResult, DomainError>;
+type CreatePlayerResult = Result<Nothing, DomainError>;
 
-@RegisterUseCase()
-export class CreatePlayer implements UseCase<CreatePlayerArgs, EmptyResult> {
+@UseCase()
+export class CreatePlayer implements BaseUseCase<CreatePlayerArgs, Nothing> {
   constructor(private playerRepository: PlayerRepository, private eventBus: EventBus) {}
 
   async execute({ id, userId }: CreatePlayerArgs): Promise<CreatePlayerResult> {

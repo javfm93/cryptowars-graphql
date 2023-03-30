@@ -2,10 +2,10 @@ import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domai
 import { ExecuteTasksPreviousToCommand } from './ExecuteTasksPreviousToCommand';
 import { ExecuteTasksPreviousTo } from './ExecuteTasksPreviousTo';
 import { CommandClass } from '../../../../Shared/Domain/Command';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 
-export type SendAttackCommandResult = Either<EmptyResult, DomainError>;
+export type SendAttackCommandResult = Result<Nothing, DomainError>;
 
 @RegisterCommandHandler()
 export class ExecuteTasksPreviousToCommandHandler

@@ -3,9 +3,14 @@ import { Squads } from '../../Armies/Domain/Squads';
 import { Primitives } from '../../../Shared/Domain/Primitives';
 import { ArmyTroop } from './ArmyTroop';
 
+export enum BattleWinner {
+  attacker = 'attacker',
+  defender = 'defender'
+}
+
 export class BattleResult extends ValueObject<BattleResult> {
   private constructor(
-    readonly winner: 'attacker' | 'defender',
+    readonly winner: BattleWinner,
     readonly attackerCasualties: Squads,
     readonly defenderCasualties: Squads,
     readonly returningTroop: ArmyTroop
@@ -15,7 +20,7 @@ export class BattleResult extends ValueObject<BattleResult> {
 
   public static fromPrimitives(primitives: Primitives<BattleResult>): BattleResult {
     return new BattleResult(
-      primitives.winner === 'attacker' ? 'attacker' : 'defender',
+      BattleWinner[primitives.winner],
       Squads.fromPrimitives(primitives.attackerCasualties),
       Squads.fromPrimitives(primitives.defenderCasualties),
       ArmyTroop.fromPrimitives(primitives.returningTroop)

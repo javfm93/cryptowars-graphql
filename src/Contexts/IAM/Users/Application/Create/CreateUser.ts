@@ -1,11 +1,11 @@
 import { UserRepository } from '../../Domain/UserRepository';
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { User } from '../../Domain/User';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { Uuid } from '../../../../Shared/Domain/value-object/Uuid';
 import { UserEmail } from '../../Domain/UserEmail';
 import { UserPassword } from '../../Domain/UserPassword';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { UserAlreadyTakenError } from './UserAlreadyTakenError';
 import { UserName } from '../../Domain/UserName';
 
@@ -17,10 +17,10 @@ type CreateUserArgs = {
 };
 
 export type CreateUserErrors = UserAlreadyTakenError;
-type CreateUserResult = Either<EmptyResult, CreateUserErrors>;
+type CreateUserResult = Result<Nothing, CreateUserErrors>;
 
-@RegisterUseCase()
-export class CreateUser implements UseCase<CreateUserArgs, EmptyResult> {
+@UseCase()
+export class CreateUser implements BaseUseCase<CreateUserArgs, Nothing> {
   constructor(private userRepository: UserRepository, private eventBus: EventBus) {}
 
   async execute({ id, email, password, name }: CreateUserArgs): Promise<CreateUserResult> {

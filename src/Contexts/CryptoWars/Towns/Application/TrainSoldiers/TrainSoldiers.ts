@@ -1,8 +1,8 @@
 import { TownRepository } from '../../Domain/TownRepository';
 import { TownNotFound } from './TownNotFound';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../Domain/TownId';
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { TownSoldiers } from '../../Domain/TownSoldiers';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
@@ -15,10 +15,10 @@ type TrainSoldiersArgs = {
 };
 
 export type TrainSoldiersErrors = TownNotFound | Forbidden;
-export type TrainSoldiersResult = Either<EmptyResult, TrainSoldiersErrors>;
+export type TrainSoldiersResult = Result<Nothing, TrainSoldiersErrors>;
 
-@RegisterUseCase()
-export class TrainSoldiers implements UseCase<TrainSoldiersArgs, EmptyResult> {
+@UseCase()
+export class TrainSoldiers implements BaseUseCase<TrainSoldiersArgs, Nothing> {
   constructor(private townRepository: TownRepository, private eventBus: EventBus) {}
 
   async execute({ townId, soldiers, playerId }: TrainSoldiersArgs): Promise<TrainSoldiersResult> {

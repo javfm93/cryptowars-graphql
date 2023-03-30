@@ -29,7 +29,7 @@ export class ArmyGetController implements Controller {
   private handleError(res: Response, error: FindArmyErrors) {
     const errorName = error.errorName();
     switch (errorName) {
-      case 'ArmyNotFoundError':
+      case 'ArmyNotFound':
         return res.status(httpStatus.NOT_FOUND).send(error.message);
       case 'Forbidden':
         return res.status(httpStatus.FORBIDDEN).send();

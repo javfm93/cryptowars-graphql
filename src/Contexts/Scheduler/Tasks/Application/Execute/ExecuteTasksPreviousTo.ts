@@ -1,14 +1,14 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, success } from '../../../../Shared/Aplication/Result';
 import { TaskRepository } from '../../Domain/TaskRepository';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { logger } from '../../../../Shared/Infrastructure/WinstonLogger';
 
-type SendAttackResult = Either<EmptyResult, DomainError>;
+type SendAttackResult = Result<Nothing, DomainError>;
 
-@RegisterUseCase()
-export class ExecuteTasksPreviousTo implements UseCase<number, EmptyResult> {
+@UseCase()
+export class ExecuteTasksPreviousTo implements BaseUseCase<number, Nothing> {
   constructor(private taskRepository: TaskRepository, private eventBus: EventBus) {}
 
   async execute(timestamp: number): Promise<SendAttackResult> {

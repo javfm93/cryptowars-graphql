@@ -1,4 +1,4 @@
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { StringValueObject } from '../../../Shared/Domain/value-object/StringValueObject';
 import { InvalidNameError } from './Errors/InvalidNameError';
 
@@ -7,7 +7,7 @@ export class UserName extends StringValueObject {
     super(value);
   }
 
-  public static create(value: string): Either<UserName, InvalidNameError> {
+  public static create(value: string): Result<UserName, InvalidNameError> {
     const validUserNameRegex = /^(\w|-|_|\.){4,24}$/;
 
     if (!value.match(validUserNameRegex)) {

@@ -1,16 +1,18 @@
 import { FindWorldQuery } from './FindWorldQuery';
 import { FindWorld, FindWorldErrors } from './FindWorld';
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { World } from '../../Domain/World';
 import { WorldId } from '../../Domain/WorldId';
 
 export type FindWorldQueryErrors = FindWorldErrors;
-export type FindWorldQueryResult = Either<World, FindWorldQueryErrors>;
+export type FindWorldQueryResult = Result<World, FindWorldQueryErrors>;
 
-@RegisterQueryHandler()
-export class FindWorldQueryHandler implements QueryHandler<FindWorldQuery, FindWorldQueryResult> {
+@QueryHandler()
+export class FindWorldQueryHandler
+  implements BaseQueryHandler<FindWorldQuery, FindWorldQueryResult>
+{
   constructor(private findWorld: FindWorld) {}
 
   subscribedTo(): Query {

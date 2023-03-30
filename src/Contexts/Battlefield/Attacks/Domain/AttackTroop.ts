@@ -2,7 +2,7 @@ import { ValueObject } from '../../../Shared/Domain/ValueObject';
 import { Squads, SquadsPrimitives } from '../../Armies/Domain/Squads';
 import { ArmyId } from '../../Armies/Domain/ArmyId';
 import { Primitives } from '../../../Shared/Domain/Primitives';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { InvalidSquad } from '../../Armies/Domain/InvalidSquad';
 
 export class AttackTroop extends ValueObject<AttackTroop> {
@@ -13,7 +13,7 @@ export class AttackTroop extends ValueObject<AttackTroop> {
   public static create(
     armyId: string,
     soldiers: SquadsPrimitives
-  ): Either<AttackTroop, InvalidSquad> {
+  ): Result<AttackTroop, InvalidSquad> {
     const squads = Squads.create(soldiers);
     if (squads.isFailure()) return failure(squads.value);
     return successAndReturn(new AttackTroop(ArmyId.create(armyId), squads.value));

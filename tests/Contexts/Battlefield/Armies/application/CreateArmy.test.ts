@@ -19,7 +19,7 @@ describe('[Application] Create Army', () => {
   const handler = new CreateArmyOnTownCreated(creator);
 
   it('should create an army when a town is created', async () => {
-    const event = TownEventsGenerator.randomCreated();
+    const event = TownEventsGenerator.CreatedBy();
 
     await handler.on(event);
 

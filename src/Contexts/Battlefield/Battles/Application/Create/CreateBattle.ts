@@ -1,6 +1,6 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
 import { ArmyNotFound } from '../../../Armies/Application/Find/ArmyNotFound';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
@@ -10,15 +10,15 @@ import { BattleId } from '../../Domain/BattleId';
 import { AttackNotFound } from '../../../Attacks/Application/Send/AttackNotFound';
 import { BattleTroopReturnedDomainEvent } from '../../Domain/BattleTroopReturnedDomainEvent';
 
-type CreateBattleResult = Either<EmptyResult, ArmyNotFound | Forbidden | AttackNotFound>;
+type CreateBattleResult = Result<Nothing, ArmyNotFound | Forbidden | AttackNotFound>;
 
 type CreateBattleArgs = {
   id: BattleId;
   attackId: AttackId;
 };
 
-@RegisterUseCase()
-export class CreateBattle implements UseCase<CreateBattleArgs, EmptyResult> {
+@UseCase()
+export class CreateBattle implements BaseUseCase<CreateBattleArgs, Nothing> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus

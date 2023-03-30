@@ -1,6 +1,8 @@
 import { client } from '../../start';
-import { genesisWorld, hasErrors, login } from '../../testHelpers';
+import { hasErrors } from '../../testHelpers';
 import { JOIN_WORLD } from './joinWorldMutation';
+import { login } from '../../IAM/IAMtestHelpers';
+import { genesisWorld } from '../cryptoWarsTestHelpers';
 
 describe('CryptoWars - Worlds', () => {
   describe('Given im login', () => {

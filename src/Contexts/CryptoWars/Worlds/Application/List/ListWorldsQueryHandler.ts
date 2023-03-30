@@ -1,16 +1,16 @@
 import { ListWorldsQuery } from './ListWorldsQuery';
 import { ListWorlds } from './ListWorlds';
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { Worlds } from '../../Domain/Worlds';
 
-export type ListWorldsQueryResult = Either<Worlds, DomainError>;
+export type ListWorldsQueryResult = Result<Worlds, DomainError>;
 
-@RegisterQueryHandler()
+@QueryHandler()
 export class ListWorldsQueryHandler
-  implements QueryHandler<ListWorldsQuery, ListWorldsQueryResult>
+  implements BaseQueryHandler<ListWorldsQuery, ListWorldsQueryResult>
 {
   constructor(private createWorld: ListWorlds) {}
 

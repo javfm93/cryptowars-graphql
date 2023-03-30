@@ -1,7 +1,7 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { Army } from '../../Domain/Army';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { ArmyId } from '../../Domain/ArmyId';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
@@ -14,10 +14,10 @@ type CreateArmyArgs = {
   townId: TownId;
 };
 
-type CreateArmyResult = Either<EmptyResult, DomainError>;
+type CreateArmyResult = Result<Nothing, DomainError>;
 
-@RegisterUseCase()
-export class CreateArmy implements UseCase<CreateArmyArgs, EmptyResult> {
+@UseCase()
+export class CreateArmy implements BaseUseCase<CreateArmyArgs, Nothing> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus

@@ -24,7 +24,7 @@ describe('[Application] Recruit Soldiers', () => {
 
   it('should recruit soldiers when town soldiers train finish', async () => {
     const army = ArmyGenerator.random();
-    const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
+    const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army.townId.toString());
     repository.whenMaterializeArmyByTownIdThenReturn(army);
 
     await handler.on(event);
@@ -40,7 +40,7 @@ describe('[Application] Recruit Soldiers', () => {
   it('should fail when the army doesnt exist', async () => {
     // todo: inject the logger and check
     const army = ArmyGenerator.random();
-    const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army);
+    const event = TownEventsGenerator.randomSoldiersTrainFinishedFor(army.townId.toString());
 
     await handler.on(event);
 

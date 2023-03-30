@@ -1,5 +1,5 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 import { WorldId } from '../../Domain/WorldId';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
@@ -20,10 +20,10 @@ type SelectWorldArgs = {
 };
 
 export type JoinWorldResultErrors = WorldNotFound | PlayerNotFound;
-type JoinWorldResult = Either<EmptyResult, JoinWorldResultErrors>;
+type JoinWorldResult = Result<Nothing, JoinWorldResultErrors>;
 
-@RegisterUseCase()
-export class JoinWorld implements UseCase<SelectWorldArgs, EmptyResult> {
+@UseCase()
+export class JoinWorld implements BaseUseCase<SelectWorldArgs, Nothing> {
   constructor(
     private worldRepository: WorldRepository,
     private queryBus: QueryBus,

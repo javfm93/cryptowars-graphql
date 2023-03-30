@@ -1,15 +1,15 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { World } from '../../Domain/World';
 import { WorldRepository } from '../../Domain/WorldRepository';
 import { WorldId } from '../../Domain/WorldId';
 import { WorldNotFound } from './WorldNotFound';
 
 export type FindWorldErrors = WorldNotFound;
-type FindWorldResult = Either<World, FindWorldErrors>;
+type FindWorldResult = Result<World, FindWorldErrors>;
 
-@RegisterUseCase()
-export class FindWorld implements UseCase<WorldId, World> {
+@UseCase()
+export class FindWorld implements BaseUseCase<WorldId, World> {
   constructor(private worldRepository: WorldRepository) {}
 
   async execute(worldId: WorldId): Promise<FindWorldResult> {

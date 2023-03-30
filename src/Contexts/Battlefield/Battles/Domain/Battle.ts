@@ -7,7 +7,7 @@ import { SquadTypes } from '../../Armies/Domain/Squads';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
 import { Uuid } from '../../../Shared/Domain/value-object/Uuid';
 import { Attack } from '../../Attacks/Domain/Attack';
-import { BattleResult } from './BattleResult';
+import { BattleResult, BattleWinner } from './BattleResult';
 import { BattleTroopReturnedDomainEvent } from './BattleTroopReturnedDomainEvent';
 
 export class Battle extends AggregateRoot {
@@ -62,7 +62,7 @@ export class Battle extends AggregateRoot {
       [SquadTypes.range]: 0
     };
     return BattleResult.fromPrimitives({
-      winner: 'attacker',
+      winner: BattleWinner.attacker,
       attackerCasualties: casualties,
       defenderCasualties: casualties,
       returningTroop
@@ -82,7 +82,7 @@ export class Battle extends AggregateRoot {
       [SquadTypes.range]: 0
     };
     return BattleResult.fromPrimitives({
-      winner: 'defender',
+      winner: BattleWinner.defender,
       attackerCasualties: casualties,
       defenderCasualties: casualties,
       returningTroop

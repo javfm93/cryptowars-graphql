@@ -1,8 +1,8 @@
 import { TaskRepository } from '../../Domain/TaskRepository';
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { Task } from '../../Domain/Task';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { TaskId } from '../../Domain/TaskId';
 import { FutureUnixTimestamp } from '../../Domain/FutureUnixTimestamp';
@@ -15,10 +15,10 @@ type Args = {
   eventToTrigger: TaskEventToTrigger;
 };
 
-type CreatePlayerResult = Either<EmptyResult, DomainError>;
+type CreatePlayerResult = Result<Nothing, DomainError>;
 
-@RegisterUseCase()
-export class CreateTask implements UseCase<Args, EmptyResult> {
+@UseCase()
+export class CreateTask implements BaseUseCase<Args, Nothing> {
   constructor(private taskRepository: TaskRepository, private eventBus: EventBus) {}
 
   async execute({ id, triggerAt, eventToTrigger }: Args): Promise<CreatePlayerResult> {

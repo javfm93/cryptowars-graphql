@@ -1,5 +1,5 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { InvalidTime } from './InvalidTime';
 
 export class FutureUnixTimestamp extends ValueObject<FutureUnixTimestamp> {
@@ -7,7 +7,7 @@ export class FutureUnixTimestamp extends ValueObject<FutureUnixTimestamp> {
     super();
   }
 
-  public static create(time: number): Either<FutureUnixTimestamp, InvalidTime> {
+  public static create(time: number): Result<FutureUnixTimestamp, InvalidTime> {
     if (time <= Date.now()) return failure(new InvalidTime(time));
     return successAndReturn(new FutureUnixTimestamp(time));
   }

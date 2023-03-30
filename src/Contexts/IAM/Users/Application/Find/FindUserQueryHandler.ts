@@ -1,15 +1,15 @@
 import { FindUserQuery } from './FindUserQuery';
 import { FindUser } from './FindUser';
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { User } from '../../Domain/User';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { UserId } from '../../Domain/UserId';
 
-export type FindUserQueryResult = Either<User, DomainError>;
+export type FindUserQueryResult = Result<User, DomainError>;
 
-export class FindUserQueryHandler implements QueryHandler<FindUserQuery, FindUserQueryResult> {
+export class FindUserQueryHandler implements BaseQueryHandler<FindUserQuery, FindUserQueryResult> {
   constructor(private findUser: FindUser) {}
 
   subscribedTo(): Query {

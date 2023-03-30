@@ -1,7 +1,7 @@
 import { Query } from '../../../../../src/Contexts/Shared/Domain/Query';
 import { QueryHandlersInformation } from '../../../../../src/Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation';
 import { QueryNotRegisteredError } from '../../../../../src/Contexts/Shared/Domain/QueryNotRegisteredError';
-import { QueryHandler } from '../../../../../src/Contexts/Shared/Domain/QueryHandler';
+import { BaseQueryHandler } from '../../../../../src/Contexts/Shared/Domain/BaseQueryHandler';
 import { Response } from '../../../../../src/Contexts/Shared/Domain/Response';
 import { InMemoryQueryBus } from '../../../../../src/Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus';
 
@@ -13,7 +13,7 @@ class HandledQuery extends Query {
   static QUERY_NAME = 'handled.query';
 }
 
-class MyQueryHandler implements QueryHandler<Query, Response> {
+class MyQueryHandler implements BaseQueryHandler<Query, Response> {
   subscribedTo(): HandledQuery {
     return HandledQuery;
   }

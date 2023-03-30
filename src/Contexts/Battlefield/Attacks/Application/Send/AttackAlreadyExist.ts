@@ -5,7 +5,7 @@ export class AttackAlreadyExist extends DomainError {
     super(`A attack with that Id already exist`);
   }
 
-  public errorName(): string {
-    return 'AttackAlreadyExistError';
+  public errorName(): 'AttackAlreadyExist' {
+    return 'AttackAlreadyExist';
   }
 }

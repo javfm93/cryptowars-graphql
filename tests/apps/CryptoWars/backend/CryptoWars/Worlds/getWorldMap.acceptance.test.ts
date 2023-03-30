@@ -1,8 +1,9 @@
 import { client } from '../../start';
-import { createPlayerInWorld, genesisWorld, hasErrors } from '../../testHelpers';
+import { hasErrors } from '../../testHelpers';
 import { WORLD_MAP } from './getWorldMapQuery';
 import { GetPlayerQuery } from '../../__generated__/graphql';
 import { PickOperationUnionMember } from '../../../../../../src/apps/CryptoWars/frontend/src/Types/grahql';
+import { createPlayerInWorld, genesisWorld } from '../cryptoWarsTestHelpers';
 
 describe('CryptoWars - Worlds', () => {
   describe('Given I joined a world', () => {

@@ -1,7 +1,8 @@
 import { User } from '../../../../../../src/Contexts/IAM/Users/Domain/User';
 import { client } from '../../start';
-import { hasErrors, login } from '../../testHelpers';
+import { hasErrors } from '../../testHelpers';
 import { GET_PLAYER } from './getPlayerQuery';
+import { login } from '../../IAM/IAMtestHelpers';
 
 describe('CryptoWars - Players', () => {
   describe('Given im login', () => {

@@ -1,16 +1,16 @@
-import { Either } from '../Aplication/Result';
+import { Result } from '../Aplication/Result';
 import { DomainError } from './Errors/DomainError';
 import { Class } from './Primitives';
 
-export interface UseCase<Arguments, ReturnType> {
+export interface BaseUseCase<Arguments, ReturnType> {
   execute(
     args: Arguments
-  ): Either<ReturnType, DomainError> | Promise<Either<ReturnType, DomainError>>;
+  ): Result<ReturnType, DomainError> | Promise<Result<ReturnType, DomainError>>;
 }
 
 export const registeredUseCases: Class<any>[] = [];
 
-export const RegisterUseCase = () => {
+export const UseCase = () => {
   return (target: Class<any>): Class<any> => {
     registeredUseCases.push(target);
 

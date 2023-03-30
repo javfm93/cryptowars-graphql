@@ -1,6 +1,7 @@
 import { DomainError } from '../Domain/Errors/DomainError';
 
-export type Either<S, F> = Success<S, F> | Failure<S, F>;
+export type Result<S, F> = Success<S, F> | Failure<S, F>;
+export type ErrorsOf<T> = T extends Result<any, infer E> ? E : never;
 
 export class Success<S, F> {
   readonly value: S;
@@ -34,25 +35,9 @@ class Failure<S, F> {
   }
 }
 
-export const success = <F>(): Either<EmptyResult, F> => new Success(Result.ok());
-export const successAndReturn = <S, F>(l: S): Either<S, F> => new Success(l);
-export const failure = <S, F>(a: F): Either<S, F> => new Failure<S, F>(a);
+export const success = <F>(): Result<Nothing, F> => new Success(undefined);
+export const successAndReturn = <S, F>(l: S): Result<S, F> => new Success(l);
+export const failure = <S, F>(a: F): Result<S, F> => new Failure<S, F>(a);
 
-export type EmptyResult = Result<void>;
-export type CommandResult<CommandErrors extends DomainError> = Either<EmptyResult, CommandErrors>;
-
-export class Result<T> {
-  public isSuccess: boolean;
-  public isFailure: boolean;
-
-  private constructor(isSuccess: boolean) {
-    this.isSuccess = isSuccess;
-    this.isFailure = !isSuccess;
-
-    Object.freeze(this);
-  }
-
-  public static ok<U>(): Result<U> {
-    return new Result<U>(true);
-  }
-}
+export type Nothing = void;
+export type CommandResult<CommandErrors extends DomainError> = Result<Nothing, CommandErrors>;

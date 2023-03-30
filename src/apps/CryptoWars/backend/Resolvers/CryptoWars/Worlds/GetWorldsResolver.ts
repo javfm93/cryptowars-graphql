@@ -4,12 +4,14 @@ import { ListWorldsQueryResult } from '../../../../../../Contexts/CryptoWars/Wor
 import { BaseResolver, RegisterResolver } from '../../Resolver';
 import { Query, Resolver } from 'type-graphql';
 import { WorldsResponse } from './GetWorldsResponse';
+import { Authenticated } from '../../IAM/Auth/AuthChecker';
 
 @RegisterResolver()
 @Resolver()
 export class GetWorldsResolver implements BaseResolver {
   constructor(private queryBus: QueryBus) {}
 
+  @Authenticated()
   @Query(returns => WorldsResponse)
   async GetWorlds(): Promise<WorldsResponse> {
     const listWorldsQuery = new ListWorldsQuery();

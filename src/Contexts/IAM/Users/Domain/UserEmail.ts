@@ -1,5 +1,5 @@
 import { InvalidEmailError } from './Errors/InvalidEmailError';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { StringValueObject } from '../../../Shared/Domain/value-object/StringValueObject';
 
 export class UserEmail extends StringValueObject {
@@ -7,7 +7,7 @@ export class UserEmail extends StringValueObject {
     super(value.toLowerCase());
   }
 
-  public static create(value: string): Either<UserEmail, InvalidEmailError> {
+  public static create(value: string): Result<UserEmail, InvalidEmailError> {
     const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if (!value.match(validEmailRegex)) {

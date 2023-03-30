@@ -1,17 +1,17 @@
 import { FindDirectChatsByPlayerIdQuery } from './FindDirectChatsByPlayerIdQuery';
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { FindDirectChatsByPlayerId } from './FindDirectChatsByPlayerId';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 import { DirectChats } from '../../Domain/DirectChats';
 
-export type FindDirectChatsQueryResult = Either<DirectChats, Forbidden>;
+export type FindDirectChatsQueryResult = Result<DirectChats, Forbidden>;
 
-@RegisterQueryHandler()
+@QueryHandler()
 export class FindDirectChatsByPlayerIdQueryHandler
-  implements QueryHandler<FindDirectChatsByPlayerIdQuery, FindDirectChatsQueryResult>
+  implements BaseQueryHandler<FindDirectChatsByPlayerIdQuery, FindDirectChatsQueryResult>
 {
   constructor(private findChatsByPlayerId: FindDirectChatsByPlayerId) {}
 

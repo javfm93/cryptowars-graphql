@@ -1,6 +1,5 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
+import { BaseUseCase, UseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, failure, successAndReturn } from '../../../../Shared/Aplication/Result';
 import { Battles } from '../../Domain/Battles';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
 import { ArmyId } from '../../../Armies/Domain/ArmyId';
@@ -8,15 +7,16 @@ import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
 import { ArmyNotFound } from '../../../Armies/Application/Find/ArmyNotFound';
 import { Forbidden } from '../../../../Shared/Domain/Errors/Forbidden';
 
-type ListBattlesResult = Either<Battles, DomainError>;
+export type ListBattlesByArmyIdErrors = Forbidden | ArmyNotFound;
+type ListBattlesResult = Result<Battles, ListBattlesByArmyIdErrors>;
 
 type ListBattlesByArmyIdArgs = {
   armyId: ArmyId;
   playerId: PlayerId;
 };
 
-@RegisterUseCase()
-export class ListBattlesByArmyId implements UseCase<ListBattlesByArmyIdArgs, Battles> {
+@UseCase()
+export class ListBattlesByArmyId implements BaseUseCase<ListBattlesByArmyIdArgs, Battles> {
   constructor(private repository: BattlefieldInternalEventRepository) {}
 
   async execute({ armyId, playerId }: ListBattlesByArmyIdArgs): Promise<ListBattlesResult> {

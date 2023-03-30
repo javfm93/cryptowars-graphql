@@ -1,5 +1,5 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
-import { Either, EmptyResult, success } from '../../../../Shared/Aplication/Result';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
+import { Result, Nothing, success } from '../../../../Shared/Aplication/Result';
 import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
@@ -16,10 +16,10 @@ type SendMessageArgs = {
   chatId: DirectChatId;
 };
 
-type SendMessageResult = Either<EmptyResult, DomainError>;
+type SendMessageResult = Result<Nothing, DomainError>;
 
-@RegisterUseCase()
-export class SendChatMessage implements UseCase<SendMessageArgs, EmptyResult> {
+@UseCase()
+export class SendChatMessage implements BaseUseCase<SendMessageArgs, Nothing> {
   constructor(private messageRepository: ChatMessageRepository, private eventBus: EventBus) {}
 
   async execute(args: SendMessageArgs): Promise<SendMessageResult> {

@@ -70,7 +70,6 @@ export class Server {
     passport.use(
       new GraphQLLocalStrategy(async (e, p, done) => {
         try {
-          console.log('using graphql local strategy');
           const email = e as string;
           const password = p as string;
           const userRepository = DependencyInjector.get(UserRepository);

@@ -1,6 +1,6 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
 import { Squads } from '../../Domain/Squads';
 import { BattlefieldInternalEventRepository } from '../../../Shared/Domain/BattlefieldInternalEventRepository';
@@ -11,10 +11,10 @@ type ReturnBattleSoldiersArgs = {
   squad: Squads;
 };
 
-type ReturnBattleSoldiersResult = Either<EmptyResult, ArmyNotFound>;
+type ReturnBattleSoldiersResult = Result<Nothing, ArmyNotFound>;
 
-@RegisterUseCase()
-export class ReceiveSoldiersFromBattle implements UseCase<ReturnBattleSoldiersArgs, EmptyResult> {
+@UseCase()
+export class ReceiveSoldiersFromBattle implements BaseUseCase<ReturnBattleSoldiersArgs, Nothing> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus

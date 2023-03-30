@@ -14,10 +14,48 @@ export type Scalars = {
   Float: number;
 };
 
+export type Army = {
+  __typename?: 'Army';
+  id: Scalars['ID'];
+  playerId: Scalars['String'];
+  squads: Squads;
+  townId: Scalars['String'];
+};
+
+export type ArmyTroop = {
+  __typename?: 'ArmyTroop';
+  armyId: Scalars['String'];
+  squads: Squads;
+};
+
 export type BaseError = {
   error: ErrorTypes;
   message: Scalars['String'];
   status: Scalars['Float'];
+};
+
+export type Battle = {
+  __typename?: 'Battle';
+  finishedAt: Scalars['String'];
+  result: BattleResult;
+};
+
+export type BattleResult = {
+  __typename?: 'BattleResult';
+  attackerCasualties: Squads;
+  defenderCasualties: Squads;
+  returningTroop: ArmyTroop;
+  winner: BattleWinner;
+};
+
+export enum BattleWinner {
+  Attacker = 'attacker',
+  Defender = 'defender'
+}
+
+export type Battles = {
+  __typename?: 'Battles';
+  battles: Array<Battle>;
 };
 
 export type ConflictError = BaseError & {
@@ -76,6 +114,11 @@ export type FailedLoginResponse = {
   errors: LoginErrors;
 };
 
+export type FailedSendAttackResponse = {
+  __typename?: 'FailedSendAttackResponse';
+  errors: SendAttackErrors;
+};
+
 export type FailedTrainSoldiersResponse = {
   __typename?: 'FailedTrainSoldiersResponse';
   errors: TrainSoldiersErrors;
@@ -124,6 +167,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   JoinWorld: JoinWorld;
   Login: Login;
+  SendAttack: SendAttack;
   TrainSoldiers: TrainSoldiers;
   createUser: CreateUser;
 };
@@ -136,6 +180,11 @@ export type MutationJoinWorldArgs = {
 
 export type MutationLoginArgs = {
   login: LoginInput;
+};
+
+
+export type MutationSendAttackArgs = {
+  input: SendAttackInput;
 };
 
 
@@ -165,14 +214,48 @@ export type Player = {
 
 export type Query = {
   __typename?: 'Query';
+  GetArmy: Army;
+  GetBattles: Battles;
   GetPlayer: GetPlayer;
   GetWorldMap: WorldMap;
   GetWorlds: Worlds;
 };
 
 
+export type QueryGetArmyArgs = {
+  townId: Scalars['String'];
+};
+
+
+export type QueryGetBattlesArgs = {
+  armyId: Scalars['String'];
+};
+
+
 export type QueryGetWorldMapArgs = {
   id: Scalars['String'];
+};
+
+export type SendAttack = ConflictError | ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand;
+
+export type SendAttackErrors = ConflictError | ForbiddenError | InvalidInputError | NotFoundError;
+
+export type SendAttackInput = {
+  attackerArmy: Scalars['String'];
+  defenderTown: Scalars['String'];
+  id: Scalars['String'];
+  soldiers: SquadsInput;
+};
+
+export type Squads = {
+  __typename?: 'Squads';
+  basic: Scalars['Float'];
+  range: Scalars['Float'];
+};
+
+export type SquadsInput = {
+  basic: Scalars['Float'];
+  range: Scalars['Float'];
 };
 
 export type SuccessCommand = {
@@ -388,17 +471,26 @@ export type GetWorldMapQueryVariables = Exact<{
 
 export type GetWorldMapQuery = { __typename?: 'Query', GetWorldMap: { __typename?: 'WorldMap', id: string, name: string, towns: Array<{ __typename?: 'WorldTown', id: string, playerId: string }> } };
 
-export type GetPlayerQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetPlayerQuery = { __typename?: 'Query', GetPlayer: { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'Player', id: string, userId: string, towns: Array<{ __typename?: 'Town', id: string, worldId: string, buildings: { __typename?: 'TownBuildings', headquarter: { __typename?: 'Headquarter', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, units: Array<{ __typename?: 'TownSoldier', name: TownSoldierTypes, speed: number, capacity: number, time: number, cost: number }> }, essenceGenerator: { __typename?: 'EssenceGenerator', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, asset: TownAssets, generationPerHour: number }, warehouse: { __typename?: 'Warehouse', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, assets: { __typename?: 'WarehouseAssets', essence: { __typename?: 'WarehouseAsset', name: TownAssets, limit: number, stored: number, lastStorageUpdate: string } } } } }>, worlds: Array<{ __typename?: 'World', id: string, name: string }> } };
-
-export type TrainSoldiersMutationVariables = Exact<{
-  input: TrainSoldiersInput;
+export type GetArmyQueryVariables = Exact<{
+  townId: Scalars['String'];
 }>;
 
 
-export type TrainSoldiersMutation = { __typename?: 'Mutation', TrainSoldiers: { __typename?: 'ForbiddenError', error: ErrorTypes, message: string, status: number } | { __typename?: 'InvalidInputError', error: ErrorTypes, message: string, status: number } | { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'SuccessCommand', isSuccess: boolean } };
+export type GetArmyQuery = { __typename?: 'Query', GetArmy: { __typename?: 'Army', id: string, playerId: string, townId: string, squads: { __typename?: 'Squads', basic: number, range: number } } };
+
+export type SendAttackMutationVariables = Exact<{
+  input: SendAttackInput;
+}>;
+
+
+export type SendAttackMutation = { __typename?: 'Mutation', SendAttack: { __typename?: 'ConflictError', error: ErrorTypes, message: string, status: number } | { __typename?: 'ForbiddenError', error: ErrorTypes, message: string, status: number } | { __typename?: 'InvalidInputError', error: ErrorTypes, message: string, status: number } | { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'SuccessCommand', isSuccess: boolean } };
+
+export type GetBattlesQueryVariables = Exact<{
+  armyId: Scalars['String'];
+}>;
+
+
+export type GetBattlesQuery = { __typename?: 'Query', GetBattles: { __typename?: 'Battles', battles: Array<{ __typename?: 'Battle', finishedAt: string, result: { __typename?: 'BattleResult', winner: BattleWinner, attackerCasualties: { __typename?: 'Squads', basic: number, range: number }, defenderCasualties: { __typename?: 'Squads', basic: number, range: number }, returningTroop: { __typename?: 'ArmyTroop', armyId: string, squads: { __typename?: 'Squads', basic: number, range: number } } } }> } };
 
 export type GetWorldsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -411,6 +503,18 @@ export type JoinWorldMutationVariables = Exact<{
 
 
 export type JoinWorldMutation = { __typename?: 'Mutation', JoinWorld: { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'SuccessCommand', isSuccess: boolean } };
+
+export type GetPlayerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPlayerQuery = { __typename?: 'Query', GetPlayer: { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'Player', id: string, userId: string, towns: Array<{ __typename?: 'Town', id: string, playerId: string, worldId: string, buildings: { __typename?: 'TownBuildings', headquarter: { __typename?: 'Headquarter', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, units: Array<{ __typename?: 'TownSoldier', name: TownSoldierTypes, speed: number, capacity: number, time: number, cost: number }> }, essenceGenerator: { __typename?: 'EssenceGenerator', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, asset: TownAssets, generationPerHour: number }, warehouse: { __typename?: 'Warehouse', level: number, essenceRequiredToLevelUp: number, type: TownBuildingTypes, assets: { __typename?: 'WarehouseAssets', essence: { __typename?: 'WarehouseAsset', name: TownAssets, limit: number, stored: number, lastStorageUpdate: string } } } } }>, worlds: Array<{ __typename?: 'World', id: string, name: string }> } };
+
+export type TrainSoldiersMutationVariables = Exact<{
+  input: TrainSoldiersInput;
+}>;
+
+
+export type TrainSoldiersMutation = { __typename?: 'Mutation', TrainSoldiers: { __typename?: 'ForbiddenError', error: ErrorTypes, message: string, status: number } | { __typename?: 'InvalidInputError', error: ErrorTypes, message: string, status: number } | { __typename?: 'NotFoundError', error: ErrorTypes, message: string, status: number } | { __typename?: 'SuccessCommand', isSuccess: boolean } };
 
 export type LoginMutationVariables = Exact<{
   login: LoginInput;
@@ -438,9 +542,12 @@ export const SelectWorldPageDocument = {"kind":"Document","definitions":[{"kind"
 export const TownHeaderPlayerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TownHeaderPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"towns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"buildings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"essenceGenerator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"generationPerHour"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouse"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"essence"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stored"}},{"kind":"Field","name":{"kind":"Name","value":"lastStorageUpdate"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"worlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<TownHeaderPlayerQuery, TownHeaderPlayerQueryVariables>;
 export const TownPagePlayerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TownPagePlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"towns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"buildings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerTownBuildings"}}]}}]}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Failure"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerTownBuildings"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TownBuildings"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"headquarter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"essenceGenerator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouse"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Failure"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<TownPagePlayerQuery, TownPagePlayerQueryVariables>;
 export const GetWorldMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetWorldMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetWorldMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"towns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"playerId"}}]}}]}}]}}]} as unknown as DocumentNode<GetWorldMapQuery, GetWorldMapQueryVariables>;
-export const GetPlayerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"towns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"worldId"}},{"kind":"Field","name":{"kind":"Name","value":"buildings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"headquarter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"units"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"speed"}},{"kind":"Field","name":{"kind":"Name","value":"capacity"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"cost"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"essenceGenerator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"asset"}},{"kind":"Field","name":{"kind":"Name","value":"generationPerHour"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouse"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"assets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"essence"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"stored"}},{"kind":"Field","name":{"kind":"Name","value":"lastStorageUpdate"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"worlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetPlayerQuery, GetPlayerQueryVariables>;
-export const TrainSoldiersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TrainSoldiers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TrainSoldiersInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"TrainSoldiers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ForbiddenError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<TrainSoldiersMutation, TrainSoldiersMutationVariables>;
+export const GetArmyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetArmy"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"townId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetArmy"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"townId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"townId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"townId"}},{"kind":"Field","name":{"kind":"Name","value":"squads"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"range"}}]}}]}}]}}]} as unknown as DocumentNode<GetArmyQuery, GetArmyQueryVariables>;
+export const SendAttackDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendAttack"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SendAttackInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"SendAttack"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<SendAttackMutation, SendAttackMutationVariables>;
+export const GetBattlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBattles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"armyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetBattles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"armyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"armyId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"battles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"finishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"result"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"winner"}},{"kind":"Field","name":{"kind":"Name","value":"attackerCasualties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"range"}}]}},{"kind":"Field","name":{"kind":"Name","value":"defenderCasualties"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"range"}}]}},{"kind":"Field","name":{"kind":"Name","value":"returningTroop"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"armyId"}},{"kind":"Field","name":{"kind":"Name","value":"squads"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"range"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetBattlesQuery, GetBattlesQueryVariables>;
 export const GetWorldsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetWorlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetWorlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"worlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetWorldsQuery, GetWorldsQueryVariables>;
 export const JoinWorldDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"JoinWorld"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"JoinWorld"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<JoinWorldMutation, JoinWorldMutationVariables>;
+export const GetPlayerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetPlayer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"towns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"worldId"}},{"kind":"Field","name":{"kind":"Name","value":"buildings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"headquarter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"units"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"speed"}},{"kind":"Field","name":{"kind":"Name","value":"capacity"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"cost"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"essenceGenerator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"asset"}},{"kind":"Field","name":{"kind":"Name","value":"generationPerHour"}}]}},{"kind":"Field","name":{"kind":"Name","value":"warehouse"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"essenceRequiredToLevelUp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"assets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"essence"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"stored"}},{"kind":"Field","name":{"kind":"Name","value":"lastStorageUpdate"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"worlds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetPlayerQuery, GetPlayerQueryVariables>;
+export const TrainSoldiersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TrainSoldiers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TrainSoldiersInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"TrainSoldiers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ForbiddenError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<TrainSoldiersMutation, TrainSoldiersMutationVariables>;
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"login"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"login"},"value":{"kind":"Variable","name":{"kind":"Name","value":"login"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"user"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"SuccessCommand"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccess"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;

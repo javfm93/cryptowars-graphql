@@ -1,5 +1,5 @@
 import { ValueObject } from '../../../Shared/Domain/ValueObject';
-import { Either, failure, successAndReturn } from '../../../Shared/Aplication/Result';
+import { Result, failure, successAndReturn } from '../../../Shared/Aplication/Result';
 import { InvalidSquad } from './InvalidSquad';
 
 export enum SquadTypes {
@@ -24,7 +24,7 @@ export class Squads extends ValueObject<Squads> {
     return new Squads(squads);
   }
 
-  public static create(squadsPrimitives: SquadsPrimitives): Either<Squads, InvalidSquad> {
+  public static create(squadsPrimitives: SquadsPrimitives): Result<Squads, InvalidSquad> {
     if (!squadsPrimitives) return failure(new InvalidSquad('Squad not provided'));
     const squadsToCreate = Object.entries(squadsPrimitives);
     let thereIsAPositiveNumberOfSoldiers = false;

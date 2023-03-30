@@ -8,6 +8,7 @@ export const GET_PLAYER = gql(/* GraphQL */ `
         userId
         towns {
           id
+          playerId
           worldId
           buildings {
             headquarter {

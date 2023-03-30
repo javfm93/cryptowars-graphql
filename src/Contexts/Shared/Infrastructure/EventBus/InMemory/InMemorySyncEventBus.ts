@@ -1,6 +1,7 @@
 import { DomainEvent } from '../../../Domain/DomainEvent';
 import { DomainEventHandler } from '../../../Domain/DomainEventHandler';
 import { EventBus } from '../../../Domain/EventBus';
+import { logger } from '../../WinstonLogger';
 
 type Subscription = {
   boundedCallback: Function;
@@ -15,6 +16,10 @@ export class InMemorySyncEventBus implements EventBus {
   }
 
   async publish(events: Array<DomainEvent<any>>): Promise<void> {
+    logger.debug(`publishing events: ${events.map(e => e.type).join(' | ')}`);
+    logger.debug(
+      `publishing bodies: ${events.map(e => JSON.stringify(e.attributes, null, 4)).join(' | ')}`
+    );
     const executions: any = [];
     events.map(event => {
       const subscribers = this.subscriptions.get(event.type);

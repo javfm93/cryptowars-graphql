@@ -1,6 +1,6 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { ArmyNotFound } from '../Find/ArmyNotFound';
 import { Squads } from '../../Domain/Squads';
@@ -12,10 +12,10 @@ type RecruitSoldiersArgs = {
   squads: Squads;
 };
 
-type RecruitSoldiersResult = Either<EmptyResult, ArmyNotFound>;
+type RecruitSoldiersResult = Result<Nothing, ArmyNotFound>;
 
-@RegisterUseCase()
-export class RecruitSquad implements UseCase<RecruitSoldiersArgs, EmptyResult> {
+@UseCase()
+export class RecruitSquad implements BaseUseCase<RecruitSoldiersArgs, Nothing> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
     private eventBus: EventBus

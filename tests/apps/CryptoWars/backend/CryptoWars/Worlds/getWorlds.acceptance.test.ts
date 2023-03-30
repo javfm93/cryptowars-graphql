@@ -1,6 +1,6 @@
 import { client } from '../../start';
-import { genesisWorld } from '../../testHelpers';
 import { WORLDS } from './getWorldsQuery';
+import { genesisWorld } from '../cryptoWarsTestHelpers';
 
 describe('CryptoWars - Worlds', () => {
   it('Should list available worlds', async () => {

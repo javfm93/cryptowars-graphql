@@ -6,15 +6,15 @@ import {
   registeredCommandHandlers
 } from '../../../../Contexts/Shared/Domain/CommandHandler';
 import { Command } from '../../../../Contexts/Shared/Domain/Command';
-import { registeredUseCases } from '../../../../Contexts/Shared/Domain/UseCase';
+import { registeredUseCases } from '../../../../Contexts/Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Contexts/Shared/Domain/EventBus';
 import { InMemoryAsyncEventBus } from '../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemoryAsyncEventBus';
 import { InMemoryQueryBus } from '../../../../Contexts/Shared/Infrastructure/QueryBus/InMemoryQueryBus';
 import { QueryBus } from '../../../../Contexts/Shared/Domain/QueryBus';
 import {
-  QueryHandler,
+  BaseQueryHandler,
   registeredQueryHandlers
-} from '../../../../Contexts/Shared/Domain/QueryHandler';
+} from '../../../../Contexts/Shared/Domain/BaseQueryHandler';
 import { QueryHandlersInformation } from '../../../../Contexts/Shared/Infrastructure/QueryBus/QueryHandlersInformation';
 import { CommandHandlersInformation } from '../../../../Contexts/Shared/Infrastructure/CommandBus/CommandHandlersInformation';
 import { InMemoryCommandBus } from '../../../../Contexts/Shared/Infrastructure/CommandBus/InMemoryCommandBus';
@@ -27,6 +27,7 @@ import { EnvironmentArranger } from '../../../../../tests/Contexts/Shared/Infras
 import { TypeOrmEnvironmentArranger } from '../../../../../tests/Contexts/Shared/Infrastructure/Persistence/TypeOrmEnvironmentArranger';
 import { registeredDomainEventHandlers } from '../../../../Contexts/Shared/Domain/DomainEventHandler';
 import { ComponentDiscovery } from './componentDiscovery';
+import { InMemorySyncEventBus } from '../../../../Contexts/Shared/Infrastructure/EventBus/InMemory/InMemorySyncEventBus';
 
 export enum ComponentTags {
   commandHandler = 'commandHandler',
@@ -96,7 +97,7 @@ export class DependencyInjector {
   }
 
   private registerComponents(): this {
-    console.debug('Starting Component Registration Process');
+    // console.debug('Starting Component Registration Process');
     this.registerDatabaseConnection();
     this.registerCommandHandlers();
     this.registerQueryHandlers();
@@ -110,12 +111,12 @@ export class DependencyInjector {
 
   private build() {
     this.container = this.builder.build();
-    Object.values(ComponentTags).forEach(tag =>
-      console.debug(
-        ` - Registered ${this.container!.findTaggedServiceIdentifiers(tag).length} ${tag}`
-      )
-    );
-    console.debug('Finished Component Registration Process \n');
+    // Object.values(ComponentTags).forEach(tag =>
+    // console.debug(
+    //   ` - Registered ${this.container!.findTaggedServiceIdentifiers(tag).length} ${tag}`
+    // )
+    // );
+    // console.debug('Finished Component Registration Process \n');
   }
 
   private registerDatabaseConnection() {
@@ -146,7 +147,7 @@ export class DependencyInjector {
     });
     this.builder.register(QueryHandlersInformation).useFactory(c => {
       const queryHandlers = c
-        .findTaggedServiceIdentifiers<QueryHandler<any, any>>(ComponentTags.queryHandler)
+        .findTaggedServiceIdentifiers<BaseQueryHandler<any, any>>(ComponentTags.queryHandler)
         .map(identifier => c.get(identifier));
       return new QueryHandlersInformation(queryHandlers);
     });
@@ -161,7 +162,6 @@ export class DependencyInjector {
   private registerBuses() {
     this.builder.register(CommandBus).use(InMemoryCommandBus).asSingleton();
     this.builder.register(QueryBus).use(InMemoryQueryBus).asSingleton();
-    this.builder.register(EventBus).use(InMemoryAsyncEventBus).asSingleton();
   }
 
   private registerUseCases() {
@@ -173,16 +173,20 @@ export class DependencyInjector {
   private registerEnvironmentSpecificDependencies() {
     switch (process.env.NODE_ENV || 'development') {
       case 'development':
+        this.builder.register(EventBus).use(InMemoryAsyncEventBus).asSingleton();
         break;
       case 'test': {
+        this.builder.register(EventBus).use(InMemorySyncEventBus).asSingleton();
         this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
         break;
       }
       case 'integration': {
+        this.builder.register(EventBus).use(InMemorySyncEventBus).asSingleton();
         this.builder.register(EnvironmentArranger).use(TypeOrmEnvironmentArranger);
         break;
       }
       case 'production':
+        this.builder.register(EventBus).use(InMemoryAsyncEventBus).asSingleton();
         break;
       default: {
         throw new Error(`${process.env.NODE_ENV} environment is not valid`);

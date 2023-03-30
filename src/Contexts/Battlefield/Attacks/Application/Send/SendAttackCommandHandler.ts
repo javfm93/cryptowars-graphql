@@ -1,16 +1,16 @@
 import { CommandHandler, RegisterCommandHandler } from '../../../../Shared/Domain/CommandHandler';
 import { SendAttackCommand } from './SendAttackCommand';
-import { SendAttack } from './SendAttack';
+import { SendAttack, SendAttackErrors } from './SendAttack';
 import { CommandClass } from '../../../../Shared/Domain/Command';
 import { AttackId } from '../../Domain/AttackId';
-import { Either, EmptyResult, failure, success } from '../../../../Shared/Aplication/Result';
+import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { TownId } from '../../../../CryptoWars/Towns/Domain/TownId';
 import { AttackTroop } from '../../Domain/AttackTroop';
-import { DomainError } from '../../../../Shared/Domain/Errors/DomainError';
 import { PlayerId } from '../../../../CryptoWars/Players/Domain/PlayerId';
+import { InvalidSquad } from '../../../Armies/Domain/InvalidSquad';
 
-export type SendAttackCommandErrors = DomainError;
-export type SendAttackCommandResult = Either<EmptyResult, SendAttackCommandErrors>;
+export type SendAttackCommandErrors = InvalidSquad | SendAttackErrors;
+export type SendAttackCommandResult = Result<Nothing, SendAttackCommandErrors>;
 
 @RegisterCommandHandler()
 export class SendAttackCommandHandler implements CommandHandler<SendAttackCommand> {

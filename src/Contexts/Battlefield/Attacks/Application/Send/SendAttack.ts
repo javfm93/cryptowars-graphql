@@ -1,10 +1,10 @@
-import { RegisterUseCase, UseCase } from '../../../../Shared/Domain/UseCase';
+import { BaseUseCase, UseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { Attack } from '../../Domain/Attack';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import {
   CommandResult,
-  Either,
-  EmptyResult,
+  Result,
+  Nothing,
   failure,
   success,
   successAndReturn
@@ -31,11 +31,15 @@ type SendAttackArgs = {
   playerId: PlayerId;
 };
 
-type SendAttackErrors = ArmyNotFound | Forbidden | AttackAlreadyExist | InvalidNumberOfSoldiers;
+export type SendAttackErrors =
+  | ArmyNotFound
+  | Forbidden
+  | AttackAlreadyExist
+  | InvalidNumberOfSoldiers;
 type SendAttackResult = CommandResult<SendAttackErrors>;
 
-@RegisterUseCase()
-export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
+@UseCase()
+export class SendAttack implements BaseUseCase<SendAttackArgs, Nothing> {
   constructor(
     private eventRepository: BattlefieldInternalEventRepository,
     private queryBus: QueryBus,
@@ -66,7 +70,7 @@ export class SendAttack implements UseCase<SendAttackArgs, EmptyResult> {
 
   private async getAttackerArmy(
     args: SendAttackArgs
-  ): Promise<Either<Army, ArmyNotFound | Forbidden | InvalidNumberOfSoldiers>> {
+  ): Promise<Result<Army, ArmyNotFound | Forbidden | InvalidNumberOfSoldiers>> {
     const query = new FindArmyByArmyIdQuery({
       armyId: args.attackerTroop.armyId.toString(),
       playerId: args.playerId.toString()

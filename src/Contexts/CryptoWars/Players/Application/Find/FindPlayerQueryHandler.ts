@@ -1,16 +1,16 @@
 import { FindPlayerQuery } from './FindPlayerQuery';
 import { FindPlayer, FindPlayerErrors } from './FindPlayer';
-import { Either } from '../../../../Shared/Aplication/Result';
+import { Result } from '../../../../Shared/Aplication/Result';
 import { Query } from '../../../../Shared/Domain/Query';
-import { QueryHandler, RegisterQueryHandler } from '../../../../Shared/Domain/QueryHandler';
+import { BaseQueryHandler, QueryHandler } from '../../../../Shared/Domain/BaseQueryHandler';
 import { Player } from '../../Domain/Player';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
 
-export type FindPlayerQueryResult = Either<Player, FindPlayerErrors>;
+export type FindPlayerQueryResult = Result<Player, FindPlayerErrors>;
 
-@RegisterQueryHandler()
+@QueryHandler()
 export class FindPlayerQueryHandler
-  implements QueryHandler<FindPlayerQuery, FindPlayerQueryResult>
+  implements BaseQueryHandler<FindPlayerQuery, FindPlayerQueryResult>
 {
   constructor(private findPlayer: FindPlayer) {}
 
