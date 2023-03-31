@@ -1,9 +1,15 @@
 import { Field, InputType } from 'type-graphql';
 import { IsUUID } from 'class-validator';
-import {
-  SquadsPrimitives,
-  SquadTypes
-} from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
+import { SquadTypes } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
+
+@InputType()
+export class SquadsInput {
+  @Field()
+  [SquadTypes.basic]!: number;
+
+  @Field()
+  [SquadTypes.range]!: number;
+}
 
 @InputType()
 export class SendAttackInput {
@@ -20,14 +26,5 @@ export class SendAttackInput {
   defenderTown!: string;
 
   @Field(type => SquadsInput)
-  soldiers!: SquadsPrimitives;
-}
-
-@InputType()
-export class SquadsInput {
-  @Field()
-  [SquadTypes.basic]!: number;
-
-  @Field()
-  [SquadTypes.range]!: number;
+  soldiers!: SquadsInput;
 }

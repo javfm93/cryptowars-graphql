@@ -2,7 +2,16 @@ import { Column, Entity, EntitySchema, PrimaryColumn } from 'typeorm';
 import { Army } from '../../Domain/Army';
 import { Primitives } from '../../../../Shared/Domain/Primitives';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { SquadsPrimitives, SquadTypes } from '../../Domain/Squads';
+import { SquadTypes } from '../../Domain/Squads';
+
+@ObjectType()
+export class Squads {
+  @Field()
+  [SquadTypes.basic]!: number;
+
+  @Field()
+  [SquadTypes.range]!: number;
+}
 
 @ObjectType('Army')
 @Entity('armies')
@@ -21,16 +30,7 @@ export class ArmySchema {
 
   @Field(type => Squads)
   @Column({ type: 'simple-json' })
-  squads!: SquadsPrimitives;
-}
-
-@ObjectType()
-export class Squads {
-  @Field()
-  [SquadTypes.basic]!: number;
-
-  @Field()
-  [SquadTypes.range]!: number;
+  squads!: Squads;
 }
 
 export const ArmySchema2: EntitySchema<Primitives<Army>> = new EntitySchema<Primitives<Army>>({

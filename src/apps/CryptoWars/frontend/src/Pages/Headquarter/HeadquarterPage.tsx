@@ -2,7 +2,7 @@ import { useTrainSoldiers } from './useTrainSoldiers';
 import { useParams } from 'react-router-dom';
 import { useTownArmy } from './useTownArmy';
 import TownHeader from '../Town/Components/TownHeader';
-import { useBattles } from '../Town/useBattles';
+import { useBattles } from './useBattles';
 import { BattleHistory } from './BattleHistory';
 import { TrainSoldiers } from './TrainSoldiers';
 import { usePlayerTownHeadquarter } from './usePlayerTownHeadQuarter';

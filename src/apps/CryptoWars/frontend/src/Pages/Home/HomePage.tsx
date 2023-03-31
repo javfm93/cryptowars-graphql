@@ -1,7 +1,7 @@
 import { Towns } from './Towns';
 import { useHomePagePlayer } from './useHomePagePlayer';
 
-export const Home = (): JSX.Element => {
+export const HomePage = (): JSX.Element => {
   const { result, isLoading } = useHomePagePlayer();
 
   if (isLoading) {

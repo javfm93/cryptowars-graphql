@@ -1,9 +1,27 @@
 import { gql } from '../../__generated__';
 
 export const GET_BATTLES = gql(/* GraphQL */ `
-  query GetBattles($armyId: String!) {
+  query Battles($armyId: String!) {
     GetBattles(armyId: $armyId) {
       battles {
+        id
+        attack {
+          id
+          attackerTroop {
+            armyId
+          }
+          defenderArmyId
+          sentAt
+        }
+        defenderArmy {
+          id
+          playerId
+          townId
+          squads {
+            basic
+            range
+          }
+        }
         finishedAt
         result {
           winner
@@ -17,10 +35,6 @@ export const GET_BATTLES = gql(/* GraphQL */ `
           }
           returningTroop {
             armyId
-            squads {
-              basic
-              range
-            }
           }
         }
       }

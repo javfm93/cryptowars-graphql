@@ -6,14 +6,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
-import { Primitives } from '../../../../../../Contexts/Shared/Domain/Primitives';
-import { Battle } from '../../../../../../Contexts/Battlefield/Battles/Domain/Battle';
+import {
+  FragmentType,
+  gql,
+  useFragment
+} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
 
-interface BattleHistoryProps {
-  battles: Array<Primitives<Battle>>;
-}
+type BattleHistoryProps = {
+  battles: Array<FragmentType<typeof battlesHistoryFragment>>;
+};
 
-export const BattleHistory = ({ battles }: BattleHistoryProps): JSX.Element => {
+export const BattleHistory = (props: BattleHistoryProps): JSX.Element => {
+  const battles = useFragment(battlesHistoryFragment, props.battles);
   const { t } = useTranslation();
   return (
     <>
@@ -55,3 +59,39 @@ export const BattleHistory = ({ battles }: BattleHistoryProps): JSX.Element => {
     </>
   );
 };
+
+const battlesHistoryFragment = gql(/* GraphQL */ `
+  fragment Battle on Battle {
+    id
+    finishedAt
+    defenderArmy {
+      townId
+    }
+    attack {
+      sentAt
+      attackerTroop {
+        squads {
+          basic
+        }
+      }
+    }
+    result {
+      winner
+      attackerCasualties {
+        basic
+        range
+      }
+      defenderCasualties {
+        basic
+        range
+      }
+      returningTroop {
+        armyId
+        squads {
+          basic
+          range
+        }
+      }
+    }
+  }
+`);

@@ -40,7 +40,7 @@ export const WorldAttackMenu = ({
           onClick={sendAttack({
             attackerArmy: army.id,
             defenderTown: town.id,
-            soldiers: { basic: basicSoldiers }
+            soldiers: { basic: basicSoldiers, range: 0 }
           })}
           disabled={attackerTownId === town.id}
         >

@@ -15,6 +15,13 @@ type ArmyTroop {
   squads: Squads!
 }
 
+type Attack {
+  attackerTroop: ArmyTroop!
+  defenderArmyId: String!
+  id: ID!
+  sentAt: String!
+}
+
 interface BaseError {
   error: ErrorTypes!
   message: String!
@@ -22,7 +29,10 @@ interface BaseError {
 }
 
 type Battle {
+  attack: Attack!
+  defenderArmy: Army!
   finishedAt: String!
+  id: ID!
   result: BattleResult!
 }
 
