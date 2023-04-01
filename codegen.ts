@@ -15,6 +15,12 @@ const config: CodegenConfig = {
       presetConfig: {
         gqlTagName: 'gql'
       }
+    },
+    './src/apps/CryptoWars/frontend-next/src/__generated__/': {
+      preset: 'client',
+      presetConfig: {
+        gqlTagName: 'gql'
+      }
     }
   },
   ignoreNoDocuments: true
