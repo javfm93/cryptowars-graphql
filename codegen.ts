@@ -21,6 +21,12 @@ const config: CodegenConfig = {
       presetConfig: {
         gqlTagName: 'gql'
       }
+    },
+    './src/apps/CryptoWars/frontend-astro/src/__generated__/': {
+      preset: 'client',
+      presetConfig: {
+        gqlTagName: 'gql'
+      }
     }
   },
   ignoreNoDocuments: true

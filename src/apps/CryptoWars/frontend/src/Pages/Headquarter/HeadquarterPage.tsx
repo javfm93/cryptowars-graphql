@@ -31,3 +31,5 @@ export const HeadquarterPage = (): JSX.Element => {
     </div>
   );
 };
+
+// q: how to open a terminal in vscode
