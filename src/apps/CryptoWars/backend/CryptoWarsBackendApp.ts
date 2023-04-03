@@ -1,12 +1,12 @@
 import 'reflect-metadata';
-import { Server } from './server';
-import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
-import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';
-import { ExecuteTasksPreviousToCommand } from '../../../Contexts/Scheduler/Tasks/Application/Execute/ExecuteTasksPreviousToCommand';
-import { logger } from '../../../Contexts/Shared/Infrastructure/WinstonLogger';
-import cryptoWarsConfig from '../../../Contexts/CryptoWars/Shared/Infrastructure/Config/cryptoWarsConfig';
-import { ComponentTags, DependencyInjector } from './dependency-injection/dependencyInjector';
 import { DataSource } from 'typeorm';
+import cryptoWarsConfig from '../../../Contexts/CryptoWars/Shared/Infrastructure/Config/cryptoWarsConfig';
+import { ExecuteTasksPreviousToCommand } from '../../../Contexts/Scheduler/Tasks/Application/Execute/ExecuteTasksPreviousToCommand';
+import { CommandBus } from '../../../Contexts/Shared/Domain/CommandBus';
+import { EventBus } from '../../../Contexts/Shared/Domain/EventBus';
+import { logger } from '../../../Contexts/Shared/Infrastructure/WinstonLogger';
+import { ComponentTags, DependencyInjector } from './dependency-injection/dependencyInjector';
+import { Server } from './server';
 
 export class CryptoWarsBackendApp {
   server?: Server;
@@ -27,7 +27,7 @@ export class CryptoWarsBackendApp {
 
   async stop() {
     logger.info('Stopping the scheduler and the server');
-    clearInterval(this.interval);
+    if (this.interval) clearInterval(this.interval);
     return this.server?.stop();
   }
 

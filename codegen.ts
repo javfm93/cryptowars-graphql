@@ -6,7 +6,7 @@ const config: CodegenConfig = {
     './tests/apps/CryptoWars/backend/**/**/*Mutation.ts',
     './tests/apps/CryptoWars/backend/**/**/*Query.ts',
     './src/apps/CryptoWars/frontend/src/**/**/*.{ts,tsx}',
-    './src/apps/CryptoWars/frontend/src/**/**/**/*.{ts,tsx}'
+    './src/apps/CryptoWars/frontend/src/**/**/**/*.{ts,tsx}',
   ],
   generates: {
     './tests/apps/CryptoWars/backend/__generated__/': {
@@ -16,18 +16,12 @@ const config: CodegenConfig = {
         gqlTagName: 'gql'
       }
     },
-    './src/apps/CryptoWars/frontend-next/src/__generated__/': {
+    './src/apps/CryptoWars/frontend-next/src/contexts/shared/domain/__generated__/': {
       preset: 'client',
       presetConfig: {
         gqlTagName: 'gql'
       }
     },
-    './src/apps/CryptoWars/frontend-astro/src/__generated__/': {
-      preset: 'client',
-      presetConfig: {
-        gqlTagName: 'gql'
-      }
-    }
   },
   ignoreNoDocuments: true
 };

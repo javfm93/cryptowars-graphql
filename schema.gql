@@ -90,10 +90,6 @@ type FailedCreateUserResponse {
   errors: CreateUserErrors!
 }
 
-type FailedGetPlayerResponse {
-  errors: GetPlayerErrors!
-}
-
 type FailedJoinWorldResponse {
   errors: JoinWorldErrors!
 }
@@ -115,10 +111,6 @@ type ForbiddenError implements BaseError {
   message: String!
   status: Float!
 }
-
-union GetPlayer = NotFoundError | Player
-
-union GetPlayerErrors = NotFoundError
 
 type Headquarter implements TownBuildingSchema {
   essenceRequiredToLevelUp: Float!
@@ -170,7 +162,8 @@ type Player {
 type Query {
   GetArmy(townId: String!): Army!
   GetBattles(armyId: String!): Battles!
-  GetPlayer: GetPlayer!
+  GetPlayer: Player!
+  GetPlayerTowns: Towns!
   GetWorldMap(id: String!): WorldMap!
   GetWorlds: Worlds!
 }
@@ -245,6 +238,10 @@ enum TownSoldierTypes {
 input TownSoldiers {
   basic: Float!
   range: Float!
+}
+
+type Towns {
+  towns: [Town!]!
 }
 
 union TrainSoldiers = ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand

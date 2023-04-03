@@ -1,4 +1,3 @@
-import { handleQueryResult } from '../../API/query';
 import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { gql, useFragment } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
@@ -7,9 +6,10 @@ import {
   HomePagePlayerQuery
 } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
 import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
-import { PickOperationUnionMember } from '../../Types/grahql';
 import { failureFragment } from '../../API/failureFragment';
+import { handleQueryResult } from '../../API/query';
 import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { PickOperationUnionMember } from '../../Types/grahql';
 
 type PlayerQueryResult = PickOperationUnionMember<HomePagePlayerQuery['GetPlayer'], 'Player'>;
 
@@ -41,12 +41,9 @@ export const useHomePagePlayer = () => {
 export const homePagePlayerQuery = gql(/* GraphQL */ `
   query HomePagePlayer {
     GetPlayer {
-      ... on Player {
         towns {
           ...PlayerTowns
         }
-      }
-      ...Failure
     }
   }
 `);

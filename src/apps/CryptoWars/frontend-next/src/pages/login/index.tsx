@@ -1,6 +1,9 @@
-import { Login } from '@/contexts/IAM/login/login';
-import * as React from 'react';
+import { Login } from '@/contexts/IAM/application/login/login';
+import { UserRepository } from '@/contexts/IAM/domain/userRepository';
+import { container } from '@/contexts/shared/infrastructure/container';
+
+const repository = container.get(UserRepository);
 
 export default function LoginPage() {
-  return <Login />;
+  return <Login repository={repository} />;
 }

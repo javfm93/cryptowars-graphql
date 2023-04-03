@@ -3,7 +3,6 @@ import { gql } from '../../__generated__';
 export const GET_PLAYER = gql(/* GraphQL */ `
   query GetPlayer {
     GetPlayer {
-      ... on Player {
         id
         userId
         towns {
@@ -49,12 +48,6 @@ export const GET_PLAYER = gql(/* GraphQL */ `
           id
           name
         }
-      }
-      ... on BaseError {
-        error
-        message
-        status
-      }
     }
   }
 `);

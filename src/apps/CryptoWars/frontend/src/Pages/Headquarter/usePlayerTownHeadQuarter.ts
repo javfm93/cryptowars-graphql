@@ -1,15 +1,15 @@
-import { handleQueryResult } from '../../API/query';
 import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
+import { gql, useFragment } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
 import {
   FailureFragment,
   PlayerTownsHeadQuarterQuery
 } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
-import { gql, useFragment } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
 import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
-import { PickOperationUnionMember } from '../../Types/grahql';
 import { failureFragment } from '../../API/failureFragment';
+import { handleQueryResult } from '../../API/query';
 import { ErrorFactory, useUnexpectedError } from '../../API/useUnexpectedError';
+import { PickOperationUnionMember } from '../../Types/grahql';
 
 type PlayerQueryResult = PickOperationUnionMember<
   PlayerTownsHeadQuarterQuery['GetPlayer'],
@@ -49,7 +49,6 @@ export const usePlayerTownHeadquarter = (id: string) => {
 const playerTownsHeadQuarterQuery = gql(/* GraphQL */ `
   query PlayerTownsHeadQuarter {
     GetPlayer {
-      ... on Player {
         towns {
           id
           buildings {
@@ -60,8 +59,6 @@ const playerTownsHeadQuarterQuery = gql(/* GraphQL */ `
             }
           }
         }
-      }
-      ...Failure
     }
   }
 `);

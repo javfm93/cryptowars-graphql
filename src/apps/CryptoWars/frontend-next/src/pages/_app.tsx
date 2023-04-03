@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import '@/styles/globals.css';
 import { ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ApolloClient } from '@apollo/client/core';

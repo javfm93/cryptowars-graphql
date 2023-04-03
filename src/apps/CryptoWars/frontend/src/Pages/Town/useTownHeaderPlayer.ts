@@ -1,4 +1,3 @@
-import { handleQueryResult } from '../../API/query';
 import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { gql } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
@@ -7,8 +6,9 @@ import {
   TownHeaderPlayerQuery
 } from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
 import { assertNeverHappen } from '../../../../../../Contexts/Shared/Domain/Primitives';
-import { PickOperationUnionMember } from '../../Types/grahql';
+import { handleQueryResult } from '../../API/query';
 import { useUnexpectedError } from '../../API/useUnexpectedError';
+import { PickOperationUnionMember } from '../../Types/grahql';
 
 export type TownHeaderQueryResult = PickOperationUnionMember<
   TownHeaderPlayerQuery['GetPlayer'],
@@ -43,7 +43,6 @@ export const useTownHeaderPlayer = () => {
 const townHeaderPlayerQuery = gql(/* GraphQL */ `
   query TownHeaderPlayer {
     GetPlayer {
-      ... on Player {
         towns {
           id
           buildings {
@@ -63,12 +62,6 @@ const townHeaderPlayerQuery = gql(/* GraphQL */ `
         worlds {
           id
         }
-      }
-      ... on BaseError {
-        error
-        message
-        status
-      }
     }
   }
 `);

@@ -132,15 +132,6 @@ devDependencies:
   '@graphql-codegen/client-preset':
     specifier: ^2.1.1
     version: 2.1.1(graphql@16.6.0)
-  '@graphql-codegen/typescript':
-    specifier: ^3.0.2
-    version: 3.0.2(graphql@16.6.0)
-  '@graphql-codegen/typescript-operations':
-    specifier: ^3.0.2
-    version: 3.0.2(graphql@16.6.0)
-  '@graphql-codegen/typescript-resolvers':
-    specifier: ^3.1.1
-    version: 3.1.1(graphql@16.6.0)
   '@types/compression':
     specifier: ^1.7.0
     version: 1.7.0
@@ -1593,23 +1584,6 @@ packages:
       '@graphql-codegen/plugin-helpers': 4.1.0(graphql@16.6.0)
       '@graphql-codegen/typescript': 3.0.2(graphql@16.6.0)
       '@graphql-codegen/visitor-plugin-common': 3.0.2(graphql@16.6.0)
-      auto-bind: 4.0.0
-      graphql: 16.6.0
-      tslib: 2.5.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: true
-
-  /@graphql-codegen/typescript-resolvers@3.1.1(graphql@16.6.0):
-    resolution: {integrity: sha512-SYabg0/eDitxxVNTUphuJNi0m7ralvxZZ8aS4wXK4cpSpD4U7MkLZox3bhvEZoTYu1tS2r3CZZyN1JZmVR82JA==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-codegen/plugin-helpers': 4.1.0(graphql@16.6.0)
-      '@graphql-codegen/typescript': 3.0.2(graphql@16.6.0)
-      '@graphql-codegen/visitor-plugin-common': 3.0.2(graphql@16.6.0)
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       auto-bind: 4.0.0
       graphql: 16.6.0
       tslib: 2.5.0
