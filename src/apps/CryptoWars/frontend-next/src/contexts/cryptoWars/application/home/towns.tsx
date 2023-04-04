@@ -1,4 +1,4 @@
-import { PlayerTownsFragment } from '@/contexts/shared/domain/__generated__/graphql';
+import { gql } from '@/contexts/shared/domain/__generated__';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,14 +8,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Link from 'next/link';
 import { FC } from 'react';
-import { gql } from '../../../../../../../../../tests/apps/CryptoWars/backend/__generated__';
 import { AppRoutes } from '../../../../pages';
+import { PlayerRepository } from '../../domain/playerRepository';
+import { useHomePagePlayer } from './useHomePagePlayer';
 
 interface TownsProps {
-  towns: readonly PlayerTownsFragment[];
+  repository: PlayerRepository;
 }
 
-export const Towns: FC<TownsProps> = ({ towns }) => {
+export const Towns: FC<TownsProps> = ({ repository }) => {
+  const { result, isLoading, error } = useHomePagePlayer(repository);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  const { towns } = result;
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -37,9 +43,3 @@ export const Towns: FC<TownsProps> = ({ towns }) => {
     </TableContainer>
   );
 };
-
-export const playerTownsFragment = gql(/* GraphQL */ `
-  fragment PlayerTowns on Town {
-    id
-  }
-`);

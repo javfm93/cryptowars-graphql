@@ -1,4 +1,6 @@
 import { BaseError, ErrorTypes, ForbiddenError, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
+import { ApolloError } from '@apollo/client';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 export class ErrorFactory {
   static create = (error: ErrorTypes, status: number, message: string): BaseError => ({
@@ -24,10 +26,22 @@ export class ErrorFactory {
   }
 }
 
-export function isUnexpectedError(error?: BaseError): error is UnexpectedError {
+export function isUnexpectedError(error?: BaseError | null): error is UnexpectedError {
   return error?.error === ErrorTypes.Unexpected;
 }
 
 export function isForbiddenError(error?: BaseError): error is ForbiddenError {
   return error?.error === ErrorTypes.Forbidden;
 }
+
+export const useUnexpectedError = <Error>(
+  setError: Dispatch<SetStateAction<BaseError | undefined>>,
+  apolloError?: ApolloError
+) => {
+  useEffect(() => {
+    if (apolloError) {
+      console.error(apolloError);
+      setError(ErrorFactory.unexpected(apolloError.message));
+    }
+  }, [apolloError, setError]);
+};

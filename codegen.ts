@@ -5,8 +5,10 @@ const config: CodegenConfig = {
   documents: [
     './tests/apps/CryptoWars/backend/**/**/*Mutation.ts',
     './tests/apps/CryptoWars/backend/**/**/*Query.ts',
-    './src/apps/CryptoWars/frontend/src/**/**/*.{ts,tsx}',
-    './src/apps/CryptoWars/frontend/src/**/**/**/*.{ts,tsx}',
+    // './src/apps/CryptoWars/frontend/src/**/**/*.{ts,tsx}',
+    // './src/apps/CryptoWars/frontend/src/**/**/**/*.{ts,tsx}',
+    './src/apps/CryptoWars/frontend-next/src/**/**/*.{ts,tsx}',
+    './src/apps/CryptoWars/frontend-next/src/**/**/**/*.{ts,tsx}',
   ],
   generates: {
     './tests/apps/CryptoWars/backend/__generated__/': {
