@@ -1,7 +1,7 @@
 import { handleQueryResult } from '@/contexts/shared/application/query';
 import { JoinWorldPageQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
 import { useEffect, useState } from 'react';
-import { WorldRepository } from '../../domain/worldRepository';
+import { WorldRepository } from '../../domain/WorldRepository';
 
 export const useWorlds = (repository: WorldRepository) => {
   const [result, setResult] = useState<JoinWorldPageQuery['GetWorlds']>();

@@ -1,5 +1,5 @@
 import { Worlds } from '@/contexts/cryptoWars/application/selectWorld/Worlds';
-import { WorldRepository } from '@/contexts/cryptoWars/domain/worldRepository';
+import { WorldRepository } from '@/contexts/cryptoWars/domain/WorldRepository';
 import { Layout } from '@/contexts/shared/application/Layout';
 import { container } from '@/contexts/shared/infrastructure/container';
 import { useTranslation } from 'react-i18next';

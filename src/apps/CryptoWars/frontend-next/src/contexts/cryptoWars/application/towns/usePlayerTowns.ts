@@ -1,14 +1,14 @@
 import { handleQueryResult } from '@/contexts/shared/application/query';
-import { HomePagePlayerQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
+import { PlayerTownsQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
 import { useEffect, useState } from 'react';
-import { PlayerRepository } from '../../domain/playerRepository';
+import { TownRepository } from '../../domain/TownRepository';
 
-export const useHomePagePlayer = (repository: PlayerRepository) => {
-  const [result, setResult] = useState<HomePagePlayerQuery['GetPlayer']>();
+export const useTowns = (repository: TownRepository) => {
+  const [result, setResult] = useState<PlayerTownsQuery['GetPlayerTowns']>();
   const [domainError, setError] = useState<UnexpectedError>();
 
   useEffect(() => {
-    repository.home().then(result => {
+    repository.getTowns().then(result => {
       result.isSuccess() ? setResult(result.value) : setError(result.value);
     });
 

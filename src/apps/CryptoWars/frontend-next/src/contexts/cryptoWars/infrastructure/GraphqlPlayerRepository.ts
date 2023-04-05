@@ -4,7 +4,7 @@ import { gql } from '@/contexts/shared/domain/__generated__';
 import { HomePagePlayerQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
 import { ApolloClient } from '@apollo/client';
 import { Service } from 'diod';
-import { PlayerRepository } from '../domain/playerRepository';
+import { PlayerRepository } from '../domain/PlayerRepository';
 
 @Service()
 export class GraphqlPlayerRepository implements PlayerRepository {

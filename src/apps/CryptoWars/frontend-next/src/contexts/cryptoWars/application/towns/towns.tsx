@@ -1,4 +1,3 @@
-import { gql } from '@/contexts/shared/domain/__generated__';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,15 +8,15 @@ import TableRow from '@mui/material/TableRow';
 import Link from 'next/link';
 import { FC } from 'react';
 import { AppRoutes } from '../../../../pages';
-import { PlayerRepository } from '../../domain/playerRepository';
-import { useHomePagePlayer } from './useHomePagePlayer';
+import { TownRepository } from '../../domain/TownRepository';
+import { useTowns } from './usePlayerTowns';
 
 interface TownsProps {
-  repository: PlayerRepository;
+  repository: TownRepository;
 }
 
 export const Towns: FC<TownsProps> = ({ repository }) => {
-  const { result, isLoading, error } = useHomePagePlayer(repository);
+  const { result, isLoading, error } = useTowns(repository);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   const { towns } = result;

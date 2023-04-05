@@ -78,7 +78,7 @@ enum ErrorTypes {
   unexpected
 }
 
-type EssenceGenerator implements TownBuildingSchema {
+type EssenceGenerator implements TownBuilding {
   asset: TownAssets!
   essenceRequiredToLevelUp: Float!
   generationPerHour: Float!
@@ -112,7 +112,7 @@ type ForbiddenError implements BaseError {
   status: Float!
 }
 
-type Headquarter implements TownBuildingSchema {
+type Headquarter implements TownBuilding {
   essenceRequiredToLevelUp: Float!
   level: Float!
   type: TownBuildingTypes!
@@ -163,12 +163,18 @@ type Query {
   GetArmy(townId: String!): Army!
   GetBattles(armyId: String!): Battles!
   GetPlayer: Player!
+  GetPlayerTown(id: String!): Town!
   GetPlayerTowns: Towns!
   GetWorldMap(id: String!): WorldMap!
   GetWorlds: Worlds!
 }
 
-union SendAttack = ConflictError | ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand
+union SendAttack =
+    ConflictError
+  | ForbiddenError
+  | InvalidInputError
+  | NotFoundError
+  | SuccessCommand
 
 union SendAttackErrors = ConflictError | ForbiddenError | InvalidInputError | NotFoundError
 
@@ -204,7 +210,7 @@ enum TownAssets {
   essence
 }
 
-interface TownBuildingSchema {
+interface TownBuilding {
   essenceRequiredToLevelUp: Float!
   level: Float!
   type: TownBuildingTypes!
@@ -271,7 +277,7 @@ type User {
   name: String!
 }
 
-type Warehouse implements TownBuildingSchema {
+type Warehouse implements TownBuilding {
   assets: WarehouseAssets!
   essenceRequiredToLevelUp: Float!
   level: Float!

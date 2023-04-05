@@ -1,9 +1,8 @@
 import { Field, ObjectType } from 'type-graphql';
-import { TownPrimitives } from '../../../../../../Contexts/CryptoWars/Towns/Domain/Town';
-import { TownSchema } from '../../../../../../Contexts/CryptoWars/Towns/Infrastructure/TownSchema';
+import { Town } from './GetPlayerTownResponse';
 
 @ObjectType()
 export class Towns {
-  @Field(type => [TownSchema])
-  towns!: Array<TownPrimitives>;
+  @Field(type => [Town])
+  towns!: Array<Town>;
 }

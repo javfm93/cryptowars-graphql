@@ -3,7 +3,7 @@ import { AppRoutes } from '@/pages';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { JoinWorldErrors, UnexpectedError } from '../../../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
-import { WorldRepository } from '../../domain/worldRepository';
+import { WorldRepository } from '../../domain/WorldRepository';
 
 export const useJoinWorld = (repository: WorldRepository) => {
   const navigateTo = useRouter();

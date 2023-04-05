@@ -5,7 +5,7 @@ import { gql } from '@/contexts/shared/domain/__generated__';
 import { GetWorldsQuery, NotFoundError, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
 import { ApolloClient } from '@apollo/client';
 import { Service } from 'diod';
-import { WorldRepository } from '../domain/worldRepository';
+import { WorldRepository } from '../domain/WorldRepository';
 
 @Service()
 export class GraphqlWorldRepository implements WorldRepository {

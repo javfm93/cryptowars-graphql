@@ -1,9 +1,9 @@
 import { User } from '../../../../../../src/Contexts/IAM/Users/Domain/User';
 import { login } from '../../IAM/IAMtestHelpers';
 import { client } from '../../start';
-import { GET_PLAYER } from './getPlayerQuery';
+import { GET_PLAYER } from '../Players/getPlayerQuery';
 
-describe('CryptoWars - Players', () => {
+describe.skip('CryptoWars - Towns', () => {
   describe('Given im login', () => {
     let user: User;
     beforeAll(async () => {

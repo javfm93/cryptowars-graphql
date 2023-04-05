@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { FC } from 'react';
-import { WorldRepository } from '../../domain/worldRepository';
+import { WorldRepository } from '../../domain/WorldRepository';
 import { useJoinWorld } from './useJoinWorld';
 import { useWorlds } from './useWorlds';
 

@@ -5,6 +5,7 @@ import { TownSchema } from '../../Towns/Infrastructure/TownSchema';
 import { WorldSchema } from '../../Worlds/Infrastructure/Persistence/WorldSchema';
 import { TownPrimitives } from '../../Towns/Domain/Town';
 import { WorldPrimitives } from '../../Worlds/Domain/World';
+import { Town } from '../../../../apps/CryptoWars/backend/Resolvers/CryptoWars/Towns/GetPlayerTownResponse';
 
 @ObjectType('Player')
 @Entity('players')
@@ -17,7 +18,7 @@ export class PlayerSchema {
   @Column({ unique: true })
   userId!: string;
 
-  @Field(type => [TownSchema])
+  @Field(type => [Town])
   @OneToMany(() => TownSchema, t => t.player, {
     cascade: ['insert', 'update'],
     onDelete: 'SET NULL'
