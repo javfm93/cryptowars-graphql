@@ -11,6 +11,7 @@ import { UserRepository } from '../domain/userRepository';
 @Service()
 export class GraphqlUserRepository implements UserRepository {
   constructor(readonly client: ApolloClient<any>) { }
+  
   async login(email: string, password: string): Promise<CommandResult<LoginErrors>> {
     const data = await this.client.mutate({ mutation: LOGIN, variables: { login: { email, password } } });
     if (data.errors) {

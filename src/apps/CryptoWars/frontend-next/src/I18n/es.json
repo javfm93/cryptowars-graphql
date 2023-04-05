@@ -1,0 +1,40 @@
+{
+  "translation": {
+    "home": {
+      "startPlaying": "Start Playing in world 1"
+    },
+    "town": {
+      "buildings": {
+        "headquarter": {
+          "name": "Headquarter",
+          "unitType": "Unit Type",
+          "train": "Train",
+          "unitCost": "Cost",
+          "attack": "attack",
+          "defense": "defense",
+          "speed": "speed",
+          "capacity": "capacity",
+          "time": "time",
+          "recruited": "Recruited",
+          "units": {
+            "soldier": "Soldier"
+          }
+        }
+      },
+      "battles": {
+        "tittle": "Battle history",
+        "winner": "Winner",
+        "defender": "Defender",
+        "casualties": "Casualties",
+        "sentAt": "Sent At",
+        "finishedAt": "FinishedAt",
+        "attackedWith": "Attacked with",
+        "returning": "Returning"
+      }
+    },
+    "footer": {
+      "rights": " All right reserved",
+      "app": "CryptoWars"
+    }
+  }
+}

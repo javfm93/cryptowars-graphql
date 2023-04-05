@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation Login($login: LoginInput!) {\n    Login(login: $login) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateUser($user: CreateUserInput!) {\n    createUser(user: $user) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.CreateUserDocument,
+    "\n  query JoinWorldPage {\n    GetWorlds {\n      worlds {\n        id\n        name\n      }\n    }\n  }\n": types.JoinWorldPageDocument,
     "\n  query HomePagePlayer {\n    GetPlayer {\n        towns {\n          id\n        }\n    }\n  }\n": types.HomePagePlayerDocument,
     "\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n": types.GetArmyDocument,
     "\n  mutation SendAttack($input: SendAttackInput!) {\n    SendAttack(input: $input) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.SendAttackDocument,
@@ -48,6 +49,10 @@ export function gql(source: "\n  mutation Login($login: LoginInput!) {\n    Logi
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateUser($user: CreateUserInput!) {\n    createUser(user: $user) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation CreateUser($user: CreateUserInput!) {\n    createUser(user: $user) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query JoinWorldPage {\n    GetWorlds {\n      worlds {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query JoinWorldPage {\n    GetWorlds {\n      worlds {\n        id\n        name\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
