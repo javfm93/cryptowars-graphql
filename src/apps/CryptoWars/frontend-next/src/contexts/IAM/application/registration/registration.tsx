@@ -1,3 +1,5 @@
+import { isUnexpectedError } from '@/contexts/shared/domain/Errors';
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -13,12 +15,10 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { UserRepository } from '../../domain/userRepository';
 import { useUserRegistration } from './useUserRegistration';
-import { isUnexpectedError } from '@/contexts/shared/domain/Errors';
-import { AppRoutes } from '@/pages';
 
 type RegistrationProps = { repository: UserRepository };
 
-export const Registration: React.FC<RegistrationProps> = ({repository}) => {
+export const Registration: React.FC<RegistrationProps> = ({ repository }) => {
   const registration = useUserRegistration(repository);
   if (isUnexpectedError(registration.error)) {
     return <p> An unexpected Error happened</p>;

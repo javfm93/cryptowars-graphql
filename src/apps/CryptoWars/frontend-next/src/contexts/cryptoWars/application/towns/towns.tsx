@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Link from 'next/link';
 import { FC } from 'react';
-import { AppRoutes } from '../../../../pages';
+import { AppRoutes } from '../../../shared/infrastructure/routes';
 import { TownRepository } from '../../domain/TownRepository';
 import { useTowns } from './usePlayerTowns';
 

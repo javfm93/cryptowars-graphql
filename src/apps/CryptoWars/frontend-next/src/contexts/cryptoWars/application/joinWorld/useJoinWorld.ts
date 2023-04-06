@@ -1,5 +1,5 @@
 import { handleMutationResult } from '@/contexts/shared/application/mutation';
-import { AppRoutes } from '@/pages';
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { JoinWorldErrors, UnexpectedError } from '../../../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';

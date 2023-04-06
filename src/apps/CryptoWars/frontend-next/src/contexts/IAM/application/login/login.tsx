@@ -1,5 +1,5 @@
 import { useUserLogin } from '@/contexts/IAM/application/login/useUserLogin';
-import { AppRoutes } from '@/pages';
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';

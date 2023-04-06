@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
@@ -15,18 +18,33 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.11.15",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.31",
-    "@types/react-dom": "18.0.11",
-    "cookies-next": "^2.1.1",
-    "eslint": "8.37.0",
-    "eslint-config-next": "13.2.4",
     "graphql": "^16.6.0",
     "i18next": "^22.4.14",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "^12.2.0",
-    "typescript": "5.0.3"
+    "react-i18next": "^12.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.31",
+    "@types/react-dom": "18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/ui": "^0.29.8",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-testing-library": "^5.10.2",
+    "happy-dom": "^9.1.7",
+    "prettier": "^2.8.7",
+    "typescript": "5.0.3",
+    "vite-tsconfig-paths": "^4.0.8",
+    "vitest": "^0.29.8",
+    "vitest-mock-extended": "^1.1.3"
   }
 }

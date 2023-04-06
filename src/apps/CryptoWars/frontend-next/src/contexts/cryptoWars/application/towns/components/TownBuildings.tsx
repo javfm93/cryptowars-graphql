@@ -1,5 +1,5 @@
 import { FragmentType, gql, useFragment } from '@/contexts/shared/domain/__generated__';
-import { AppRoutes } from '@/pages';
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
