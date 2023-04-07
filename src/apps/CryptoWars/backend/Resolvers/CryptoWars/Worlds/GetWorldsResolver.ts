@@ -1,17 +1,15 @@
-import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
+import { Query, Resolver } from 'type-graphql';
 import { ListWorldsQuery } from '../../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQuery';
 import { ListWorldsQueryResult } from '../../../../../../Contexts/CryptoWars/Worlds/Application/List/ListWorldsQueryHandler';
+import { QueryBus } from '../../../../../../Contexts/Shared/Domain/QueryBus';
 import { BaseResolver, RegisterResolver } from '../../Resolver';
-import { Query, Resolver } from 'type-graphql';
 import { WorldsResponse } from './GetWorldsResponse';
-import { Authenticated } from '../../IAM/Auth/AuthChecker';
 
 @RegisterResolver()
 @Resolver()
 export class GetWorldsResolver implements BaseResolver {
   constructor(private queryBus: QueryBus) {}
 
-  @Authenticated()
   @Query(returns => WorldsResponse)
   async GetWorlds(): Promise<WorldsResponse> {
     const listWorldsQuery = new ListWorldsQuery();

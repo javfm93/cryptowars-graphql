@@ -1,5 +1,5 @@
 export const AppRoutes = {
-  selectWorld: '/select-world',
+  joinWorld: '/join-world',
   town: (id: string) => `/towns/${id}`,
   home: '/home',
   registration: '/registration',
@@ -7,5 +7,4 @@ export const AppRoutes = {
   headquarter: (id: string) => `/towns/${id}/headquarter`,
   world: (id: string) => `/worlds/${id}`,
   chat: '/chat'
-};
- 
+}

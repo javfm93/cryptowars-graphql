@@ -1,13 +1,13 @@
-import { Grid, styled } from '@mui/material';
-import { FC, ReactNode } from 'react';
-import { Footer } from './Footer';
-import { Header } from './Header';
+import { Grid, styled } from '@mui/material'
+import { FC, ReactNode } from 'react'
+import { Footer } from './Footer'
+import { Header } from './Header'
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode
 }
 
-const Content = styled('div')({});
+const Content = styled('div')({})
 
 export const Layout: FC<Props> = ({ children }) => (
   <Grid container justifyContent={'center'}>
@@ -21,4 +21,4 @@ export const Layout: FC<Props> = ({ children }) => (
       <Footer />
     </Grid>
   </Grid>
-);
+)

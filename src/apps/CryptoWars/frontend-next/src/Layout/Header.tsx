@@ -1,47 +1,47 @@
-import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
-import AdbIcon from '@mui/icons-material/Adb';
-import MenuIcon from '@mui/icons-material/Menu';
-import { styled } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import Link from 'next/link';
-import * as React from 'react';
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes'
+import AdbIcon from '@mui/icons-material/Adb'
+import MenuIcon from '@mui/icons-material/Menu'
+import { styled } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Link from 'next/link'
+import * as React from 'react'
 
-const pages = ['Headquarter', 'Essence Generator', 'World'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Headquarter', 'Essence Generator', 'World']
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(3),
   backgroundColor: theme.palette.grey.A700
-}));
+}))
 
 export const Header = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    setAnchorElNav(event.currentTarget)
+  }
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    setAnchorElNav(null)
+  }
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+  }
 
   return (
     <HeaderWrapper position="static">
@@ -168,5 +168,5 @@ export const Header = () => {
         </Toolbar>
       </Container>
     </HeaderWrapper>
-  );
-};
+  )
+}

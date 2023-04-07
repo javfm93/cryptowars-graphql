@@ -1,13 +1,13 @@
 import { WorldRepository } from '@/contexts/cryptoWars/domain/WorldRepository'
 import { gql } from '@/contexts/shared/domain/__generated__'
+import { Button } from '@mui/material'
 import { FC } from 'react'
-import { OpenChatButton } from './OpenChatButton'
 import { useWorldMap } from './useWorldMap'
 
 type WorldMapTownsChatProps = {
   repository: WorldRepository
   id: string
-  townId: string
+  townId?: string
 }
 
 export const WorldMapTownsChat: FC<WorldMapTownsChatProps> = ({ repository, id, townId }) => {
@@ -18,11 +18,17 @@ export const WorldMapTownsChat: FC<WorldMapTownsChatProps> = ({ repository, id, 
   return (
     <>
       {result.towns.map(town => (
-        <OpenChatButton
+        <Button
           key={town.id}
-          sender={{ townId }}
-          receiver={{ townId: town.id, playerId: town.playerId }}
-        />
+          onClick={async () => {
+            // await createChat(town.playerId)
+            // navigate(AppRoutes.chat)
+            alert('Not implemented yet')
+          }}
+          disabled={townId === town.id}
+        >
+          Chat with {town.playerId}
+        </Button>
       ))}
     </>
   )

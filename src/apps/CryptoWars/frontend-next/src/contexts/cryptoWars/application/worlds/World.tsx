@@ -10,7 +10,7 @@ type WorldPageProps = {
   repository: WorldRepository
   armyRepository: ArmyRepository
   id: string
-  townId: string
+  townId?: string
 }
 
 export const World: FC<WorldPageProps> = ({ repository, armyRepository, id, townId }) => {

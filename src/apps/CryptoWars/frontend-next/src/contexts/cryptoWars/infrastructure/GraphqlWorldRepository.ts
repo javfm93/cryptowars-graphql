@@ -1,17 +1,28 @@
 import { assertNeverHappen } from '@/contexts/shared/application/mutation'
-import { CommandResult, Result, failure, success, successAndReturn } from '@/contexts/shared/application/result'
+import {
+  CommandResult,
+  Result,
+  failure,
+  success,
+  successAndReturn
+} from '@/contexts/shared/application/result'
 import { ErrorFactory } from '@/contexts/shared/domain/Errors'
 import { gql } from '@/contexts/shared/domain/__generated__'
-import { GetWorldMapQuery, GetWorldsQuery, NotFoundError, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql'
+import {
+  GetWorldMapQuery,
+  GetWorldsQuery,
+  NotFoundError,
+  UnexpectedError
+} from '@/contexts/shared/domain/__generated__/graphql'
 import { ApolloClient } from '@apollo/client'
 import { Service } from 'diod'
 import { WorldRepository } from '../domain/WorldRepository'
 
 @Service()
 export class GraphqlWorldRepository implements WorldRepository {
-  constructor (readonly client: ApolloClient<any>) { }
+  constructor(readonly client: ApolloClient<any>) {}
 
-  async getWorlds (): Promise<Result<GetWorldsQuery['GetWorlds'], UnexpectedError>> {
+  async getWorlds(): Promise<Result<GetWorldsQuery['GetWorlds'], UnexpectedError>> {
     const data = await this.client.query({ query: joinWorldPageQuery })
     if (data.data) return successAndReturn(data.data.GetWorlds)
     if (data.errors) {
@@ -20,9 +31,10 @@ export class GraphqlWorldRepository implements WorldRepository {
     return failure(ErrorFactory.unexpected())
   }
 
-  async getWorldMap (id: string): Promise<Result<GetWorldMapQuery['GetWorldMap'], UnexpectedError>> {
+  async getWorldMap(id: string): Promise<Result<GetWorldMapQuery['GetWorldMap'], UnexpectedError>> {
     const data = await this.client.query({
-      query: worldMapPageQuery, variables: { id }
+      query: worldMapPageQuery,
+      variables: { id }
     })
     if (data.data) return successAndReturn(data.data.GetWorldMap)
     if (data.errors) {
@@ -31,7 +43,7 @@ export class GraphqlWorldRepository implements WorldRepository {
     return failure(ErrorFactory.unexpected())
   }
 
-  async joinWorld (id: string): Promise<Promise<CommandResult<NotFoundError>>> {
+  async joinWorld(id: string): Promise<Promise<CommandResult<NotFoundError>>> {
     const request = await this.client.mutate({ mutation: JOIN_WORLD, variables: { id } })
     if (request.errors) {
       return failure(ErrorFactory.unexpected(request.errors[0].message))

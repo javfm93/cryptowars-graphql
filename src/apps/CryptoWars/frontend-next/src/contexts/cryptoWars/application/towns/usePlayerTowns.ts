@@ -1,20 +1,17 @@
-import { handleQueryResult } from '@/contexts/shared/application/query';
-import { PlayerTownsQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
-import { useEffect, useState } from 'react';
-import { TownRepository } from '../../domain/TownRepository';
+import { handleQueryResult } from '@/contexts/shared/application/query'
+import { PlayerTownsQuery, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql'
+import { useEffect, useState } from 'react'
+import { TownRepository } from '../../domain/TownRepository'
 
 export const useTowns = (repository: TownRepository) => {
-  const [result, setResult] = useState<PlayerTownsQuery['GetPlayerTowns']>();
-  const [domainError, setError] = useState<UnexpectedError>();
+  const [result, setResult] = useState<PlayerTownsQuery['GetPlayerTowns']>()
+  const [domainError, setError] = useState<UnexpectedError>()
 
   useEffect(() => {
     repository.getTowns().then(result => {
-      result.isSuccess() ? setResult(result.value) : setError(result.value);
-    });
+      result.isSuccess() ? setResult(result.value) : setError(result.value)
+    })
+  }, [repository])
 
-  }, [repository]);
-
-  return handleQueryResult(result, domainError);
-};
-
-
+  return handleQueryResult(result, domainError)
+}

@@ -1,35 +1,35 @@
-import { useUserLogin } from '@/contexts/IAM/application/login/useUserLogin';
-import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { FC } from 'react';
-import { UserRepository } from '../../domain/userRepository';
+import { useUserLogin } from '@/contexts/IAM/application/login/useUserLogin'
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { FC, FormEvent } from 'react'
+import { UserRepository } from '../../domain/userRepository'
 
-type LoginProps = { repository: UserRepository };
+type LoginProps = { repository: UserRepository }
 
 export const Login: FC<LoginProps> = ({ repository }) => {
-  const login = useUserLogin(repository);
+  const login = useUserLogin(repository)
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email')?.toString();
-    const password = data.get('password')?.toString();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')?.toString()
+    const password = data.get('password')?.toString()
     if (email && password) {
-      if (email !== 'test2@email.es') login.execute('test@email.es', 'P@ssw0rd');
-      else login.execute(email, 'P@ssw0rd');
+      if (email !== 'test2@email.es') login.execute('test@email.es', 'P@ssw0rd')
+      else login.execute(email, 'P@ssw0rd')
     }
-  };
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -91,5 +91,5 @@ export const Login: FC<LoginProps> = ({ repository }) => {
         </Box>
       </Box>
     </Container>
-  );
-};
+  )
+}

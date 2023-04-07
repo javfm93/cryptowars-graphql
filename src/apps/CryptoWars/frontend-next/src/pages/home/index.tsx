@@ -1,13 +1,12 @@
-import { Towns } from '@/contexts/cryptoWars/application/towns/towns';
-import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository';
-import { container } from '@/contexts/shared/infrastructure/container';
-
+import { Towns } from '@/contexts/cryptoWars/application/towns/towns'
+import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
+import { container } from '@/contexts/shared/infrastructure/container'
 
 // TODO: create test: vitest + playwright
-const repository = container.get(TownRepository);
+const repository = container.get(TownRepository)
 
 export default function HomePage() {
-  return <Towns repository={repository} />;
+  return <Towns repository={repository} />
 }
 
 // export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {

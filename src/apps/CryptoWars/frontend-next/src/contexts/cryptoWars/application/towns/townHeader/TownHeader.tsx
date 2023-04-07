@@ -1,4 +1,4 @@
-import { TownRepository } from '@/contexts/cryptoWars/domain/townRepository'
+import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
 import { AppRoutes } from '@/contexts/shared/infrastructure/routes'
 import { styled } from '@mui/material'
 import AppBar from '@mui/material/AppBar'

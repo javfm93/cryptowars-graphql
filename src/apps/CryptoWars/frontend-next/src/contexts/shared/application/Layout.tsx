@@ -1,9 +1,9 @@
-import { Grid } from '@mui/material';
-import { FC } from 'react';
+import { Grid } from '@mui/material'
+import { FC, ReactNode } from 'react'
 
 interface LayoutProps {
-  tittle: string;
-  children: JSX.Element | null;
+  tittle: string
+  children: ReactNode | null
 }
 
 export const Layout: FC<LayoutProps> = ({ children, tittle }) => (
@@ -16,4 +16,4 @@ export const Layout: FC<LayoutProps> = ({ children, tittle }) => (
       {children}
     </Grid>
   </Grid>
-);
+)

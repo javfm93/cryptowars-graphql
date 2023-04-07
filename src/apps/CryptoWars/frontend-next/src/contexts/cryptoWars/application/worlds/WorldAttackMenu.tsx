@@ -11,7 +11,7 @@ type WorldAttackMenuProps = {
   repository: WorldRepository
   armyRepository: ArmyRepository
   id: string
-  attackerTownId: string
+  attackerTownId?: string
 }
 
 export const WorldAttackMenu: FC<WorldAttackMenuProps> = ({
@@ -24,17 +24,26 @@ export const WorldAttackMenu: FC<WorldAttackMenuProps> = ({
   const armyRequest = useTownArmy(armyRepository, attackerTownId)
   const { sendAttack } = useSendAttack()
   const [basicSoldiers, setBasicSoldiers] = useState<number>(0)
-  if (isLoading || armyRequest.isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>Loading...</div>
   if (error || armyRequest.error) {
     return <div>Error: {error?.message ?? armyRequest.error?.message}</div>
   }
   const army = armyRequest.result
   const worldTowns = result.towns
 
+  const onAttack = (townId: string) => {
+    if (army) {
+      sendAttack({
+        attackerArmy: army.id,
+        defenderTown: townId,
+        soldiers: { basic: basicSoldiers, range: 0 }
+      })
+    }
+  }
   return (
     <>
       <FormControl variant="standard">
-        <InputLabel htmlFor="basic">Basic: Max {army.squads.basic}</InputLabel>
+        <InputLabel htmlFor="basic">Basic: Max {army?.squads.basic}</InputLabel>
         <Input
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           onChange={value => setBasicSoldiers(parseInt(value.target.value))}
@@ -46,11 +55,7 @@ export const WorldAttackMenu: FC<WorldAttackMenuProps> = ({
       {worldTowns.map(town => (
         <Button
           key={town.id}
-          onClick={sendAttack({
-            attackerArmy: army.id,
-            defenderTown: town.id,
-            soldiers: { basic: basicSoldiers, range: 0 }
-          })}
+          onClick={() => onAttack(town.id)}
           disabled={attackerTownId === town.id}
         >
           Attack {town.id} of {town.playerId}

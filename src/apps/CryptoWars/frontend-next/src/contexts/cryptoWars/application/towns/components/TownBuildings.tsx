@@ -1,25 +1,25 @@
-import { FragmentType, gql, useFragment } from '@/contexts/shared/domain/__generated__';
-import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Link from 'next/link';
-import { FC } from 'react';
+import { FragmentType, gql, useFragment } from '@/contexts/shared/domain/__generated__'
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes'
+import { Button } from '@mui/material'
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Link from 'next/link'
+import { FC } from 'react'
 
-type BuildingRow = { name: string; url: string; upgradeCost: number };
+type BuildingRow = { name: string; url: string; upgradeCost: number }
 
 type TownBuildingsProps = {
-  id: string;
-  townBuildings: FragmentType<typeof playerTownBuildingsFragment>;
-};
+  id: string
+  townBuildings: FragmentType<typeof playerTownBuildingsFragment>
+}
 
 export const TownBuildings: FC<TownBuildingsProps> = ({ id, townBuildings }) => {
-  const buildings = useFragment(playerTownBuildingsFragment, townBuildings);
+  const buildings = useFragment(playerTownBuildingsFragment, townBuildings)
 
   const buildingRows: Array<BuildingRow> = [
     { name: 'Town hall', url: AppRoutes.town(id), upgradeCost: 30 },
@@ -33,7 +33,7 @@ export const TownBuildings: FC<TownBuildingsProps> = ({ id, townBuildings }) => 
       url: '/',
       upgradeCost: buildings.essenceGenerator.essenceRequiredToLevelUp
     }
-  ];
+  ]
 
   return (
     <TableContainer component={Paper}>
@@ -63,8 +63,8 @@ export const TownBuildings: FC<TownBuildingsProps> = ({ id, townBuildings }) => 
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}
 
 const playerTownBuildingsFragment = gql(/* GraphQL */ `
   fragment PlayerTownBuildings on TownBuildings {
@@ -81,4 +81,4 @@ const playerTownBuildingsFragment = gql(/* GraphQL */ `
       essenceRequiredToLevelUp
     }
   }
-`);
+`)

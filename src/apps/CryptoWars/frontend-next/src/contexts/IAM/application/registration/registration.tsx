@@ -1,38 +1,38 @@
-import { isUnexpectedError } from '@/contexts/shared/domain/Errors';
-import { AppRoutes } from '@/contexts/shared/infrastructure/routes';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
-import { UserRepository } from '../../domain/userRepository';
-import { useUserRegistration } from './useUserRegistration';
+import { isUnexpectedError } from '@/contexts/shared/domain/Errors'
+import { AppRoutes } from '@/contexts/shared/infrastructure/routes'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { FC, FormEvent } from 'react'
+import { UserRepository } from '../../domain/userRepository'
+import { useUserRegistration } from './useUserRegistration'
 
-type RegistrationProps = { repository: UserRepository };
+type RegistrationProps = { repository: UserRepository }
 
-export const Registration: React.FC<RegistrationProps> = ({ repository }) => {
-  const registration = useUserRegistration(repository);
+export const Registration: FC<RegistrationProps> = ({ repository }) => {
+  const registration = useUserRegistration(repository)
   if (isUnexpectedError(registration.error)) {
-    return <p> An unexpected Error happened</p>;
+    return <p> An unexpected Error happened</p>
   }
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email')?.toString();
-    const password = data.get('password')?.toString();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')?.toString()
+    const password = data.get('password')?.toString()
     if (email && password) {
-      if (email !== 'test2@email.es') registration.execute('test@email.es', 'P@ssw0rd');
-      else registration.execute(email, 'P@ssw0rd');
+      if (email !== 'test2@email.es') registration.execute('test@email.es', 'P@ssw0rd')
+      else registration.execute(email, 'P@ssw0rd')
     }
-  };
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -89,5 +89,5 @@ export const Registration: React.FC<RegistrationProps> = ({ repository }) => {
         </Box>
       </Box>
     </Container>
-  );
-};
+  )
+}

@@ -1,5 +1,4 @@
 import { Grid, ImageList, ImageListItem, styled } from '@mui/material'
-
 export const WorldMap = () => {
   const worldXSize = 9
   const worldYSize = 9
@@ -12,13 +11,13 @@ export const WorldMap = () => {
   const WorldTile = styled('img')(({ theme }) => ({
     width: `${tileSize}px`,
     height: `${tileSize}px`,
-    background: 'url(/public/worldSprite.png) -32px -64px'
+    background: 'url(/worldSprite.png) -32px -64px'
   }))
 
   const TownTile = styled('img')(({ theme }) => ({
     width: `${tileSize}px`,
     height: `${tileSize}px`,
-    background: 'url(/public/town.jpg)',
+    background: 'url(/town.jpg)',
     backgroundSize: 'cover'
   }))
 

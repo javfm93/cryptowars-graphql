@@ -1,0 +1,2 @@
+node_modules/*
+src/contexts/shared/domain/__generated__/*

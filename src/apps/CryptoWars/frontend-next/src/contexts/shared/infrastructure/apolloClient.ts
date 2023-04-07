@@ -10,17 +10,16 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 let apolloClient: ApolloClient<any>
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
+  if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
     )
+  }
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
 const httpLink = new HttpLink({
-  uri: `http://localhost:5000`,
+  uri: 'http://localhost:5000',
   credentials: 'include'
 })
 
@@ -32,11 +31,11 @@ function createApolloClient() {
       typePolicies: {
         Query: {
           fields: {
-            allPosts: concatPagination(),
-          },
-        },
-      },
-    }),
+            allPosts: concatPagination()
+          }
+        }
+      }
+    })
   })
 }
 
@@ -47,10 +46,8 @@ export function initializeApollo(initialState = null) {
     const data = merge(existingCache, initialState, {
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
-        ...destinationArray.filter((d) =>
-          sourceArray.every((s) => !isEqual(d, s))
-        ),
-      ],
+        ...destinationArray.filter(d => sourceArray.every(s => !isEqual(d, s)))
+      ]
     })
     _apolloClient.cache.restore(data)
   }
@@ -59,7 +56,10 @@ export function initializeApollo(initialState = null) {
   return _apolloClient
 }
 
-export function addApolloState<P extends { [key: string]: any }>(client: ApolloClient<any>, pageProps: P) {
+export function addApolloState<P extends { [key: string]: any }>(
+  client: ApolloClient<any>,
+  pageProps: P
+) {
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract()
   }
@@ -71,7 +71,6 @@ export function getApolloState(client: ApolloClient<any>) {
   return {
     [APOLLO_STATE_PROP_NAME]: client.cache.extract()
   }
-
 }
 
 export function useApollo(pageProps: any) {
