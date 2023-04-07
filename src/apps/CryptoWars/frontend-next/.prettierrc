@@ -3,7 +3,8 @@
   "tabWidth": 2,
   "singleQuote": true,
   "trailingComma": "none",
-  "semicolons": false,
+  "semi": false,
   "quoteProps": "as-needed",
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "bracketSpacing": true
 }

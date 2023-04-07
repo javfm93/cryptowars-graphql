@@ -3,6 +3,9 @@ import { ApolloError } from '@apollo/client';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 export class ErrorFactory {
+  static unexpectedError (): any {
+    throw new Error('Method not implemented.');
+  }
   static create = (error: ErrorTypes, status: number, message: string): BaseError => ({
     error,
     status,

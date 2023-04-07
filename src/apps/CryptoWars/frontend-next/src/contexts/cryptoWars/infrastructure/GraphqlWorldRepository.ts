@@ -1,43 +1,54 @@
-import { assertNeverHappen } from '@/contexts/shared/application/mutation';
-import { CommandResult, Result, failure, success, successAndReturn } from '@/contexts/shared/application/result';
-import { ErrorFactory } from '@/contexts/shared/domain/Errors';
-import { gql } from '@/contexts/shared/domain/__generated__';
-import { GetWorldsQuery, NotFoundError, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql';
-import { ApolloClient } from '@apollo/client';
-import { Service } from 'diod';
-import { WorldRepository } from '../domain/WorldRepository';
+import { assertNeverHappen } from '@/contexts/shared/application/mutation'
+import { CommandResult, Result, failure, success, successAndReturn } from '@/contexts/shared/application/result'
+import { ErrorFactory } from '@/contexts/shared/domain/Errors'
+import { gql } from '@/contexts/shared/domain/__generated__'
+import { GetWorldMapQuery, GetWorldsQuery, NotFoundError, UnexpectedError } from '@/contexts/shared/domain/__generated__/graphql'
+import { ApolloClient } from '@apollo/client'
+import { Service } from 'diod'
+import { WorldRepository } from '../domain/WorldRepository'
 
 @Service()
 export class GraphqlWorldRepository implements WorldRepository {
-  constructor(readonly client: ApolloClient<any>) { }
+  constructor (readonly client: ApolloClient<any>) { }
 
-  async getWorlds(): Promise<Result<GetWorldsQuery["GetWorlds"], UnexpectedError>> {
-    const data = await this.client.query({ query: joinWorldPageQuery });
-    if (data.data) return successAndReturn(data.data.GetWorlds);
+  async getWorlds (): Promise<Result<GetWorldsQuery['GetWorlds'], UnexpectedError>> {
+    const data = await this.client.query({ query: joinWorldPageQuery })
+    if (data.data) return successAndReturn(data.data.GetWorlds)
     if (data.errors) {
-      return failure(ErrorFactory.unexpected(data.errors[0].message));
+      return failure(ErrorFactory.unexpected(data.errors[0].message))
     }
-    return failure(ErrorFactory.unexpected());
+    return failure(ErrorFactory.unexpected())
   }
 
-  async joinWorld(id: string): Promise<Promise<CommandResult<NotFoundError>>> {
-    const request = await this.client.mutate({ mutation: JOIN_WORLD, variables: { id } });
+  async getWorldMap (id: string): Promise<Result<GetWorldMapQuery['GetWorldMap'], UnexpectedError>> {
+    const data = await this.client.query({
+      query: worldMapPageQuery, variables: { id }
+    })
+    if (data.data) return successAndReturn(data.data.GetWorldMap)
+    if (data.errors) {
+      return failure(ErrorFactory.unexpected(data.errors[0].message))
+    }
+    return failure(ErrorFactory.unexpected())
+  }
+
+  async joinWorld (id: string): Promise<Promise<CommandResult<NotFoundError>>> {
+    const request = await this.client.mutate({ mutation: JOIN_WORLD, variables: { id } })
     if (request.errors) {
-      return failure(ErrorFactory.unexpected(request.errors[0].message));
+      return failure(ErrorFactory.unexpected(request.errors[0].message))
     }
 
-    const result = request.data?.JoinWorld;
+    const result = request.data?.JoinWorld
     if (request.data && result && result.__typename) {
       switch (result.__typename) {
         case 'SuccessCommand':
-          return success();
+          return success()
         case 'NotFoundError':
-          return failure(result);
+          return failure(result)
         default:
-          assertNeverHappen(result.__typename);
+          assertNeverHappen(result.__typename)
       }
     }
-    return failure(ErrorFactory.unexpected());
+    return failure(ErrorFactory.unexpected())
   }
 }
 
@@ -50,7 +61,7 @@ const joinWorldPageQuery = gql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
 
 export const JOIN_WORLD = gql(/* GraphQL */ `
   mutation JoinWorld($id: String!) {
@@ -65,4 +76,17 @@ export const JOIN_WORLD = gql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
+
+const worldMapPageQuery = gql(/* GraphQL */ `
+  query WorldMap($id: String!) {
+    GetWorldMap(id: $id) {
+      id
+      name
+      towns {
+        id
+        playerId
+      }
+    }
+  }
+`)

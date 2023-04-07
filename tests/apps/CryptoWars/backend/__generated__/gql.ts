@@ -15,15 +15,15 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation Login($login: LoginInput!) {\n    Login(login: $login) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateUser($user: CreateUserInput!) {\n    createUser(user: $user) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.CreateUserDocument,
-    "\n  query HomePagePlayer {\n    GetPlayer {\n        towns {\n          id\n        }\n    }\n  }\n": types.HomePagePlayerDocument,
+    "\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n": types.GetArmyDocument,
+    "\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n": types.PlayerTownBuildingsFragmentDoc,
+    "\n  query HomePagePlayer {\n    GetPlayer {\n      towns {\n        id\n      }\n    }\n  }\n": types.HomePagePlayerDocument,
     "\n  query PlayerTowns {\n    GetPlayerTowns {\n        towns {\n          id\n        }\n    }\n  }\n": types.PlayerTownsDocument,
     "\n    query PlayerTown($id: String!) {\n      GetPlayerTown(id: $id) {  \n        id \n        buildings {\n          ...PlayerTownBuildings\n        }\n    }\n  }\n": types.PlayerTownDocument,
     "\n  query PlayerTownHeader($id: String!) {\n    GetPlayerTown(id: $id) {  \n      id\n      buildings {\n        essenceGenerator {\n          generationPerHour\n        }\n        warehouse {\n          assets {\n            essence {\n                stored\n                lastStorageUpdate\n            }\n          }\n        }\n      }\n      worldId\n    }\n  }\n": types.PlayerTownHeaderDocument,
     "\n  query JoinWorldPage {\n    GetWorlds {\n      worlds {\n        id\n        name\n      }\n    }\n  }\n": types.JoinWorldPageDocument,
     "\n  mutation JoinWorld($id: String!) {\n    JoinWorld(id: $id) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.JoinWorldDocument,
-    "\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n": types.PlayerTownBuildingsFragmentDoc,
-    "\n  query TownHeaderPlayer {\n    GetPlayer {\n        towns {\n          id\n          buildings {\n            essenceGenerator {\n              generationPerHour\n            }\n            warehouse {\n              assets {\n                essence {\n                  stored\n                  lastStorageUpdate\n                }\n              }\n            }\n          }\n        }\n        worlds {\n          id\n        }\n    }\n  }\n": types.TownHeaderPlayerDocument,
-    "\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n": types.GetArmyDocument,
+    "\n  query WorldMap($id: String!) {\n    GetWorldMap(id: $id) {\n      id\n      name\n      towns {\n        id\n        playerId\n      }\n    }\n  }\n": types.WorldMapDocument,
     "\n  mutation SendAttack($input: SendAttackInput!) {\n    SendAttack(input: $input) {\n      ... on SuccessCommand {\n        isSuccess\n      }\n      ... on BaseError {\n        error\n        message\n        status\n      }\n    }\n  }\n": types.SendAttackDocument,
     "\n  query Battles($armyId: String!) {\n    GetBattles(armyId: $armyId) {\n      battles {\n        id\n        attack {\n          id\n          attackerTroop {\n            armyId\n          }\n          defenderArmyId\n          sentAt\n        }\n        defenderArmy {\n          id\n          playerId\n          townId\n          squads {\n            basic\n            range\n          }\n        }\n        finishedAt\n        result {\n          winner\n          attackerCasualties {\n            basic\n            range\n          }\n          defenderCasualties {\n            basic\n            range\n          }\n          returningTroop {\n            armyId\n          }\n        }\n      }\n    }\n  }\n": types.BattlesDocument,
     "\n  query GetWorldMap($id: String!) {\n    GetWorldMap(id: $id) {\n      id\n      name\n      towns {\n        id\n        playerId\n      }\n    }\n  }\n": types.GetWorldMapDocument,
@@ -57,7 +57,15 @@ export function gql(source: "\n  mutation CreateUser($user: CreateUserInput!) {\
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query HomePagePlayer {\n    GetPlayer {\n        towns {\n          id\n        }\n    }\n  }\n"): (typeof documents)["\n  query HomePagePlayer {\n    GetPlayer {\n        towns {\n          id\n        }\n    }\n  }\n"];
+export function gql(source: "\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n"): (typeof documents)["\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query HomePagePlayer {\n    GetPlayer {\n      towns {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query HomePagePlayer {\n    GetPlayer {\n      towns {\n        id\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -81,15 +89,7 @@ export function gql(source: "\n  mutation JoinWorld($id: String!) {\n    JoinWor
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n"): (typeof documents)["\n  fragment PlayerTownBuildings on TownBuildings {\n    headquarter {\n      level\n      essenceRequiredToLevelUp\n    }\n    essenceGenerator {\n      level\n      essenceRequiredToLevelUp\n    }\n    warehouse {\n      level\n      essenceRequiredToLevelUp\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query TownHeaderPlayer {\n    GetPlayer {\n        towns {\n          id\n          buildings {\n            essenceGenerator {\n              generationPerHour\n            }\n            warehouse {\n              assets {\n                essence {\n                  stored\n                  lastStorageUpdate\n                }\n              }\n            }\n          }\n        }\n        worlds {\n          id\n        }\n    }\n  }\n"): (typeof documents)["\n  query TownHeaderPlayer {\n    GetPlayer {\n        towns {\n          id\n          buildings {\n            essenceGenerator {\n              generationPerHour\n            }\n            warehouse {\n              assets {\n                essence {\n                  stored\n                  lastStorageUpdate\n                }\n              }\n            }\n          }\n        }\n        worlds {\n          id\n        }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetArmy($townId: String!) {\n    GetArmy(townId: $townId) {\n      id\n      playerId\n      townId\n      squads {\n        basic\n        range\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query WorldMap($id: String!) {\n    GetWorldMap(id: $id) {\n      id\n      name\n      towns {\n        id\n        playerId\n      }\n    }\n  }\n"): (typeof documents)["\n  query WorldMap($id: String!) {\n    GetWorldMap(id: $id) {\n      id\n      name\n      towns {\n        id\n        playerId\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

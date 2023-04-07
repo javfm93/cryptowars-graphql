@@ -169,12 +169,7 @@ type Query {
   GetWorlds: Worlds!
 }
 
-union SendAttack =
-    ConflictError
-  | ForbiddenError
-  | InvalidInputError
-  | NotFoundError
-  | SuccessCommand
+union SendAttack = ConflictError | ForbiddenError | InvalidInputError | NotFoundError | SuccessCommand
 
 union SendAttackErrors = ConflictError | ForbiddenError | InvalidInputError | NotFoundError
 
