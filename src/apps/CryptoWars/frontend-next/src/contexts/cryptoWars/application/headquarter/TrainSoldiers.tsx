@@ -1,54 +1,44 @@
-import { ChangeEvent, useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button, Input } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { SquadsPrimitives } from '../../../../../../Contexts/Battlefield/Armies/Domain/Squads';
-import {
-  FragmentType,
-  gql,
-  useFragment
-} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
-import {
-  TownSoldiers,
-  TownSoldierTypes
-} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__/graphql';
-
-const townSoldierFragment = gql(/* GraphQL */ `
-  fragment TownSoldier on TownSoldier {
-    name
-    speed
-    capacity
-    time
-    cost
-  }
-`);
+import { ArmyRepository } from '@/contexts/battlefield/domain/ArmyRepository'
+import { useTownArmy } from '@/contexts/cryptoWars/application/worlds/useTownArmy'
+import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
+import { TownSoldierTypes, TownSoldiers } from '@/contexts/shared/domain/__generated__/graphql'
+import { Button, Input } from '@mui/material'
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import { ChangeEvent, FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { usePlayerTownHeadquarter } from './usePlayerTownHeadQuarter'
+import { useTrainSoldiers } from './useTrainSoldiers'
 
 type TrainSoldiersProps = {
-  townUnits: Array<FragmentType<typeof townSoldierFragment>>;
-  townArmySquads: SquadsPrimitives;
+  repository: TownRepository
+  armyRepository: ArmyRepository
+  townId: string
+}
 
-  onTrainSoldiers(soldiers: TownSoldiers): Promise<void>;
-};
-
-export const TrainSoldiers = (props: TrainSoldiersProps): JSX.Element => {
-  const { t } = useTranslation();
-  const townUnits = useFragment(townSoldierFragment, props.townUnits);
+export const TrainSoldiers: FC<TrainSoldiersProps> = ({ repository, armyRepository, townId }) => {
+  const { t } = useTranslation()
+  const { execute } = useTrainSoldiers(repository, townId)
+  const { result: army, error } = useTownArmy(armyRepository, townId)
+  const { result: headquarter, error: headquarterError } = usePlayerTownHeadquarter(
+    repository,
+    townId
+  )
   const [soldiersToTrain, setSoldiersToTrain] = useState<TownSoldiers>({
     basic: 0,
     range: 0
-  });
-
-  const trainSoldiers = () => props.onTrainSoldiers(soldiersToTrain);
-
+  })
+  if (!headquarter) return <p> Loading Your Army...</p>
+  if (error || headquarterError) return <p> (error ?? headquarterError)</p>
+  const townUnits = headquarter.units
   const onChange =
     (unit: TownSoldierTypes) => (value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setSoldiersToTrain(previous => ({ ...previous, [unit]: parseInt(value.target.value) }));
+      setSoldiersToTrain(previous => ({ ...previous, [unit]: parseInt(value.target.value) }))
   return (
     <>
       <TableContainer component={Paper}>
@@ -75,7 +65,7 @@ export const TrainSoldiers = (props: TrainSoldiersProps): JSX.Element => {
                 <TableCell align="right">{unit.capacity}</TableCell>
                 <TableCell align="right">{unit.time}</TableCell>
                 <TableCell align="right">
-                  {unit.name === 'basic' ? props.townArmySquads[unit.name] : 0}
+                  {unit.name === 'basic' ? army?.squads[unit.name] : 0}
                 </TableCell>
                 <TableCell align="right">
                   <Input
@@ -89,9 +79,9 @@ export const TrainSoldiers = (props: TrainSoldiersProps): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="outlined" onClick={trainSoldiers}>
+      <Button variant="outlined" onClick={() => execute(soldiersToTrain)}>
         {t('town.buildings.headquarter.train')}
       </Button>
     </>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
 import { gql } from '../../__generated__';
 
 export const TRAIN_SOLDIERS = gql(/* GraphQL */ `
-  mutation TrainSoldiers($input: TrainSoldiersInput!) {
+  mutation TrainSoldiersTest($input: TrainSoldiersInput!) {
     TrainSoldiers(input: $input) {
       ... on SuccessCommand {
         isSuccess

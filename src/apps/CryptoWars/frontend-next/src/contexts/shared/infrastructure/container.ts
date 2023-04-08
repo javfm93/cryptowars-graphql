@@ -1,7 +1,9 @@
 import { UserRepository } from '@/contexts/IAM/domain/userRepository'
 import { GraphqlUserRepository } from '@/contexts/IAM/infrastructure/GraphqlUserRepository'
 import { ArmyRepository } from '@/contexts/battlefield/domain/ArmyRepository'
+import { BattleRepository } from '@/contexts/battlefield/domain/BattleRepository'
 import { GraphqlArmyRepository } from '@/contexts/battlefield/infrastructure/GraphqlArmyRepository'
+import { GraphqlBattleRepository } from '@/contexts/battlefield/infrastructure/GraphqlBattleRepository'
 import { PlayerRepository } from '@/contexts/cryptoWars/domain/PlayerRepository'
 import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
 import { WorldRepository } from '@/contexts/cryptoWars/domain/WorldRepository'
@@ -24,4 +26,5 @@ builder.register(UserRepository).use(GraphqlUserRepository)
 builder.register(WorldRepository).use(GraphqlWorldRepository)
 builder.register(ArmyRepository).use(GraphqlArmyRepository)
 builder.register(TownRepository).use(GraphqlTownRepository)
+builder.register(BattleRepository).use(GraphqlBattleRepository)
 export const container = builder.build()

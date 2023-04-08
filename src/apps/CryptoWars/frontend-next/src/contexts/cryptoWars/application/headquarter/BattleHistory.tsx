@@ -1,24 +1,27 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { useTranslation } from 'react-i18next';
-import {
-  FragmentType,
-  gql,
-  useFragment
-} from '../../../../../../../tests/apps/CryptoWars/backend/__generated__';
+import { BattleRepository } from '@/contexts/battlefield/domain/BattleRepository'
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useBattles } from './useBattles'
 
 type BattleHistoryProps = {
-  battles: Array<FragmentType<typeof battlesHistoryFragment>>;
-};
+  repository: BattleRepository
+  armyId: string
+}
 
-export const BattleHistory = (props: BattleHistoryProps): JSX.Element => {
-  const battles = useFragment(battlesHistoryFragment, props.battles);
-  const { t } = useTranslation();
+export const BattleHistory: FC<BattleHistoryProps> = ({ repository, armyId }) => {
+  const { result, isLoading, error } = useBattles(repository, armyId)
+  const { t } = useTranslation()
+  if (isLoading) return <p> Loading battle results...</p>
+  if (error) return <p> {error.message}</p>
+  const battles = result.battles
+
   return (
     <>
       <h3>{t('town.battles.tittle')}</h3>
@@ -57,41 +60,5 @@ export const BattleHistory = (props: BattleHistoryProps): JSX.Element => {
         </Table>
       </TableContainer>
     </>
-  );
-};
-
-const battlesHistoryFragment = gql(/* GraphQL */ `
-  fragment Battle on Battle {
-    id
-    finishedAt
-    defenderArmy {
-      townId
-    }
-    attack {
-      sentAt
-      attackerTroop {
-        squads {
-          basic
-        }
-      }
-    }
-    result {
-      winner
-      attackerCasualties {
-        basic
-        range
-      }
-      defenderCasualties {
-        basic
-        range
-      }
-      returningTroop {
-        armyId
-        squads {
-          basic
-          range
-        }
-      }
-    }
-  }
-`);
+  )
+}

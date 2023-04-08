@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 const repository = container.get(WorldRepository)
 const armyRepository = container.get(ArmyRepository)
 
-// todo: make this using incremental static regeneration for the worlds
 const WorldPage = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
   const { townId } = router.query
