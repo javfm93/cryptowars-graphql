@@ -1,7 +1,7 @@
-import { ArmyRepository } from '@/contexts/battlefield/domain/ArmyRepository'
-import { BattleRepository } from '@/contexts/battlefield/domain/BattleRepository'
-import { TownHeadquarter } from '@/contexts/cryptoWars/application/headquarter/TownHeadquarter'
-import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
+import { ArmyRepository } from '@/contexts/battlefield/armies/domain/ArmyRepository'
+import { BattleRepository } from '@/contexts/battlefield/battles/domain/BattleRepository'
+import { TownHeadquarter } from '@/contexts/cryptoWars/towns/application/townHeadquarter/TownHeadquarter'
+import { TownRepository } from '@/contexts/cryptoWars/towns/domain/TownRepository'
 import { container } from '@/contexts/shared/infrastructure/container'
 import { useRouter } from 'next/router'
 

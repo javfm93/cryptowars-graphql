@@ -1,5 +1,5 @@
-import { Towns } from '@/contexts/cryptoWars/application/towns/towns'
-import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
+import { Towns } from '@/contexts/cryptoWars/towns/application/towns/towns'
+import { TownRepository } from '@/contexts/cryptoWars/towns/domain/TownRepository'
 import { successAndReturn } from '@/contexts/shared/application/result'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'

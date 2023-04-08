@@ -1,5 +1,5 @@
-import { Town } from '@/contexts/cryptoWars/application/towns/town'
-import { TownRepository } from '@/contexts/cryptoWars/domain/TownRepository'
+import { Town } from '@/contexts/cryptoWars/towns/application/town/town'
+import { TownRepository } from '@/contexts/cryptoWars/towns/domain/TownRepository'
 import { container } from '@/contexts/shared/infrastructure/container'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
