@@ -4,26 +4,17 @@ import { successAndReturn } from '@/contexts/shared/application/result'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { mock } from 'vitest-mock-extended'
+import { TownsGenerator } from './townsGenerator'
 
 const repository = mock<TownRepository>()
 
-describe('Home Page', () => {
+describe('Towns', () => {
   it('Should show all the towns of the player', async () => {
-    repository.getTowns.mockResolvedValueOnce(
-      successAndReturn({
-        towns: [
-          {
-            id: '1'
-          },
-          {
-            id: '2'
-          }
-        ]
-      })
-    )
+    const towns = TownsGenerator.multipleRandom()
+    repository.getTowns.mockResolvedValueOnce(successAndReturn({ towns }))
 
     render(<Towns repository={repository} />)
     const townsLink = await screen.findAllByRole('link')
-    expect(townsLink).toHaveLength(2)
+    expect(townsLink).toHaveLength(towns.length)
   })
 })

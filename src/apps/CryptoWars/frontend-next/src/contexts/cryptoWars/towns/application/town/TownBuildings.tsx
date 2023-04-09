@@ -56,7 +56,7 @@ export const TownBuildings: FC<TownBuildingsProps> = ({ id, townBuildings }) => 
               </TableCell>
               <TableCell align="right">{building.upgradeCost}</TableCell>
               <TableCell align="right">
-                <Button>upgrade</Button>
+                <Button>Upgrade</Button>
               </TableCell>
             </TableRow>
           ))}

@@ -15,6 +15,7 @@ export const useJoinWorld = (repository: WorldRepository) => {
   const [called, setCalled] = useState(false)
 
   const execute = async (id: string): Promise<void> => {
+    console.log('clicked')
     const promise = repository.joinWorld(id)
     setExecuting(true)
     const result = await promise

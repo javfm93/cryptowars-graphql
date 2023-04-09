@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode
 }
 
-const Content = styled('div')({})
+const Content = styled('main')({})
 
 export const Layout: FC<Props> = ({ children }) => (
   <Grid container justifyContent={'center'}>
