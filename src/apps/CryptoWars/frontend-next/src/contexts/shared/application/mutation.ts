@@ -3,6 +3,8 @@ import {
   ForbiddenError,
   UnexpectedError
 } from '@/contexts/shared/domain/__generated__/graphql'
+import { CommandResult } from './result'
+import { Reducer, useReducer } from 'react'
 
 export type CommonErrors = UnexpectedError | ForbiddenError
 
@@ -89,6 +91,72 @@ export const handleMutationResult = <ExecutionFn, Error>(
     : toExecuteMutation(execute)
 }
 
+
+type CommandState<E extends BaseError> =
+  | typeof initialState
+  | typeof isExecutingState
+  | typeof successState
+  | ErrorState<E>
+
+const initialState = { isExecuting: false, wasCalled: false, error: null }
+const isExecutingState = { isExecuting: true, wasCalled: false, error: null }
+const successState = { isExecuting: false, wasCalled: true, error: null }
+type ErrorState<E extends BaseError> = {
+  isExecuting: false
+  wasCalled: true
+  error: E | UnexpectedError
+}
+enum ActionTypes {
+  'executing' = 'executing',
+  'success' = 'success',
+  'error' = 'error'
+}
+
+type Action<E> =
+  | { type: ActionTypes.executing }
+  | { type: ActionTypes.success; onSuccess: () => void }
+  | { type: ActionTypes.error; error: E | UnexpectedError }
+
+type ExecuteCommand<E extends BaseError> = {
+  onSuccess: () => void
+  toExecute: () => Promise<CommandResult<E>>
+}
+
+export const useCommand = <E extends BaseError>() => {
+  type CommandReducer = Reducer<CommandState<E>, Action<E>>
+
+  const reducer: CommandReducer = (state, action) => {
+    switch (action.type) {
+      case ActionTypes.executing:
+        return isExecutingState
+      case ActionTypes.success:
+        action.onSuccess()
+        return successState
+      case ActionTypes.error:
+        return {
+          isExecuting: false,
+          wasCalled: true,
+          error: action.error
+        }
+      default:
+        throw assertNeverHappen(action)
+    }
+  }
+  const [command, dispatch] = useReducer<CommandReducer>(reducer, initialState)
+
+  const executeCommand = async ({ onSuccess, toExecute }: ExecuteCommand<E>) => {
+    dispatch({ type: ActionTypes.executing })
+    const result = await toExecute()
+    result.isSuccess()
+      ? dispatch({ type: ActionTypes.success, onSuccess })
+      : dispatch({ type: ActionTypes.error, error: result.value })
+  }
+
+  return { executeCommand, command }
+}
+
+
 export function assertNeverHappen(value: never) {
   throw new Error(`Unhandled discriminated union member: ${JSON.stringify(value)}`)
 }
+

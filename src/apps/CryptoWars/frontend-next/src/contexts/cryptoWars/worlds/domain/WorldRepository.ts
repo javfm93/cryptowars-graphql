@@ -12,5 +12,5 @@ export abstract class WorldRepository {
     id: string
   ): Promise<Result<GetWorldMapQuery['GetWorldMap'], UnexpectedError>>
 
-  abstract joinWorld(id: string): Promise<Promise<CommandResult<JoinWorldErrors>>>
+  abstract joinWorld(id: string): Promise<CommandResult<JoinWorldErrors>>
 }
