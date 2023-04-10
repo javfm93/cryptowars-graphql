@@ -1,8 +1,8 @@
+import { Primitives } from '../../../Shared/Domain/Primitives';
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
 import { ChatMessage } from './ChatMessage';
-import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class ChatMessages extends WatchedList<ChatMessage, Primitives<ChatMessage>> {
+export class ChatMessages extends WatchedList<ChatMessage> {
   private constructor(initial: Array<ChatMessage>) {
     super(initial);
   }

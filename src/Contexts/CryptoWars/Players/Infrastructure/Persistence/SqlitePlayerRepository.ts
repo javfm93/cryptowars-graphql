@@ -1,18 +1,19 @@
-import { PlayerRepository, QueryOptions } from '../../Domain/PlayerRepository';
-import { Player, PlayerPrimitives } from '../../Domain/Player';
-import { NothingOr } from '../../../../Shared/Domain/Nullable';
+import { EntityTarget } from 'typeorm';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
-import { PlayerId } from '../../Domain/PlayerId';
+import { NothingOr } from '../../../../Shared/Domain/Nullable';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
 import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntityTarget } from 'typeorm';
+import { Player } from '../../Domain/Player';
+import { PlayerId } from '../../Domain/PlayerId';
+import { PlayerRepository, QueryOptions } from '../../Domain/PlayerRepository';
 import { PlayerSchema } from '../PlayerSchema';
 
 @RegisterRepository(PlayerRepository)
 export class SqlitePlayerRepository
-  extends TypeOrmRepository<PlayerPrimitives>
+  extends TypeOrmRepository<Primitives<Player>>
   implements PlayerRepository
 {
   public save(player: Player): Promise<void> {
@@ -40,7 +41,7 @@ export class SqlitePlayerRepository
     return player ? Player.fromPrimitives(player) : null;
   }
 
-  protected entitySchema(): EntityTarget<PlayerPrimitives> {
+  protected entitySchema(): EntityTarget<Primitives<Player>> {
     return PlayerSchema;
   }
 }

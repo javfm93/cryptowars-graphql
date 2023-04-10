@@ -1,16 +1,17 @@
+import { Primitives } from '../../../Shared/Domain/Primitives';
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
-import { World, WorldPrimitives } from './World';
+import { World } from './World';
 
-export class Worlds extends WatchedList<World, WorldPrimitives> {
+export class Worlds extends WatchedList<World> {
   private constructor(initial: Array<World>) {
     super(initial);
   }
 
-  public compareItems(a: World, b: World): boolean {
+  public compareItems(a: World, b: World) {
     return a.isEqualTo(b);
   }
 
-  public toPrimitives(): Array<WorldPrimitives> {
+  public toPrimitives() {
     return this.currentItems.map(world => world.toPrimitives());
   }
 
@@ -18,7 +19,7 @@ export class Worlds extends WatchedList<World, WorldPrimitives> {
     return new Worlds(initialWorlds ?? []);
   }
 
-  public static fromPrimitives(worldsPrimitive: Array<WorldPrimitives>): Worlds {
+  public static fromPrimitives(worldsPrimitive: Primitives<Worlds>): Worlds {
     const worlds = worldsPrimitive.map(World.fromPrimitives);
     return this.create(worlds);
   }

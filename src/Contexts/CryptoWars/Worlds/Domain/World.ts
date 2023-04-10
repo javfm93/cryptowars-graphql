@@ -1,32 +1,14 @@
-import { AggregateRoot } from '../../../Shared/Domain/AggregateRoot';
+import { AggregateRoot } from '../../../Shared/Domain/FlatAggregateRoot';
+import { Primitives } from '../../../Shared/Domain/Primitives';
+import { Player } from '../../Players/Domain/Player';
+import { Players } from '../../Players/Domain/Players';
+import { Town } from '../../Towns/Domain/Town';
+import { Towns } from '../../Towns/Domain/Towns';
 import { WorldId } from './WorldId';
 import { WorldName } from './WorldName';
-import { Town, TownPrimitives } from '../../Towns/Domain/Town';
 import { WorldPlayerJoinedDomainEvent } from './WorldPlayerJoinedDomainEvent';
-import { Player, PlayerCorePrimitives } from '../../Players/Domain/Player';
-import { Towns } from '../../Towns/Domain/Towns';
-import { Players } from '../../Players/Domain/Players';
 
-export interface WorldCreationProps {
-  name: WorldName;
-  players?: Players;
-  towns?: Towns;
-}
-
-export interface WorldProps {
-  name: WorldName;
-  players: Players;
-  towns: Towns;
-}
-
-export interface WorldPrimitives {
-  id: string;
-  name: string;
-  players: Array<PlayerCorePrimitives>;
-  towns: Array<TownPrimitives>;
-}
-
-export type WorldTownProjection = Omit<TownPrimitives, 'buildings' | 'worldId'>;
+export type WorldTownProjection = Omit<Primitives<Town>, 'buildings' | 'worldId'>;
 export type WorldTownsProjection = Array<WorldTownProjection>;
 
 export interface WorldMapProjection {
@@ -35,21 +17,18 @@ export interface WorldMapProjection {
   towns: WorldTownsProjection;
 }
 
-export class World extends AggregateRoot<WorldProps> {
-  protected constructor(id: WorldId, props: WorldCreationProps) {
-    super(id, {
-      ...props,
-      players: props.players ?? Players.create(),
-      towns: props.towns ?? Towns.create()
-    });
-  }
-
-  public static create(id: WorldId, props: WorldCreationProps): World {
-    return new World(id, props);
+export class World extends AggregateRoot {
+  private constructor(
+    id: WorldId,
+    readonly name: WorldName,
+    readonly players = Players.create(),
+    readonly towns = Towns.create()
+  ) {
+    super(id);
   }
 
   public addPlayer(player: Player): void {
-    this.props.players.add(player);
+    this.players.add(player);
     this.record(
       new WorldPlayerJoinedDomainEvent({
         aggregateId: this.id.toString(),
@@ -61,33 +40,33 @@ export class World extends AggregateRoot<WorldProps> {
   }
 
   public addTown(town: Town): void {
-    this.props.towns.add(town);
+    this.towns.add(town);
   }
 
-  toPrimitives(): WorldPrimitives {
+  toPrimitives(): Primitives<World> {
     return {
       id: this.id.toString(),
-      name: this.props.name.toString(),
-      players: this.props.players.toCorePrimitives(),
-      towns: this.props.towns.toPrimitives()
+      name: this.name.toString(),
+      players: this.players.toCorePrimitives() as Primitives<Players>,
+      towns: this.towns.toPrimitives()
     };
   }
 
   toMap(): WorldMapProjection {
-    const towns = this.props.towns.toPrimitives();
+    const towns = this.towns.toPrimitives();
     return {
       id: this.id.toString(),
-      name: this.props.name.toString(),
+      name: this.name.toString(),
       towns: towns.map(town => ({ id: town.id, playerId: town.playerId }))
     };
   }
 
-  static fromPrimitives(plainData: WorldPrimitives): World {
+  static fromPrimitives(plainData: Primitives<World>): World {
     const name = new WorldName(plainData.name);
     const players = plainData.players
       ? Players.fromCorePrimitives(plainData.players)
       : Players.create();
     const towns = plainData.towns ? Towns.fromPrimitives(plainData.towns) : Towns.create();
-    return new World(WorldId.create(plainData.id), { name, players, towns });
+    return new World(WorldId.create(plainData.id), name, players, towns);
   }
 }

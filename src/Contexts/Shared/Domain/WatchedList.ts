@@ -1,4 +1,6 @@
-export abstract class WatchedList<Entity, EntityPrimitives> {
+import { Primitives } from './Primitives';
+
+export abstract class WatchedList<Entity> {
   public currentItems: Entity[];
   private initial: Entity[];
   private new: Entity[];
@@ -83,4 +85,6 @@ export abstract class WatchedList<Entity, EntityPrimitives> {
       this.removed.push(item);
     }
   }
+
+  abstract toPrimitives(): Primitives<WatchedList<Entity>>;
 }

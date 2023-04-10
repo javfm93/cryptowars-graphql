@@ -1,9 +1,9 @@
-import { WatchedList } from '../../../Shared/Domain/WatchedList';
-import { Battle } from './Battle';
 import { Primitives } from '../../../Shared/Domain/Primitives';
+import { WatchedList } from '../../../Shared/Domain/WatchedList';
 import { BattlefieldInternalEvent } from '../../Shared/Domain/BattlefieldInternalEvent';
+import { Battle } from './Battle';
 
-export class Battles extends WatchedList<Battle, Primitives<Battle>> {
+export class Battles extends WatchedList<Battle> {
   private constructor(initial: Array<Battle>) {
     super(initial);
   }

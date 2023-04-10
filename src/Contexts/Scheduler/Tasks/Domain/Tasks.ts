@@ -3,7 +3,7 @@ import { WatchedList } from '../../../Shared/Domain/WatchedList';
 import { Task } from './Task';
 import { TaskEventToTrigger } from './TaskEventToTrigger';
 
-export class Tasks extends WatchedList<Task, Primitives<Task>> {
+export class Tasks extends WatchedList<Task> {
   private constructor(initial: Array<Task>) {
     super(initial);
   }

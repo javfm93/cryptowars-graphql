@@ -1,17 +1,18 @@
-import { TownRepository } from '../../Domain/TownRepository';
-import { Town, TownPrimitives } from '../../Domain/Town';
+import { EntityTarget } from 'typeorm';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
-import { TownId } from '../../Domain/TownId';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
 import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntityTarget } from 'typeorm';
+import { Town } from '../../Domain/Town';
+import { TownId } from '../../Domain/TownId';
+import { TownRepository } from '../../Domain/TownRepository';
 import { TownSchema } from '../TownSchema';
 
 @RegisterRepository(TownRepository)
 export class SqliteTownRepository
-  extends TypeOrmRepository<TownPrimitives>
+  extends TypeOrmRepository<Primitives<Town>>
   implements TownRepository
 {
   public save(town: Town): Promise<void> {
@@ -24,7 +25,7 @@ export class SqliteTownRepository
     return town ? Town.fromPrimitives(town) : null;
   }
 
-  protected entitySchema(): EntityTarget<TownPrimitives> {
+  protected entitySchema(): EntityTarget<Primitives<Town>> {
     return TownSchema;
   }
 }

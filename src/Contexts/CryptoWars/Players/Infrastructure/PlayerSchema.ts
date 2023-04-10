@@ -1,11 +1,11 @@
-import { Column, Entity, EntitySchema, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
-import { PlayerPrimitives } from '../Domain/Player';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { TownSchema } from '../../Towns/Infrastructure/TownSchema';
-import { WorldSchema } from '../../Worlds/Infrastructure/Persistence/WorldSchema';
-import { TownPrimitives } from '../../Towns/Domain/Town';
-import { WorldPrimitives } from '../../Worlds/Domain/World';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { Town } from '../../../../apps/CryptoWars/backend/Resolvers/CryptoWars/Towns/GetPlayerTownResponse';
+import { Primitives } from '../../../Shared/Domain/Primitives';
+import { Towns } from '../../Towns/Domain/Towns';
+import { TownSchema } from '../../Towns/Infrastructure/TownSchema';
+import { Worlds } from '../../Worlds/Domain/Worlds';
+import { WorldSchema } from '../../Worlds/Infrastructure/Persistence/WorldSchema';
 
 @ObjectType('Player')
 @Entity('players')
@@ -23,39 +23,9 @@ export class PlayerSchema {
     cascade: ['insert', 'update'],
     onDelete: 'SET NULL'
   })
-  towns!: Array<TownPrimitives>;
+  towns!: Primitives<Towns>;
 
   @Field(type => [WorldSchema])
   @ManyToMany(() => WorldSchema, w => w.players, { cascade: ['insert', 'update'] })
-  worlds!: Array<WorldPrimitives>;
+  worlds!: Primitives<Worlds>;
 }
-
-export const PlayerSchema2: EntitySchema<PlayerPrimitives> = new EntitySchema<PlayerPrimitives>({
-  name: 'Player',
-  tableName: 'players',
-  columns: {
-    id: {
-      type: String,
-      primary: true
-    },
-    userId: {
-      type: String,
-      unique: true
-    }
-  },
-  relations: {
-    towns: {
-      type: 'one-to-many',
-      target: 'Town',
-      onDelete: 'SET NULL',
-      cascade: ['insert', 'update'],
-      inverseSide: 'player'
-    },
-    worlds: {
-      type: 'many-to-many',
-      target: 'World',
-      cascade: ['insert', 'update'],
-      joinTable: { name: 'worlds_players_players' }
-    }
-  }
-});

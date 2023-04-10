@@ -1,6 +1,6 @@
 import { EntitySchema } from 'typeorm';
-import { Primitives } from '../../../../../Shared/Domain/Primitives';
-import { Task } from '../../../Domain/Task';
+import { Primitives } from '../../../Shared/Domain/Primitives';
+import { Task } from '../Domain/Task';
 
 export const TaskSchema = new EntitySchema<Primitives<Task>>({
   name: 'TaskSchedule',

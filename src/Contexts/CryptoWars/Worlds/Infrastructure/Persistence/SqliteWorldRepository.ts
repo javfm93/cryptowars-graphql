@@ -1,18 +1,19 @@
-import { WorldRepository } from '../../Domain/WorldRepository';
-import { World, WorldPrimitives } from '../../Domain/World';
+import { EntityTarget } from 'typeorm';
 import { NothingOr } from '../../../../Shared/Domain/Nullable';
-import { WorldId } from '../../Domain/WorldId';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
 import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntityTarget } from 'typeorm';
-import { WorldSchema } from './WorldSchema';
+import { World } from '../../Domain/World';
+import { WorldId } from '../../Domain/WorldId';
+import { WorldRepository } from '../../Domain/WorldRepository';
 import { Worlds } from '../../Domain/Worlds';
+import { WorldSchema } from './WorldSchema';
 
 @RegisterRepository(WorldRepository)
 export class SqliteWorldRepository
-  extends TypeOrmRepository<WorldPrimitives>
+  extends TypeOrmRepository<Primitives<World>>
   implements WorldRepository
 {
   public async save(world: World): Promise<void> {
@@ -35,7 +36,7 @@ export class SqliteWorldRepository
     return Worlds.fromPrimitives(worlds);
   }
 
-  protected entitySchema(): EntityTarget<WorldPrimitives> {
+  protected entitySchema(): EntityTarget<Primitives<World>> {
     return WorldSchema;
   }
 }

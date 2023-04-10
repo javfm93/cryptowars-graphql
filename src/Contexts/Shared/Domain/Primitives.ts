@@ -20,7 +20,16 @@ type ValueObjectValue<T> = {
     : T[key];
 };
 
-export type Primitives<T> = T extends NativePrimitives ? T : ValueObjectValue<Properties<T>>;
+type EntityCollection<T extends { currentItems: Array<unknown> }> = ValueObjectValue<
+  Pick<T, 'currentItems'>
+>['currentItems'];
+
+export type Primitives<T> = T extends NativePrimitives
+  ? T
+  : T extends { currentItems: Array<unknown> }
+  ? EntityCollection<T>
+  : ValueObjectValue<Properties<T>>;
+
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
 export interface Class<T> extends Function {

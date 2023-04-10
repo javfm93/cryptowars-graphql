@@ -1,18 +1,18 @@
-import { UseCase, BaseUseCase } from '../../../../Shared/Domain/BaseUseCase';
-import { Result, Nothing, failure, success } from '../../../../Shared/Aplication/Result';
 import { UserId } from '../../../../IAM/Users/Domain/UserId';
-import { WorldId } from '../../Domain/WorldId';
+import { Nothing, Result, failure, success } from '../../../../Shared/Aplication/Result';
+import { BaseUseCase, UseCase } from '../../../../Shared/Domain/BaseUseCase';
 import { EventBus } from '../../../../Shared/Domain/EventBus';
 import { QueryBus } from '../../../../Shared/Domain/QueryBus';
-import { FindWorldQuery } from '../Find/FindWorldQuery';
-import { FindWorldQueryResult } from '../Find/FindWorldQueryHandler';
-import { Town } from '../../../Towns/Domain/Town';
-import { TownId } from '../../../Towns/Domain/TownId';
 import { FindPlayerQuery } from '../../../Players/Application/Find/FindPlayerQuery';
 import { FindPlayerQueryResult } from '../../../Players/Application/Find/FindPlayerQueryHandler';
-import { WorldRepository } from '../../Domain/WorldRepository';
-import { WorldNotFound } from '../Find/WorldNotFound';
 import { PlayerNotFound } from '../../../Players/Application/Find/PlayerNotFound';
+import { Town } from '../../../Towns/Domain/Town';
+import { TownId } from '../../../Towns/Domain/TownId';
+import { WorldId } from '../../Domain/WorldId';
+import { WorldRepository } from '../../Domain/WorldRepository';
+import { FindWorldQuery } from '../Find/FindWorldQuery';
+import { FindWorldQueryResult } from '../Find/FindWorldQueryHandler';
+import { WorldNotFound } from '../Find/WorldNotFound';
 
 type SelectWorldArgs = {
   userId: UserId;
@@ -43,7 +43,7 @@ export class JoinWorld implements BaseUseCase<SelectWorldArgs, Nothing> {
     const player = playerResult.value;
 
     world.addPlayer(player);
-    const initialTown = Town.create(TownId.random(), { playerId: player.id, worldId: world.id });
+    const initialTown = Town.create(TownId.random(), player.id, world.id);
     world.addTown(initialTown);
 
     await this.worldRepository.save(world);

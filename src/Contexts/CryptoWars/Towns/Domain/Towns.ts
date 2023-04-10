@@ -1,7 +1,8 @@
+import { Primitives } from '../../../Shared/Domain/Primitives';
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
-import { Town, TownPrimitives } from './Town';
+import { Town } from './Town';
 
-export class Towns extends WatchedList<Town, TownPrimitives> {
+export class Towns extends WatchedList<Town> {
   private constructor(initial: Array<Town>) {
     super(initial);
   }
@@ -10,7 +11,7 @@ export class Towns extends WatchedList<Town, TownPrimitives> {
     return a.isEqualTo(b);
   }
 
-  public toPrimitives(): Array<TownPrimitives> {
+  public toPrimitives(): Primitives<Towns> {
     return this.currentItems.map(town => town.toPrimitives());
   }
 
@@ -18,7 +19,7 @@ export class Towns extends WatchedList<Town, TownPrimitives> {
     return new Towns(initialTowns ?? []);
   }
 
-  public static fromPrimitives(townsPrimitive: Array<TownPrimitives>): Towns {
+  public static fromPrimitives(townsPrimitive: Primitives<Towns>): Towns {
     const towns = townsPrimitive.map(Town.fromPrimitives);
     return this.create(towns);
   }

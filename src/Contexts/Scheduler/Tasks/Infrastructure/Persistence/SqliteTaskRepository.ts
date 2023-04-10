@@ -1,13 +1,13 @@
-import { TaskRepository } from '../../Domain/TaskRepository';
-import { Task } from '../../Domain/Task';
+import { EntitySchema, LessThanOrEqual } from 'typeorm';
+import { Primitives } from '../../../../Shared/Domain/Primitives';
 import {
   RegisterRepository,
   TypeOrmRepository
 } from '../../../../Shared/Infrastructure/Persistence/Sqlite/TypeOrmRepository';
-import { EntitySchema, LessThanOrEqual } from 'typeorm';
-import { TaskSchema } from './typeorm/TaskSchema';
-import { Primitives } from '../../../../Shared/Domain/Primitives';
+import { Task } from '../../Domain/Task';
+import { TaskRepository } from '../../Domain/TaskRepository';
 import { Tasks } from '../../Domain/Tasks';
+import { TaskSchema } from '../TaskSchema';
 
 @RegisterRepository(TaskRepository)
 export class SqliteTaskRepository

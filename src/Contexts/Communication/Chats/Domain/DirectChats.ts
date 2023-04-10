@@ -1,8 +1,8 @@
+import { Primitives } from '../../../Shared/Domain/Primitives';
 import { WatchedList } from '../../../Shared/Domain/WatchedList';
 import { DirectChat } from './DirectChat';
-import { Primitives } from '../../../Shared/Domain/Primitives';
 
-export class DirectChats extends WatchedList<DirectChat, Primitives<DirectChat>> {
+export class DirectChats extends WatchedList<DirectChat> {
   private constructor(initial: Array<DirectChat>) {
     super(initial);
   }

@@ -1,5 +1,5 @@
-import { UserRepository } from '@/contexts/IAM/domain/userRepository'
-import { GraphqlUserRepository } from '@/contexts/IAM/infrastructure/GraphqlUserRepository'
+import { UserRepository } from '@/contexts/IAM/users/domain/userRepository'
+import { GraphqlUserRepository } from '@/contexts/IAM/users/infrastructure/GraphqlUserRepository'
 import { ArmyRepository } from '@/contexts/battlefield/armies/domain/ArmyRepository'
 import { GraphqlArmyRepository } from '@/contexts/battlefield/armies/infrastructure/GraphqlArmyRepository'
 import { BattleRepository } from '@/contexts/battlefield/battles/domain/BattleRepository'
