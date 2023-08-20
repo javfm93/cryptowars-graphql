@@ -1,18 +1,10 @@
-todos:
+This project is composed by 5 bounded contexts that are independently deployable, with their own databases, projections and the communication is done via async events.
 
-- add name to the players
-- add name to the villages
-- allow training of range
-- add time to the training
-- add attacks to the schedule
-- improve the battlefield engine
-- add attack and defense to the units
-- allow level up of buildings
-- separate databases of context
-- e2e tests should only apply one context
-- create metrics based on events
-- improve logs with context data
-- create clans/guilds/kingdom/tribes with chat
+**Battlefield**: The battle engine of the game, the persistance layer of this context is usen event sourcing to maximize the ingestion and be able to have the history of all the events that happened given a town.
+**Communication**: This is a real time implementation using sockects of the chat between players.
+**CryptoWars**: The main game, contains the logic of the game regrding towns and worlds.
+**IAM**: Creation of new users.
+**Scheduler**: Supporting domain that receives an event to be trigger in some ammount of time.
 
 ## Project Structure
 
@@ -75,4 +67,18 @@ TODO: containerization, infra as code, autoscalable ingra, securization
 
 url: http://ec2-34-245-154-227.eu-west-1.compute.amazonaws.com/
 
+todos:
 
+- add name to the players
+- add name to the villages
+- allow training of range
+- add time to the training
+- add attacks to the schedule
+- improve the battlefield engine
+- add attack and defense to the units
+- allow level up of buildings
+- separate databases of context
+- e2e tests should only apply one context
+- create metrics based on events
+- improve logs with context data
+- create clans/guilds/kingdom/tribes with chat
