@@ -1,9 +1,13 @@
 This project is composed by 5 bounded contexts that are independently deployable, with their own databases, projections and the communication is done via async events.
 
 **Battlefield**: The battle engine of the game, the persistance layer of this context is usen event sourcing to maximize the ingestion and be able to have the history of all the events that happened given a town.
+
 **Communication**: This is a real time implementation using sockects of the chat between players.
+
 **CryptoWars**: The main game, contains the logic of the game regrding towns and worlds.
+
 **IAM**: Creation of new users.
+
 **Scheduler**: Supporting domain that receives an event to be trigger in some ammount of time.
 
 ## Project Structure
